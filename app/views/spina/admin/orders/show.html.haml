@@ -16,7 +16,7 @@
         / %li= link_to '<strong>Markeer als verzonden</strong>'.html_safe, '#'
         / %li= link_to 'Verwijder bestelling'.html_safe, '#', class: 'text-warning'
 
-    - if @order.in_state?(:paid) && @order.online?
+    - if @order.in_state?(:paid)
       = link_to 'Genereer pakbon', admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
     - if @order.in_state?(:order_picking) && @order.requires_shipping?
@@ -59,12 +59,11 @@
           .wizard-step-label Betaling
         .wizard-step-connector
 
-    - if @order.online?
-      .wizard-step{class: ('done' if @order.order_picked_at.present?)}
-        .wizard-step-circle
-          = icon("dots")
-          .wizard-step-label Voorbereiding
-        .wizard-step-connector
+    .wizard-step{class: ('done' if @order.order_picked_at.present?)}
+      .wizard-step-circle
+        = icon("dots")
+        .wizard-step-label Voorbereiding
+      .wizard-step-connector
 
     - if @order.requires_shipping?
       .wizard-step{class: ('done' if @order.shipped_at.present?)}
@@ -175,7 +174,7 @@
               %small.text-muted=l @order.failed_at, format: '%Z'
 
     .information-table
-      - if @order.paid_at.present? && @order.online?
+      - if @order.paid_at.present?
         %table
           %tr
             %th Afleveradres

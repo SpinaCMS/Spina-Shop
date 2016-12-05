@@ -7,7 +7,7 @@ module Spina
     require_dependency 'spina/order/state_machine_transitions'
     require_dependency 'spina/order/billing'
 
-    attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password, :billing_manual_entry, :delivery_manual_entry
+    attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment
 
     belongs_to :customer, optional: true
     belongs_to :billing_country, class_name: "Spina::Country"
@@ -25,20 +25,14 @@ module Spina
     scope :not_received, -> { where(received_at: nil) }
     scope :not_cancelled, -> { where(cancelled_at: nil) }
     scope :building, -> { where(confirming_at: nil) }
-    scope :pos, -> { where(pos: true) }
 
-    before_validation :clear_billing_address, if: -> { validate_details && online? && billing_manual_entry == "0" }
-    before_validation :clear_delivery_address, if: -> { validate_details && online? && delivery_manual_entry == "0" && separate_delivery_address? }
-    before_validation :set_billing_address_from_api, if: -> { validate_details && online? && billing_manual_entry == "0" }
-    before_validation :set_delivery_address_from_api, if: -> { validate_details && online? && delivery_manual_entry == "0" && separate_delivery_address? }
-
-    validates :first_name, :last_name, :email, :billing_street, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details && online? }
+    validates :first_name, :last_name, :email, :billing_street, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
     validates :password, confirmation: true
-    validates :delivery_option, presence: true, if: -> { validate_delivery && online? }
-    validates :payment_method, presence: true, if: -> { validate_payment && online? }
-    validates :email, email: true, if: -> { validate_details && online? }
+    validates :delivery_option, presence: true, if: -> { validate_delivery }
+    validates :payment_method, presence: true, if: -> { validate_payment }
+    validates :email, email: true, if: -> { validate_details }
     validate :billing_country_must_be_the_same_as_customer, if: -> { validate_details }
-    validate :must_be_of_age_to_buy_products, if: -> { validate_details && online? }
+    validate :must_be_of_age_to_buy_products, if: -> { validate_details }
     validate :items_must_be_in_stock, if: -> { validate_stock }
     validate :must_have_at_least_one_item, if: -> { validate_stock }
     validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building, :confirming) }
@@ -66,10 +60,6 @@ module Spina
 
     def empty?
       order_items.none?
-    end
-
-    def online?
-      !pos?
     end
 
     def requires_shipping?
@@ -134,7 +124,7 @@ module Spina
     end
 
     def duplicate!
-      # Duplicate order voor nieuw winkelmandje
+      # Duplicate order
       transaction do
         shopping_cart = Spina::Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_picked_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
         order_items.each do |order_item|
@@ -178,32 +168,5 @@ module Spina
         end
       end
 
-      def clear_billing_address
-        self.billing_street = nil
-        self.billing_city = nil
-      end
-
-      def clear_delivery_address
-        self.delivery_street = nil
-        self.delivery_city = nil
-      end
-
-      def set_billing_address_from_api
-        address = ApiPostcodeNl::API.address(billing_postal_code, billing_house_number, billing_house_number_addition)
-        self.billing_street = address[:street_name]
-        self.billing_house_number = address[:house_number]
-        self.billing_house_number_addition = address[:house_number_addition]
-        self.billing_city = address[:city]
-      rescue ApiPostcodeNl::InvalidPostcodeException
-      end
-
-      def set_delivery_address_from_api
-        address = ApiPostcodeNl::API.address(delivery_postal_code, delivery_house_number, delivery_house_number_addition)
-        self.delivery_street = address[:street_name]
-        self.delivery_house_number = address[:house_number]
-        self.delivery_house_number_addition = address[:house_number_addition]
-        self.delivery_city = address[:city]
-      rescue ApiPostcodeNl::InvalidPostcodeException
-      end
   end
 end

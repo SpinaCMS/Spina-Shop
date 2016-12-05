@@ -43,23 +43,8 @@ module Spina
       # Cache delivery option
       order.cache_delivery_option!
 
-      unless order.pos?
-        # Create customer if necessary
-        CustomerGenerator.new(order).generate!
-
-        # Create payment
-        payment = Spina::Mollie.client.payments.create(
-          amount: order.total,
-          description: "Bestelling ##{order.order_number}",
-          redirectUrl: "#{Rails.application.config.host}/orders/#{order.id}/callback",
-          method: order.payment_method,
-          issuer: order.payment_issuer,
-          metadata: {
-            order_id: order.id
-          }
-        )
-        order.update_attributes!(payment_id: payment.id, payment_url: payment.getPaymentUrl)
-      end
+      # Create customer if necessary
+      CustomerGenerator.new(order).generate!
     end
 
     after_transition(to: :cancelled) do |order, transition|
@@ -87,49 +72,20 @@ module Spina
       order.duplicate!
     end
 
-    guard_transition(from: :paid, to: :delivered) do |order, transition|
-      order.pos?
-    end
-
-    guard_transition(to: :paid) do |order, transition|
-      if order.online?
-        payment = Spina::Mollie.client.payments.get(order.payment_id)
-        payment.paid?
-      else
-        order.pos?
-      end
-    end
-
     after_transition(to: :paid) do |order, transition|
-      # Bestelling mailtje met nieuwe factuur
-      # Genereer factuur
-      # Exact bijwerken
-      # Factuur versturen enzo
+      # Update order to paid
       order.update_attributes!(paid_at: Time.zone.now)
 
-      if order.online?
-        if invoice = InvoiceGenerator.new(order).generate!
-          # TODO: Background job Exact online
-          # Spina::ExactOnline.invoice_to_sales_entry(invoice)
-        end
-      end
-    end
-
-    guard_transition(to: :order_picking) do |order, transition|
-      order.online?
+      # Invoice
+      Spina::InvoiceGenerator.new(order).generate!
     end
 
     after_transition(to: :order_picking) do |order, transition|
       order.update_attributes!(order_picked_at: Time.zone.now)
-      Spina::Printnode.print("#{Rails.application.config.host}/admin/orders/#{order.id}/packing_slip.pdf")
     end
 
     guard_transition(to: :shipped) do |order, transition|
-      order.online? && order.requires_shipping?
-    end
-
-    guard_transition(to: :picked_up) do |order, transition|
-      order.online?
+      order.requires_shipping?
     end
 
     after_transition(to: :picked_up) do |order, transition|
@@ -137,64 +93,8 @@ module Spina
     end
 
     after_transition(to: :shipped) do |order, transition|
-      # Bestelling mailtje met verzendgegevens
       # Set shipped_at
       order.update_attributes!(shipped_at: Time.zone.now)
-
-      to_address = EasyPost::Address.create(
-        name: order.delivery_name,
-        street1: order.delivery_address,
-        city: order.delivery_city,
-        zip: order.delivery_postal_code,
-        country: order.delivery_country.iso_3166,
-        phone: order.phone
-      )
-
-      from_address = EasyPost::Address.create(
-        name: "Bram Jetten",
-        street1: "De Flammert 1408",
-        city: "Nieuw-Bergen",
-        state: "Limburg",
-        zip: "5854 NE",
-        country: "NL",
-        phone: "0618606826"
-      )
-
-      parcel = EasyPost::Parcel.create(
-        weight: 2000,
-        width: 30.7,
-        length: 68.8,
-        height: 21.6
-        # predefined_package: "Parcel"
-      )
-
-      shipment = EasyPost::Shipment.create(
-        to_address: to_address,
-        from_address: from_address,
-        parcel: parcel,
-        options: {
-          label_format: "PDF"
-        }
-      )
-      shipment.buy(rate: shipment.lowest_rate)
-
-      shipment_2 = EasyPost::Shipment.create(
-        to_address: to_address,
-        from_address: from_address,
-        parcel: parcel,
-        options: {
-          label_format: "PDF"
-        }
-      )
-      shipment_2.buy(rate: shipment_2.lowest_rate)
-
-      batch = EasyPost::Batch.create(
-        shipments: [{id: shipment.id}, {id: shipment_2.id}]
-      )
-
-      hoi = batch.label({file_format: 'pdf'})
-      pdf_url = batch.label_url
-      Spina::Printnode.print(pdf_url)
     end
 
     after_transition(to: :delivered) do |order, transition|
