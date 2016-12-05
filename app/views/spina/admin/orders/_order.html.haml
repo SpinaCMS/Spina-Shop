@@ -1,0 +1,20 @@
+%tr
+  %td{style: 'width: 70px'}= check_box_tag 'order_ids[]', order.id
+  %td= link_to order.number, [:admin, order], class: 'table-link'
+  %td= order.billing_name
+  %td= order.pos? ? 'Winkel' : 'Webshop'
+  %td
+    - if order.received_at.present?
+      =l order.received_at, format: "%d %B %Y"
+  %td
+    - if order.shipped_at.present?
+      =l order.shipped_at, format: "%d %B %Y"
+  %td.nowrap.text-right
+    = number_to_currency order.total
+  %td{style: 'width: 200px'}
+    .progress{class: "progress-bar-#{order.status_css_class}"}
+      .progress-bar
+        - 5.times do
+          .progress-bar-divider
+        .progress-bar-inner{style: "width: #{order.status_progress}%"}
+      .progress-label= order.status_label

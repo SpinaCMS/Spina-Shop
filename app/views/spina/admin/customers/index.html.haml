@@ -1,0 +1,34 @@
+%header#header
+  #header_actions
+    = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
+      .search-input= f.search_field :full_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
+
+  .breadcrumbs
+    .pull-right
+      = link_to new_admin_customer_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li.active
+        = link_to '#customers' do
+          Alle klanten
+
+
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th= sort_link @q, :full_name, 'Naam', {}, class: 'table-sort'
+        %th= sort_link @q, :email, 'Email', {}, class: 'table-sort'
+        %th= sort_link @q, :created_at, 'Aangemaakt op', {}, class: 'table-sort'
+        %th.text-right Bestellingen
+        %th 
+
+    %tbody
+      = render partial: 'customer', collection: @customers.to_a.uniq
+
+  .pagination= link_to_next_page @customers, "Next", params: params.except(*request.path_parameters.keys).permit!

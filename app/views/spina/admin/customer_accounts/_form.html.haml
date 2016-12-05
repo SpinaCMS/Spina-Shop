@@ -1,0 +1,32 @@
+= form_for [:admin, @customer, @customer_account] do |f|
+  %header#header
+    #header_actions
+      = button_tag type: :submit, class: 'button button-primary' do
+        = icon('check')
+        Account opslaan
+
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::CustomerAccount.human_attribute_name :username
+
+          .sidebar-form-control
+            = f.text_field :username, placeholder: Spina::Customer.human_attribute_name(:username)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::CustomerAccount.human_attribute_name :password
+
+          .sidebar-form-control
+            = f.password_field :password, placeholder: Spina::CustomerAccount.human_attribute_name(:password)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::CustomerAccount.human_attribute_name :password_confirmation
+
+          .sidebar-form-control
+            = f.password_field :password_confirmation, placeholder: Spina::CustomerAccount.human_attribute_name(:password_confirmation)

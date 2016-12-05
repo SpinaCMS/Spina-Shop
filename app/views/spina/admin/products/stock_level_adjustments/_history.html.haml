@@ -1,0 +1,24 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Historie voorraad #{@product_item.description}
+
+  %section{style: 'padding-top: 0; padding-bottom: 0'}
+    .table-container
+      %table.table{style: 'margin: 0'}
+        - @stock_level_adjustments.order(created_at: :desc).each do |adjustment|
+          %tr
+            %td.text-right
+              - if adjustment.adjustment > 0
+                .text-success= adjustment.adjustment
+              - else
+                .text-danger= adjustment.adjustment
+
+            %td= adjustment.description
+            %td.text-right=l adjustment.created_at, format: "%d-%m-%Y"
+            %td.text-right=l adjustment.created_at, format: "%H:%M"
+            %td= adjustment.actor
+  
+  %footer
+    = link_to 'Sluiten', '#', data: {dismiss: 'modal'}, style: 'width: 100%'

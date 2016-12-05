@@ -1,0 +1,14 @@
+%div{style: 'display: inline-block; margin-left: 12px; margin-top: -4px; position: absolute', data: {dropdown: true}}
+  = link_to '#', class: 'button button-link button-small', data: {trigger: 'dropdown', target: '#locales'} do
+    = icon('comment')
+    = @locale.upcase
+
+  %ul#locales
+    %li
+      = link_to "Nederlands", "?locale=nl", style: ("font-weight: 600" if @locale.to_s == "nl")
+    %li
+      = link_to "Engels", "?locale=en", style: ("font-weight: 600" if @locale.to_s == "en")
+    %li
+      = link_to "Duits", "?locale=de", style: ("font-weight: 600" if @locale.to_s == "de")
+    %li
+      = link_to "Frans", "?locale=fr", style: ("font-weight: 600" if @locale.to_s == "fr")

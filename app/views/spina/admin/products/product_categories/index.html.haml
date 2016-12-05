@@ -1,0 +1,29 @@
+%header#header
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li
+        = link_to admin_products_path do
+          Catalogus
+
+      %li.active
+        = link_to admin_product_categories_path do
+          Categorieën
+
+      %li
+        = link_to admin_product_bundles_path do
+          Productbundels
+
+.table-container
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th Categorie
+
+    %tbody
+      - @product_categories.each do |product_category|
+        %tr
+          %td
+            = link_to product_category.name, [:admin, product_category], class: 'table-link'
+          

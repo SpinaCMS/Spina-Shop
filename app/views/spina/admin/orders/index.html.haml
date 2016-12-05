@@ -1,0 +1,56 @@
+%header#header
+  #header_actions
+    = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
+      .search-input= f.search_field :first_name_or_last_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
+
+  .breadcrumbs
+    .pull-right
+      = link_to new_admin_order_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li{class: ('active' if action_name == 'index')}
+        = link_to 'Alle bestellingen', admin_orders_path
+      %li{class: ('active' if action_name == 'to_be_shipped')}
+        = link_to 'Te verwerken', to_be_shipped_admin_orders_path
+      %li{class: ('active' if action_name == 'failed')}
+        = link_to 'Mislukt', failed_admin_orders_path
+
+= form_tag transition_admin_orders_path, method: :put do
+  .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
+    = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
+      Acties
+      %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+    %ul#actions.align-right
+      %li= button_tag '<strong>Pakbonnen</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'order_picking'
+      %li= button_tag '<strong>Verzendlabels</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'shipped'
+      %li.divider
+      %li= button_tag '<strong>Pakbonnen en verzendlabels</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
+
+  .table-container.infinite-table
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th
+          %th= sort_link @q, :id, 'Ordernummer', {}, class: 'table-sort'
+          %th= sort_link @q, :last_name, 'Klant', {}, class: 'table-sort'
+          %th= sort_link @q, :pos, 'Via', {}, class: 'table-sort'
+          %th= sort_link @q, :received_at, 'Besteldatum', {}, class: 'table-sort'
+          %th= sort_link @q, :shipped_at, 'Verzenddatum', {}, class: 'table-sort'
+          %th.text-right Totaal
+          %th
+
+      %tbody
+        - if @orders.any?
+          = render partial: 'order', collection: @orders.to_a.uniq
+        - else
+          %tr
+            %td{colspan: 8}
+              %p.text-center
+                %em.text-muted Geen bestellingen
+
+    .pagination= link_to_next_page @orders, "Next", params: params.except(*request.path_parameters.keys).permit!

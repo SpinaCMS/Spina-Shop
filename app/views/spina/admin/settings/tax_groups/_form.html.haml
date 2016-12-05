@@ -1,0 +1,53 @@
+= form_for [:admin, :settings, @tax_group] do |f|
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        Btw-groep opslaan
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::TaxGroup.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::TaxGroup.human_attribute_name(:name)
+
+  = f.fields_for :tax_rates do |tax_rates_builder|
+    - ['NL', 'EU', 'default'].each do |category|
+      .sidebar-form
+        .sidebar-form-content
+          .well
+            .sidebar-form-group
+              .sidebar-form-label
+                = category
+                \%
+              .sidebar-form-control
+                = tax_rates_builder.text_field "[#{category}][default][rate]", value: @tax_group.tax_rates[category]['default']['rate']
+
+            .sidebar-form-group
+              .sidebar-form-label
+                = category
+                BTW-code
+              .sidebar-form-control
+                = tax_rates_builder.text_field "[#{category}][default][vat_code]", value: @tax_group.tax_rates[category]['default']['vat_code']
+
+            - if category == 'EU'
+              .sidebar-form-group
+                .sidebar-form-label
+                  = category
+                  \%
+                  zakelijk
+                .sidebar-form-control
+                  = tax_rates_builder.text_field "[#{category}][default][rate]", value: @tax_group.tax_rates[category]['default']['rate']
+
+              .sidebar-form-group
+                .sidebar-form-label
+                  = category
+                  BTW-code zakelijk
+                .sidebar-form-control
+                  = tax_rates_builder.text_field "[#{category}][default][vat_code]", value: @tax_group.tax_rates[category]['default']['vat_code']

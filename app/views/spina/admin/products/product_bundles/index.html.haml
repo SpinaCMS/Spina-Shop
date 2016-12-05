@@ -1,0 +1,42 @@
+%header#header
+  .breadcrumbs
+    .pull-right
+      = link_to new_admin_product_bundle_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li
+        = link_to admin_products_path do
+          Catalogus
+
+      %li
+        = link_to admin_product_categories_path do
+          Categorieën
+
+      %li.active
+        = link_to admin_product_bundles_path do
+          Productbundels
+
+.table-container
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th Bundel
+        %th Inhoud
+        %th.text-right Prijs
+
+    %tbody
+      - @product_bundles.each do |product_bundle|
+        %tr
+          %td
+            = link_to product_bundle.name, [:edit, :admin, product_bundle], class: 'table-link'
+          %td
+            = product_bundle.bundled_product_items.sum(:quantity)
+            producten
+          %td.text-right
+            %em.text-muted{style: 'text-decoration: line-through'}
+              = number_to_currency product_bundle.original_price
+            &nbsp;
+            = number_to_currency product_bundle.price

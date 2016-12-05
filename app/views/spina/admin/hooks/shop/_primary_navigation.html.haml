@@ -1,0 +1,19 @@
+%li{class: ('active' if controller_name.in? %w(products customers campaigns orders product_items product_categories properties customer_accounts product_bundles))}
+  = link_to spina.admin_orders_path do
+    = icon('shop')
+    Webshop
+    = icon('caret-right')
+
+  %ul
+    %li{class: ('active' if controller_name == 'orders')}
+      = link_to 'Bestellingen', spina.admin_orders_path
+    %li{class: ('active' if controller_name.in? %w(products product_categories product_items properties product_bundles))}
+      = link_to 'Producten', spina.admin_products_path
+    %li{class: ('active' if controller_name.in? %w(customers customer_accounts))}
+      = link_to 'Klanten', spina.admin_customers_path 
+    %li{class: ('active' if controller_name == 'campaigns')}
+      = link_to 'Acties', spina.admin_campaigns_path
+    %li
+      = link_to '#', class: 'back-to-main-menu' do
+        = icon('caret-left')
+        hoofdmenu

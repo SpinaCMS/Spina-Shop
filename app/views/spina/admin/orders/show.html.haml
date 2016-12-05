@@ -1,0 +1,253 @@
+%header#header
+  .pull-right
+    / = link_to 'Markeer als verzonden', '#', class: 'button button-primary', data: {confirm: "You sure dude?"}
+    %div{style: 'display: inline-block', data: {dropdown: true}}
+      = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#actions'} do
+        Acties
+        %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+      %ul#actions.align-right
+        - if @order.order_picked_at.present?
+          %li= link_to 'Download pakbon', admin_order_packing_slip_path(@order)
+
+        - @order.invoices.each do |invoice|
+          %li= link_to "Download <strong>factuur #{invoice.invoice_number}</strong>".html_safe, admin_invoice_path(invoice, format: :pdf)
+
+        / %li= link_to '<strong>Markeer als verzonden</strong>'.html_safe, '#'
+        / %li= link_to 'Verwijder bestelling'.html_safe, '#', class: 'text-warning'
+
+    - if @order.in_state?(:paid) && @order.online?
+      = link_to 'Genereer pakbon', admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+
+    - if @order.in_state?(:order_picking) && @order.requires_shipping?
+      = link_to 'Genereer verzendlabel', admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: "Weet je zeker dat je het verzendlabel wilt aanmaken? Er wordt <strong>automatisch</strong> een Track & Trace code gestuurd naar de klant."}
+
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary.tabs
+    %ul
+      %li.active
+        = link_to '#order' do
+          Bestelling
+
+.tab-content.active#order
+
+  .wizard-steps
+    - if @order.cancelled_at.present?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label Geannuleerd
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.confirming_at.present?)}
+        .wizard-step-circle
+          = icon("shop")
+          .wizard-step-label Bestelling
+        .wizard-step-connector
+
+    - if @order.failed_at.present?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label Mislukt
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.paid_at.present?)}
+        .wizard-step-circle
+          = icon("mail")
+          .wizard-step-label Betaling
+        .wizard-step-connector
+
+    - if @order.online?
+      .wizard-step{class: ('done' if @order.order_picked_at.present?)}
+        .wizard-step-circle
+          = icon("dots")
+          .wizard-step-label Voorbereiding
+        .wizard-step-connector
+
+    - if @order.requires_shipping?
+      .wizard-step{class: ('done' if @order.shipped_at.present?)}
+        .wizard-step-circle
+          = icon("mail")
+          .wizard-step-label Verzending
+        .wizard-step-connector
+    - else
+      .wizard-step{class: ('done' if @order.picked_up_at.present?)}
+        .wizard-step-circle
+          = icon("shop")
+          .wizard-step-label Ophalen
+        .wizard-step-connector
+
+    .wizard-step{class: ('done' if @order.delivered_at.present?)}
+      .wizard-step-circle
+        = icon("home")
+        .wizard-step-label Levering
+      .wizard-step-connector
+
+  .divider-container
+    %hr.divider/
+
+  .information-tables
+    .information-table
+      %table
+        - if @order.billing_name.present?
+          %tr
+            %th Naam
+            %td
+              = link_to_if @order.customer.present?, @order.billing_name, [:admin, @order.customer]
+
+        - if @order.email.present?
+          %tr
+            %th Email
+            %td
+              = link_to @order.email, @order.email
+
+        - if @order.phone.present?
+          %tr
+            %th Telefoon
+            %td= @order.phone
+
+        - if @order.received_at.present?
+          %tr
+            %th Besteldatum
+            %td
+              =l @order.received_at, format: '%d %B %Y'
+              %br/
+              =l @order.received_at, format: '%H:%M'
+              %small.text-muted=l @order.received_at, format: '%Z'
+
+        - if @order.ip_address.present?
+          %tr
+            %th IP-adres
+            %td
+              = @order.ip_address
+
+    .information-table
+      %table
+        - if @order.invoices.any?
+          %tr
+            %th Factuur
+            %td
+              - @order.invoices.each do |invoice|
+                = link_to invoice.invoice_number, admin_invoice_path(invoice, format: :pdf)
+
+          %tr
+            %th Factuuradres
+            %td
+              = @order.billing_name
+              %br/
+              = @order.billing_street
+              = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
+              %br/
+              = [@order.billing_postal_code, @order.billing_city].join(', ')
+              %br/
+              = @order.billing_country.name
+
+        - if @order.payment_method.present?    
+          %tr
+            %th Betaling
+            %td 
+              =t "checkout.payment_methods.#{@order.payment_method}"
+              - if @order.paid_at.present?
+                %br/
+                =l @order.paid_at, format: "%d %B %Y"
+                %br/
+                =l @order.paid_at, format: "%H:%M"
+                %small.text-muted=l @order.paid_at, format: '%Z'
+
+        - if @order.cancelled_at.present?
+          %tr
+            %th Geannuleerd
+            %td
+              =l @order.cancelled_at, format: "%d %B %Y"
+              %br/
+              =l @order.cancelled_at, format: "%H:%M"
+              %small.text-muted=l @order.cancelled_at, format: '%Z'
+
+        - if @order.failed_at.present?
+          %tr
+            %th Mislukt
+            %td
+              =l @order.failed_at, format: "%d %B %Y"
+              %br/
+              =l @order.failed_at, format: "%H:%M"
+              %small.text-muted=l @order.failed_at, format: '%Z'
+
+    .information-table
+      - if @order.paid_at.present? && @order.online?
+        %table
+          %tr
+            %th Afleveradres
+            %td 
+              = @order.delivery_name
+              %br/
+              = @order.delivery_street
+              = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
+              %br/
+              = [@order.delivery_postal_code, @order.delivery_city].join(', ')
+
+          %tr
+            %th Gewicht
+            %td
+              = @order.total_weight
+              gram
+
+          / %tr
+          /   %th Verzender
+          /   %td PostNL Pakketpost
+
+          - if @order.shipped_at.present?
+            %tr
+              %th Verzonden op
+              %td=l @order.shipped_at, format: "%d %B %Y"
+
+          - if @order.delivered_at.present?
+            %tr
+              %th Levering
+              %td
+                .text-muted=l @order.delivered_at, format: "%d %B %Y"
+
+          / %tr
+          /   %th Track & Trace
+          /   %td
+          /     = link_to '3SJFOWIWJ123', '#'
+
+  .divider-container
+    %hr.divider/
+
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th.text-right 
+          %th Product
+          %th.text-right Prijs
+          %th.text-right Totaal
+
+      %tbody
+        - @order.order_items.each do |order_item|
+          %tr
+            %td.text-right= "#{order_item.quantity} &times;".html_safe
+            %td
+              - if order_item.is_product_bundle?
+                = link_to order_item.description, [:admin, order_item.orderable], class: 'table-link'
+              - else
+                = link_to order_item.description, [:admin, order_item.orderable.product], class: 'table-link'
+            %td.text-right= number_to_currency order_item.unit_price
+            %td.text-right= number_to_currency order_item.total
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'} Subtotaal
+            = number_to_currency @order.sub_total_including_tax
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'} Verzendkosten
+            = number_to_currency @order.delivery_price
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'} Totaal
+            = number_to_currency @order.total

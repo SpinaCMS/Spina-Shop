@@ -1,0 +1,98 @@
+%header#header
+  #header_actions
+    - if @customer.customer_account.present?
+      = link_to edit_admin_customer_customer_account_path(@customer), class: 'button' do
+        = icon('pencil')
+        Bewerk account
+
+    = link_to edit_admin_customer_path(@customer), class: 'button' do
+      = icon('pencil')
+      Bewerk klant
+
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary.tabs
+    %ul
+      %li.active
+        = link_to '#profile' do
+          Profiel
+
+.tab-content.active#profile
+
+  .information-tables{style: 'margin-top: 20px'}
+    .information-table
+      %table
+        %tr
+          %th Naam
+          %td= @customer.name
+
+        %tr
+          %th Klantnummer
+          %td= @customer.number
+
+        %tr
+          %th Email
+          %td= mail_to @customer.email, @customer.email
+
+        %tr
+          %th Telefoon
+          %td= @customer.phone
+
+        %tr
+          %th Account
+          %td
+            - if @customer.customer_account.present?
+              Geregistreerd
+            - else
+              Gast
+
+        %tr
+          %th IP-adressen
+          %td= @customer.ip_addresses.join("<br />").html_safe
+
+    .information-table
+      %table
+        %tr
+          %th Totaal bestellingen
+          %td
+            = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total}
+
+        %tr
+          %th Gemiddelde bestelling
+          %td
+            = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0 / @customer.orders.received.count
+
+    .information-table
+      %table
+        - @customer.addresses.each do |address|
+          %tr
+            %th Adres
+            %td
+              = [address.address_1, address.address_2, address.address_3, address.address_4].compact.join('<br />').html_safe
+              %br/
+              = [address.postal_code, address.city].join(', ')
+
+  .divider-container
+    %hr.divider/
+
+  .table-container
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th
+          %th Ordernummer
+          %th Klant
+          %th Besteldatum
+          %th Verzenddatum
+          %th.text-right Totaal
+          %th
+
+      %tbody
+        - if @customer.orders.received.any?
+          = render partial: 'spina/admin/orders/order', collection: @customer.orders.sorted.received
+
+        - else
+          %tr
+            %td{colspan: 7}
+              %p.text-center.text-muted
+                %em Deze klant heeft nog geen bestellingen geplaatst

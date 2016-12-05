@@ -1,0 +1,12 @@
+%tr
+  %td= link_to customer.full_name, [:admin, customer], class: 'table-link'
+  %td= mail_to customer.email, customer.email, class: 'table-link'
+  %td=l customer.created_at, format: "%d-%m-%Y"
+  %td.text-right
+    = customer.orders.received.count
+  %td.text-right
+    - if customer.customer_account.present?
+      %label.label.label-primary= "Geregistreerd".upcase
+    - else
+      %label.label.label-default= "Gast".upcase
+    

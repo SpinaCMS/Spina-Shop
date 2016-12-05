@@ -1,0 +1,39 @@
+%header#header
+  #header_actions
+    = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
+      .search-input= f.search_field :product_items_sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
+
+  .breadcrumbs
+    .pull-right
+      = link_to new_by_category_admin_products_path, class: 'button button-mini icon-only', data: {remote: true} do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li.active
+        = link_to admin_products_path do
+          Catalogus
+
+      %li
+        = link_to admin_product_categories_path do
+          Categorieën
+
+      %li
+        = link_to admin_product_bundles_path do
+          Productbundels
+
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th= sort_link @q, :product_items_sku, 'SKU', {}, class: 'table-sort'
+        %th= sort_link @q, :translations_name, 'Productnaam', {}, class: 'table-sort'
+        %th{style: 'text-align: right'}= sort_link @q, :product_items_price, 'Prijs', {}, class: 'table-sort'
+        %th{style: 'text-align: right'} Voorraad
+
+    %tbody
+      = render partial: "product", collection: @products.to_a.uniq
+
+  .pagination= link_to_next_page @products, 'Next', params: params.except(*request.path_parameters.keys).permit!

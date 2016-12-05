@@ -1,0 +1,48 @@
+%header#header
+  #header_actions
+    = link_to new_admin_product_category_property_path(@product_category), class: 'button button-primary' do
+      = icon('plus')
+      Nieuwe eigenschap
+
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li
+        = link_to admin_products_path do
+          Catalogus
+
+      %li.active
+        = link_to admin_product_categories_path do
+          Categorieën
+
+.table-container
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th Eigenschap
+        %th Type
+        %th Opslaan als...
+
+    %tbody
+      - @product_category.properties.order(:label).each do |property|
+        %tr
+          %td
+            = link_to edit_admin_product_category_property_path(@product_category, property), class: 'table-link' do
+              = property.label
+              %br/
+              %small= property.name
+          %td= property.property_type == 'product' ? 'Vast' : 'Variabel'
+          %td
+            - case property.field_type
+            - when 'textfield'
+              Tekstregel
+            - when 'percentage'
+              Percentage
+            - when 'decimal'
+              Kommagetal
+            - when 'number'
+              Getal
+            - when 'select'
+              Opties
+
