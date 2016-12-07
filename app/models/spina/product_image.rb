@@ -1,6 +1,7 @@
 module Spina
   class ProductImage < ApplicationRecord
-    belongs_to :product
+    belongs_to :product_bundle, optional: true
+    belongs_to :product, optional: true
     belongs_to :product_item, optional: true
 
     scope :ordered, -> { order(:position) }

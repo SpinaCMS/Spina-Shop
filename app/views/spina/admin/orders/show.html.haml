@@ -136,7 +136,7 @@
             %td
               = @order.billing_name
               %br/
-              = @order.billing_street
+              = @order.billing_street1
               = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
               %br/
               = [@order.billing_postal_code, @order.billing_city].join(', ')
@@ -181,7 +181,7 @@
             %td 
               = @order.delivery_name
               %br/
-              = @order.delivery_street
+              = @order.delivery_street1
               = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
               %br/
               = [@order.delivery_postal_code, @order.delivery_city].join(', ')

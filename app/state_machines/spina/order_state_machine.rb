@@ -44,7 +44,7 @@ module Spina
       order.cache_delivery_option!
 
       # Create customer if necessary
-      CustomerGenerator.new(order).generate!
+      Spina::CustomerGenerator.new(order).generate!
     end
 
     after_transition(to: :cancelled) do |order, transition|

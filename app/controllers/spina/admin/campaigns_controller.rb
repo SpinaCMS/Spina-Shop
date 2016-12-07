@@ -4,7 +4,7 @@ module Spina
       # layout 'spina/admin/shop'
 
       def index
-        add_breadcrumb "Acties", admin_campaigns_path
+        add_breadcrumb "Campaigns", admin_campaigns_path
       end
     end
   end

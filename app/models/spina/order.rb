@@ -26,7 +26,8 @@ module Spina
     scope :not_cancelled, -> { where(cancelled_at: nil) }
     scope :building, -> { where(confirming_at: nil) }
 
-    validates :first_name, :last_name, :email, :billing_street, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
+    validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
+    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :password, confirmation: true
     validates :delivery_option, presence: true, if: -> { validate_delivery }
     validates :payment_method, presence: true, if: -> { validate_payment }
@@ -40,18 +41,18 @@ module Spina
     accepts_nested_attributes_for :order_items
 
     # Override addresses if necessary
-    [:delivery_name, :delivery_street, :delivery_postal_code, :delivery_city, :delivery_country, :delivery_house_number, :delivery_house_number_addition].each do |f|
+    [:delivery_name, :delivery_street1, :delivery_postal_code, :delivery_city, :delivery_country, :delivery_house_number, :delivery_house_number_addition].each do |f|
       define_method(f) do
         separate_delivery_address? ? super() : send(f.to_s.gsub('delivery_', 'billing_'))
       end
     end
 
     def billing_address
-      "#{billing_street} #{billing_house_number}#{billing_house_number_addition}".strip
+      "#{billing_street1} #{billing_house_number}#{billing_house_number_addition}".strip
     end
 
     def delivery_address
-      "#{delivery_street} #{delivery_house_number}#{delivery_house_number_addition}".strip
+      "#{delivery_street1} #{delivery_house_number}#{delivery_house_number_addition}".strip
     end
 
     def delivery_options
