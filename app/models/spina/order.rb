@@ -137,8 +137,8 @@ module Spina
         write_attribute :delivery_price, delivery_price
         write_attribute :delivery_tax_rate, delivery_tax_rate
         write_attribute :delivery_metadata, {
-          tax_code: delivery_option.tax_group.tax_code_for_order(@order),
-          sales_category_code: delivery_option.sales_category.code_for_order(@order)
+          tax_code: delivery_option.tax_group.tax_code_for_order(self),
+          sales_category_code: delivery_option.sales_category.code_for_order(self)
         }
       end
 
