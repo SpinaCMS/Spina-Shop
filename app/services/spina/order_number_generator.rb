@@ -1,7 +1,7 @@
 module Spina
   class OrderNumberGenerator
 
-    def self.generate
+    def self.generate!
       sequence = NumberSequence.by_name('orders')
       sequence.increment!
     end

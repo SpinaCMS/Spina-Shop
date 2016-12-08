@@ -32,7 +32,7 @@ module Spina
 
     after_transition(to: :confirming) do |order, transition|
       # Generate that number
-      order.update_attributes!(order_number: OrderNumberGenerator.generate, confirming_at: Time.zone.now)
+      order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
 
       # Allocate stock baby!
       order.order_items.each(&:allocate_unallocated_stock!)

@@ -7,11 +7,11 @@ module Spina
     validates :name, presence: true
 
     def tax_rate_for_order(order)
-      rates_by_country(order.billing_country)['default']['rate'].to_d || default_tax_rate
+      rates_by_country(order.billing_country)['default']['rate'].to_d
     end
 
-    def vat_code_for_order(order)
-      rates_by_country(order.billing_country)['default']['vat_code'] || default_vat_code
+    def tax_code_for_order(order)
+      rates_by_country(order.billing_country)['default']['tax_code']
     end
 
     private
@@ -21,12 +21,5 @@ module Spina
         tax_rates[country.iso_3166] || rates || tax_rates['default']
       end
 
-      def default_tax_rate
-        BigDecimal(Spina.config.default_tax_rate || 0)
-      end
-
-      def default_vat_code
-        Spina.config.default_vat_code || "0"
-      end
   end
 end

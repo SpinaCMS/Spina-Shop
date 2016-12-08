@@ -14,17 +14,10 @@ module Spina
     scope :ordered, -> { order(:created_at) }
 
     before_save do
-      if order.received? && (unit_price_changed? || unit_cost_price_changed? || tax_rate_changed?)
+      if order.confirmed? && (unit_price_changed? || unit_cost_price_changed? || tax_rate_changed?)
         cache_pricing
+        cache_metadata
       end
-    end
-
-    def vat_code
-      orderable.tax_group.vat_code_for_order(order)
-    end
-
-    def sales_category_code
-      orderable.sales_category.code_for_order(order)
     end
 
     def unit_price
@@ -86,8 +79,8 @@ module Spina
       save!
     end
 
-    def clear_cached_pricing!
-      clear_cached_pricing
+    def cache_metadata!
+      cache_metadata
       save!
     end
 
@@ -135,11 +128,12 @@ module Spina
         write_attribute :tax_rate, tax_rate
       end
 
-      def clear_cached_pricing
-        write_attribute :weight, nil
-        write_attribute :unit_price, nil
-        write_attribute :unit_cost_price, nil
-        write_attribute :tax_rate, nil
+      def cache_metadata
+        write_attribute :metadata, {
+          tax_code: orderable.tax_group.tax_code_for_order(order),
+          sales_category_code: orderable.sales_category.code_for_order(order)
+        }
       end
+
   end
 end

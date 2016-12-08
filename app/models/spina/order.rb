@@ -120,11 +120,6 @@ module Spina
       save!
     end
 
-    def clear_cached_delivery_option!
-      clear_cached_delivery_option
-      save!
-    end
-
     def duplicate!
       # Duplicate order
       transaction do
@@ -141,11 +136,10 @@ module Spina
       def cache_delivery_option
         write_attribute :delivery_price, delivery_price
         write_attribute :delivery_tax_rate, delivery_tax_rate
-      end
-
-      def clear_cached_delivery_option
-        write_attribute :delivery_price, nil
-        write_attribute :delivery_tax_rate, nil
+        write_attribute :delivery_metadata, {
+          tax_code: delivery_option.tax_group.tax_code_for_order(@order),
+          sales_category_code: delivery_option.sales_category.code_for_order(@order)
+        }
       end
 
       def items_must_be_in_stock

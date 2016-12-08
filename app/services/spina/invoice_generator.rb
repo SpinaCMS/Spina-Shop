@@ -2,12 +2,13 @@ module Spina
   class InvoiceGenerator
     def initialize(order)
       @order = order
+      @account = Spina::Account.first
     end
 
     def generate!
       @customer = @order.customer
 
-      number = InvoiceNumberGenerator.generate
+      number = InvoiceNumberGenerator.generate!
 
       invoice = Invoice.new(
         order_id: @order.id,
@@ -22,16 +23,15 @@ module Spina
         postal_code: @order.billing_postal_code,
         city: @order.billing_city,
         number: number,
-        invoice_number: "MH#{number}",
+        invoice_number: "#{number}",
         date: Date.today,
-        identity_name: "Mr. Hop",
-        identity_details: "Grotestraat 1
-        1234 AB, Venray
-        Nederland
+        identity_name: @account.name,
+        identity_details: "#{@account.address}
+        #{@account.postal_code}, #{@account.city}
+        #{@account.country}
 
-        0612345678
-        info@mrhop.nl
-        www.mrhop.nl"
+        #{@account.phone}
+        #{@account.email}"
       )
 
       @order.order_items.each do |order_item|
@@ -40,10 +40,7 @@ module Spina
           description: order_item.description,
           unit_price: order_item.unit_price,
           tax_rate: order_item.tax_rate,
-          export_data: {
-            vat_code: order_item.vat_code,
-            sales_category_code: order_item.sales_category_code
-          }
+          metadata: order_item.metadata
         )
       end
 
@@ -52,10 +49,7 @@ module Spina
         description: "Verzendkosten",
         unit_price: @order.delivery_price,
         tax_rate: @order.delivery_tax_rate,
-        export_data: {
-          vat_code: @order.delivery_option.tax_group.vat_code_for_order(@order),
-          sales_category_code: @order.delivery_option.sales_category.code_for_order(@order)
-        }
+        metadata: @order.delivery_metadata
       )
 
       return invoice if invoice.save!
