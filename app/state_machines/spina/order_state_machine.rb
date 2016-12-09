@@ -60,6 +60,8 @@ module Spina
     after_transition(to: :received) do |order, transition|
       # Send mail and shit
       order.update_attributes!(received_at: Time.zone.now)
+
+      Spina::OrderMailer.confirmation(order).deliver_later
     end
 
     after_transition(to: :failed) do |order, transition|
@@ -93,8 +95,10 @@ module Spina
     end
 
     after_transition(to: :shipped) do |order, transition|
-      # Set shipped_at
+      # Set shipped_at and send mail
       order.update_attributes!(shipped_at: Time.zone.now)
+
+      Spina::OrderMailer.shipped(order).deliver_later
     end
 
     after_transition(to: :delivered) do |order, transition|

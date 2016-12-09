@@ -1,0 +1,5 @@
+Your order <%= @order.number %> was received. 
+
+<% if @order.requires_shipping? %>
+  We will let you know when we've shipped your order.
+<% end %>
