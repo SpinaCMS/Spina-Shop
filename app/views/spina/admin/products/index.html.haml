@@ -1,7 +1,7 @@
 %header#header
   #header_actions
     = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :product_items_sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      .search-input= f.search_field :product_items_sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
       = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
 
   .breadcrumbs
@@ -14,24 +14,24 @@
     %ul
       %li.active
         = link_to admin_products_path do
-          Catalogus
+          =t 'spina.shop.products.title'
 
       %li
         = link_to admin_product_categories_path do
-          Categorieën
+          = Spina::ProductCategory.model_name.human count: 2
 
       %li
         = link_to admin_product_bundles_path do
-          Productbundels
+          = Spina::ProductBundle.model_name.human count: 2
 
 .table-container.infinite-table
   %table.table.table-clickable
     %thead
       %tr
-        %th= sort_link @q, :product_items_sku, 'SKU', {}, class: 'table-sort'
-        %th= sort_link @q, :translations_name, 'Productnaam', {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= sort_link @q, :product_items_price, 'Prijs', {}, class: 'table-sort'
-        %th{style: 'text-align: right'} Voorraad
+        %th= sort_link @q, :product_items_sku, Spina::ProductItem.human_attribute_name(:sku), {}, class: 'table-sort'
+        %th= sort_link @q, :translations_name, Spina::ProductItem.human_attribute_name(:name), {}, class: 'table-sort'
+        %th{style: 'text-align: right'}= sort_link @q, :product_items_price, Spina::ProductItem.human_attribute_name(:price), {}, class: 'table-sort'
+        %th{style: 'text-align: right'}= Spina::ProductItem.human_attribute_name(:stock_level)
 
     %tbody
       = render partial: "product", collection: @products.to_a.uniq

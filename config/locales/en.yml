@@ -25,7 +25,10 @@ en:
         no_orders_yet: This customer didn't order anything yet.
 
       products:
+        title: Catalog
         save: Save product
+        new_by_category_title_html: Choose a <strong>category</strong>
+        new: New product
 
       product_items:
         new: New variant
@@ -83,6 +86,12 @@ en:
       spina/invoice: 
         one: Invoice
         other: Invoices
+      spina/product_category:
+        one: Product category
+        other: Product categories
+      spina/product_bundle:
+        one: Product bundle
+        other: Product bundles
 
     attributes:
       spina/order:
