@@ -1,7 +1,7 @@
 %header#header
   #header_actions
     = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :product_items_sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
+      .search-input= f.search_field :product_items_sku_or_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
       = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
 
   .breadcrumbs

@@ -13,8 +13,6 @@ module Spina
 
     validates :tax_group, :price, presence: true
 
-    translates :name, fallbacks_for_empty_translations: true
-
     def description
       [product.name, name].compact.join(', ')
     end

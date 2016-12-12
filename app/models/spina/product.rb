@@ -16,7 +16,7 @@ module Spina
 
     validates :name, presence: true
 
-    translates :name, :description, :seo_title, :seo_description, :materialized_path, fallbacks_for_empty_translations: true
+    translates :description, :seo_title, :seo_description, :materialized_path, fallbacks_for_empty_translations: true
 
     scope :where_any_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)

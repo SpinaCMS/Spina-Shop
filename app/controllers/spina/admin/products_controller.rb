@@ -7,8 +7,8 @@ module Spina
       load_and_authorize_resource class: "Spina::Product"
 
       def index
-        @q = Product.order(created_at: :desc).ransack(params[:q])
-        @products = @q.result.includes(:translations, product_items: :translations).page(params[:page]).per(25)
+        @q = Spina::Product.order(created_at: :desc).ransack(params[:q])
+        @products = @q.result.includes(:translations).page(params[:page]).per(25)
       end
 
       def show
