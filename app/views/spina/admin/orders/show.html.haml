@@ -1,5 +1,7 @@
 %header#header
   .pull-right
+    = link_to t('spina.edit'), edit_admin_order_path(@order), class: 'button'
+
     %div{style: 'display: inline-block', data: {dropdown: true}}
       = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#actions'} do
         =t 'spina.shop.orders.actions'
@@ -127,17 +129,17 @@
               - @order.invoices.each do |invoice|
                 = link_to invoice.invoice_number, admin_invoice_path(invoice, format: :pdf)
 
-          %tr
-            %th= Spina::Order.human_attribute_name(:billing_address)
-            %td
-              = @order.billing_name
-              %br/
-              = [@order.billing_street1, @order.billing_street2].join('<br />').html_safe
-              = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
-              %br/
-              = [@order.billing_postal_code, @order.billing_city].join(', ')
-              %br/
-              = @order.billing_country.name
+        %tr
+          %th= Spina::Order.human_attribute_name(:billing_address)
+          %td
+            = @order.billing_name
+            %br/
+            = [@order.billing_street1, @order.billing_street2].join('<br />').html_safe
+            = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
+            %br/
+            = [@order.billing_postal_code, @order.billing_city].join(', ')
+            %br/
+            = @order.billing_country.name
 
         - if @order.payment_method.present?    
           %tr
@@ -170,34 +172,33 @@
               %small.text-muted=l @order.failed_at, format: '%Z'
 
     .information-table
-      - if @order.paid_at.present?
-        %table
-          %tr
-            %th= Spina::Order.human_attribute_name(:shipping_address)
-            %td 
-              = @order.delivery_name
-              %br/
-              = [@order.delivery_street1, @order.delivery_street2].join('<br />').html_safe
-              = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
-              %br/
-              = [@order.delivery_postal_code, @order.delivery_city].join(', ')
+      %table
+        %tr
+          %th= Spina::Order.human_attribute_name(:shipping_address)
+          %td 
+            = @order.delivery_name
+            %br/
+            = [@order.delivery_street1, @order.delivery_street2].join('<br />').html_safe
+            = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
+            %br/
+            = [@order.delivery_postal_code, @order.delivery_city].join(', ')
 
+        %tr
+          %th= Spina::Order.human_attribute_name(:weight)
+          %td
+            = @order.total_weight
+            gr
+
+        - if @order.shipped_at.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:weight)
+            %th= Spina::Order.human_attribute_name(:shipped_at)
+            %td=l @order.shipped_at, format: "%d %B %Y"
+
+        - if @order.delivered_at.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:delivered_at)
             %td
-              = @order.total_weight
-              gr
-
-          - if @order.shipped_at.present?
-            %tr
-              %th= Spina::Order.human_attribute_name(:shipped_at)
-              %td=l @order.shipped_at, format: "%d %B %Y"
-
-          - if @order.delivered_at.present?
-            %tr
-              %th= Spina::Order.human_attribute_name(:delivered_at)
-              %td
-                .text-muted=l @order.delivered_at, format: "%d %B %Y"
+              .text-muted=l @order.delivered_at, format: "%d %B %Y"
 
   .divider-container
     %hr.divider/

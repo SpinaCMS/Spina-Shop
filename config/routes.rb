@@ -33,9 +33,6 @@ Spina::Engine.routes.draw do
     end
     scope module: :products do
       resources :product_bundles
-      resources :product_categories do
-        resources :properties
-      end
     end
 
     # Customers

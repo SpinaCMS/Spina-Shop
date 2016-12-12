@@ -17,10 +17,6 @@
           =t 'spina.shop.products.title'
 
       %li
-        = link_to admin_product_categories_path do
-          = Spina::ProductCategory.model_name.human count: 2
-
-      %li
         = link_to admin_product_bundles_path do
           = Spina::ProductBundle.model_name.human count: 2
 

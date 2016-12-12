@@ -59,7 +59,7 @@ en:
         no_orders: No orders
         download_packing_slip: Download packing slip
         download_invoice: Download invoice %{number}
-
+        save: Save order
 
         states:
           received: Received

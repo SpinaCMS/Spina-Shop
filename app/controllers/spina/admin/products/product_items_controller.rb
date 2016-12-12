@@ -37,7 +37,7 @@ module Spina
         private
 
           def product_item_params
-            params.require(:product_item).permit!.merge(locale: @locale)
+            params.require(:product_item).permit!
           end
 
           def set_breadcrumbs

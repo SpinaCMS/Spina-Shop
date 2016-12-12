@@ -29,6 +29,19 @@ module Spina
         add_breadcrumb @order.number
       end
 
+      def edit
+        add_breadcrumb @order.number, admin_order_path(@order)
+        add_breadcrumb t('spina.edit')
+      end
+
+      def update
+        if @order.update_attributes!(order_params)
+          redirect_to admin_order_path(@order)
+        else
+          render :edit
+        end
+      end
+
       def transition
         @orders = Order.where(id: params[:order_ids])
         if params[:transition_to] == "order_picking_and_shipped"
@@ -53,6 +66,10 @@ module Spina
       end
 
       private
+
+        def order_params
+          params.require(:order).permit!
+        end
 
         def set_breadcrumbs
           add_breadcrumb Spina::Order.model_name.human(count: 2), admin_orders_path

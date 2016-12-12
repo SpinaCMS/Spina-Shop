@@ -141,7 +141,7 @@ nl:
         location: Locatie
         weight: Gewicht
         ean: EAN-code
-        must_be_of_age_to_buy: Moet meerderjarig zijn
+        must_be_of_age_to_buy: Alleen voor 18+
         sku: SKU
         name: Naam
 
