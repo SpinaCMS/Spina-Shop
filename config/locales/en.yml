@@ -49,14 +49,30 @@ en:
 
   activerecord:
     models:
-      spina/order: Order
-      spina/product: Product
-      spina/product_item: Product item
-      spina/sales_category: Sales category
-      spina/tax_group: Tax group
-      spina/customer_account: Customer account
-      spina/campaign: Campaign
-      spina/invoice: Invoice
+      spina/order:
+        one: Order
+        other: Orders
+      spina/product: 
+        one: Product
+        other: Products
+      spina/product_item: 
+        one: Product item
+        other: Product items
+      spina/sales_category: 
+        one: Sales category
+        other: Sales categories
+      spina/tax_group: 
+        one: Tax group
+        other: Tax groups
+      spina/customer_account: 
+        one: Customer account
+        other: Customer accounts
+      spina/campaign: 
+        one: Campaign
+        other: Campaigns
+      spina/invoice: 
+        one: Invoice
+        other: Invoices
 
     attributes:
       spina/order:
