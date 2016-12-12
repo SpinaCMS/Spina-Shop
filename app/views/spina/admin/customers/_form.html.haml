@@ -3,7 +3,7 @@
     #header_actions
       = button_tag type: :submit, class: 'button button-primary' do
         = icon('check')
-        Klant opslaan
+        =t ('spina.shop.customers.save')
 
     .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
@@ -42,15 +42,11 @@
         .well
           .sidebar-form-group
             .sidebar-form-label
-              = Spina::Address.human_attribute_name :address
+              = Spina::Address.human_attribute_name :street1
             .sidebar-form-control
-              = address_builder.text_field :address_1, placeholder: Spina::Address.human_attribute_name(:address_1), style: 'padding-bottom: 0px; height: 40px'
+              = address_builder.text_field :street1, placeholder: Spina::Address.human_attribute_name(:street1), style: 'padding-bottom: 0px; height: 40px'
               %br/
-              = address_builder.text_field :address_2, placeholder: Spina::Address.human_attribute_name(:address_2), style: 'padding-top: 0px; padding-bottom: 0px; height: 30px'
-              %br/
-              = address_builder.text_field :address_3, placeholder: Spina::Address.human_attribute_name(:address_3), style: 'padding-top: 0px; padding-bottom: 0px; height: 30px'
-              %br/
-              = address_builder.text_field :address_4, placeholder: Spina::Address.human_attribute_name(:address_4), style: 'padding-top: 0px; height: 40px'
+              = address_builder.text_field :street2, placeholder: Spina::Address.human_attribute_name(:street2), style: 'padding-top: 0px; padding-bottom: 0px; height: 30px'
 
           .sidebar-form-group
             .sidebar-form-label
@@ -63,11 +59,10 @@
               = Spina::Address.human_attribute_name :city
             .sidebar-form-control
               = address_builder.text_field :city
-
           
           .sidebar-form-group
             .sidebar-form-label
-              Verwijderen?
+              =t 'spina.delete'
             .sidebar-form-control
               %div{style: 'margin: 12px 10px'}
                 = address_builder.check_box :_destroy, data: {switch: true}

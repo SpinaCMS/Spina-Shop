@@ -2,7 +2,6 @@
   %td{style: 'width: 70px'}= check_box_tag 'order_ids[]', order.id
   %td= link_to order.number, [:admin, order], class: 'table-link'
   %td= order.billing_name
-  %td= order.pos? ? 'Winkel' : 'Webshop'
   %td
     - if order.received_at.present?
       =l order.received_at, format: "%d %B %Y"
@@ -17,4 +16,4 @@
         - 5.times do
           .progress-bar-divider
         .progress-bar-inner{style: "width: #{order.status_progress}%"}
-      .progress-label= order.status_label
+      .progress-label=t "spina.shop.orders.states.#{order.current_state}"

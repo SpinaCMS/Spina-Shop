@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class OrdersController < AdminController
+    class OrdersController < ShopController
       load_and_authorize_resource class: "Spina::Order"
 
       before_action :set_breadcrumbs
@@ -13,7 +13,7 @@ module Spina
         @orders = @q.result.confirmed.sorted.page(params[:page]).per(25)
       end
 
-      def to_be_shipped
+      def to_process
         @q = Order.ransack(params[:q])
         @orders = @q.result.in_state(:paid, :order_picking).sorted.page(params[:page]).per(25)
         render :index

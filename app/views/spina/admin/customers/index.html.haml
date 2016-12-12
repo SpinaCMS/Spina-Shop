@@ -1,7 +1,7 @@
 %header#header
   #header_actions
     = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :full_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      .search-input= f.search_field :full_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
       = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
 
   .breadcrumbs
@@ -15,17 +15,16 @@
     %ul
       %li.active
         = link_to '#customers' do
-          Alle klanten
-
+          =t 'spina.shop.customers.title'
 
 .table-container.infinite-table
   %table.table.table-clickable
     %thead
       %tr
-        %th= sort_link @q, :full_name, 'Naam', {}, class: 'table-sort'
-        %th= sort_link @q, :email, 'Email', {}, class: 'table-sort'
-        %th= sort_link @q, :created_at, 'Aangemaakt op', {}, class: 'table-sort'
-        %th.text-right Bestellingen
+        %th= sort_link @q, :full_name, Spina::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
+        %th= sort_link @q, :email, Spina::Customer.human_attribute_name(:email), {}, class: 'table-sort'
+        %th= sort_link @q, :created_at, Spina::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
+        %th.text-right= Spina::Order.model_name.human count: 2
         %th 
 
     %tbody

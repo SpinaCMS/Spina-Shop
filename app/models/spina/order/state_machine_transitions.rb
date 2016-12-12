@@ -17,27 +17,6 @@ module Spina
     end
     alias_method :confirmed?, :confirming?
 
-    def status_label
-      case current_state
-      when 'received'
-        'Bestelling'
-      when 'paid'
-        'Betaald'
-      when 'order_picking'
-        'Voorbereiding'
-      when 'shipped'
-        'Verzonden'
-      when 'delivered'
-        'Geleverd'
-      when 'failed'
-        'Mislukt'
-      when 'refunded'
-        'Terugbetaald'
-      when 'cancelled'
-        'Geannuleerd'
-      end
-    end
-
     def status_progress
       if delivered_at.present?
         100

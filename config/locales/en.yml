@@ -1,0 +1,124 @@
+en:
+  spina:
+    shop:
+      title: Webshop
+      tax_groups: Tax groups
+      sales_categories: Sales categories
+
+      emails:
+        order_confirmation_title: Your order was confirmed
+        order_shipped_title: Your order was shipped
+
+      customer_accounts:
+        save: Save account
+        edit: Edit account
+        registered: Registered
+        guest: Guest
+
+      customers:
+        title: All customers
+        save: Save customer
+        edit: Edit customer
+        profile: Profile
+        order_total: Order total
+        order_average: Order average
+        no_orders_yet: This customer didn't order anything yet.
+
+      orders:
+        title: All orders
+        to_process: To process
+        failed: Failed
+        actions: Actions
+        start_order_picking: Start order picking
+        ship_order: Ship order
+        ship_order_confirmation: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
+        start_picking_and_ship: Start order picking and ship order
+        no_orders: No orders
+        download_packing_slip: Download packing slip
+        download_invoice: Download invoice %{number}
+
+        states:
+          received: Received
+          paid: Paid
+          order_picking: Order picking
+          shipped: Shipped
+          delivered: Delivered
+          failed: Failed
+          refunded: Refunded
+          cancelled: Cancelled
+
+  activerecord:
+    models:
+      spina/order: Order
+      spina/product: Product
+      spina/product_item: Product item
+      spina/sales_category: Sales category
+      spina/tax_group: Tax group
+      spina/customer_account: Customer account
+      spina/campaign: Campaign
+      spina/invoice: Invoice
+
+    attributes:
+      spina/order:
+        billing_address: Billing address
+        billing_street1: Street
+        billing_street2: Street 2
+        billing_city: City
+        billing_name: Name
+        email: Email
+        phone: Phone
+        separate_delivery_address: Separate delivery address
+        order_number: Order number
+        received_at: Order date
+        shipped_at: Shipped at
+        delivered_at: Delivered at
+        total: Total
+        ip_address: IP address
+        payment_method: Payment method
+        shipping_address: Shipping address
+        sub_total: Sub total
+        delivery_price: Shipping costs
+
+      spina/product:
+        name: Name
+        sku: SKU
+        description: Description
+        seo_title: SEO title
+        seo_description: SEO description
+        materialized_path: Materialized path
+
+      spina/product_item:
+        price: Price
+        cost_price: Cost price
+        sales_category: Sales category
+        stock_level: Stock level
+        location: Location
+        weight: Weight
+        ean: EAN-code
+        must_be_of_age_to_buy: Must be of age to buy
+
+      spina/order_item:
+        price: Price
+        total: Total
+
+      spina/customer_account:
+        username: Username
+        password: Password
+        password_confirmation: Password confirmation
+
+      spina/customer:
+        first_name: First name
+        last_name: Last name
+        name: Name
+        number: Customer number
+        email: Email
+        phone: Phone
+        full_name: Full name
+        ip_addresses: IP addresses
+        created_at: Created at
+
+      spina/address:
+        street1: Street
+        street2: Street 2
+        postal_code: Postal code
+        city: City

@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class VariantsController < AdminController
+    class VariantsController < ShopController
       def new
       end
     end

@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Settings
-      class TaxGroupsController < AdminController
+      class TaxGroupsController < ShopController
         before_action :set_breadcrumbs
 
         load_and_authorize_resource class: "Spina::TaxGroup"

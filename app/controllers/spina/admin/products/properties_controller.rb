@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class PropertiesController < AdminController
+      class PropertiesController < ShopController
         load_and_authorize_resource :product_category, class: "Spina::ProductCategory"
         load_and_authorize_resource :property, through: :product_category, class: "Spina::ProductCategoryProperty"
 

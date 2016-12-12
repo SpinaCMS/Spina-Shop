@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class InvoicesController < AdminController
+    class InvoicesController < ShopController
       load_and_authorize_resource class: "Spina::Invoice"
 
       def show

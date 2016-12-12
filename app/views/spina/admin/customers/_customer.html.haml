@@ -6,7 +6,7 @@
     = customer.orders.received.count
   %td.text-right
     - if customer.customer_account.present?
-      %label.label.label-primary= "Geregistreerd".upcase
+      %label.label.label-primary= t('spina.shop.customer_accounts.registered').upcase
     - else
-      %label.label.label-default= "Gast".upcase
+      %label.label.label-default= t('spina.shop.customer_accounts.guest').upcase
     

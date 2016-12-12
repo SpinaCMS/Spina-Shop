@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class StockLevelAdjustmentsController < AdminController
+      class StockLevelAdjustmentsController < ShopController
         load_and_authorize_resource :product, class: "Spina::Product"
         load_and_authorize_resource :product_item, through: :product, class: "Spina::ProductItem"
         load_and_authorize_resource through: :product_item, class: "Spina::StockLevelAdjustment"

@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Orders
-      class PackingSlipsController < AdminController
+      class PackingSlipsController < ShopController
         skip_before_action :authorize_user, only: :show
         load_and_authorize_resource :order, class: "Spina::Order"
         skip_load_and_authorize_resource :order, only: :show

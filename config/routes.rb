@@ -4,7 +4,7 @@ Spina::Engine.routes.draw do
     # Orders
     resources :orders do
       collection do
-        get :to_be_shipped
+        get :to_process
         get :failed
         put :transition
       end

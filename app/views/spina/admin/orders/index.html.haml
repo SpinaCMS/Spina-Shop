@@ -1,7 +1,7 @@
 %header#header
   #header_actions
     = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :first_name_or_last_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoeken...'
+      .search-input= f.search_field :first_name_or_last_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
       = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
 
   .breadcrumbs
@@ -13,35 +13,34 @@
   %nav#secondary
     %ul
       %li{class: ('active' if action_name == 'index')}
-        = link_to 'Alle bestellingen', admin_orders_path
-      %li{class: ('active' if action_name == 'to_be_shipped')}
-        = link_to 'Te verwerken', to_be_shipped_admin_orders_path
+        = link_to t('spina.shop.orders.title'), admin_orders_path
+      %li{class: ('active' if action_name == 'to_process')}
+        = link_to t('spina.shop.orders.to_process'), to_process_admin_orders_path
       %li{class: ('active' if action_name == 'failed')}
-        = link_to 'Mislukt', failed_admin_orders_path
+        = link_to t('spina.shop.orders.failed'), failed_admin_orders_path
 
 = form_tag transition_admin_orders_path, method: :put do
   .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
     = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
-      Acties
+      =t 'spina.shop.orders.actions'
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
     %ul#actions.align-right
-      %li= button_tag '<strong>Pakbonnen</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'order_picking'
-      %li= button_tag '<strong>Verzendlabels</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'shipped'
+      %li= button_tag t('spina.shop.orders.start_order_picking'), type: :submit, name: 'transition_to', value: 'order_picking'
+      %li= button_tag t('spina.shop.orders.ship_order'), type: :submit, name: 'transition_to', value: 'shipped'
       %li.divider
-      %li= button_tag '<strong>Pakbonnen en verzendlabels</strong> genereren'.html_safe, type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
+      %li= button_tag t('spina.shop.orders.start_picking_and_ship'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
 
   .table-container.infinite-table
     %table.table.table-clickable
       %thead
         %tr
           %th
-          %th= sort_link @q, :id, 'Ordernummer', {}, class: 'table-sort'
-          %th= sort_link @q, :last_name, 'Klant', {}, class: 'table-sort'
-          %th= sort_link @q, :pos, 'Via', {}, class: 'table-sort'
-          %th= sort_link @q, :received_at, 'Besteldatum', {}, class: 'table-sort'
-          %th= sort_link @q, :shipped_at, 'Verzenddatum', {}, class: 'table-sort'
-          %th.text-right Totaal
+          %th= sort_link @q, :id, Spina::Order.human_attribute_name(:order_number), {}, class: 'table-sort'
+          %th= sort_link @q, :last_name, Spina::Customer.model_name.human, {}, class: 'table-sort'
+          %th= sort_link @q, :received_at, Spina::Order.human_attribute_name(:received_at), {}, class: 'table-sort'
+          %th= sort_link @q, :shipped_at, Spina::Order.human_attribute_name(:shipped_at), {}, class: 'table-sort'
+          %th.text-right= Spina::Order.human_attribute_name(:total)
           %th
 
       %tbody
@@ -51,6 +50,6 @@
           %tr
             %td{colspan: 8}
               %p.text-center
-                %em.text-muted Geen bestellingen
+                %em.text-muted= 'spina.shop.orders.no_orders'
 
     .pagination= link_to_next_page @orders, "Next", params: params.except(*request.path_parameters.keys).permit!

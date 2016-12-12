@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class ProductItemsController < AdminController
+      class ProductItemsController < ShopController
         load_and_authorize_resource :product, class: "Spina::Product"
         load_and_authorize_resource through: :product, class: "Spina::ProductItem"
 

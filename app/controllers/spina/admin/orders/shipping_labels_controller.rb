@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Orders
-      class ShippingLabelsController < AdminController
+      class ShippingLabelsController < ShopController
         load_and_authorize_resource :order, class: "Spina::Order"
 
         def show

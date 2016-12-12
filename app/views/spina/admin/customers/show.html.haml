@@ -3,11 +3,11 @@
     - if @customer.customer_account.present?
       = link_to edit_admin_customer_customer_account_path(@customer), class: 'button' do
         = icon('pencil')
-        Bewerk account
+        =t 'spina.shop.customer_accounts.edit'
 
     = link_to edit_admin_customer_path(@customer), class: 'button' do
       = icon('pencil')
-      Bewerk klant
+      =t 'spina.shop.customers.edit'
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
@@ -15,7 +15,7 @@
     %ul
       %li.active
         = link_to '#profile' do
-          Profiel
+          =t 'spina.shop.customers.profile'
 
 .tab-content.active#profile
 
@@ -23,42 +23,42 @@
     .information-table
       %table
         %tr
-          %th Naam
+        %th= Spina::Customer.human_attribute_name(:name)
           %td= @customer.name
 
         %tr
-          %th Klantnummer
+          %th= Spina::Customer.human_attribute_name(:number)
           %td= @customer.number
 
         %tr
-          %th Email
+          %th= Spina::Customer.human_attribute_name(:email)
           %td= mail_to @customer.email, @customer.email
 
         %tr
-          %th Telefoon
+          %th= Spina::Customer.human_attribute_name(:phone)
           %td= @customer.phone
 
         %tr
-          %th Account
+          %th= Spina::CustomerAccount.model_namel.human
           %td
             - if @customer.customer_account.present?
-              Geregistreerd
+              =t 'spina.shop.customer_accounts.registered'
             - else
-              Gast
+              =t 'spina.shop.customer_accounts.guest'
 
         %tr
-          %th IP-adressen
+          %th= Spina::Customer.human_attribute_name(:ip_addresses)
           %td= @customer.ip_addresses.join("<br />").html_safe
 
     .information-table
       %table
         %tr
-          %th Totaal bestellingen
+          %th=t 'spina.shop.customers.order_total'
           %td
             = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total}
 
         %tr
-          %th Gemiddelde bestelling
+          %th=t 'spina.shop.customers.order_average'
           %td
             = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0 / @customer.orders.received.count
 
@@ -66,9 +66,9 @@
       %table
         - @customer.addresses.each do |address|
           %tr
-            %th Adres
+            %th= Spina::Address.model_name.human
             %td
-              = [address.address_1, address.address_2, address.address_3, address.address_4].compact.join('<br />').html_safe
+              = [address.street1, address.street2].compact.join('<br />').html_safe
               %br/
               = [address.postal_code, address.city].join(', ')
 
@@ -80,11 +80,11 @@
       %thead
         %tr
           %th
-          %th Ordernummer
-          %th Klant
-          %th Besteldatum
-          %th Verzenddatum
-          %th.text-right Totaal
+          %th= Spina::Order.human_attribute_name(:order_number)
+          %th= Spina::Customer.model_name.human
+          %th= Spina::Order.human_attribute_name(:received_at)
+          %th= Spina::Order.human_attribute_name(:shipped_at)
+          %th.text-right= Spina::Order.human_attribute_name(:total)
           %th
 
       %tbody
@@ -95,4 +95,4 @@
           %tr
             %td{colspan: 7}
               %p.text-center.text-muted
-                %em Deze klant heeft nog geen bestellingen geplaatst
+                %em= 'spina.shop.customers.no_orders_yet'

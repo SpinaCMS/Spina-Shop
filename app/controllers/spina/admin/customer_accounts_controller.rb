@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class CustomerAccountsController < AdminController
+    class CustomerAccountsController < ShopController
       load_and_authorize_resource :customer, class: "Spina::Customer"
       load_and_authorize_resource through: :customer, class: "Spina::CustomerAccount", singleton: true
 

@@ -1,8 +1,6 @@
 module Spina
   module Admin
-    class CampaignsController < AdminController
-      # layout 'spina/admin/shop'
-
+    class CampaignsController < ShopController
       def index
         add_breadcrumb "Campaigns", admin_campaigns_path
       end

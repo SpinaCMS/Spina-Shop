@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class ProductCategoriesController < AdminController
+      class ProductCategoriesController < ShopController
         load_and_authorize_resource class: "Spina::ProductCategory"
 
         before_action :set_breadcrumbs

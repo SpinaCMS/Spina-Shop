@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class CustomersController < AdminController
+    class CustomersController < ShopController
       before_action :set_breadcrumbs
 
       load_and_authorize_resource class: "Spina::Customer"
