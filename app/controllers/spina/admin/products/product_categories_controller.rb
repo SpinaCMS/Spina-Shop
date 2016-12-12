@@ -16,7 +16,7 @@ module Spina
         private
 
           def set_breadcrumbs
-            add_breadcrumb "Categorieën", spina.admin_product_categories_path
+            add_breadcrumb Spina::ProductCategory.model_name.human(count: 2), spina.admin_product_categories_path
           end
       end
     end

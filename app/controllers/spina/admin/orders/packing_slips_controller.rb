@@ -20,7 +20,7 @@ module Spina
 
           def render_pdf
             pdf = PackingSlipPdf.new(@order)
-            send_data pdf.render, filename: "pakbon_#{@order.number}.pdf", type: "application/pdf"
+            send_data pdf.render, filename: "ps_#{@order.number}.pdf", type: "application/pdf"
           end
       end
     end

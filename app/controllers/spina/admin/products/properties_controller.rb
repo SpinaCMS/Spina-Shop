@@ -8,7 +8,7 @@ module Spina
         before_action :set_breadcrumbs
 
         def new
-          add_breadcrumb "Nieuwe eigenschap"
+          add_breadcrumb t('spina.shop.properties.new')
         end
 
         def edit
@@ -21,7 +21,7 @@ module Spina
           if @property.save
             redirect_to [:admin, @product_category]
           else
-            add_breadcrumb "Nieuwe eigenschap"
+            add_breadcrumb t('spina.shop.properties.new')
             render :new
           end
         end
@@ -45,7 +45,7 @@ module Spina
         private
 
           def set_breadcrumbs
-            add_breadcrumb "Categorieën", admin_product_categories_path
+            add_breadcrumb Spina::ProductCategory.model_name.human(count: 2), admin_product_categories_path
             add_breadcrumb @product_category.name, admin_product_category_path(@product_category)
           end
 

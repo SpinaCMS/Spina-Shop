@@ -7,14 +7,14 @@ module Spina
       before_action :set_breadcrumbs
 
       def edit
-        add_breadcrumb "Account"
+        add_breadcrumb Spina::CustomerAccount.model_name.human
       end
 
       def update
         if @customer_account.update_attributes(customer_account_params)
           redirect_to [:admin, @customer]
         else
-          add_breadcrumb "Account"
+          add_breadcrumb Spina::CustomerAccount.model_name.human
           render :edit
         end
       end
@@ -26,7 +26,7 @@ module Spina
         end
 
         def set_breadcrumbs
-          add_breadcrumb "Klanten", admin_orders_path
+          add_breadcrumb Spina::Customer.model_name.human(count: 2), admin_orders_path
           add_breadcrumb @customer.name, admin_customer_path(@customer)
         end
     end

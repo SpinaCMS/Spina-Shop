@@ -11,7 +11,7 @@ module Spina
       end
 
       def new
-        add_breadcrumb 'Nieuwe klant'
+        add_breadcrumb t('spina.shop.customers.new')
       end
 
       def create
@@ -28,14 +28,14 @@ module Spina
 
       def edit
         add_breadcrumb @customer.name, admin_customer_path(@customer)
-        add_breadcrumb 'Bewerken'
+        add_breadcrumb t('spina.edit')
       end
 
       def update
         if @customer.update_attributes(customer_params)
           redirect_to [:admin, @customer]
         else
-          add_breadcrumb 'Bewerken'
+          add_breadcrumb t('spina.edit')
           render :edit
         end
       end
@@ -43,11 +43,11 @@ module Spina
       private
 
         def customer_params
-          params.require(:customer).permit(:first_name, :last_name, :email, :phone, addresses_attributes: [:id, :_destroy, :address_1, :postal_code, :city])
+          params.require(:customer).permit(:first_name, :last_name, :email, :phone, addresses_attributes: [:id, :_destroy, :street1, :street2, :postal_code, :city])
         end
 
         def set_breadcrumbs
-          add_breadcrumb "Klanten", admin_customers_path
+          add_breadcrumb Spina::Customer.model_name.human(count: 2), admin_customers_path
         end
     end
   end

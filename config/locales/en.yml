@@ -23,6 +23,7 @@ en:
         order_total: Order total
         order_average: Order average
         no_orders_yet: This customer didn't order anything yet.
+        new: New customer
 
       products:
         title: Catalog
@@ -37,18 +38,28 @@ en:
         adjust_stock: Adjust stock
         save: Save variant
 
+      product_bundles:
+        new: New product bundle
+
+      properties:
+        new: New property
+
       orders:
         title: All orders
         to_process: To process
         failed: Failed
         actions: Actions
         start_order_picking: Start order picking
+        start_order_picking_success: Started picking orders
         ship_order: Ship order
-        ship_order_confirmation: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
+        ship_order_success: Shipped orders
         start_picking_and_ship: Start order picking and ship order
+        start_picking_and_ship_success: Start picking orders and shipping orders
+        ship_order_confirmation: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
         no_orders: No orders
         download_packing_slip: Download packing slip
         download_invoice: Download invoice %{number}
+
 
         states:
           received: Received

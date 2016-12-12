@@ -43,11 +43,11 @@ module Spina
         end
 
         if params[:transition_to] == "order_picking"
-          flash[:success] = "<strong>Pakbonnen</strong> worden nu geprint"
+          flash[:success] = t('spina.shop.orders.start_order_picking_success')
         elsif params[:transition_to] == "shipping"
-          flash[:success] = "<strong>Verzendlabels</strong> worden nu aangemaakt"
+          flash[:success] = t('spina.shop.orders.ship_order_success')
         else
-          flash[:success] = "<strong>Pakbonnen en verzendlabels</strong> worden nu aangemaakt"
+          flash[:success] = t('spina.shop.orders.start_picking_and_ship_success')
         end
         redirect_to :back
       end
@@ -55,7 +55,7 @@ module Spina
       private
 
         def set_breadcrumbs
-          add_breadcrumb "Bestellingen", admin_orders_path
+          add_breadcrumb Spina::Order.model_name.human(count: 2), admin_orders_path
         end
     end
   end

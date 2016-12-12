@@ -1,0 +1,172 @@
+nl:
+  spina:
+    shop:
+      title: Webshop
+      tax_groups: Btw-groepen
+      sales_categories: Omzetcategorieën
+
+      emails:
+        order_confirmation_title: Je bestelling is bevestigd
+        order_shipped_title: Je bestelling is verzonden
+
+      customer_accounts:
+        save: Account opslaan
+        edit: Account bewerken
+        registered: Geregistreerd
+        guest: Gast
+
+      customers:
+        title: Alle klanten
+        save: Klant opslaan
+        edit: Klant bewerken
+        profile: Profiel
+        order_total: Totaal besteld
+        order_average: Gemiddelde bestelling
+        no_orders_yet: Deze klant heeft nog niks besteld.
+        new: Nieuwe klant
+
+      products:
+        title: Catalogus
+        save: Product opslaan
+        new_by_category_title_html: Kies een <strong>categorie</strong>
+        new: Nieuw product
+
+      product_items:
+        new: Nieuwe variant
+        nameless: Naamloos
+        stock_history: Historie
+        adjust_stock: Voorraad aanpassen
+        save: Variant opslaan
+
+      product_bundles:
+        new: Nieuwe productbundel
+
+      properties:
+        new: Nieuwe eigenschap
+
+      orders:
+        title: Alle bestellingen
+        to_process: Te verwerken
+        failed: Mislukt
+        actions: Acties
+        start_order_picking: Pakbon genereren
+        start_order_picking_success: Pakbon wordt gegenereerd
+        ship_order: Bestelling verzenden
+        ship_order_success: Bestellingen verzonden
+        start_picking_and_ship: Pakbon genereren en bestelling verzenden
+        start_picking_and_ship_success: Pakbon gegenereerd en bestelling verzonden
+        ship_order_confirmation: Weet je zeker dat je de bestelling wilt verzenden? De klant krijgt hier automatisch een email van.
+        no_orders: Geen bestellingen
+        download_packing_slip: Download pakbon
+        download_invoice: Download factuur %{number}
+
+
+        states:
+          received: Bestelling
+          paid: Betaald
+          order_picking: Orderpicken
+          shipped: Verzonden
+          delivered: Afgeleverd
+          failed: Mislukt
+          refunded: Teruggegeven
+          cancelled: Geannuleerd
+
+  activerecord:
+    models:
+      spina/order:
+        one: Bestelling
+        other: Bestellingen
+      spina/product: 
+        one: Product
+        other: Producten
+      spina/product_item: 
+        one: Product item
+        other: Product items
+      spina/sales_category: 
+        one: Omzetcategorie
+        other: Omzetcategorieën
+      spina/tax_group: 
+        one: Btw-groep
+        other: Btw-groepen
+      spina/customer_account: 
+        one: Account
+        other: Accounts
+      spina/campaign: 
+        one: Campagne
+        other: Campagnes
+      spina/invoice: 
+        one: Factuur
+        other: Facturen
+      spina/product_category:
+        one: Productcategorie
+        other: Productcategorieën
+      spina/product_bundle:
+        one: Productbundle
+        other: Productbundels
+
+    attributes:
+      spina/order:
+        billing_address: Factuuradres
+        billing_street1: Straat
+        billing_street2: Straat 2
+        billing_city: Plaats
+        billing_name: Naam
+        email: Email
+        phone: Telefoon
+        separate_delivery_address: Ander afleveradres
+        order_number: Ordernummer
+        received_at: Besteldatum
+        shipped_at: Verzonden op
+        delivered_at: Geleverd op
+        total: Totaal
+        ip_address: IP-adres
+        payment_method: Betaalmethode
+        shipping_address: Verzendadres
+        sub_total: Subtotaal
+        delivery_price: Verzendkosten
+
+      spina/product:
+        name: Naam
+        sku: SKU
+        description: Beschrijving
+        seo_title: SEO titel
+        seo_description: SEO omschrijving
+        materialized_path: URL
+
+      spina/product_item:
+        price: Prijs
+        cost_price: Kostprijs
+        sales_category: Omzetcategorie
+        stock_level: Voorraad
+        location: Locatie
+        weight: Gewicht
+        ean: EAN-code
+        must_be_of_age_to_buy: Moet meerderjarig zijn
+        sku: SKU
+        name: Naam
+
+      spina/order_item:
+        price: Prijs
+        total: Totaal
+
+      spina/customer_account:
+        username: Gebruikersnaam
+        password: Wachtwoord
+        password_confirmation: Wachtwoord bevestigen
+
+      spina/customer:
+        first_name: Voornaam
+        last_name: Achternaam
+        name: Naam
+        number: Klantnummer
+        email: Email
+        phone: Telefoon
+        full_name: Volledige naam
+        ip_addresses: IP-adressen
+        created_at: Aangemaakt op
+
+      spina/address:
+        street1: Straat
+        street2: Straat 2
+        postal_code: Postcode
+        city: Plaats

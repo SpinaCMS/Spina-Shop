@@ -7,7 +7,6 @@ module Spina
         load_and_authorize_resource class: "Spina::TaxGroup"
 
         def index
-          add_breadcrumb I18n.t('spina.preferences.tax_groups'), spina.admin_settings_tax_groups_path
         end
 
         def edit
@@ -30,7 +29,7 @@ module Spina
 
           def set_breadcrumbs
             @navigation_preferences_active = true
-            add_breadcrumb I18n.t('spina.preferences.commerce'), spina.admin_settings_tax_groups_path
+            add_breadcrumb Spina::TaxGroup.model_name.human(count: 2), spina.admin_settings_tax_groups_path
           end
       end
     end

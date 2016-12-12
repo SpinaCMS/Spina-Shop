@@ -20,7 +20,7 @@ module Spina
       end
 
       def new
-        add_breadcrumb "Nieuw product", new_admin_product_path
+        add_breadcrumb t('spina.shop.products.new'), new_admin_product_path
 
         @product_category = ProductCategory.where(id: params[:product_category_id]).first
 
@@ -60,7 +60,7 @@ module Spina
         end
 
         def set_breadcrumbs
-          add_breadcrumb "Producten", admin_products_path
+          add_breadcrumb Spina::Product.model_name.human(count: 2), admin_products_path
         end
 
         def set_locale

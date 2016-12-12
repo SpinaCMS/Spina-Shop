@@ -9,7 +9,7 @@ module Spina
         before_action :set_locale
 
         def new
-          add_breadcrumb "Nieuwe variant"
+          add_breadcrumb t('spina.shop.product_items.new')
           @product_category = @product.product_category
         end
 
@@ -41,7 +41,7 @@ module Spina
           end
 
           def set_breadcrumbs
-            add_breadcrumb "Producten", admin_products_path
+            add_breadcrumb Spina::Product.model_name.human(count: 2), admin_products_path
             add_breadcrumb @product.name, admin_product_path(@product)
           end
 

@@ -11,7 +11,7 @@ module Spina
         end
 
         def new
-          add_breadcrumb "Nieuw"
+          add_breadcrumb t('spina.shop.product_bundles.new')
         end
 
         def create
@@ -36,7 +36,7 @@ module Spina
         private
 
           def set_breadcrumbs
-            add_breadcrumb "Productbundels", spina.admin_product_bundles_path
+            add_breadcrumb Spina::ProductBundle.model_name.human(count: 2), spina.admin_product_bundles_path
           end
 
           def product_bundle_params
