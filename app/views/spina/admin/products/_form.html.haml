@@ -11,11 +11,11 @@
       - unless @product.new_record?
         = link_to new_admin_product_product_item_path(@product), class: 'button' do
           = icon('plus')
-          =t 'spina.commerce.product_items.new'
+          =t 'spina.shop.product_items.new'
 
       %button.button.button-primary{type: 'submit'}
         = icon('check')
-        Product opslaan
+        =t 'spina.shop.products.save'
 
   - if @product.errors.any?
     - content_for :notification_alert do
@@ -62,38 +62,16 @@
                       .icon.icon-list-ul
                 %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Product.human_attribute_name(:description)}
                 = f.hidden_field :description, id: 'product_description'
-
-        .well
-          - if @product_category.present?
+        
+        - if @product_category.present?
+          .well
             = f.fields_for :properties do |property_builder|
               - @product_category.product_properties.each do |property|
-                .sidebar-form-group
-                  .sidebar-form-label
-                    = property.label
+                = render partial: 'spina/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
-                  .sidebar-form-control{data: {form: {append: property.append, prepend: property.prepend}}}
-                    - case property.field_type
-                    - when 'select'
-                      = property_builder.select property.name, options_for_select(property.options, (@product.properties[property.name] if @product.properties.present?)), {}, multiple: property.multiple, style: 'width: 100%'
-                    - else
-                      = property_builder.text_field property.name, placeholder: property.label, value: (@product.properties[property.name] if @product.properties.present?)
-
-            - if f.object.product_items.size == 1
-              = f.fields_for :product_items, child_index: 0 do |product_item_builder|
-                = product_item_builder.fields_for :properties do |property_builder|
-                  - @product_category.item_properties.each do |property|
-                    .sidebar-form-group
-                      .sidebar-form-label
-                        = property.label
-
-                      .sidebar-form-control{data: {form: {append: 'cl'}}}
-                        = property_builder.text_field property.name, placeholder: property.label, value: (product_item_builder.object.properties[property.name] if product_item_builder.object.properties.present?)
-
-                .sidebar-form-group
-                  .sidebar-form-label
-                    = Spina::ProductItem.human_attribute_name :must_be_of_age_to_buy
-                  .sidebar-form-control
-                    = product_item_builder.check_box :must_be_of_age_to_buy, data: {switch: true}
+        - if f.object.product_items.size == 1
+          = f.fields_for :product_items, child_index: 0 do |product_item_builder|
+            = render partial: 'spina/admin/products/product_items/properties_form', locals: {f: product_item_builder}
 
         .well
           .sidebar-form-group
@@ -116,14 +94,6 @@
             .sidebar-form-control
               = f.text_field :seo_description, placeholder: Spina::Product.human_attribute_name(:seo_description)
 
-          - unless @product.new_record?
-            .sidebar-form-group
-              .sidebar-form-label
-                = Spina::Product.human_attribute_name :materialized_path
-
-              .sidebar-form-control
-                = f.text_field :materialized_path, disabled: true
-
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images
           = f.fields_for :product_images, f.object.product_images.ordered do |image_builder|
@@ -142,76 +112,21 @@
 
         - if f.object.product_items.size == 1
           = f.fields_for :product_items, child_index: 0 do |product_item_builder|
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :price
-              
-              .form-control{data: {form_prepend: '€'}}
-                .input-group
-                  = product_item_builder.text_field :price, value: number_with_precision(product_item_builder.object.price)
-                  .select-dropdown{style: "min-width: 120px"}
-                    = product_item_builder.select :tax_group_id, options_for_select(Spina::TaxGroup.all.map{|t| [t.name, t.id]}, product_item_builder.object.tax_group_id)
-
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :cost_price
-              
-              .form-control{data: {form_prepend: '€'}}
-                = product_item_builder.text_field :cost_price, value: number_with_precision(product_item_builder.object.cost_price)
-
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :sales_category
-
-              .form-control
-                .select-dropdown{style: 'width: 100%'}
-                  = product_item_builder.select :sales_category_id, options_for_select(Spina::SalesCategory.all.map{|c| [c.name, c.id]}, product_item_builder.object.sales_category_id)
-
-            - unless product_item_builder.object.new_record?
-              .form-group
-                .form-label
-                  %small= link_to 'Historie', admin_product_product_item_stock_level_adjustments_path(@product, product_item_builder.object), class: 'text-muted pull-right', data: {remote: true}
-                  = Spina::ProductItem.human_attribute_name :stock_level
-
-                .form-control
-                  .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
-                    = link_to 'voorraad aanpassen', new_admin_product_product_item_stock_level_adjustment_path(@product, product_item_builder.object), data: {remote: true}
-                  = text_field_tag :stock_level, product_item_builder.object.stock_level, disabled: true
-
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :location
-              
-              .form-control
-                = product_item_builder.text_field :location, placeholder: Spina::ProductItem.human_attribute_name(:location)
-
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :weight
-              
-              .form-control{data: {form_append: 'gram'}}
-                = product_item_builder.text_field :weight, value: number_with_precision(product_item_builder.object.weight, precision: 3, strip_insignificant_zeros: true)
-
-            .form-group
-              .form-label
-                = Spina::ProductItem.human_attribute_name :ean
-
-              .form-control
-                = product_item_builder.text_field :ean, placeholder: Spina::ProductItem.human_attribute_name(:ean)
+            = render partial: 'spina/admin/products/product_items/details_form', locals: {f: product_item_builder}
 
         - else
           %table.table.table-clickable
             %thead
               %tr
-                %th Uitvoering
-                %th Voorraad
+                %th= Spina::ProductItem.model_name.human
+                %th= Spina::ProductItem.human_attribute_name(:stock_level)
                 %th.align-right
-                  Prijs
+                  = Spina::ProductItem.human_attribute_name(:price)
 
             %tbody
               - @product.product_items.each do |product_item|
                 %tr
                   %td
-                    = link_to product_item.name || "Naamloos", spina.edit_admin_product_product_item_path(@product, product_item), class: 'table-link'
+                    = link_to product_item.name.presence || t('spina.shop.product_items.nameless'), spina.edit_admin_product_product_item_path(@product, product_item), class: 'table-link'
                   %td= product_item.stock_level
                   %td.align-right= number_to_currency product_item.price

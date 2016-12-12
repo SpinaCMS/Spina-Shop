@@ -24,6 +24,16 @@ en:
         order_average: Order average
         no_orders_yet: This customer didn't order anything yet.
 
+      products:
+        save: Save product
+
+      product_items:
+        new: New variant
+        nameless: Nameless
+        stock_history: History
+        adjust_stock: Adjust stock
+        save: Save variant
+
       orders:
         title: All orders
         to_process: To process
@@ -112,6 +122,9 @@ en:
         weight: Weight
         ean: EAN-code
         must_be_of_age_to_buy: Must be of age to buy
+        stock_level: Stock level
+        sku: SKU
+        name: Name
 
       spina/order_item:
         price: Price

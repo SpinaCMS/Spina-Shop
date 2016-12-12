@@ -9,7 +9,7 @@
     #header_actions
       %button.button.button-primary{type: 'submit'}
         = icon('check')
-        Variant opslaan
+        =t 'spina.shop.product_items.save'
 
   - Globalize.with_locale(@locale) do
     .sidebar-form
@@ -29,64 +29,7 @@
             .sidebar-form-control
               = f.text_field :sku, placeholder: Spina::ProductItem.human_attribute_name(:sku)
 
-        - if @product_category.present?
-          .well
-            = f.fields_for :properties do |property_builder|
-              - @product_category.item_properties.each do |property|
-                .sidebar-form-group
-                  .sidebar-form-label
-                    = property.name
-
-                  .sidebar-form-control
-                    = property_builder.text_field property.name.downcase.to_sym, placeholder: property.name, value: (@product_item.properties[property.name.downcase.to_s] if @product_item.properties.present?)
+        = render partial: 'properties_form', locals: {f: f}
 
       .sidebar-form-sidebar
-        .sidebar-form-images
-
-        .form-group
-          .form-label
-            = Spina::ProductItem.human_attribute_name :price, value: number_to_currency(@product_item.price)
-            
-          .form-control{data: {form_prepend: '€'}}
-            .input-group
-              = f.text_field :price
-              .select-dropdown{style: "min-width: 120px"}
-                = f.select :tax_group_id, options_for_select(Spina::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
-
-        .form-group
-          .form-label
-            = Spina::ProductItem.human_attribute_name :cost_price
-            
-          .form-control{data: {form_prepend: '€'}}
-            = f.text_field :cost_price
-
-        - unless @product_item.new_record?
-          .form-group
-            .form-label
-              = Spina::ProductItem.human_attribute_name :stock_level
-
-            .form-control
-              .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
-                = link_to 'voorraad aanpassen', new_admin_product_product_item_stock_level_adjustment_path(@product, @product_item), data: {remote: true}
-              = text_field_tag :stock_level, f.object.stock_level, disabled: true
-
-        .form-group
-          .form-label
-            = Spina::ProductItem.human_attribute_name :location
-            
-          .form-control
-            = f.text_field :location
-
-        .form-group
-          .form-label
-            = Spina::ProductItem.human_attribute_name :weight
-            
-          .form-control
-            = f.number_field :weight
-
-        .form-group
-          .form-label
-            = Spina::ProductItem.human_attribute_name :ean
-
-          .form-control
-            = f.text_field :ean, placeholder: Spina::ProductItem.human_attribute_name(:ean)
+        = render partial: 'details_form', locals: {f: f}
