@@ -49,13 +49,13 @@ nl:
         to_process: Te verwerken
         failed: Mislukt
         actions: Acties
-        start_order_picking: Pakbon genereren
-        start_order_picking_success: Pakbon wordt gegenereerd
-        ship_order: Bestelling verzenden
-        ship_order_success: Bestellingen verzonden
-        start_picking_and_ship: Pakbon genereren en bestelling verzenden
-        start_picking_and_ship_success: Pakbon gegenereerd en bestelling verzonden
-        ship_order_confirmation: Weet je zeker dat je de bestelling wilt verzenden? De klant krijgt hier automatisch een email van.
+        start_order_picking_html: Pakbon <strong>genereren</strong>
+        start_order_picking_success_html: Pakbon is <strong>gegenereerd</strong>
+        ship_order_html: Bestelling <strong>verzenden</strong>
+        ship_order_success_html: Bestellingen <strong>verzonden</strong>
+        start_picking_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
+        start_picking_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
+        ship_order_confirmation_html: Weet je zeker dat je de bestelling wilt <strong>verzenden</strong>? De klant krijgt hier <strong>automatisch</strong> een email van.
         no_orders: Geen bestellingen
         download_packing_slip: Download pakbon
         download_invoice: Download factuur %{number}
@@ -75,6 +75,7 @@ nl:
           cancelled: Geannuleerd
           confirming: Afronden
           building: Winkelmand
+          picked_up: Opgehaald
 
   activerecord:
     models:
@@ -132,7 +133,7 @@ nl:
         total: Totaal
         ip_address: IP-adres
         payment_method: Betaalmethode
-        shipping_address: Verzendadres
+        delivery_address: Verzendadres
         sub_total: Subtotaal
         delivery_price: Verzendkosten
         delivery_name: Naam
@@ -142,6 +143,7 @@ nl:
         delivery_house_number_addition: Toevoeging
         delivery_postal_code: Postcode
         delivery_city: Plaats
+        delivery_tracking_ids: Track & trace
 
       spina/product:
         name: Naam

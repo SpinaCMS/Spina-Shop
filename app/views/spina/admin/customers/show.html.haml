@@ -23,7 +23,7 @@
     .information-table
       %table
         %tr
-        %th= Spina::Customer.human_attribute_name(:name)
+          %th= Spina::Customer.human_attribute_name(:name)
           %td= @customer.name
 
         %tr
@@ -39,7 +39,7 @@
           %td= @customer.phone
 
         %tr
-          %th= Spina::CustomerAccount.model_namel.human
+          %th= Spina::CustomerAccount.model_name.human
           %td
             - if @customer.customer_account.present?
               =t 'spina.shop.customer_accounts.registered'
@@ -60,7 +60,7 @@
         %tr
           %th=t 'spina.shop.customers.order_average'
           %td
-            = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0 / @customer.orders.received.count
+            = number_to_currency (@customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0) / @customer.orders.received.count
 
     .information-table
       %table

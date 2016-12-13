@@ -9,7 +9,12 @@ module Spina
       end
 
       def cancel
-        @order.transition_to!(:cancelled, current_user: current_user.name, ip_address: request.remote_ip)
+        @order.transition_to!(:cancelled, user: current_user.name, ip_address: request.remote_ip)
+        redirect_to [:admin, @order]
+      end
+
+      def order_picked_up
+        @order.transition_to!(:picked_up, user: current_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
 
@@ -51,21 +56,21 @@ module Spina
         @orders = Order.where(id: params[:order_ids])
         if params[:transition_to] == "order_picking_and_shipped"
           @orders.each do |order|
-            order.transition_to("order_picking", current_user: current_user.name, ip_address: request.remote_ip)
-            order.transition_to("shipped", current_user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to("order_picking", user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to("shipped", user: current_user.name, ip_address: request.remote_ip)
           end
         else
           @orders.each do |order|
-            order.transition_to(params[:transition_to], current_user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to(params[:transition_to], user: current_user.name, ip_address: request.remote_ip)
           end
         end
 
         if params[:transition_to] == "order_picking"
-          flash[:success] = t('spina.shop.orders.start_order_picking_success')
+          flash[:success] = t('spina.shop.orders.start_order_picking_success_html')
         elsif params[:transition_to] == "shipping"
-          flash[:success] = t('spina.shop.orders.ship_order_success')
+          flash[:success] = t('spina.shop.orders.ship_order_success_html')
         else
-          flash[:success] = t('spina.shop.orders.start_picking_and_ship_success')
+          flash[:success] = t('spina.shop.orders.start_picking_and_ship_success_html')
         end
         redirect_to :back
       end

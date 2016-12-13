@@ -18,10 +18,13 @@
           %li= link_to t('spina.shop.orders.cancel_order_html'), cancel_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
     - if @order.in_state?(:paid)
-      = link_to t('spina.shop.orders.start_order_picking'), admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+      = link_to t('spina.shop.orders.start_order_picking_html'), admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
-    - if @order.in_state?(:order_picking) && @order.requires_shipping?
-      = link_to t('spina.shop.orders.ship_order'), admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation')}
+    - if @order.in_state?(:order_picking)
+      - if @order.requires_shipping?
+        = link_to t('spina.shop.orders.ship_order_html'), admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+      - else
+        = link_to t('spina.shop.orders.order_picked_up'), order_picked_up_admin_order_path(@order), method: :post, class: 'button button-primary'
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
@@ -81,18 +84,19 @@
           = icon("mail")
           .wizard-step-label=t 'spina.shop.orders.states.shipped'
         .wizard-step-connector
+
+      .wizard-step{class: ('done' if @order.delivered_at.present?)}
+        .wizard-step-circle
+          = icon("home")
+          .wizard-step-label=t 'spina.shop.orders.states.delivered'
+        .wizard-step-connector
+
     - else
       .wizard-step{class: ('done' if @order.picked_up_at.present?)}
         .wizard-step-circle
           = icon("shop")
           .wizard-step-label=t 'spina.shop.orders.states.picked_up'
         .wizard-step-connector
-
-    .wizard-step{class: ('done' if @order.delivered_at.present?)}
-      .wizard-step-circle
-        = icon("home")
-        .wizard-step-label=t 'spina.shop.orders.states.delivered'
-      .wizard-step-connector
 
   .divider-container
     %hr.divider/
@@ -186,7 +190,7 @@
     .information-table
       %table
         %tr
-          %th= Spina::Order.human_attribute_name(:shipping_address)
+          %th= Spina::Order.human_attribute_name(:delivery_address)
           %td 
             = @order.delivery_name
             %br/
@@ -194,6 +198,11 @@
             = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
             %br/
             = [@order.delivery_postal_code, @order.delivery_city].join(', ')
+
+        - if @order.delivery_tracking_ids.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:delivery_tracking_ids)
+            %td= @order.delivery_tracking_ids.join("<br />").html_safe
 
         %tr
           %th= Spina::Order.human_attribute_name(:weight)
@@ -252,12 +261,15 @@
             = number_to_currency @order.total
 
 .tab-content#history
-  - @order.order_transitions.each do |transition|
-    .well
-      - if transition.metadata.present?
-        .pull-right
-          = transition.metadata["current_customer"] || transition.metadata["current_user"]
-          %small.text-muted= transition.metadata['ip_address']
+  .table-container
+    %table.table
+      - @order.order_transitions.each do |transition|
+        %tr
+          %th= t("spina.shop.orders.states.#{transition.to_state}")
+          %td=l transition.created_at, format: :long
 
-      %h3= t("spina.shop.orders.states.#{transition.to_state}")
-      %small.text-muted=l transition.created_at, format: :long
+          - if transition.metadata.present?
+            %td.text-right= transition.metadata["user"]
+            %td.text-muted.text-right= transition.metadata['ip_address']
+          - else
+            %td{colspan: 2}

@@ -49,13 +49,13 @@ en:
         to_process: To process
         failed: Failed
         actions: Actions
-        start_order_picking: Start order picking
-        start_order_picking_success: Started picking orders
-        ship_order: Ship order
-        ship_order_success: Shipped orders
-        start_picking_and_ship: Start order picking and ship order
-        start_picking_and_ship_success: Start picking orders and shipping orders
-        ship_order_confirmation: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
+        start_order_picking_html: Start order picking
+        start_order_picking_success_html: Started picking orders
+        ship_order_html: Ship order
+        ship_order_success_html: Shipped orders
+        start_picking_and_ship_html: Start order picking and ship order
+        start_picking_and_ship_success_html: Start picking orders and shipping orders
+        ship_order_confirmation_html: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
         no_orders: No orders
         download_packing_slip: Download packing slip
         download_invoice: Download invoice %{number}
@@ -124,9 +124,10 @@ en:
         total: Total
         ip_address: IP address
         payment_method: Payment method
-        shipping_address: Shipping address
+        delivery_address: Shipping address
         sub_total: Sub total
         delivery_price: Shipping costs
+        delivery_tracking_ids: Delivery tracking IDs
 
       spina/product:
         name: Name

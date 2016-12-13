@@ -12,7 +12,7 @@ module Spina
         end
 
         def create
-          @order.transition_to! :order_picking, current_user: current_user.name, ip_address: request.remote_ip
+          @order.transition_to! :order_picking, user: current_user.name, ip_address: request.remote_ip
           redirect_to [:admin, @order]
         end
 

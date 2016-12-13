@@ -5,6 +5,7 @@ Spina::Engine.routes.draw do
     resources :orders do
       member do
         post :cancel
+        post :order_picked_up
       end
       collection do
         get :to_process

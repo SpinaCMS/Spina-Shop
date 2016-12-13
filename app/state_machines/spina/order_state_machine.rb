@@ -20,7 +20,7 @@ module Spina
     transition from: :paid,           to: [:order_picking, :delivered]
     transition from: :order_picking,  to: [:shipped, :picked_up]
     transition from: :shipped,        to: [:delivered, :refunded]
-    transition from: :picked_up,      to: [:delivered, :refunded]
+    transition from: :picked_up,      to: :refunded
     transition from: :delivered,      to: :refunded
 
     guard_transition(to: :confirming) do |order, transition|
@@ -28,7 +28,7 @@ module Spina
       order.everything_valid?
     end
 
-    after_transition(to: :confirming) do |order, transition|
+    before_transition(to: :confirming) do |order, transition|
       # Generate that number
       order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
 
@@ -46,12 +46,14 @@ module Spina
       Spina::CustomerGenerator.new(order).generate!
     end
 
-    after_transition(to: :cancelled) do |order, transition|
+    before_transition(to: :cancelled) do |order, transition|
       order.update_attributes!(cancelled_at: Time.zone.now)
 
       # Stock weer terugzetten
       order.order_items.each(&:unallocate_allocated_stock)
+    end
 
+    after_transition(to: :cancelled) do |order, transition|
       # Duplicate order voor nieuw winkelmandje
       order.duplicate!
     end
@@ -63,17 +65,19 @@ module Spina
       Spina::OrderMailer.confirmation(order).deliver_later
     end
 
-    after_transition(to: :failed) do |order, transition|
+    before_transition(to: :failed) do |order, transition|
       order.update_attributes!(failed_at: Time.zone.now)
 
       # Stock weer terugzetten
       order.order_items.each(&:unallocate_allocated_stock)
+    end
 
+    after_transition(to: :failed) do |order, transition|
       # Order duplicate
       order.duplicate!
     end
 
-    after_transition(to: :paid) do |order, transition|
+    before_transition(to: :paid) do |order, transition|
       # Update order to paid
       order.update_attributes!(paid_at: Time.zone.now)
 
