@@ -22,9 +22,7 @@ module Spina
     scope :sorted, -> { order(order_number: :desc, id: :desc) }
     scope :received, -> { where.not(received_at: nil) }
     scope :confirmed, -> { where.not(confirming_at: nil) }
-    scope :not_received, -> { where(received_at: nil) }
-    scope :not_cancelled, -> { where(cancelled_at: nil) }
-    scope :building, -> { where(confirming_at: nil) }
+    scope :building, -> { in_state(:building) }
 
     validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
     validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
@@ -37,7 +35,7 @@ module Spina
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
     validate :items_must_be_in_stock, if: -> { validate_stock }
     validate :must_have_at_least_one_item, if: -> { validate_stock }
-    validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building, :confirming) }
+    validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building) }
 
     accepts_nested_attributes_for :order_items
 
@@ -129,6 +127,14 @@ module Spina
         end
         update_attributes!(duplicate: shopping_cart)
       end
+    end
+
+    def everything_valid?
+      self.validate_details = true
+      self.validate_stock = true
+      self.validate_payment = true
+      self.validate_delivery = true
+      valid?
     end
 
     private

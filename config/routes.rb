@@ -3,6 +3,9 @@ Spina::Engine.routes.draw do
   namespace :admin, path: Spina.config.backend_path do
     # Orders
     resources :orders do
+      member do
+        post :cancel
+      end
       collection do
         get :to_process
         get :failed

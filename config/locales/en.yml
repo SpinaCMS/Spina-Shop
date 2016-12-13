@@ -60,6 +60,8 @@ en:
         download_packing_slip: Download packing slip
         download_invoice: Download invoice %{number}
         save: Save order
+        cancel_order_html: <strong>Cancel</strong> order
+        cancel_order_confirmation_html: Are you sure you want to <strong>cancel</strong> this order? <strong>This action is irreversable.</strong>
 
         states:
           received: Received

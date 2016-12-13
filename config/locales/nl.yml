@@ -59,7 +59,9 @@ nl:
         no_orders: Geen bestellingen
         download_packing_slip: Download pakbon
         download_invoice: Download factuur %{number}
-
+        save_order: Bestelling opslaan
+        cancel_order_html: <strong>Cancel</strong> order
+        cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
 
         states:
           received: Bestelling
@@ -70,6 +72,8 @@ nl:
           failed: Mislukt
           refunded: Teruggegeven
           cancelled: Geannuleerd
+          confirming: Afronden
+          building: Winkelmand
 
   activerecord:
     models:
@@ -109,8 +113,14 @@ nl:
         billing_address: Factuuradres
         billing_street1: Straat
         billing_street2: Straat 2
+        billing_house_number: Huisnummer
+        billing_house_number_addition: Toevoeging
+        billing_postal_code: Postcode
         billing_city: Plaats
         billing_name: Naam
+        company: Bedrijf
+        first_name: Voornaam
+        last_name: Achternaam
         email: Email
         phone: Telefoon
         separate_delivery_address: Ander afleveradres
@@ -124,6 +134,13 @@ nl:
         shipping_address: Verzendadres
         sub_total: Subtotaal
         delivery_price: Verzendkosten
+        delivery_name: Naam
+        delivery_street1: Straat
+        delivery_street2: Straat 2
+        delivery_house_number: Huisnummer
+        delivery_house_number_addition: Toevoeging
+        delivery_postal_code: Postcode
+        delivery_city: Plaats
 
       spina/product:
         name: Naam

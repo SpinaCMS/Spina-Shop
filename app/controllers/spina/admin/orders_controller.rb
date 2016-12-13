@@ -8,6 +8,11 @@ module Spina
       def new
       end
 
+      def cancel
+        @order.transition_to!(:cancelled)
+        redirect_to [:admin, @order]
+      end
+
       def index
         @q = Order.ransack(params[:q])
         @orders = @q.result.confirmed.sorted.page(params[:page]).per(25)

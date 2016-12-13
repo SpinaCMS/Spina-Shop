@@ -16,7 +16,7 @@ module Spina
 
     transition from: :building,       to: :confirming
     transition from: :confirming,     to: [:received, :cancelled, :failed]
-    transition from: :received,       to: [:paid]
+    transition from: :received,       to: [:paid, :cancelled, :failed]
     transition from: :paid,           to: [:order_picking, :delivered]
     transition from: :order_picking,  to: [:shipped, :picked_up]
     transition from: :shipped,        to: [:delivered, :refunded]
@@ -25,9 +25,7 @@ module Spina
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right?
-      order.validate_details = true
-      order.validate_stock = true
-      order.valid?
+      order.everything_valid?
     end
 
     after_transition(to: :confirming) do |order, transition|
@@ -39,6 +37,7 @@ module Spina
 
       # Cache prices 
       order.order_items.each(&:cache_pricing!)
+      order.order_items.each(&:cache_metadata!)
 
       # Cache delivery option
       order.cache_delivery_option!

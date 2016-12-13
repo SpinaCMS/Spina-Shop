@@ -8,6 +8,34 @@ module Spina
       received_at.present?
     end
 
+    def failed?
+      failed_at.present?
+    end
+
+    def cancelled?
+      cancelled_at.present?
+    end
+
+    def confirmed?
+      confirming_at.present?
+    end
+
+    def paid?
+      paid_at.present?
+    end
+
+    def order_picked?
+      order_picked_at.present?
+    end
+
+    def shipped?
+      shipped_at.present?
+    end
+
+    def delivered?
+      delivered_at.present?
+    end
+
     def building?
       current_state == 'building'
     end
@@ -15,20 +43,17 @@ module Spina
     def confirming?
       current_state == 'confirming'
     end
-    alias_method :confirmed?, :confirming?
 
     def status_progress
-      if delivered_at.present?
+      if delivered?
         100
-      elsif shipped_at.present?
+      elsif shipped?
         80
-      elsif order_picked_at.present?
+      elsif order_picked?
         60
-      elsif paid_at.present?
+      elsif paid?
         40
-      elsif received_at.present? 
-        20
-      elsif failed_at.present?
+      elsif received?
         20
       else
         0
@@ -38,6 +63,8 @@ module Spina
     def status_css_class
       case current_state
       when 'order_picking'
+        'primary'
+      when 'paid'
         'primary'
       when 'shipped'
         'success'

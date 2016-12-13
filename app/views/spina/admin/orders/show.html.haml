@@ -14,6 +14,9 @@
         - @order.invoices.each do |invoice|
           %li= link_to t('spina.shop.orders.download_invoice', number: invoice.invoice_number), admin_invoice_path(invoice, format: :pdf)
 
+        - if @order.in_state?(:confirming, :received)
+          %li= link_to t('spina.shop.orders.cancel_order_html'), cancel_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+
     - if @order.in_state?(:paid)
       = link_to t('spina.shop.orders.start_order_picking'), admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
@@ -31,27 +34,33 @@
 .tab-content.active#order
 
   .wizard-steps
-    - if @order.cancelled_at.present?
+    - if @order.cancelled?
       .wizard-step.error
         .wizard-step-circle
           .wizard-step-label=t 'spina.shop.orders.states.cancelled'
         .wizard-step-connector
 
-    - else
-      .wizard-step{class: ('done' if @order.received_at.present?)}
-        .wizard-step-circle
-          = icon("shop")
-          .wizard-step-label=t 'spina.shop.orders.states.received'
-        .wizard-step-connector
-
-    - if @order.failed_at.present?
+    - elsif @order.failed?
       .wizard-step.error
         .wizard-step-circle
           .wizard-step-label=t 'spina.shop.orders.states.failed'
         .wizard-step-connector
 
     - else
-      .wizard-step{class: ('done' if @order.paid_at.present?)}
+      .wizard-step{class: ('done' if @order.received?)}
+        .wizard-step-circle
+          = icon("shop")
+          .wizard-step-label=t 'spina.shop.orders.states.received'
+        .wizard-step-connector
+
+    - if @order.received? && @order.failed?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label=t 'spina.shop.orders.states.failed'
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.paid?)}
         .wizard-step-circle
           = icon("mail")
           .wizard-step-label=t 'spina.shop.orders.states.paid'
@@ -134,7 +143,7 @@
           %td
             = @order.billing_name
             %br/
-            = [@order.billing_street1, @order.billing_street2].join('<br />').html_safe
+            = [@order.billing_street1.presence, @order.billing_street2.presence].compact.join('<br />').html_safe
             = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
             %br/
             = [@order.billing_postal_code, @order.billing_city].join(', ')
@@ -178,7 +187,7 @@
           %td 
             = @order.delivery_name
             %br/
-            = [@order.delivery_street1, @order.delivery_street2].join('<br />').html_safe
+            = [@order.delivery_street1.presence, @order.delivery_street2.presence].compact.join('<br />').html_safe
             = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
             %br/
             = [@order.delivery_postal_code, @order.delivery_city].join(', ')
