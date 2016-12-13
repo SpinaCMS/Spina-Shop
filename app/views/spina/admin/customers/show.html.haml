@@ -51,16 +51,17 @@
           %td= @customer.ip_addresses.join("<br />").html_safe
 
     .information-table
-      %table
-        %tr
-          %th=t 'spina.shop.customers.order_total'
-          %td
-            = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total}
+      - if @customer.orders.any?
+        %table
+          %tr
+            %th=t 'spina.shop.customers.order_total'
+            %td
+              = number_to_currency @customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total}
 
-        %tr
-          %th=t 'spina.shop.customers.order_average'
-          %td
-            = number_to_currency (@customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0) / @customer.orders.received.count
+          %tr
+            %th=t 'spina.shop.customers.order_average'
+            %td
+              = number_to_currency (@customer.orders.received.inject(BigDecimal(0)) {|t, o| t + o.total} || 0) / @customer.orders.received.count
 
     .information-table
       %table
@@ -95,4 +96,4 @@
           %tr
             %td{colspan: 7}
               %p.text-center.text-muted
-                %em= 'spina.shop.customers.no_orders_yet'
+                %em=t 'spina.shop.customers.no_orders_yet'

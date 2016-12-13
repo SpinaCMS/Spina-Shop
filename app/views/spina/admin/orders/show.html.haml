@@ -263,6 +263,12 @@
 .tab-content#history
   .table-container
     %table.table
+      %tr
+        %th= t("spina.shop.orders.states.building")
+        %td=l @order.created_at, format: :long
+        %td.text-right= @order.billing_name
+        %td.text-muted.text-right= @order.ip_address
+
       - @order.order_transitions.each do |transition|
         %tr
           %th= t("spina.shop.orders.states.#{transition.to_state}")
