@@ -30,6 +30,9 @@
       %li.active
         = link_to '#order' do
           = Spina::Order.model_name.human
+      %li
+        = link_to '#history' do
+          =t 'spina.shop.orders.history'
 
 .tab-content.active#order
 
@@ -247,3 +250,14 @@
           %td.text-right{colspan: 4}
             %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:total)
             = number_to_currency @order.total
+
+.tab-content#history
+  - @order.order_transitions.each do |transition|
+    .well
+      - if transition.metadata.present?
+        .pull-right
+          = transition.metadata["current_customer"] || transition.metadata["current_user"]
+          %small.text-muted= transition.metadata['ip_address']
+
+      %h3= t("spina.shop.orders.states.#{transition.to_state}")
+      %small.text-muted=l transition.created_at, format: :long

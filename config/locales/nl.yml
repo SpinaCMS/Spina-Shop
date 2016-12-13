@@ -62,6 +62,7 @@ nl:
         save_order: Bestelling opslaan
         cancel_order_html: <strong>Cancel</strong> order
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
+        history: Historie
 
         states:
           received: Bestelling

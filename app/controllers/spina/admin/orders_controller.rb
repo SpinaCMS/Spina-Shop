@@ -9,7 +9,7 @@ module Spina
       end
 
       def cancel
-        @order.transition_to!(:cancelled)
+        @order.transition_to!(:cancelled, current_user: current_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
 
@@ -51,12 +51,12 @@ module Spina
         @orders = Order.where(id: params[:order_ids])
         if params[:transition_to] == "order_picking_and_shipped"
           @orders.each do |order|
-            order.transition_to("order_picking")
-            order.transition_to("shipped")
+            order.transition_to("order_picking", current_user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to("shipped", current_user: current_user.name, ip_address: request.remote_ip)
           end
         else
           @orders.each do |order|
-            order.transition_to(params[:transition_to])
+            order.transition_to(params[:transition_to], current_user: current_user.name, ip_address: request.remote_ip)
           end
         end
 
