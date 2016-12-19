@@ -22,7 +22,7 @@ module Spina
       private
 
         def customer_account_params
-          params.require(:customer_account).permit(:username, :password, :password_confirmation)
+          params.require(:customer_account).permit(:email, :password, :password_confirmation)
         end
 
         def set_breadcrumbs

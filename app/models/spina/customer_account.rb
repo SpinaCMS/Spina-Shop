@@ -4,7 +4,9 @@ module Spina
     
     belongs_to :customer
 
-    validates :username, presence: true, uniqueness: true
+    validates :email, presence: true, uniqueness: true
     validates :password, length: {minimum: 6, maximum: 40}, on: [:create, :update]
+
+    accepts_nested_attributes_for :customer
   end
 end

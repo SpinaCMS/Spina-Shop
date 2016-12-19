@@ -22,7 +22,7 @@ module Spina
     def generate_with_account!
       generate!
       customer_account = @order.customer.create_customer_account(
-        username: @order.email,
+        email: @order.email,
         password: @order.password
       )
     end

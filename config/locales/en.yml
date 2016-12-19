@@ -155,7 +155,7 @@ en:
         total: Total
 
       spina/customer_account:
-        username: Username
+        email: Email
         password: Password
         password_confirmation: Password confirmation
 
@@ -169,6 +169,7 @@ en:
         full_name: Full name
         ip_addresses: IP addresses
         created_at: Created at
+        country: Country
 
       spina/address:
         street1: Street

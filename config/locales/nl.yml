@@ -170,7 +170,7 @@ nl:
         total: Totaal
 
       spina/customer_account:
-        username: Gebruikersnaam
+        email: Email
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
 
@@ -184,6 +184,7 @@ nl:
         full_name: Volledige naam
         ip_addresses: IP-adressen
         created_at: Aangemaakt op
+        country: Land
 
       spina/address:
         street1: Straat

@@ -12,10 +12,10 @@
       .well
         .sidebar-form-group
           .sidebar-form-label
-            = Spina::CustomerAccount.human_attribute_name :username
+            = Spina::CustomerAccount.human_attribute_name :email
 
           .sidebar-form-control
-            = f.text_field :username, placeholder: Spina::Customer.human_attribute_name(:username)
+            = f.text_field :email, placeholder: Spina::Customer.human_attribute_name(:email)
 
         .sidebar-form-group
           .sidebar-form-label
