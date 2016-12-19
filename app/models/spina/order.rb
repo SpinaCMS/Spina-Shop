@@ -27,7 +27,7 @@ module Spina
     validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
     validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :password, confirmation: true
-    validates :password, length: {minimum: 6}, allow_blank: true
+    validates :password, length: {minimum: 6, maximum: 40}, allow_blank: true
     validates :delivery_option, presence: true, if: -> { validate_delivery }
     validates :payment_method, presence: true, if: -> { validate_payment }
     validates :email, email: true, if: -> { validate_details }
