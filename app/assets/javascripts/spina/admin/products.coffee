@@ -1,5 +1,4 @@
 ready = ->
-
   el = document.getElementById('productImageUploader')
   if el
     sortable = Sortable.create el, {

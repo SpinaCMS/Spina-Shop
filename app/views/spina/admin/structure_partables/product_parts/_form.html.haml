@@ -1,0 +1,6 @@
+.horizontal-form-label
+  = f.object.title
+.horizontal-form-content
+  = f.fields_for :structure_partable, f.object.structure_partable do |ff|
+    .select-dropdown{style: 'width: 100%'}
+      = ff.select :product_id, Spina::Product.all.pluck(:name, :id), include_blank: "Kies een product"
