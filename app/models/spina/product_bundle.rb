@@ -1,5 +1,7 @@
 module Spina
   class ProductBundle < ApplicationRecord
+    include Reviewable
+
     belongs_to :tax_group
     belongs_to :sales_category
 
@@ -12,10 +14,6 @@ module Spina
 
     accepts_nested_attributes_for :bundled_product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
-
-    def description
-      name
-    end
 
     def original_price
       bundled_product_items.inject(BigDecimal(0)){|t, i| t + i.product_item.price * i.quantity}

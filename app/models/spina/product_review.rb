@@ -1,6 +1,6 @@
 module Spina
   class ProductReview < ApplicationRecord
-    belongs_to :product
+    belongs_to :reviewable, polymorphic: true
     belongs_to :customer
 
     before_save :calculate_average_score
