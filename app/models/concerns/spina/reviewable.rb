@@ -9,7 +9,7 @@ module Spina
     end
 
     def average_review_score
-      product_reviews.average(:average_score).try(:round, 1)
+      product_reviews.average(:score).try(:round, 1)
     end
   end
 end

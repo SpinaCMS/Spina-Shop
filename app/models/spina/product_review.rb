@@ -1,14 +1,11 @@
 module Spina
   class ProductReview < ApplicationRecord
     belongs_to :reviewable, polymorphic: true
-    belongs_to :customer
+    belongs_to :customer, optional: true
 
-    before_save :calculate_average_score
+    scope :sorted, -> { order(created_at: :desc) }
 
-    private
-
-      def calculate_average_score
-        self.average_score = scores.map{|key, value| [value]}.flatten.reduce(:+) / scores.size.to_f
-      end
+    validates :author, :review_summary, :review, :email, :score, presence: true
+    validates :email, email: true, uniqueness: {scope: [:reviewable_id, :reviewable_type, :customer_id]}
   end
 end
