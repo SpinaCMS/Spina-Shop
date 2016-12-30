@@ -1,0 +1,22 @@
+%tr
+  %td
+    .form-checkbox{style: 'width: 20px'}
+      = check_box_tag 'product_review_ids[]', product_review.id
+      %label
+  %td
+    = product_review.author
+    %small= product_review.email
+  %td
+    %strong= product_review.review_summary
+    %br/
+    = product_review.review
+  %td.text-right
+    .progress{style: 'width: 120px'}
+      .progress-bar
+        - 10.times do
+          .progress-bar-divider
+
+        .progress-bar-inner{style: "width: #{product_review.score * 10}%"}
+
+      .progress-label
+        = product_review.score

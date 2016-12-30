@@ -39,6 +39,13 @@ Spina::Engine.routes.draw do
       resources :product_bundles
     end
 
+    # Product reviews
+    resources :product_reviews do
+      collection do
+        delete :delete_multiple
+      end
+    end
+
     # Customers
     resources :customers do
       resource :customer_account

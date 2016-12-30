@@ -106,6 +106,9 @@ en:
       spina/product_bundle:
         one: Product bundle
         other: Product bundles
+      spina/product_review:
+        one: Product review
+        other: Product reviews
 
     attributes:
       spina/order:

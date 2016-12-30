@@ -4,6 +4,7 @@ nl:
       title: Webshop
       tax_groups: Btw-groepen
       sales_categories: Omzetcategorieën
+      delete_selected: Verwijder geselecteerde regels
 
       emails:
         order_confirmation_title: Je bestelling is bevestigd
@@ -43,6 +44,9 @@ nl:
 
       properties:
         new: Nieuwe eigenschap
+
+      product_reviews:
+        no_reviews: Er zijn nog geen beoordelingen gegeven
 
       orders:
         title: Alle bestellingen
@@ -109,6 +113,9 @@ nl:
       spina/product_bundle:
         one: Productbundle
         other: Productbundels
+      spina/product_review:
+        one: Beoordeling
+        other: Beoordelingen
 
     attributes:
       spina/order:

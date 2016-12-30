@@ -1,4 +1,4 @@
-%li{class: ('active' if controller_name.in? %w(products customers campaigns orders product_items product_categories properties customer_accounts product_bundles))}
+%li{class: ('active' if controller_name.in? %w(products customers campaigns orders product_items product_categories properties customer_accounts product_bundles product_reviews))}
   = link_to spina.admin_orders_path do
     = icon('shop')
     =t 'spina.shop.title'
@@ -9,6 +9,8 @@
       = link_to Spina::Order.model_name.human(count: 2), spina.admin_orders_path
     %li{class: ('active' if controller_name.in? %w(products product_categories product_items properties product_bundles))}
       = link_to Spina::Product.model_name.human(count: 2), spina.admin_products_path
+    %li{class: ('active' if controller_name == 'product_reviews')}
+      = link_to Spina::ProductReview.model_name.human(count: 2), spina.admin_product_reviews_path
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts))}
       = link_to Spina::Customer.model_name.human(count: 2), spina.admin_customers_path 
     %li{class: ('active' if controller_name == 'campaigns')}

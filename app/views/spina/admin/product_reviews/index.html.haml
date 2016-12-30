@@ -1,0 +1,29 @@
+= form_tag delete_multiple_admin_product_reviews_path, method: :delete do
+  %header#header
+    #header_actions
+      = button_tag type: :submit, class: 'button button-link' do
+        = icon('trash')
+        = t('spina.shop.delete_selected')
+
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  .table-container.infinite-table
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th
+          %th.nowrap= Spina::ProductReview.human_attribute_name(:author)
+          %th.nowrap= Spina::ProductReview.human_attribute_name(:review)
+          %th.nowrap.text-right= Spina::ProductReview.human_attribute_name(:score)
+
+      %tbody
+        - if @product_reviews.any?
+          = render partial: 'product_review', collection: @product_reviews
+        - else
+          %tr
+            %td{colspan: 4}
+              %p.text-center
+                %em.text-muted= 'spina.shop.product_reviews.no_reviews'
+
+    .pagination= link_to_next_page @product_reviews, "Next"
