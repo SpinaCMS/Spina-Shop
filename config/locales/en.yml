@@ -4,6 +4,7 @@ en:
       title: Webshop
       tax_groups: Tax groups
       sales_categories: Sales categories
+      delete_selected: Delete selected lines
 
       emails:
         order_confirmation_title: Your order was confirmed
