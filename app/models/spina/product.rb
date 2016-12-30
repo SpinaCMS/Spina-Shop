@@ -1,12 +1,13 @@
 module Spina
   class Product < ApplicationRecord
-    include Reviewable
-
     belongs_to :product_category
 
     has_many :product_items, dependent: :restrict_with_exception # Don't destroy product if it has items
 
     has_many :product_images, dependent: :destroy
+
+    # Reviews
+    has_many :product_reviews, dependent: :destroy
 
     # Related products
     has_many :product_relations, dependent: :destroy
@@ -32,6 +33,10 @@ module Spina
     scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(spina_products.properties->>'#{key}', ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
     scope :items_where_in_range, -> (key, min, max) { joins(:product_items).where("CAST(coalesce(NULLIF(spina_product_items.properties->>'#{key}', ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
+
+    def average_review_score
+      product_reviews.average(:score).try(:round, 1)
+    end
 
     # Products filtered by filters
     def self.filtered(filters)

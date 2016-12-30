@@ -1,7 +1,5 @@
 module Spina
   class ProductBundle < ApplicationRecord
-    include Reviewable
-
     belongs_to :tax_group
     belongs_to :sales_category
 
