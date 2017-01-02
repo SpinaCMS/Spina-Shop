@@ -34,6 +34,10 @@ module Spina
 
     scope :items_where_in_range, -> (key, min, max) { joins(:product_items).where("CAST(coalesce(NULLIF(spina_product_items.properties->>'#{key}', ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
+    def to_s
+      name
+    end
+
     def average_review_score
       product_reviews.average(:score).try(:round, 1)
     end
