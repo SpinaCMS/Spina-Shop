@@ -11,6 +11,9 @@ module Spina
     has_many :bundled_product_items, dependent: :destroy
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
 
+    # Cache product averages
+    after_save :cache_product_averages
+
     validates :tax_group, :price, presence: true
 
     def description
@@ -28,5 +31,11 @@ module Spina
     def weight
       read_attribute(:weight) || BigDecimal(0)
     end
+
+    private
+
+      def cache_product_averages
+        product.save
+      end
   end
 end

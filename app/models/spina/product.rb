@@ -13,6 +13,9 @@ module Spina
     has_many :product_relations, dependent: :destroy
     has_many :related_products, through: :product_relations
 
+    # Cache averages for quick ordering
+    before_save :cache_averages
+
     accepts_nested_attributes_for :product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
@@ -36,10 +39,6 @@ module Spina
 
     def to_s
       name
-    end
-
-    def average_review_score
-      product_reviews.average(:score).try(:round, 1)
     end
 
     # Products filtered by filters
@@ -66,5 +65,13 @@ module Spina
 
       return products
     end
+
+    private
+
+      def cache_averages
+        write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
+        write_attribute :sales_count, product_items.joins(:stock_level_adjustments).where('adjustment < ?', 0).sum(:adjustment) * -1
+        write_attribute :lowest_price, product_items.minimum(:price)
+      end
   end
 end
