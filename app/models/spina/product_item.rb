@@ -34,7 +34,8 @@ module Spina
       def earliest_expiration_date
         offset = 0
         sum = 0
-        while sum < stock_level do
+        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+        while sum < stock_level || adjustment == stock_level_adjustments.ordered.additions.last do
           adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
           offset = offset.next
           sum = sum + adjustment.try(:adjustment).to_i
