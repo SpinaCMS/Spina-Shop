@@ -27,7 +27,8 @@
         %th= sort_link @q, :product_items_sku, Spina::ProductItem.human_attribute_name(:sku), {}, class: 'table-sort'
         %th= sort_link @q, :translations_name, Spina::ProductItem.human_attribute_name(:name), {}, class: 'table-sort'
         %th{style: 'text-align: right'}= sort_link @q, :product_items_price, Spina::ProductItem.human_attribute_name(:price), {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= Spina::ProductItem.human_attribute_name(:stock_level)
+        %th{style: 'text-align: right'}= sort_link @q, :product_items_stock_level, Spina::ProductItem.human_attribute_name(:stock_level), {}, class: 'table-sort'
+        %th.align-right= sort_link @q, :product_items_expiration_date, Spina::ProductItem.human_attribute_name(:expiration_date), {}, class: 'table-sort'
 
     %tbody
       = render partial: "product", collection: @products.to_a.uniq

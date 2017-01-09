@@ -10,3 +10,5 @@
       = number_to_currency product_item.price
     %td.align-right
       = product_item.stock_level
+    %td.align-right
+      =l product_item.expiration_date, format: '%B \'%y' if product_item.can_expire? && product_item.expiration_date.present?

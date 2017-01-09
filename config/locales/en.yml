@@ -153,6 +153,8 @@ en:
         stock_level: Stock level
         sku: SKU
         name: Name
+        can_expire: Has an expiration date
+        expiration_date: Expiration date
 
       spina/order_item:
         price: Price

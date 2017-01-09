@@ -7,18 +7,24 @@
   %section{style: 'padding-top: 0; padding-bottom: 0'}
     .table-container
       %table.table{style: 'margin: 0'}
+        %thead
+          %tr
+            %th Adjustment
+            %th Note
+            %th Added on
+            %th.text-right Expiration date
+
         - @stock_level_adjustments.order(created_at: :desc).each do |adjustment|
           %tr
-            %td.text-right
+            %td
               - if adjustment.adjustment > 0
                 .text-success= adjustment.adjustment
               - else
                 .text-danger= adjustment.adjustment
 
             %td= adjustment.description
-            %td.text-right=l adjustment.created_at, format: "%d-%m-%Y"
-            %td.text-right=l adjustment.created_at, format: "%H:%M"
-            %td= adjustment.actor
+            %td=l adjustment.created_at, format: "%d-%m-%Y"
+            %td.text-muted.text-right= adjustment.expiration_date if adjustment.adjustment > 0
   
   %footer
     = link_to 'Sluiten', '#', data: {dismiss: 'modal'}, style: 'width: 100%'

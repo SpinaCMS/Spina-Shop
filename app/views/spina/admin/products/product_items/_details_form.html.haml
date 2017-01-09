@@ -23,6 +23,14 @@
     .select-dropdown{style: 'width: 100%'}
       = f.select :sales_category_id, options_for_select(Spina::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id)
 
+.form-group
+  .form-label
+    .pull-right.text-muted{style: 'font-weight: 400'}=l(f.object.expiration_date, format: '%B \'%y') if f.object.expiration_date
+    = Spina::ProductItem.human_attribute_name :can_expire
+
+  .form-control
+    = f.check_box :can_expire, data: {switch: true}
+
 - unless f.object.new_record?
   .form-group
     .form-label

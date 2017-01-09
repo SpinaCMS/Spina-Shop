@@ -12,16 +12,13 @@ module Spina
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
 
     # Cache product averages
+    before_save :cache_averages
     after_save :cache_product_averages
 
     validates :tax_group, :price, presence: true
 
     def description
       [product.name, name].compact.join(', ')
-    end
-
-    def stock_level
-      stock_level_adjustments.sum(:adjustment)
     end
 
     def product_images
@@ -33,6 +30,27 @@ module Spina
     end
 
     private
+
+      def earliest_expiration_date
+        offset = 0
+        sum = 0
+        begin
+          adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+          offset = offset.next
+          sum = sum + adjustment.adjustment
+        end while sum < stock_level
+
+        if adjustment.expiration_year.present?
+          Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
+        else
+          nil
+        end
+      end
+
+      def cache_averages
+        write_attribute :stock_level, stock_level_adjustments.sum(:adjustment)
+        write_attribute :expiration_date, can_expire? ? earliest_expiration_date : nil
+      end
 
       def cache_product_averages
         product.save

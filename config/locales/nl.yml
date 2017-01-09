@@ -171,6 +171,8 @@ nl:
         must_be_of_age_to_buy: Alleen voor 18+
         sku: SKU
         name: Naam
+        can_expire: Heeft een verloopdatum
+        expiration_date: Verloopdatum
 
       spina/order_item:
         price: Prijs
