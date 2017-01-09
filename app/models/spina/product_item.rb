@@ -34,13 +34,13 @@ module Spina
       def earliest_expiration_date
         offset = 0
         sum = 0
-        begin
+        while sum < stock_level do
           adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
           offset = offset.next
-          sum = sum + adjustment.adjustment
-        end while sum < stock_level
+          sum = sum + adjustment.try(:adjustment).to_i
+        end 
 
-        if adjustment.expiration_year.present?
+        if adjustment.try(:expiration_year).present?
           Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
         else
           nil
