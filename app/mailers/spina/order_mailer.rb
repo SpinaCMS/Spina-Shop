@@ -1,6 +1,6 @@
 module Spina
   class OrderMailer < ActionMailer::Base
-    layout 'default/mail'
+    layout 'spina/mail'
 
     def confirmation(order)
       @order = order
@@ -8,7 +8,7 @@ module Spina
       mail(
         to: order.email, 
         from: current_account.email, 
-        subject: t('spina.shop.orders.confirmation.title')
+        subject: t('spina.shop.emails.order_confirmation_title')
       )
     end
 
@@ -18,7 +18,7 @@ module Spina
       mail(
         to: order.email,
         from: current_account.email,
-        subject: t('spina.shop.orders.shipped.title')
+        subject: t('spina.shop.emails.order_shipped_title')
       )
     end
 
