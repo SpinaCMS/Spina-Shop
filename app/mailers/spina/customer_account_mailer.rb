@@ -8,7 +8,7 @@ module Spina
       mail(
         to: @customer_account.email, 
         from: current_account.email, 
-        subject: t('spina.shop.customer_accounts.forgot_password.title')
+        subject: t('spina.shop.emails.forgot_password_title')
       )
     end
 

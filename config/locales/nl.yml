@@ -9,12 +9,15 @@ nl:
       emails:
         order_confirmation_title: Je bestelling is bevestigd
         order_shipped_title: Je bestelling is verzonden
+        forgot_password_title: Te diep in het glaasje gekeken?
 
       customer_accounts:
         save: Account opslaan
         edit: Account bewerken
         registered: Geregistreerd
         guest: Gast
+        forgot_password:
+          title: 
 
       customers:
         title: Alle klanten
