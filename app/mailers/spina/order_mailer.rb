@@ -1,5 +1,6 @@
 module Spina
   class OrderMailer < ActionMailer::Base
+    layout 'default/mail'
 
     def confirmation(order)
       @order = order

@@ -1,5 +1,6 @@
 module Spina
   class CustomerAccountMailer < ActionMailer::Base
+    layout 'spina/mail'
 
     def forgot_password(customer_account)
       @customer_account = customer_account
