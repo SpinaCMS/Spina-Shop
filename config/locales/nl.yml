@@ -10,6 +10,7 @@ nl:
         order_confirmation_title: Je bestelling is bevestigd
         order_shipped_title: Je bestelling is verzonden
         forgot_password_title: Te diep in het glaasje gekeken?
+        welcome_email_title: Welkom bij de club
 
       customer_accounts:
         save: Account opslaan
