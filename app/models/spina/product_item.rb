@@ -1,6 +1,6 @@
 module Spina
   class ProductItem < ApplicationRecord
-    belongs_to :product
+    belongs_to :product, inverse_of: :product_items
     belongs_to :tax_group
     belongs_to :sales_category
 
@@ -35,7 +35,7 @@ module Spina
         offset = 0
         sum = 0
         adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-        while sum < stock_level || adjustment == stock_level_adjustments.ordered.additions.last do
+        while sum < stock_level || (adjustment && adjustment == stock_level_adjustments.ordered.additions.last) do
           adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
           offset = offset.next
           sum = sum + adjustment.try(:adjustment).to_i

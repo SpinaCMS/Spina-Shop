@@ -15,7 +15,7 @@ module Spina
 
       def codes_by_country(country)
         code = country.eu_member? ? codes['EU'] : codes['default']
-        codes[country.iso_3166] || code || codes['default']
+        codes[country.code2] || code || codes['default']
       end
 
       def default_sales_category_code

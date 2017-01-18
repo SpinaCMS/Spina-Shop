@@ -2,7 +2,7 @@ module Spina
   class Product < ApplicationRecord
     belongs_to :product_category
 
-    has_many :product_items, dependent: :restrict_with_exception # Don't destroy product if it has items
+    has_many :product_items, inverse_of: :product, dependent: :restrict_with_exception # Don't destroy product if it has items
 
     has_many :product_images, dependent: :destroy
 

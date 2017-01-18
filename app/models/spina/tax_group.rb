@@ -18,7 +18,7 @@ module Spina
 
       def rates_by_country(country)
         rates = country.eu_member? ? tax_rates['EU'] : tax_rates['default']
-        tax_rates[country.iso_3166] || rates || tax_rates['default']
+        tax_rates[country.code2] || rates || tax_rates['default']
       end
 
   end

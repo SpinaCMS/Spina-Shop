@@ -18,14 +18,17 @@
         =t 'spina.shop.products.save'
 
   - if @product.errors.any?
-    - content_for :notification_alert do
-      .notification.notification-error{data: {icon: 'm'}}
-        %p 
+    - content_for :notifications do
+      .notification.notification-danger.animated.fadeInRight
+        = icon('exclamation')
+        .notification-message
           = Spina::Product.human_attribute_name :cannot_be_created
           %small
-            - @product.errors.full_messages.each do |msg|
-              = msg
+            - @product.errors.full_messages.each do |message|
+              = message
               %br/
+        = link_to '#', data: {close_notification: true} do
+          = icon('cross')
 
   - Globalize.with_locale(@locale) do
     .sidebar-form

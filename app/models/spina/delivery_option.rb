@@ -9,9 +9,9 @@ module Spina
       order.sub_total_including_tax >= BigDecimal(50) ? BigDecimal(0) : price
     end
 
-    # Set this yourself
-    def soonest_delivery_date
-      today = Date.today
+    # You probably want to override this method to return a realistic date
+    def soonest_delivery_date_for_order(order)
+      Date.today
     end
   end
 end
