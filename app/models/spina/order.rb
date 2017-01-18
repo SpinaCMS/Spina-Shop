@@ -58,6 +58,10 @@ module Spina
       DeliveryOption.all
     end
 
+    def soonest_delivery_date
+      delivery_option.try(:soonest_delivery_date_for_order, self)
+    end
+
     def empty?
       order_items.none?
     end
