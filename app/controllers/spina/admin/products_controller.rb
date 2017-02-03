@@ -7,8 +7,22 @@ module Spina
       load_and_authorize_resource class: "Spina::Product"
 
       def index
-        @q = Spina::Product.order(created_at: :desc).ransack(params[:q])
+        @q = Spina::Product.order(:name).ransack(params[:q])
         @products = @q.result.includes(:translations).page(params[:page]).per(25)
+
+        respond_to do |format|
+          format.html
+          format.js
+          format.json do
+            results = @products.joins(:product_images).map do |product|
+              { id: product.id, 
+                name: product.name, 
+                image_url: view_context.attachment_url(product.product_images.first, :file, :fit, 30, 30), 
+                price: view_context.number_to_currency(product.lowest_price) }
+            end
+            render inline: {results: results, total_count: @q.result.count}.to_json
+          end
+        end
       end
 
       def show
