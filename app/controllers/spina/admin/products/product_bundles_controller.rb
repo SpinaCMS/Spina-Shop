@@ -33,6 +33,11 @@ module Spina
           end
         end
 
+        def destroy
+          @product_bundle.destroy
+          redirect_to admin_product_bundles_path
+        end
+
         private
 
           def set_breadcrumbs

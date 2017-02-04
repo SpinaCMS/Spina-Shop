@@ -49,11 +49,3 @@ selectProducts = (element) ->
         product.name || product.text
       minimumInputLength: 1
     )
-
-    # Prefill with value if available
-    selected = $select.attr('data-value')
-    label = $select.attr('data-label')
-
-    if selected and label
-      $option = $("<option selected>#{label}</option>").val(selected);
-    $select.append($option).trigger('change')
