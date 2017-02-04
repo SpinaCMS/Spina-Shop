@@ -8,10 +8,23 @@ ready = ->
     }
 
   $('select.select2').select2({tags: true})
-  $('select.select-products').each ->
+  $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
+
+  selectProducts($(document))
+
+$(document).on 'turbolinks:load', ready
+
+$(document).on 'click', '.sidebar-form-image a', (e) ->
+  $checkbox = $(this).parents('.sidebar-form-image').find('input[type="checkbox"]')
+  $checkbox.prop("checked", !$checkbox.prop("checked"))
+  e.preventDefault()
+
+$(document).on 'spina:structure_added', 'form', (e) ->
+  selectProducts($(this))
+
+selectProducts = (element) ->
+  element.find('select.select-products').each ->
     $select = $(this)
-    selected = $select.attr('data-value')
-    label = $select.attr('data-label')
     $select.select2(
       ajax:
         url: '/admin/products'
@@ -36,14 +49,11 @@ ready = ->
         product.name || product.text
       minimumInputLength: 1
     )
-    $option = $("<option selected>#{label}</option>").val(selected);
+
+    # Prefill with value if available
+    selected = $select.attr('data-value')
+    label = $select.attr('data-label')
+
+    if selected and label
+      $option = $("<option selected>#{label}</option>").val(selected);
     $select.append($option).trigger('change')
-
-  $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
-
-$(document).on 'turbolinks:load', ready
-
-$(document).on 'click', '.sidebar-form-image a', (e) ->
-  $checkbox = $(this).parents('.sidebar-form-image').find('input[type="checkbox"]')
-  $checkbox.prop("checked", !$checkbox.prop("checked"))
-  e.preventDefault()
