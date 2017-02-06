@@ -14,6 +14,7 @@ module Spina
           date_of_birth: @order.date_of_birth,
           country: @order.billing_country
         )
+        CustomerAccountMailer.welcome_email(@customer_account).deliver_later
         @order.customer = customer
         @order.save!
       end

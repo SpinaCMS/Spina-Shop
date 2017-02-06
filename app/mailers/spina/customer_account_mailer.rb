@@ -12,6 +12,16 @@ module Spina
       )
     end
 
+    def welcome_email(customer_account)
+      @customer_account = customer_account
+
+      mail(
+        to: customer_account.email, 
+        from: current_account.email,
+        subject: t('spina.shop.emails.welcome_email_title')
+      )
+    end
+
     private
 
       def current_account
