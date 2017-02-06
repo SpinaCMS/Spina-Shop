@@ -31,6 +31,7 @@ en:
         save: Save product
         new_by_category_title_html: Choose a <strong>category</strong>
         new: New product
+        select_blank: Choose a product
 
       product_items:
         new: New variant

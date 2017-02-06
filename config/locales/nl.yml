@@ -35,6 +35,7 @@ nl:
         save: Product opslaan
         new_by_category_title_html: Kies een <strong>categorie</strong>
         new: Nieuw product
+        select_blank: Kies een product
 
       product_items:
         new: Nieuwe variant
