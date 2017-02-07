@@ -31,7 +31,7 @@ selectProducts = (element) ->
         delay: 250
         dataType: 'json'
         data: (params) ->
-          q: {product_items_sku_or_name_cont: params.term}, page: params.page
+          q: {name_start: params.term}, page: params.page
         minimumInputLength: 1
         processResults: (data, params) ->
           params.page = params.page or 1
