@@ -40,7 +40,7 @@ module Spina
       order.order_items.each(&:cache_metadata!)
 
       # Cache delivery option
-      order.cache_delivery_option!
+      order.cache_delivery_option! if order.delivery_option.present?
 
       # Create customer if necessary
       Spina::CustomerGenerator.new(order).generate!
@@ -61,8 +61,6 @@ module Spina
     after_transition(to: :received) do |order, transition|
       # Send mail and shit
       order.update_attributes!(received_at: Time.zone.now)
-
-      Spina::OrderMailer.confirmation(order).deliver_later
     end
 
     before_transition(to: :failed) do |order, transition|

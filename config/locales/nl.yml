@@ -121,6 +121,9 @@ nl:
       spina/product_review:
         one: Beoordeling
         other: Beoordelingen
+      spina/customer:
+        one: Klant
+        other: Klanten
 
     attributes:
       spina/order:
