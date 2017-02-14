@@ -7,7 +7,7 @@ ready = ->
           $(el).find(".sidebar-form-image[data-id='#{id}'] .product-image-position").val(index)
     }
 
-  $('select.select2').select2({tags: true})
+  $('select.select2').select2()
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
 
   selectProducts($(document))
