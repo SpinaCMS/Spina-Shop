@@ -9,6 +9,7 @@ module Spina
     validates :adjustment, presence: true
 
     after_save :cache_product_item
+    after_destroy :cache_product_item
 
     def expiration_date
       "#{expiration_month || '–'}/#{expiration_year.to_s.last(2).presence || '–'}"
