@@ -2,8 +2,8 @@ module Spina
   module Shop
     module ViewHelpers
 
-      def products_for_select
-        @products ||= Spina::Product.all.pluck(:name, :id)          
+      def to_process_order_count
+        @to_process_order_count ||= Spina::Order.in_state(:paid, :order_picking).count
       end
 
     end

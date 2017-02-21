@@ -5,7 +5,7 @@
     = icon('caret-right')
 
   %ul
-    %li{class: ('active' if controller_name == 'orders')}
+    %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
       = link_to Spina::Order.model_name.human(count: 2), spina.admin_orders_path
     %li{class: ('active' if controller_name.in? %w(products product_categories product_items properties product_bundles))}
       = link_to Spina::Product.model_name.human(count: 2), spina.admin_products_path
