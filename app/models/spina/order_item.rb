@@ -34,7 +34,7 @@ module Spina
 
     # Discount as percentage
     def discount
-      read_attribute(:discount) || order.discount_for_order || BigDecimal(0)
+      read_attribute(:discount) || BigDecimal(0)
     end
 
     def weight
