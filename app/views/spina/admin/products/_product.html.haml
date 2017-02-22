@@ -1,7 +1,7 @@
 - product.product_items.each_with_index do |product_item, index|
   %tr
     %td
-      = link_to product_item.sku, [:admin, product], class: 'table-link'
+      = link_to product_item.sku || '-', [:admin, product], class: 'table-link'
     %td
       = link_to [:admin, product], class: 'table-link' do
         = product.name
