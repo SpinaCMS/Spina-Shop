@@ -14,14 +14,14 @@ module Spina
     scope :ordered, -> { order(:created_at) }
 
     before_save do
-      if order.confirmed? && (unit_price_changed? || unit_cost_price_changed? || tax_rate_changed? || discount_changed?)
+      if order.confirmed? && (unit_price_changed? || unit_cost_price_changed? || tax_rate_changed? || discount_amount_changed?)
         cache_pricing
         cache_metadata
       end
     end
 
     def unit_price
-      read_attribute(:unit_price) || orderable.price * discount_modifier || BigDecimal(0)
+      read_attribute(:unit_price) || orderable.price || BigDecimal(0)
     end
 
     def unit_cost_price
@@ -32,9 +32,9 @@ module Spina
       read_attribute(:tax_rate) || orderable.tax_group.tax_rate_for_order(order) || BigDecimal(0)
     end
 
-    # Discount as percentage
-    def discount
-      read_attribute(:discount) || BigDecimal(0)
+    # Discount as amount
+    def discount_amount
+      read_attribute(:discount_amount) || BigDecimal(0)
     end
 
     def weight
@@ -45,12 +45,12 @@ module Spina
       orderable.description
     end
 
-    def total
+    def total_without_discount
       unit_price * quantity
     end
 
-    def discount_modifier
-      (BigDecimal(100) - discount) / BigDecimal(100)
+    def total
+      total_without_discount - discount_amount
     end
 
     def tax_modifier
@@ -135,7 +135,7 @@ module Spina
         write_attribute :unit_price, unit_price
         write_attribute :unit_cost_price, unit_cost_price
         write_attribute :tax_rate, tax_rate
-        write_attribute :discount, discount
+        write_attribute :discount_amount, discount_amount
       end
 
       def cache_metadata

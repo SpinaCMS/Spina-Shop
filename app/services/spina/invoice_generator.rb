@@ -42,6 +42,16 @@ module Spina
           tax_rate: order_item.tax_rate,
           metadata: order_item.metadata
         )
+        
+        if order_item.discount_amount > 0
+          invoice.invoice_lines << InvoiceLine.new(
+            quantity: -1,
+            description: "Korting #{order_item.description}",
+            unit_price: order_item.discount_amount,
+            tax_rate: order_item.tax_rate,
+            metadata: order_item.metadata
+          )
+        end
       end
 
       invoice.invoice_lines << InvoiceLine.new(

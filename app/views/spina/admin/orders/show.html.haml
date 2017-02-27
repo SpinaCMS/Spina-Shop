@@ -243,7 +243,11 @@
               - else
                 = link_to order_item.description, [:admin, order_item.orderable.product], class: 'table-link'
             %td.text-right= number_to_currency order_item.unit_price
-            %td.text-right= number_to_currency order_item.total
+            %td.text-right
+              - if order_item.discount_amount > 0
+                .text-muted{style: 'text-decoration: line-through'}= number_to_currency order_item.total_without_discount
+
+              = number_to_currency order_item.total
 
         %tr
           %td.text-right{colspan: 4}

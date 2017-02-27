@@ -2,8 +2,12 @@ module Spina
   class InvoiceLine < ApplicationRecord
     belongs_to :invoice
 
-    def total
+    def total_without_discount
       quantity * unit_price
+    end
+
+    def total
+      total_without_discount - discount_amount
     end
 
     def tax_modifier
