@@ -106,9 +106,9 @@ nl:
       spina/customer_account: 
         one: Account
         other: Accounts
-      spina/campaign: 
-        one: Campagne
-        other: Campagnes
+      spina/discount: 
+        one: Kortingscode
+        other: Kortingscodes
       spina/invoice: 
         one: Factuur
         other: Facturen

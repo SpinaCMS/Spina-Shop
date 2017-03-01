@@ -51,7 +51,7 @@ Spina::Engine.routes.draw do
       resource :customer_account
     end
 
-    # Campaigns
-    resources :campaigns
+    # Discounts
+    resources :discounts
   end
 end

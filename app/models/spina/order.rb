@@ -19,6 +19,9 @@ module Spina
     has_many :order_items, dependent: :destroy # Destroy order items if the order is destroyed as well
     has_many :invoices, dependent: :restrict_with_exception
 
+    has_one :discounts_order, class_name: "Spina::DiscountsOrder"
+    has_one :discount, through: :discounts_order, class_name: "Spina::Discount"
+
     scope :sorted, -> { order(order_number: :desc, id: :desc) }
     scope :received, -> { where.not(received_at: nil) }
     scope :confirmed, -> { where.not(confirming_at: nil) }

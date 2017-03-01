@@ -1,0 +1,19 @@
+%header#header
+  .breadcrumbs
+    .pull-right
+      = link_to new_admin_discount_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+= form_for [:admin, @discount] do |f|
+  Code:
+  = f.text_field :code
+
+  %fieldset
+    Korting:
+    = f.fields_for :discount_action, @discount.discount_action || @discount.build_discount_action do |action_fields|
+      = action_fields.text_field :type
+
+      = render partial: "spina/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}
+
+  = f.submit

@@ -34,7 +34,7 @@ module Spina
 
     # Discount as amount
     def discount_amount
-      read_attribute(:discount_amount) || BigDecimal(0)
+      read_attribute(:discount_amount) || order.discount.try(:discount_for_order_item, self) || BigDecimal(0)
     end
 
     def weight

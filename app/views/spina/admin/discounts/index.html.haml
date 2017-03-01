@@ -1,0 +1,18 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container.infinite-table
+  %table.table
+    %thead
+      %tr
+        %th Code
+        %th Korting
+        %th.text-right Actief
+
+    %tbody
+      - @discounts.each do |discount|
+        %tr
+          %td= discount.code
+          %td= discount.description
+          %td.text-right= discount.starts_at
