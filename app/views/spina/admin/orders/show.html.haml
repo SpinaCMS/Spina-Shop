@@ -13,6 +13,7 @@
 
         - @order.invoices.each do |invoice|
           %li= link_to t('spina.shop.orders.download_invoice', number: invoice.invoice_number), admin_invoice_path(invoice, format: :pdf)
+          %li= link_to t('spina.shop.orders.download_receipt'), receipt_admin_invoice_path(invoice, format: :pdf)
 
         - if @order.in_state?(:confirming, :received)
           %li= link_to t('spina.shop.orders.cancel_order_html'), cancel_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}

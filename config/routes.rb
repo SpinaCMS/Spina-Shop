@@ -24,7 +24,11 @@ Spina::Engine.routes.draw do
     end
 
     # Invoices
-    resources :invoices, only: [:show]
+    resources :invoices, only: [:show] do
+      member do
+        get :receipt
+      end
+    end
 
     # Products
     resources :products do
