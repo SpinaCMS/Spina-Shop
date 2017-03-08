@@ -14,7 +14,7 @@ module Spina
           format.html
           format.js
           format.json do
-            results = @products.joins(:product_images).map do |product|
+            results = @products.includes(:product_images).map do |product|
               { id: product.id, 
                 name: product.name, 
                 image_url: view_context.attachment_url(product.product_images.first, :file, :fit, 30, 30), 
