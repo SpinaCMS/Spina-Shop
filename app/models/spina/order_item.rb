@@ -115,8 +115,11 @@ module Spina
       end
 
       def product_item_in_stock?(product_item_id)
+        # Add itself to an array of order items 
+        # If the record isn't persisted yet it won't show up in order.order_items
+        order_items = order.order_items.to_a | [self]
         product_item = ProductItem.find(product_item_id)
-        product_item.stock_level >= order.order_items.inject(BigDecimal(0)) do |total, order_item|
+        product_item.stock_level >= order_items.inject(BigDecimal(0)) do |total, order_item|
           order_item.quantity = quantity if order_item == self
           total + order_item.unallocated_stock(product_item.id)
         end
