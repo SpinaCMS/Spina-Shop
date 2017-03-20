@@ -11,6 +11,6 @@ module Spina
   end
 end
 
-require_dependency "#{File.dirname(__FILE__)}/discounts/rules/all_orders"
-require_dependency "#{File.dirname(__FILE__)}/discounts/rules/collection"
-require_dependency "#{File.dirname(__FILE__)}/discounts/rules/order_total"
+Dir[Spina::Shop::Engine.root.join *%w(app models spina discounts rules *) ].each do |file|
+  require_dependency file
+end

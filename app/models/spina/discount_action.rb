@@ -10,4 +10,6 @@ module Spina
   end
 end
 
-require_dependency "#{File.dirname(__FILE__)}/discounts/actions/percent_off"
+Dir[Spina::Shop::Engine.root.join *%w(app models spina discounts actions *) ].each do |file|
+  require_dependency file
+end
