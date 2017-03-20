@@ -133,3 +133,6 @@
                     = link_to product_item.name.presence || t('spina.shop.product_items.nameless'), spina.edit_admin_product_product_item_path(@product, product_item), class: 'table-link'
                   %td= product_item.stock_level
                   %td.align-right= number_to_currency product_item.price
+
+        - unless @product.new_record?
+          .pull-right= link_to t('spina.shop.products.delete'), admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'
