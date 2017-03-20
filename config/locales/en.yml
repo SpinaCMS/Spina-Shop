@@ -26,6 +26,10 @@ en:
         no_orders_yet: This customer didn't order anything yet.
         new: New customer
 
+      discounts:
+        save: Save discount
+        new: New discount
+
       products:
         title: Catalog
         save: Save product

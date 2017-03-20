@@ -4,19 +4,16 @@ module Spina
 
     scope :active, -> { where('starts_at <= :today AND (expires_at IS NULL OR expires_at >= :today)', today: Date.today) }
 
-    has_one :discount_rule
-    has_one :discount_action
+    has_one :discount_rule, inverse_of: :discount
+    has_one :discount_action, inverse_of: :discount
 
     has_many :discounts_orders
     has_many :orders, through: :discounts_orders
 
+    validates :code, :description, :starts_at, :discount_rule, :discount_action, presence: true
     validates :code, uniqueness: true
 
     accepts_nested_attributes_for :discount_rule, :discount_action
-
-    def description
-      "10% korting op alle producten"
-    end
 
     def active?
       starts_at <= Date.today && (expires_at.blank? || expires_at >= Date.today)

@@ -30,6 +30,10 @@ nl:
         no_orders_yet: Deze klant heeft nog niks besteld.
         new: Nieuwe klant
 
+      discounts:
+        save: Kortingscode opslaan
+        new: Nieuwe kortingscode
+
       products:
         title: Catalogus
         save: Product opslaan
@@ -124,6 +128,7 @@ nl:
       spina/customer:
         one: Klant
         other: Klanten
+      spina/discounts/rules/all_orders: Alle bestellingen
 
     attributes:
       spina/order:
