@@ -129,6 +129,8 @@ nl:
         one: Klant
         other: Klanten
       spina/discounts/rules/all_orders: Alle bestellingen
+      spina/discounts/rules/collection: Producten uit collectie
+      spina/discounts/rules/order_total: Bestellingen boven een bedrag
 
     attributes:
       spina/order:
@@ -213,3 +215,14 @@ nl:
         street2: Straat 2
         postal_code: Postcode
         city: Plaats
+
+      spina/discount:
+        code: Kortingscode
+        description: Omschrijving
+        discount_rule: Geldig voor
+        starts_at: Begindatum
+        expires_at: Einddatum
+        optional: Optioneel
+
+      spina/discounts/actions/percent_off:
+        percent_off: Korting

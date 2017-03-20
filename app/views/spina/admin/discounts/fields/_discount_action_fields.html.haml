@@ -1,3 +1,8 @@
 - case f.object.type
 - when 'Spina::Discounts::Actions::PercentOff'
-  = f.text_field :percent_off, placeholder: "Percent off"
+  .sidebar-form-group
+    .sidebar-form-label
+      = Spina::Discounts::Actions::PercentOff.human_attribute_name :percent_off
+
+    .sidebar-form-control{data: {form: {append: "%"}}}
+      = f.text_field :percent_off, placeholder: Spina::Discounts::Actions::PercentOff.human_attribute_name(:percent_off)

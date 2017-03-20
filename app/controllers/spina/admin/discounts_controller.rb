@@ -9,7 +9,7 @@ module Spina
       end
 
       def new
-        @discount = Spina::Discount.new
+        @discount = Spina::Discount.new(starts_at: Date.today)
         @discount.build_discount_action(type: 'Spina::Discounts::Actions::PercentOff')
         @discount.build_discount_rule(type: 'Spina::Discounts::Rules::AllOrders')
         add_breadcrumb t('spina.shop.discounts.new')
@@ -57,7 +57,7 @@ module Spina
         end
 
         def discount_params
-          params.require(:discount).permit(:code, :starts_at, :description, discount_action_attributes: [:type, :percent_off, :id], discount_rule_attributes: [:type, :collection_id, :id])
+          params.require(:discount).permit(:code, :starts_at, :expires_at, :description, discount_action_attributes: [:type, :percent_off, :id], discount_rule_attributes: [:type, :collection_id, :id])
         end
 
     end

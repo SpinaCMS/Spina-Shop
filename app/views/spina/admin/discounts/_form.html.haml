@@ -8,43 +8,53 @@
         = icon('check')
         =t 'spina.shop.discounts.save'
 
-  .well
-    .horizontal-form
-      .horizontal-form-group
-        .horizontal-form-label Code
-        .horizontal-form-content
-          = f.text_field :code
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Discount.human_attribute_name :code
 
-      .horizontal-form-group
-        .horizontal-form-label 
-          Description
-        .horizontal-form-content
-          = f.text_field :description
+          .sidebar-form-control
+            = f.text_field :code, placeholder: Spina::Product.human_attribute_name(:code)
 
-      .horizontal-form-group
-        .horizontal-form-label Begint op
-        .horizontal-form-content
-          = f.date_field :starts_at
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Discount.human_attribute_name :description
 
-      .horizontal-form-group
-        .horizontal-form-label Verloopt op
-        .horizontal-form-content
-          = f.date_field :expires_at
+          .sidebar-form-control
+            = f.text_field :description, placeholder: Spina::Product.human_attribute_name(:description)
 
-  .well
-    .horizontal-form
-      .horizontal-form-group
-        .horizontal-form-label Korting
-        .horizontal-form-content
-          = f.fields_for :discount_action do |action_fields|
-            = action_fields.hidden_field :type
+      .well
+        = f.fields_for :discount_action do |action_fields|
+          = action_fields.hidden_field :type
 
-            = render partial: "spina/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}
+          = render partial: "spina/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}            
 
-      .horizontal-form-group
-        .horizontal-form-label Geldig voor
-        .horizontal-form-content
-          = f.fields_for :discount_rule do |rule_fields|
-            .select-dropdown{style: 'width: 100%'}= rule_fields.select :type, options_for_select(Spina::DiscountRule.discount_rule_classes.map(&:model_name).map{|r| [r.human, r]}, f.object.type)
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Discount.human_attribute_name :discount_rule
 
-            = render partial: "spina/admin/discounts/fields/discount_rule_fields", locals: {f: rule_fields}
+          .sidebar-form-control
+            = f.fields_for :discount_rule do |rule_fields|
+              = rule_fields.select :type, options_for_select(Spina::DiscountRule.descendants.map(&:model_name).map{|r| [r.human, r]}, f.object.type), {}, class: "select2", style: 'width: 100%'
+
+              = render partial: "spina/admin/discounts/fields/discount_rule_fields", locals: {f: rule_fields}
+
+    .sidebar-form-sidebar{style: 'padding-top: 20px'}
+      .form-group
+        .form-label
+          = Spina::Discount.human_attribute_name :starts_at
+        
+        .form-control
+          .input-group
+            = f.date_field :starts_at
+
+      .form-group
+        .form-label
+          = Spina::Discount.human_attribute_name :expires_at
+          %small.text-muted= Spina::Discount.human_attribute_name :optional
+        
+        .form-control
+          .input-group
+            = f.date_field :expires_at
