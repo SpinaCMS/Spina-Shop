@@ -232,3 +232,6 @@ nl:
 
       spina/discounts/actions/percent_off:
         percent_off: Korting
+
+      spina/in_stock_reminder:
+        email: Email
