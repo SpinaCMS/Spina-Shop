@@ -7,6 +7,8 @@ module Spina
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception # Don't destroy product if it has order items
     has_many :stock_level_adjustments, dependent: :destroy
 
+    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
+
     # Product bundles
     has_many :bundled_product_items, dependent: :destroy
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
@@ -16,6 +18,10 @@ module Spina
     after_save :cache_product_averages
 
     validates :tax_group, :price, presence: true
+
+    def short_description
+      description
+    end
 
     def description
       [product.name, name].compact.join(', ')
@@ -27,6 +33,10 @@ module Spina
 
     def weight
       read_attribute(:weight) || BigDecimal(0)
+    end
+
+    def in_stock?
+      stock_level > 0
     end
 
     private

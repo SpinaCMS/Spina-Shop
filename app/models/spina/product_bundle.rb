@@ -8,10 +8,16 @@ module Spina
     has_many :bundled_product_items, dependent: :destroy
     has_many :product_items, through: :bundled_product_items
 
+    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
+
     has_many :order_items, as: :orderable
 
     accepts_nested_attributes_for :bundled_product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
+
+    def short_description
+      name
+    end
 
     def original_price
       bundled_product_items.inject(BigDecimal(0)){|t, i| t + i.product_item.price * i.quantity}
@@ -19,6 +25,10 @@ module Spina
 
     def stock_level
       bundled_product_items.map{|b| (b.product_item.stock_level / b.quantity).floor}.min
+    end
+
+    def in_stock?
+      stock_level > 0
     end
 
     def weight

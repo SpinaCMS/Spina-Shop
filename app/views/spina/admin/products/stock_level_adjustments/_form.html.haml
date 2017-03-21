@@ -6,7 +6,17 @@
 
   = form_for [:admin, @product, @product_item, @stock_level_adjustment] do |f|
     %section
-      .form-group= f.number_field :adjustment
+      .form-group
+        = f.number_field :adjustment
+
+        - if @product_item.in_stock_reminders.any?
+          .form-checkbox{style: 'margin-top: 10px'}
+            = check_box_tag :send_in_stock_reminders
+            = label_tag :send_in_stock_reminders do
+              = t('spina.shop.product_items.send_in_stock_reminders')
+              %span.text-muted{style: "margin-left: 8px"}
+                = icon('mail')
+                = "#{@product_item.in_stock_reminders.count}"
 
       - if @product_item.can_expire?
         .form-title.text-muted Verloopdatum

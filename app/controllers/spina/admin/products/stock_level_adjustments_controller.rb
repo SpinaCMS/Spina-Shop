@@ -16,6 +16,7 @@ module Spina
           @stock_level_adjustment = StockLevelAdjustment.new(stock_level_adjustment_params)
 
           if @stock_level_adjustment.save
+            InStockReminderJob.perform_later(@product_item) if params[:send_in_stock_reminders]
             redirect_to [:admin, @product]
           else
             redirect_to [:admin, @product]
