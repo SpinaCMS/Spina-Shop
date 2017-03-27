@@ -2,21 +2,21 @@ module Spina
   module Admin
     module Products
       class PropertiesController < ShopController
-        load_and_authorize_resource :product_category, class: "Spina::ProductCategory"
-        load_and_authorize_resource :property, through: :product_category, class: "Spina::ProductCategoryProperty"
-
+        before_action :set_product_category
         before_action :set_breadcrumbs
 
         def new
+          @property = @product_category.properties.new
           add_breadcrumb t('spina.shop.properties.new')
         end
 
         def edit
+          @property = @product_category.properties.find(params[:id])
           add_breadcrumb @property.label
         end
 
         def create
-          @property = ProductCategoryProperty.new(property_params)
+          @property = @product_category.new(property_params)
 
           if @property.save
             redirect_to [:admin, @product_category]
@@ -27,6 +27,7 @@ module Spina
         end
 
         def update
+          @property = @product_category.properties.find(params[:id])
           @property.assign_attributes(property_params)
 
           if @property.save
@@ -38,11 +39,16 @@ module Spina
         end
 
         def destroy
+          @property = @product_category.properties.find(params[:id])
           @property.destroy!
           redirect_to [:admin, @product_category]
         end
 
         private
+
+          def set_product_category
+            @product_category = ProductCategory.find(params[:product_category_id])
+          end
 
           def set_breadcrumbs
             add_breadcrumb Spina::ProductCategory.model_name.human(count: 2), admin_product_categories_path

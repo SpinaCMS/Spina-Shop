@@ -1,8 +1,7 @@
 module Spina
   module Admin
     class ProductReviewsController < ShopController
-      load_and_authorize_resource class: "Spina::ProductReview"
-
+      
       def index
         @product_reviews = Spina::ProductReview.sorted.page(params[:page]).per(25)
         add_breadcrumb Spina::ProductReview.model_name.human(count: :other)

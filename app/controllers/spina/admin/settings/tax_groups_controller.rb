@@ -4,16 +4,17 @@ module Spina
       class TaxGroupsController < ShopController
         before_action :set_breadcrumbs
 
-        load_and_authorize_resource class: "Spina::TaxGroup"
-
         def index
+          @tax_groups = TaxGroup.all
         end
 
         def edit
+          @tax_group = TaxGroup.find(params[:id])
           add_breadcrumb @tax_group.name
         end
 
         def update
+          @tax_group = TaxGroup.find(params[:id])
           if @tax_group.update_attributes(tax_group_params)
             redirect_to spina.admin_settings_tax_groups_path
           else

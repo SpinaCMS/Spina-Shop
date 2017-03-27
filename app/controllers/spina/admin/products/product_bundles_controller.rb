@@ -2,19 +2,20 @@ module Spina
   module Admin
     module Products
       class ProductBundlesController < ShopController
-        load_and_authorize_resource class: "Spina::ProductBundle"
-
         before_action :set_breadcrumbs
 
         def show
+          @product_bundle = ProductBundle.find(params[:id])
           redirect_to edit_admin_product_bundle_path(@product_bundle)
         end
 
         def new
+          @product_bundle = ProductBundle.new
           add_breadcrumb t('spina.shop.product_bundles.new')
         end
 
         def create
+          @product_bundle = ProductBundle.find(params[:id])
           if @product_bundle.save
             redirect_to admin_product_bundles_path
           else
@@ -23,9 +24,11 @@ module Spina
         end
 
         def index
+          @product_bundles = ProductBundle.all
         end
 
         def update
+          @product_bundle = ProductBundle.find(params[:id])
           if @product_bundle.update_attributes(product_bundle_params)
             redirect_to admin_product_bundles_path
           else
@@ -34,6 +37,7 @@ module Spina
         end
 
         def destroy
+          @product_bundle = ProductBundle.find(params[:id])
           @product_bundle.destroy
           redirect_to admin_product_bundles_path
         end

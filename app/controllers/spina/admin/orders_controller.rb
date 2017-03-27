@@ -1,19 +1,20 @@
 module Spina
   module Admin
     class OrdersController < ShopController
-      load_and_authorize_resource class: "Spina::Order"
-
       before_action :set_breadcrumbs
 
       def new
+        @order = Order.new
       end
 
       def cancel
+        @order = Order.find(params[:id])
         @order.transition_to!(:cancelled, user: current_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
 
       def order_picked_up
+        @order = Order.find(params[:id])
         @order.transition_to!(:picked_up, user: current_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
@@ -36,15 +37,18 @@ module Spina
       end
 
       def show
+        @order = Order.find(params[:id])
         add_breadcrumb @order.number
       end
 
       def edit
+        @order = Order.find(params[:id])
         add_breadcrumb @order.number, admin_order_path(@order)
         add_breadcrumb t('spina.edit')
       end
 
       def update
+        @order = Order.find(params[:id])
         if @order.update_attributes!(order_params)
           redirect_to admin_order_path(@order)
         else

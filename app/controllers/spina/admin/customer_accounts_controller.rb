@@ -1,16 +1,16 @@
 module Spina
   module Admin
     class CustomerAccountsController < ShopController
-      load_and_authorize_resource :customer, class: "Spina::Customer"
-      load_and_authorize_resource through: :customer, class: "Spina::CustomerAccount", singleton: true
-
+      before_action :set_customer
       before_action :set_breadcrumbs
 
       def edit
+        @customer_account = @customer.customer_account
         add_breadcrumb Spina::CustomerAccount.model_name.human
       end
 
       def update
+        @customer_account = @customer.customer_account
         if @customer_account.update_attributes(customer_account_params)
           redirect_to [:admin, @customer]
         else
@@ -20,6 +20,10 @@ module Spina
       end
 
       private
+
+        def set_customer
+          @customer = Spina::Customer.find(params[:customer_id])
+        end
 
         def customer_account_params
           params.require(:customer_account).permit(:email, :password, :password_confirmation)

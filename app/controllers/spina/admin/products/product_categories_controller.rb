@@ -2,14 +2,14 @@ module Spina
   module Admin
     module Products
       class ProductCategoriesController < ShopController
-        load_and_authorize_resource class: "Spina::ProductCategory"
-
         before_action :set_breadcrumbs
 
         def index
+          @product_categories = ProductCategory.all
         end
 
         def show
+          @product_category = ProductCategory.find(params[:id])
           add_breadcrumb @product_category.name
         end
 
