@@ -27,18 +27,29 @@ module Spina
     scope :confirmed, -> { where.not(confirming_at: nil) }
     scope :building, -> { in_state(:building) }
 
-    validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
-    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
+    # Always validate
     validates :password, confirmation: true
     validates :password, length: {minimum: 6, maximum: 40}, allow_blank: true
-    validates :delivery_option, presence: true, if: -> { validate_delivery }
-    validates :payment_method, presence: true, if: -> { validate_payment }
+
+    # Validate when after checkout phase
+    validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building) }
+
+    # Validate details
+    validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
+    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :email, email: true, if: -> { validate_details }
     validate :billing_country_must_be_the_same_as_customer, if: -> { validate_details }
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
+
+    # Validate delivery
+    validates :delivery_option, presence: true, if: -> { validate_delivery }
+
+    # Validate payment
+    validates :payment_method, presence: true, if: -> { validate_payment }
+
+    # Validate Stock
     validate :items_must_be_in_stock, if: -> { validate_stock }
     validate :must_have_at_least_one_item, if: -> { validate_stock }
-    validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building) }
 
     accepts_nested_attributes_for :order_items
 

@@ -225,6 +225,12 @@
   .divider-container
     %hr.divider/
 
+  - if @order.note.present?
+    %label= Spina::Order.human_attribute_name(:note)
+    = preserve "<p style='white-space: pre'>#{@order.note}</p>".html_safe
+    .divider-container
+      %hr.divider/
+
   .table-container
     %table.table
       %thead

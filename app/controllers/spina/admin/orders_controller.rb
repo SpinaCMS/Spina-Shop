@@ -5,6 +5,7 @@ module Spina
 
       def new
         @order = Order.new
+        add_breadcrumb t('spina.shop.orders.new')
       end
 
       def cancel

@@ -12,6 +12,14 @@
       .well
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Order.human_attribute_name(:note)
+
+          .sidebar-form-control
+            ~ f.text_area :note, placeholder: Spina::Order.human_attribute_name(:note)
+
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Order.human_attribute_name :first_name
 
           .sidebar-form-control

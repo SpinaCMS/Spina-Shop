@@ -82,6 +82,7 @@ nl:
         cancel_order_html: <strong>Cancel</strong> order
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         history: Historie
+        new: Nieuwe bestelling
 
         states:
           received: Bestelling
@@ -172,6 +173,7 @@ nl:
         delivery_postal_code: Postcode
         delivery_city: Plaats
         delivery_tracking_ids: Track & trace
+        note: Notitie
 
       spina/product:
         name: Naam

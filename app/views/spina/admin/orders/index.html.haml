@@ -5,6 +5,9 @@
       = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
 
   .breadcrumbs
+    .pull-right
+      = link_to new_admin_order_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
   %nav#secondary
