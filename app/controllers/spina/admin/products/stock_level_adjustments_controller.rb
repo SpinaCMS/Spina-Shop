@@ -14,7 +14,7 @@ module Spina
         end
 
         def create
-          @stock_level_adjustments = @product_item.stock_level_adjustments.build(stock_level_adjustment_params)
+          @stock_level_adjustment = @product_item.stock_level_adjustments.build(stock_level_adjustment_params)
 
           if @stock_level_adjustment.save
             InStockReminderJob.perform_later(@product_item) if params[:send_in_stock_reminders]
