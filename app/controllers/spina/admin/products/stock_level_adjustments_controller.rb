@@ -10,7 +10,7 @@ module Spina
         end
 
         def new
-          @stock_level_adjustments = @product_item.stock_level_adjustments.build
+          @stock_level_adjustment = @product_item.stock_level_adjustments.build
         end
 
         def create
