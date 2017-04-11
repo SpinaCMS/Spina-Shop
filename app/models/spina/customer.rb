@@ -10,7 +10,7 @@ module Spina
 
     # Favorites
     has_many :favorites, dependent: :destroy
-    has_many :favorite_products, class_name: 'Spina::Product', through: :favorites
+    has_many :favorite_products, through: :favorites, source: :product
 
     # Destroy the customer account if the customer is also destroyed
     has_one :customer_account, dependent: :destroy
