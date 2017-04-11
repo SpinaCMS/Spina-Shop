@@ -13,6 +13,9 @@ module Spina
     has_many :product_relations, dependent: :destroy
     has_many :related_products, through: :product_relations
 
+    # Favorites
+    has_many :favorites, dependent: :destroy
+
     # Cache averages for quick ordering
     before_save :cache_averages
 
