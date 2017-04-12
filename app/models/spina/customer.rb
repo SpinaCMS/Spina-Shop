@@ -6,7 +6,10 @@ module Spina
 
     # Destroy all addresses if you destroy customer
     has_many :addresses, dependent: :destroy
-    has_many :product_reviews, dependent: :destroy
+
+    # Reviews
+    has_many :product_reviews, dependent: :nullify
+    has_many :shop_reviews, dependent: :nullify
 
     # Favorites
     has_many :favorites, dependent: :destroy

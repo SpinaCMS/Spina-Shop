@@ -18,6 +18,7 @@ module Spina
     has_many :order_transitions, autosave: false, dependent: :destroy
     has_many :order_items, dependent: :destroy # Destroy order items if the order is destroyed as well
     has_many :invoices, dependent: :restrict_with_exception
+    has_many :shop_reviews, dependent: :nullify
 
     has_one :discounts_order, class_name: "Spina::DiscountsOrder"
     has_one :discount, through: :discounts_order, class_name: "Spina::Discount"
