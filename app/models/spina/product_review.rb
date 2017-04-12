@@ -2,11 +2,12 @@ module Spina
   class ProductReview < ApplicationRecord
     belongs_to :product
     belongs_to :customer, optional: true
+    belongs_to :shop_review, optional: true
 
     scope :sorted, -> { order(created_at: :desc) }
 
     validates :author, :review_summary, :review, :email, :score, presence: true
-    validates :email, email: true, uniqueness: {scope: [:product_id, :customer_id]}
+    validates :email, email: true, uniqueness: {scope: [:product_id, :customer_id, :shop_review]}
 
     after_save :cache_product_averages
 
