@@ -7,6 +7,8 @@ module Spina
     require_dependency 'spina/order/state_machine_transitions'
     require_dependency 'spina/order/billing'
 
+    has_secure_token
+
     attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment
 
     belongs_to :customer, optional: true

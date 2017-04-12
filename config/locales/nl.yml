@@ -197,6 +197,18 @@ nl:
         can_expire: Heeft een verloopdatum
         expiration_date: Verloopdatum
 
+      spina/shop_review:
+        review_pros: Positieve punten
+        review_cons: Verbeterpunten of tips
+        score: Cijfer
+        score_communication: Cijfer communicatie
+        score_speed: Cijfer snelheid / levertijd
+
+      spina/product_review:
+        review: Beoordeling
+        review_summary: Eén krachtige zijn
+        score: Cijfer
+
       spina/order_item:
         price: Prijs
         total: Totaal
