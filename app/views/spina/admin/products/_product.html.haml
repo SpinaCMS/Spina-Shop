@@ -1,7 +1,7 @@
 - product.product_items.each_with_index do |product_item, index|
-  %tr
-    %td
-      = link_to product_item.sku || '-', [:admin, product], class: 'table-link'
+  %tr{class: ('text-muted' if product_item.inactive?)}
+    %td.align-center{style: 'width: 30px'}
+      = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30), style: 'vertical-align: middle; margin: -10px 0'
     %td
       = link_to [:admin, product], class: 'table-link' do
         = product.name
@@ -12,3 +12,14 @@
       = product_item.stock_level
     %td.align-right
       =l product_item.expiration_date, format: '%B \'%y' if product_item.can_expire? && product_item.expiration_date.present?
+    %td.align-right
+      - if product_item.inactive?
+        .status-dot
+      - else
+        - if product_item.in_stock?
+          - if product_item.can_expire? && product_item.expiration_date.present? && product_item.expiration_date < 2.months.from_now
+            .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.product_items.almost_expired')}}
+          - else
+            .status-dot.status-dot-success
+        - else
+          .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.product_items.no_stock_left')}}

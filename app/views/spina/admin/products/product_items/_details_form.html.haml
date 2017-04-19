@@ -1,5 +1,12 @@
 .form-group
   .form-label
+    = Spina::ProductItem.human_attribute_name :active
+  
+  .form-control
+    = f.check_box :active, data: {switch: true}
+
+.form-group
+  .form-label
     = Spina::ProductItem.human_attribute_name :price
   
   .form-control{data: {form_prepend: '€'}}

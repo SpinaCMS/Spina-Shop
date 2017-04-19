@@ -30,4 +30,4 @@
     %tbody
       = render partial: 'customer', collection: @customers.to_a.uniq
 
-  .pagination= link_to_next_page @customers, "Next", params: params.except(*request.path_parameters.keys).permit!
+  .pagination= link_to_next_page @customers, "Next"

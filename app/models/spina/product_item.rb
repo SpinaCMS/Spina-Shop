@@ -13,6 +13,9 @@ module Spina
     has_many :bundled_product_items, dependent: :destroy
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
 
+    # Active items
+    scope :active, -> { where(active: true) }
+
     # Cache product averages
     before_save :cache_averages
     after_save :cache_product_averages
@@ -39,13 +42,17 @@ module Spina
       stock_level > 0
     end
 
+    def inactive?
+      !active
+    end
+
     private
 
       def earliest_expiration_date
         offset = 0
         sum = 0
         adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-        while sum < stock_level || (adjustment && adjustment == stock_level_adjustments.ordered.additions.last) do
+        while sum < stock_level do
           adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
           offset = offset.next
           sum = sum + adjustment.try(:adjustment).to_i

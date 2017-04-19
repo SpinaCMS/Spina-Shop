@@ -97,3 +97,92 @@
 .select2-results__option--highlighted, .select2-results__option--highlighted[aria-selected="true"]
   .select-products-result span small
     color: #fff
+
+// Filter form
+
+.filter-form
+  .filter-form-simple
+    display: flex
+
+    .filter-form-input
+      flex: 1
+      position: relative
+
+      input
+        background: tint($primary-color, 85%)
+        border: none
+        box-shadow: none
+        height: 40px
+        padding: 0 14px
+
+      a
+        color: #333
+        display: block
+        font-size: 14px
+        font-weight: 600
+        height: 40px
+        line-height: 40px
+        opacity: .35
+        padding: 0 14px
+        position: absolute
+        right: 0px
+        top: 0px
+
+    button
+      height: 40px
+      line-height: 40px
+      margin-bottom: 0
+      margin-left: 10px
+      margin-right: 0
+      padding: 0 18px
+      vertical-align: middle
+      white-space: nowrap
+
+.filter-form-advanced
+  background: tint($primary-color, 85%)
+  border-radius: 3px
+  display: none
+  margin-top: 20px
+
+.filter-form-advanced-group
+  border-bottom: 1px solid rgba(0, 0, 0, .05)
+  display: flex
+
+  &:last-child
+    border-bottom: none
+
+  .filter-form-label
+    color: #333
+    font-size: 14px
+    font-weight: 500
+    line-height: 40px
+    padding: 0 14px
+    width: 250px
+
+  .filter-form-control
+    flex: 1
+
+    input
+      background: transparent
+      border: none
+      box-shadow: none
+      height: 40px
+      padding: 0 14px
+
+    .select2-container
+      .selection
+        .select2-selection, .select2-selection--multiple
+          background: transparent
+          border: none !important
+          box-shadow: none !important
+          height: auto !important
+          padding: 2px 0 !important
+
+        .select2-selection__rendered
+          padding-left: 14px !important
+
+      .select2-selection__arrow
+        margin-top: 4px
+
+      .select2-selection__choice
+        background: tint($primary-color, 75%) !important

@@ -1,4 +1,4 @@
 $("<%=j render partial: 'product', collection: @products.to_a.uniq %>").appendTo($(".infinite-table table tbody"));
 
 // Update pagination link
-$('.pagination').html("<%=j link_to_next_page @products, 'Next', params: params.except(*request.path_parameters.keys).except(:search_form).permit! %>").infiniteScroll();
+$('.pagination').html("<%=j link_to_next_page @products, 'Next' %>").infiniteScroll();

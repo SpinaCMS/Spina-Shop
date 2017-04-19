@@ -53,6 +53,8 @@ nl:
         adjust_stock: Voorraad aanpassen
         save: Variant opslaan
         send_in_stock_reminders: Voorraadmeldingen verzenden
+        almost_expired: Product is bijna verlopen
+        no_stock_left: Voorraad is op
 
       product_bundles:
         new: Nieuwe productbundel
@@ -196,6 +198,8 @@ nl:
         name: Naam
         can_expire: Heeft een verloopdatum
         expiration_date: Verloopdatum
+        active: Actief
+        created_at: Toegevoegd
 
       spina/shop_review:
         review_pros: Positieve punten

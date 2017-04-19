@@ -5,8 +5,8 @@ module Spina
       before_action :set_locale
 
       def index
-        @q = Spina::Product.order(:name).ransack(params[:q])
-        @products = @q.result.includes(:translations).page(params[:page]).per(25)
+        @q = Spina::Product.filtered(filters).order(created_at: :desc).includes(:translations, :product_items).where(spina_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @products = @q.result.page(params[:page]).per(25)
 
         respond_to do |format|
           format.html
@@ -81,6 +81,16 @@ module Spina
       end
 
       private
+
+        def filters
+          filter_params.to_h.map do |property, value|
+            value.present? ? {field_type: Spina::ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
+          end
+        end
+
+        def filter_params
+          params.require(:filters).permit! if params[:filters]
+        end
 
         def product_params
           params.require(:product).permit!.merge(locale: @locale).delocalize({product_items_attributes: {price: :number, cost_price: :number, weight: :number}})

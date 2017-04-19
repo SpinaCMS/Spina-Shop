@@ -1,0 +1,31 @@
+[data-tooltip]
+  overflow: hidden
+  position: relative
+
+  &:before
+    background: #fff
+    border: 1px solid #ddd
+    border-radius: 3px
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .15)
+    color: #333
+    content: attr(data-tooltip)
+    display: block
+    font-size: 14px
+    font-weight: 500
+    left: 0
+    line-height: 28px
+    opacity: 0
+    padding: 4px 12px
+    position: absolute
+    text-align: left
+    top: 50%
+    transform: translateX(-100%) translateY(-50%)
+    transition: opacity .3s ease, transform .3s ease
+    white-space: nowrap
+
+  &:hover
+    overflow: visible
+
+    &:before
+      opacity: 1
+      transform: translateX(calc(-100% - 15px)) translateY(-50%)

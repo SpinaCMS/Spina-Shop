@@ -1,4 +1,4 @@
 $("<%=j render partial: 'order', collection: @orders.to_a.uniq %>").appendTo($(".infinite-table table tbody"));
 
 // Update pagination link
-$('.pagination').html("<%=j link_to_next_page @orders, 'Next', params: params.except(*request.path_parameters.keys).permit! %>").infiniteScroll();
+$('.pagination').html("<%=j link_to_next_page @orders, 'Next' %>").infiniteScroll();

@@ -43,6 +43,8 @@ en:
         stock_history: History
         adjust_stock: Adjust stock
         save: Save variant
+        almost_expired: Almost expired
+        no_stock_left: There is no stock left
 
       product_bundles:
         new: New product bundle

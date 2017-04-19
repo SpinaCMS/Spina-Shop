@@ -24,7 +24,10 @@ module Spina
 
     validates :name, presence: true
 
-    translates :description, :seo_title, :seo_description, :materialized_path, fallbacks_for_empty_translations: true
+    translates :name, :description, :seo_title, :seo_description, :materialized_path, fallbacks_for_empty_translations: true
+
+    # Active product
+    scope :active, -> { where(active: true) }
 
     scope :where_any_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)
@@ -54,15 +57,17 @@ module Spina
         when "select"
           products = products.where_any_tags(filter[:property], filter[:value])
         when "percentage"
-          products = products.where_in_range(filter[:property], filter[:value]["min"].to_d.presence || 0, filter[:value]["max"].to_d.presence || 0)
+          if filter[:value]["min"].present? && filter[:value]["max"].present?
+            products = products.where_in_range(filter[:property], filter[:value]["min"].presence.try(:to_d) || 0, filter[:value]["max"].presence.try(:to_d) || 0)
+          end
         when "decimal"
-          if filter[:property] == 'volume'
-            products = products.items_where_in_range(filter[:property], filter[:value]["min"].to_d.presence || 0, filter[:value]["max"].to_d.presence || 0)
-          else
-            products = products.where_in_range(filter[:property], filter[:value]["min"].to_d.presence || 0, filter[:value]["max"].to_d.presence || 0)
+          if filter[:value]["min"].present? && filter[:value]["max"].present?
+            products = products.where_in_range(filter[:property], filter[:value]["min"].presence.try(:to_d) || 0, filter[:value]["max"].presence.try(:to_d) || 0)
           end
         when "number"
-          products = products.where_in_range(filter[:property], filter[:value]["min"].to_d.presence || 0, filter[:value]["max"].to_d.presence || 0)
+          if filter[:value]["min"].present? && filter[:value]["max"].present?
+            products = products.where_in_range(filter[:property], filter[:value]["min"].presence.try(:to_d) || 0, filter[:value]["max"].presence.try(:to_d) || 0)
+          end
         end
       end
 

@@ -52,4 +52,4 @@
               %p.text-center
                 %em.text-muted= 'spina.shop.orders.no_orders'
 
-    .pagination= link_to_next_page @orders, "Next", params: params.except(*request.path_parameters.keys).permit!
+    .pagination= link_to_next_page @orders, "Next"

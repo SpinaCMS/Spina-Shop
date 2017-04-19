@@ -14,6 +14,14 @@ ready = ->
 
 $(document).on 'turbolinks:load', ready
 
+$(document).on 'click', '.filter-form-advanced-link', (e) ->
+  $('.filter-form-advanced').animate({
+    margin: 'toggle',
+    height: 'toggle',
+    opacity: 'toggle'
+  })
+  e.preventDefault()
+
 $(document).on 'click', '.sidebar-form-image a', (e) ->
   $checkbox = $(this).parents('.sidebar-form-image').find('input[type="checkbox"]')
   $checkbox.prop("checked", !$checkbox.prop("checked"))
