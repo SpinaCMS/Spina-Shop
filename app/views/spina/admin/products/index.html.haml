@@ -15,8 +15,6 @@
         = link_to admin_product_bundles_path do
           = Spina::ProductBundle.model_name.human count: 2
 
-%br/
-
 = search_form_for [:admin, @q], html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input

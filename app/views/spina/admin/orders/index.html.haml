@@ -1,9 +1,4 @@
 %header#header
-  #header_actions
-    = search_form_for [:admin, @q], html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :first_name_or_last_name_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
-      = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
-
   .breadcrumbs
     .pull-right
       = link_to new_admin_order_path, class: 'button button-mini icon-only' do
@@ -19,17 +14,45 @@
       %li{class: ('active' if action_name == 'failed')}
         = link_to t('spina.shop.orders.failed'), failed_admin_orders_path
 
-= form_tag transition_admin_orders_path, method: :put do
-  .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
-    = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
-      =t 'spina.shop.orders.actions'
-      %i.icon.icon-caret-down{style: 'margin-right: 0'}
+= search_form_for [:admin, @q], html: {class: 'filter-form'} do |f|
+  .filter-form-simple
+    .filter-form-input
+      = f.text_field :first_name_or_last_name_cont, placeholder: t('spina.search')
+      = link_to 'geavanceerd', '#', class: 'filter-form-advanced-link'
 
-    %ul#actions.align-right
-      %li= button_tag t('spina.shop.orders.start_order_picking_html'), type: :submit, name: 'transition_to', value: 'order_picking'
-      %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
-      %li.divider
-      %li= button_tag t('spina.shop.orders.start_picking_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      = icon('search')
+
+  .filter-form-advanced
+    .filter-form-advanced-group
+      .filter-form-label
+        ID
+
+      .filter-form-control
+        .input-group
+          = f.text_field :id_gteq, placeholder: 'min'
+          = f.text_field :id_lteq, placeholder: 'max'
+
+    .filter-form-advanced-group
+      .filter-form-label
+        = Spina::Order.human_attribute_name(:received_at)
+
+      .filter-form-control
+        .input-group
+          = f.text_field :received_at_gteq, value: l(f.object.received_at_gteq, format: '%d-%m-%Y'), placeholder: 'min', class: 'datepicker'
+          = f.text_field :received_at_lteq, value: l(f.object.received_at_lteq, format: '%d-%m-%Y'), placeholder: 'max', class: 'datepicker'
+
+= form_tag transition_admin_orders_path, method: :put do
+  / .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
+  /   = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
+  /     =t 'spina.shop.orders.actions'
+  /     %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+  /   %ul#actions.align-right
+  /     %li= button_tag t('spina.shop.orders.start_order_picking_html'), type: :submit, name: 'transition_to', value: 'order_picking'
+  /     %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
+  /     %li.divider
+  /     %li= button_tag t('spina.shop.orders.start_picking_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
 
   .table-container.infinite-table
     %table.table.table-clickable
