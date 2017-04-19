@@ -39,8 +39,8 @@
 
       .filter-form-control
         .input-group
-          = f.text_field :received_at_gteq, value: l(f.object.received_at_gteq, format: '%d-%m-%Y'), placeholder: 'min', class: 'datepicker'
-          = f.text_field :received_at_lteq, value: l(f.object.received_at_lteq, format: '%d-%m-%Y'), placeholder: 'max', class: 'datepicker'
+          = f.text_field :received_at_gteq, value: (l(f.object.received_at_gteq, format: '%d-%m-%Y') if f.object.received_at_gteq), placeholder: 'min', class: 'datepicker'
+          = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
 
 = form_tag transition_admin_orders_path, method: :put do
   / .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
