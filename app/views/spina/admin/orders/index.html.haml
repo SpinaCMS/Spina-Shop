@@ -43,16 +43,16 @@
           = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
 
 = form_tag transition_admin_orders_path, method: :put do
-  / .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
-  /   = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
-  /     =t 'spina.shop.orders.actions'
-  /     %i.icon.icon-caret-down{style: 'margin-right: 0'}
+  .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
+    = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
+      =t 'spina.shop.orders.actions'
+      %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-  /   %ul#actions.align-right
-  /     %li= button_tag t('spina.shop.orders.start_order_picking_html'), type: :submit, name: 'transition_to', value: 'order_picking'
-  /     %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
-  /     %li.divider
-  /     %li= button_tag t('spina.shop.orders.start_picking_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
+    %ul#actions.align-right
+      %li= button_tag t('spina.shop.orders.start_order_picking_html'), type: :submit, name: 'transition_to', value: 'order_picking'
+      %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
+      %li.divider
+      %li= button_tag t('spina.shop.orders.start_picking_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
 
   .table-container.infinite-table
     %table.table.table-clickable
