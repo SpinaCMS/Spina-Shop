@@ -19,6 +19,8 @@ module Spina
     # Cache averages for quick ordering
     before_save :cache_averages
 
+    before_validation :set_materialized_path
+
     accepts_nested_attributes_for :product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
@@ -45,6 +47,10 @@ module Spina
 
     def to_s
       name
+    end
+
+    def to_param
+      materialized_path
     end
 
     def default_product_item
@@ -79,6 +85,12 @@ module Spina
     end
 
     private
+
+      def set_materialized_path
+        self.materialized_path = name.try(:parameterize)
+        self.materialized_path += "-#{self.class.where(materialized_path: materialized_path).count}" if self.class.where(materialized_path: materialized_path).where.not(id: id).count > 0
+        materialized_path
+      end
 
       def cache_averages
         write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)

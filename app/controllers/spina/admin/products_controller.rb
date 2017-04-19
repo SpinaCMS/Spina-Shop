@@ -24,7 +24,7 @@ module Spina
       end
 
       def show
-        @product = Product.find(params[:id])
+        @product = Product.find_by(materialized_path: params[:id])
         redirect_to edit_admin_product_path(@product)
       end
 
@@ -53,7 +53,7 @@ module Spina
       end
 
       def edit
-        @product = Product.find(params[:id])
+        @product = Product.find_by(materialized_path: params[:id])
         add_breadcrumb @product.name
 
         # Always build at least one product item
@@ -62,7 +62,7 @@ module Spina
       end
 
       def update
-        @product = Product.find(params[:id])
+        @product = Product.find_by(materialized_path: params[:id])
         if @product.update_attributes(product_params)
           redirect_to edit_admin_product_path(@product, params: {locale: @locale})
         else
@@ -71,7 +71,7 @@ module Spina
       end
 
       def destroy
-        @product = Product.find(params[:id])
+        @product = Product.find_by(materialized_path: params[:id])
         @product.destroy
         redirect_to admin_products_path
       rescue ActiveRecord::DeleteRestrictionError

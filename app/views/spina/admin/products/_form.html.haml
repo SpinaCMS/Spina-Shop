@@ -97,6 +97,12 @@
             .sidebar-form-control
               = f.text_field :seo_description, placeholder: Spina::Product.human_attribute_name(:seo_description)
 
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Product.human_attribute_name :materialized_path
+            .sidebar-form-control
+              = f.text_field :materialized_path, value: "/products/#{f.object.materialized_path}", disabled: true
+
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images
           = f.fields_for :product_images, f.object.product_images.ordered do |image_builder|
