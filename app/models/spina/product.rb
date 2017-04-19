@@ -47,6 +47,10 @@ module Spina
       name
     end
 
+    def default_product_item
+      product_items.active.first
+    end
+
     # Products filtered by filters
     def self.filtered(filters)
       products = all
@@ -80,6 +84,7 @@ module Spina
         write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
         write_attribute :sales_count, product_items.joins(:stock_level_adjustments).where('adjustment < ?', 0).sum(:adjustment) * -1
         write_attribute :lowest_price, product_items.minimum(:price)
+        write_attribute :active, product_items.any?(&:active)
       end
   end
 end
