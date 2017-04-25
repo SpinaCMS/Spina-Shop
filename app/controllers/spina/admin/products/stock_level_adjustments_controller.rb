@@ -27,7 +27,7 @@ module Spina
         private
 
           def set_product
-            @product = Product.find(params[:product_id])
+            @product = Product.find_by(materialized_path: params[:product_id])
           end
 
           def set_product_item
