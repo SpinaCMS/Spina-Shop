@@ -43,7 +43,7 @@
           = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
 
 = form_tag transition_admin_orders_path, method: :put do
-  .pull-right{style: 'display: inline-block; margin-top: -60px; position: relative; z-index: 10', data: {dropdown: true}}
+  .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}
     = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
       =t 'spina.shop.orders.actions'
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
