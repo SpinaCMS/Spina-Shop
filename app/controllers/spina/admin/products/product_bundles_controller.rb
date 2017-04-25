@@ -15,12 +15,17 @@ module Spina
         end
 
         def create
-          @product_bundle = ProductBundle.find(params[:id])
+          @product_bundle = ProductBundle.new(product_bundle_params)
           if @product_bundle.save
             redirect_to admin_product_bundles_path
           else
             render :new
           end
+        end
+
+        def edit
+          @product_bundle = ProductBundle.find(params[:id])
+          add_breadcrumb @product_bundle.name
         end
 
         def index
@@ -49,7 +54,7 @@ module Spina
           end
 
           def product_bundle_params
-            params.require(:product_bundle).permit(:name, :price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_product_items_attributes: [:id, :quantity, :product_item_id]).delocalize({bundled_product_items_attributes: {price: :number}})
+            params.require(:product_bundle).permit(:name, :price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_product_items_attributes: [:id, :quantity, :product_item_id, :_destroy]).delocalize({bundled_product_items_attributes: {price: :number}})
           end
       end
     end

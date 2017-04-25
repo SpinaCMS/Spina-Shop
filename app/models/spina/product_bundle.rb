@@ -15,6 +15,10 @@ module Spina
     accepts_nested_attributes_for :bundled_product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
+    def description
+      short_description
+    end
+
     def short_description
       name
     end

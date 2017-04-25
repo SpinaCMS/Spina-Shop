@@ -7,6 +7,8 @@ ready = ->
           $(el).find(".sidebar-form-image[data-id='#{id}'] .product-image-position").val(index)
     }
 
+  selectProductItems($(this))
+
   $('select.select2').select2()
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
 
@@ -30,6 +32,10 @@ $(document).on 'click', '.sidebar-form-image a', (e) ->
 $(document).on 'spina:structure_added', 'form', (e) ->
   selectProducts($(this))
 
+$(document).on 'spina:product_item_fields_added', 'form', (e) ->
+  selectProductItems($(this))
+  $('select.select2').select2()
+
 selectProducts = (element) ->
   element.find('select.select-products').each ->
     $select = $(this)
@@ -39,7 +45,35 @@ selectProducts = (element) ->
         delay: 250
         dataType: 'json'
         data: (params) ->
-          q: {name_start: params.term}, page: params.page
+          q: {translations_name_start: params.term}, page: params.page
+        minimumInputLength: 1
+        processResults: (data, params) ->
+          params.page = params.page or 1
+          return {
+            results: data.results
+            pagination: { more: (params.page * 25) < data.total_count }
+          }
+        cache: true
+      escapeMarkup: (markup) ->
+        return markup
+      templateResult: (product) ->
+        return product.text if product.loading
+        "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price}</small></span></div>"
+      templateSelection: (product) ->
+        product.name || product.text
+      minimumInputLength: 1
+    )
+
+selectProductItems = (element) ->
+  element.find('select.select-product-items').each ->
+    $select = $(this)
+    $select.select2(
+      ajax:
+        url: '/admin/product_items'
+        delay: 250
+        dataType: 'json'
+        data: (params) ->
+          q: {product_translations_name_start: params.term}, page: params.page
         minimumInputLength: 1
         processResults: (data, params) ->
           params.page = params.page or 1

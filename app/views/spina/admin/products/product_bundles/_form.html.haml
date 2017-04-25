@@ -18,18 +18,12 @@
             = f.text_field :name, placeholder: Spina::ProductBundle.human_attribute_name(:name)
 
       .well
-        = f.fields_for :bundled_product_items do |product_item_fields|
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::BundledProductItem.human_attribute_name :quantity
-            .sidebar-form-control
-              = product_item_fields.text_field :quantity, placeholder: Spina::BundledProductItem.human_attribute_name(:quantity)
+        = f.fields_for :bundled_product_items do |ff|
+          = render 'bundled_product_items_fields', f: ff
 
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::BundledProductItem.human_attribute_name :product_item
-            .sidebar-form-control
-              = product_item_fields.select :product_item_id, options_for_select(Spina::ProductItem.all.map{|i| [i.product.name, i.id]}, product_item_fields.object.product_item_id), {}, style: 'width: 100%'
+        = link_to_add_product_item_fields f, :bundled_product_items do
+          = icon('plus')
+          =t 'spina.shop.product_bundles.add_bundled_product_item'
 
     .sidebar-form-sidebar
       #productImageUploader.sidebar-form-images

@@ -31,6 +31,7 @@ Spina::Engine.routes.draw do
     end
 
     # Products
+    resources :product_items, only: [:index], format: :json
     resources :products do
       get :new_by_category, on: :collection
       scope module: :products do

@@ -1,0 +1,11 @@
+.sidebar-form-group{style: 'padding-right: 0'}
+  .sidebar-form-control{style: 'flex: none; padding-right: 10px'}
+    = f.select :quantity, options_for_select((1..50).map{|i| ["#{i} x", i]}, f.object.quantity), {}, class: 'select2', style: 'width: 70px'
+
+  .sidebar-form-control
+    = f.select :product_item_id, options_for_select([[f.object.product_item.try(:short_description), f.object.product_item.try(:id)]], f.object.product_item_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-product-items', style: 'width: 100%'
+
+  .sidebar-form-delete
+    = f.hidden_field :_destroy
+    = link_to '#', class: 'remove_fields remove_product_item_fields button button-link' do
+      = icon('trash')
