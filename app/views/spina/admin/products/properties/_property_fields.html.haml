@@ -5,6 +5,6 @@
   .sidebar-form-control{data: {form: {append: property.append, prepend: property.prepend}}}
     - case property.field_type
     - when 'select'
-      = f.select property.name, options_for_select(property.options.map{|option| [t("spina.shop.properties.#{property.name}.#{option}"), option]}, (object.properties[property.name] if object.properties.present?)), {include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
+      = f.select property.name, options_for_select(property.options.map{|option| [t("spina.shop.properties.#{property.name}.#{option}"), option]}, (object.properties[property.name] if object.properties.present?)), {include_blank: '–', include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)
