@@ -2,7 +2,7 @@ module Spina
   class Order < ApplicationRecord
     def sub_total
       if prices_include_tax
-        order_items.inject(BigDecimal(0)) { |t, i| t + i.total / i.tax_modifier }
+        order_items.inject(BigDecimal(0)) { |t, i| t + (i.total / i.tax_modifier).round(2) }
       else
         order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
       end
@@ -41,19 +41,16 @@ module Spina
       if prices_include_tax
         rates = order_items.inject({}) do |h, item|
           rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
-          rate[:total] += item.total / item.tax_modifier
-          rate[:tax_amount] += item.total - (item.total / item.tax_modifier)
+          rate[:total] += (item.total / item.tax_modifier).round(2)
+          rate[:tax_amount] += item.total - (item.total / item.tax_modifier).round(2)
           h
         end
       else
         rates = order_items.inject({}) do |h, item|
           rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
           rate[:total] += item.total
+          rate[:tax_amount] += (item.total * (BigDecimal[item.tax_rate] / BigDecimal(100))).round(2)
           h
-        end
-
-        rates.each do |rate|
-          rate[1][:tax_amount] = rate[1][:total] * (BigDecimal(rate[0]) / BigDecimal(100))
         end
       end
 
