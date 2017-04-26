@@ -73,11 +73,12 @@
           .wizard-step-label=t 'spina.shop.orders.states.paid'
         .wizard-step-connector
 
-    .wizard-step{class: ('done' if @order.order_picked_at.present?)}
-      .wizard-step-circle
-        = icon("dots")
-        .wizard-step-label=t 'spina.shop.orders.states.order_picking'
-      .wizard-step-connector
+    - unless @order.pos?
+      .wizard-step{class: ('done' if @order.order_picked_at.present?)}
+        .wizard-step-circle
+          = icon("dots")
+          .wizard-step-label=t 'spina.shop.orders.states.order_picking'
+        .wizard-step-connector
 
     - if @order.requires_shipping?
       .wizard-step{class: ('done' if @order.shipped_at.present?)}

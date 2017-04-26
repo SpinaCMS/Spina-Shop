@@ -36,6 +36,10 @@ module Spina
       delivered_at.present?
     end
 
+    def picked_up?
+      picked_up_at.present?
+    end
+
     def building?
       current_state == 'building'
     end
@@ -45,7 +49,7 @@ module Spina
     end
 
     def status_progress
-      if delivered?
+      if delivered? || picked_up?
         100
       elsif shipped?
         80
@@ -69,6 +73,8 @@ module Spina
       when 'shipped'
         'success'
       when 'delivered'
+        'success'
+      when 'picked_up'
         'success'
       when 'failed'
         'danger'

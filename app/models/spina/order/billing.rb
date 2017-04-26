@@ -49,7 +49,7 @@ module Spina
         rates = order_items.inject({}) do |h, item|
           rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
           rate[:total] += item.total
-          rate[:tax_amount] += (item.total * (BigDecimal[item.tax_rate] / BigDecimal(100))).round(2)
+          rate[:tax_amount] += (item.total * (BigDecimal(item.tax_rate) / BigDecimal(100))).round(2)
           h
         end
       end

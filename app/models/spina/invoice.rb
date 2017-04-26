@@ -34,7 +34,7 @@ module Spina
         rates = invoice_lines.inject({}) do |h, line|
           rate = h[line.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
           rate[:total] += line.total
-          rate[:tax_amount] += (line.total * (BigDecimal[line.tax_rate] / BigDecimal(100))).round(2)
+          rate[:tax_amount] += (line.total * (BigDecimal(line.tax_rate) / BigDecimal(100))).round(2)
           h
         end
       end
