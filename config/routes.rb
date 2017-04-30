@@ -24,11 +24,7 @@ Spina::Engine.routes.draw do
     end
 
     # Invoices
-    resources :invoices, only: [:show] do
-      member do
-        get :receipt
-      end
-    end
+    resources :invoices, only: [:show]
 
     # Products
     resources :product_items, only: [:index], format: :json
