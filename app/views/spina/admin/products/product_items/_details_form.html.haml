@@ -69,3 +69,10 @@
 
   .form-control
     = f.text_field :ean, placeholder: Spina::ProductItem.human_attribute_name(:ean)
+
+.form-group
+  .form-label
+    = Spina::ProductItem.human_attribute_name :supplier_reference
+
+  .form-control
+    = f.text_field :supplier_reference, placeholder: Spina::ProductItem.human_attribute_name(:supplier_reference)

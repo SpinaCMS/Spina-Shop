@@ -185,6 +185,7 @@ nl:
         seo_title: SEO titel
         seo_description: SEO omschrijving
         materialized_path: URL
+        supplier: Leverancier
 
       spina/product_item:
         price: Prijs
@@ -201,6 +202,7 @@ nl:
         expiration_date: Verloopdatum
         active: Actief
         created_at: Toegevoegd
+        supplier_reference: Referentie leverancier
 
       spina/shop_review:
         review_pros: Positieve punten

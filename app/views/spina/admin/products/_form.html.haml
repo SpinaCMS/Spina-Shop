@@ -79,6 +79,13 @@
         .well
           .sidebar-form-group
             .sidebar-form-label
+              = Spina::Product.human_attribute_name :supplier
+            .sidebar-form-control
+              = f.text_field :supplier, placeholder: Spina::Product.human_attribute_name(:supplier)
+
+        .well
+          .sidebar-form-group
+            .sidebar-form-label
               = Spina::Product.human_attribute_name :related_products
 
             .sidebar-form-control
