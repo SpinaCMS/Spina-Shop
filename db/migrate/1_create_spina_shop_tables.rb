@@ -151,7 +151,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.decimal  "tax_rate",        precision: 8, scale: 2, default: "0.0", null: false
       t.datetime "created_at",                                              null: false
       t.datetime "updated_at",                                              null: false
-      t.jsonb    "metadata"
+      t.jsonb    "metadata", default: "{}",  null: false
       t.decimal  "discount_amount", precision: 8, scale: 2, default: "0.0", null: false
       t.index ["invoice_id"], name: "index_spina_invoice_lines_on_invoice_id", using: :btree
     end
@@ -178,7 +178,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.text     "identity_details"
       t.string   "identity_name"
       t.string   "invoice_number"
-      t.jsonb    "export_data"
+      t.jsonb    "export_data", default: "{}",  null: false
       t.boolean  "exported",           default: false, null: false
       t.string   "country_name"
       t.index ["country_id"], name: "index_spina_invoices_on_country_id", using: :btree
@@ -206,7 +206,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.decimal  "weight",          precision: 8, scale: 3
       t.string   "orderable_type"
       t.integer  "orderable_id"
-      t.jsonb    "metadata"
+      t.jsonb    "metadata", default: "{}",  null: false
       t.decimal  "discount_amount", precision: 8, scale: 2
       t.index ["order_id"], name: "index_spina_order_items_on_order_id", using: :btree
       t.index ["orderable_id"], name: "index_spina_order_items_on_orderable_id", using: :btree
@@ -274,7 +274,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.string   "delivery_name"
       t.string   "billing_street2"
       t.string   "delivery_street2"
-      t.jsonb    "delivery_metadata"
+      t.jsonb    "delivery_metadata", default: "{}",  null: false
       t.text     "note"
       t.string   "token"
       t.index ["billing_country_id"], name: "index_spina_orders_on_billing_country_id", using: :btree
@@ -349,7 +349,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.datetime "updated_at"
       t.integer  "tax_group_id"
       t.boolean  "tax_included_in_price",                         default: true,  null: false
-      t.jsonb    "properties"
+      t.jsonb    "properties", default: "{}",  null: false
       t.decimal  "weight",                precision: 8, scale: 3
       t.decimal  "price",                 precision: 8, scale: 2
       t.decimal  "cost_price",            precision: 8, scale: 2
@@ -398,7 +398,7 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.integer  "product_category_id"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.jsonb    "properties"
+      t.jsonb    "properties", default: "{}",  null: false
       t.string   "name"
       t.float    "average_review_score"
       t.integer  "sales_count"
@@ -411,10 +411,10 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
 
     create_table "spina_sales_categories", force: :cascade do |t|
       t.string   "name"
-      t.jsonb    "codes"
+      t.jsonb    "codes", default: "{}",  null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.jsonb    "metadata"
+      t.jsonb    "metadata", default: "{}",  null: false
     end
 
     create_table "spina_stock_level_adjustments", force: :cascade do |t|
@@ -435,8 +435,8 @@ class CreateSpinaShopTables < ActiveRecord::Migration[5.0]
       t.string   "name"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.jsonb    "tax_rates"
-      t.jsonb    "metadata"
+      t.jsonb    "tax_rates", default: "{}",  null: false
+      t.jsonb    "metadata", default: "{}",  null: false
     end
 
     add_foreign_key "spina_addresses", "spina_countries", column: "country_id"
