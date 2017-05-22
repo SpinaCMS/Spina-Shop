@@ -2,6 +2,7 @@ en:
   spina:
     shop:
       title: Webshop
+      settings: Shop settings
       tax_groups: Tax groups
       sales_categories: Sales categories
       delete_selected: Delete selected lines

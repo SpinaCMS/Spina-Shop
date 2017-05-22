@@ -5,6 +5,11 @@ source 'https://rubygems.org'
 # development dependencies will be added by default to the :development group.
 gemspec
 
+group :development, :test do
+  gem 'rails', '5.0.2'
+  gem 'refile', path: '~/apps/refile', require: 'refile/rails'
+  gem 'spina', path: '~/apps/spina'
+end
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing

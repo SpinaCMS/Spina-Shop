@@ -6,5 +6,7 @@
     - case property.field_type
     - when 'select'
       = f.select property.name, options_for_select(property.options.map{|option| [t("spina.shop.properties.#{property.name}.#{option}"), option]}, (object.properties[property.name] if object.properties.present?)), {include_blank: ('–' unless property.multiple), include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
+    - when 'product'
+      = f.select property.name, [], {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)

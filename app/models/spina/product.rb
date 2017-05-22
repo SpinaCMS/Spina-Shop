@@ -93,7 +93,7 @@ module Spina
       end
 
       def cache_averages
-        write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
+        # write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
         write_attribute :sales_count, product_items.joins(:stock_level_adjustments).where('adjustment < ?', 0).sum(:adjustment) * -1
         write_attribute :lowest_price, product_items.minimum(:price)
         write_attribute :active, product_items.any?(&:active)
