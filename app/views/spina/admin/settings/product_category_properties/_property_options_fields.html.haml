@@ -1,6 +1,9 @@
 .sidebar-form-group{style: 'padding-right: 0'}
   .sidebar-form-control
-    = f.text_field :option, placeholder: Spina::PropertyOption.human_attribute_name(:option)
+    = f.text_field :name, placeholder: Spina::PropertyOption.human_attribute_name(:name)
+
+  .sidebar-form-control
+    = f.text_field :label, placeholder: Spina::PropertyOption.human_attribute_name(:label)
 
   .sidebar-form-delete
     = f.hidden_field :_destroy

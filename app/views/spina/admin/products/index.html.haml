@@ -40,7 +40,7 @@
           = property.label
         .filter-form-control
           - if property.field_type == 'select'
-            - options = options_for_select(property.options.map{|option| [t("spina.shop.properties.#{property.name}.#{option}"), option]}, params[:filters].try(:[], property.name))
+            - options = options_for_select(property.property_options.map{|option| [option.label, option.name]}, params[:filters].try(:[], property.name))
             = select_tag "filters[#{property.name}]", options, class: 'select2', style: 'width: 100%', multiple: true
           - else
             .input-group

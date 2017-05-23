@@ -9,9 +9,5 @@ module Spina
     validates :name, :label, :property_type, :field_type, presence: true
 
     accepts_nested_attributes_for :property_options, allow_destroy: true, reject_if: :all_blank
-
-    def options
-      property_options.pluck(:option)
-    end
   end
 end
