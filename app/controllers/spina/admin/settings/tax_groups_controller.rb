@@ -29,7 +29,6 @@ module Spina
           end
 
           def set_breadcrumbs
-            @navigation_preferences_active = true
             add_breadcrumb Spina::TaxGroup.model_name.human(count: 2), spina.admin_settings_tax_groups_path
           end
       end

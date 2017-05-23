@@ -5,6 +5,8 @@ module Spina
 
     validates :name, presence: true, uniqueness: true
 
+    accepts_nested_attributes_for :properties
+
     def item_properties
       properties.item_type
     end

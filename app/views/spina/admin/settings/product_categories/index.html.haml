@@ -1,0 +1,12 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li.active= link_to t('spina.preferences.product_categories'), '#'
+      %li= link_to t('spina.preferences.sales_categories'), '#'
+
+.table-container
+  %table.table
+    = render partial: "product_category", collection: @product_categories

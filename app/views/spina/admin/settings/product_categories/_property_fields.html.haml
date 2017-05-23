@@ -1,0 +1,77 @@
+.well
+  .sidebar-form-group
+    .sidebar-form-label
+      Name
+
+    .sidebar-form-control
+      = f.text_field :name
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Label
+
+    .sidebar-form-control
+      = f.text_field :label
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Property type
+
+    .sidebar-form-control
+      = f.text_field :property_type
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Field type
+
+    .sidebar-form-control
+      = f.text_field :field_type
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Minimum
+
+    .sidebar-form-control
+      = f.text_field :minimum
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Maximum
+
+    .sidebar-form-control
+      = f.text_field :maximum
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Prepend
+
+    .sidebar-form-control
+      = f.text_field :prepend
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Append
+
+    .sidebar-form-control
+      = f.text_field :append
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Options
+
+    .sidebar-form-control
+      = f.text_field :options
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Multiple
+
+    .sidebar-form-control
+      = f.check_box :multiple, data: {switch: true}
+
+  .sidebar-form-group
+    .sidebar-form-label
+      Required
+
+    .sidebar-form-control
+      = f.check_box :required, data: {switch: true}

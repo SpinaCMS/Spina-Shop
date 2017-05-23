@@ -2,6 +2,7 @@ nl:
   spina:
     shop:
       title: Webshop
+      settings: Shop
       tax_groups: Btw-groepen
       sales_categories: Omzetcategorieën
       delete_selected: Verwijder geselecteerde regels
