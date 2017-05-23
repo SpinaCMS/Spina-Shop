@@ -1,0 +1,8 @@
+.sidebar-form-group{style: 'padding-right: 0'}
+  .sidebar-form-control
+    = f.text_field :option, placeholder: Spina::PropertyOption.human_attribute_name(:option)
+
+  .sidebar-form-delete
+    = f.hidden_field :_destroy
+    = link_to '#', class: 'remove_property_option_fields button button-link', style: 'margin: 0; padding-top: 0; padding-bottom: 0; line-height: 50px' do
+      = icon('trash')

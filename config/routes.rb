@@ -21,7 +21,13 @@ Spina::Engine.routes.draw do
     # Settings
     namespace :settings do
       resources :tax_groups
-      resources :product_categories
+      resources :product_categories do
+        resources :product_category_properties do
+          member do
+            get :edit_options
+          end
+        end
+      end
     end
 
     # Invoices

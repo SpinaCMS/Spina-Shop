@@ -1,0 +1,16 @@
+= form_for [:admin, :settings, @product_category, @product_category_property] do |f|
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.save'
+
+  .well{style: 'padding-top: 0; padding-bottom: 0'}
+    = f.fields_for :property_options do |ff|
+      = render 'property_options_fields', f: ff
+
+    = link_to_add_property_option_fields f, :property_options do
+      = icon('plus')
+      =t 'spina.shop.properties.options.add'

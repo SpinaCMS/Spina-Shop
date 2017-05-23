@@ -64,6 +64,16 @@ nl:
       properties:
         new: Nieuwe eigenschap
 
+        field_types:
+          percentage: Percentage
+          number: Getal
+          decimal: Kommagetal
+          select: Opties
+          textfield: Tekst
+
+        options:
+          add: Toevoegen
+
       product_reviews:
         no_reviews: Er zijn nog geen beoordelingen gegeven
 

@@ -1,13 +1,24 @@
 %header#header
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
-  #header_actions
-    = link_to spina.edit_admin_settings_product_category_path(@product_category), class: 'button' do
-      Naam wijzigen
+  / #header_actions
+  /   = link_to spina.edit_admin_settings_product_category_path(@product_category), class: 'button' do
+  /     Naam wijzigen
 
 .table-container
   %table.table
     - @product_category.properties.each do |property|
       %tr
-        %td= link_to property.label, '#', class: 'table-link'
-        %td= property.name
+        %td{class: ('text-muted' unless property.editable?)}
+          - unless property.editable?
+            = icon('lock')
+            &nbsp;
+          = property.label
+        %td{class: ('text-muted' unless property.editable?)}
+          =t "spina.shop.properties.field_types.#{property.field_type}"
+        %td.align-right
+          - if property.editable?
+            = link_to 'Bewerken', '#'
+
+          - if property.field_type == 'select' && property.editable_options?
+            = link_to 'Bewerk opties', spina.edit_options_admin_settings_product_category_product_category_property_path(@product_category, property), class: 'button button-mini'
