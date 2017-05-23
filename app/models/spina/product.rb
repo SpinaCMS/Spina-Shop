@@ -41,9 +41,9 @@ module Spina
       where("spina_products.properties->'#{key}' ?& array['#{value.join('\',\'')}']")
     end
 
-    scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(spina_products.properties->>'#{key}', ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
+    scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
-    scope :items_where_in_range, -> (key, min, max) { joins(:product_items).where("CAST(coalesce(NULLIF(spina_product_items.properties->>'#{key}', ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
+    scope :items_where_in_range, -> (key, min, max) { joins(:product_items).where("CAST(coalesce(NULLIF(REPLACE(spina_product_items.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
     def to_s
       name
