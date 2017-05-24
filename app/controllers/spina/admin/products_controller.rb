@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class ProductsController < ShopController
+    class ProductsController < AdminController
       before_action :set_breadcrumbs
       before_action :set_locale
 

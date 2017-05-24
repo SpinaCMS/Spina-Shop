@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class OrdersController < ShopController
+    class OrdersController < AdminController
       before_action :set_breadcrumbs
 
       def new

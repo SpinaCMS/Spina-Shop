@@ -7,7 +7,7 @@
 
 .table-container
   %table.table
-    - @product_category.properties.each do |property|
+    - @product_category.properties.order(:label).each do |property|
       %tr
         %td{class: ('text-muted' unless property.editable?)}
           - unless property.editable?

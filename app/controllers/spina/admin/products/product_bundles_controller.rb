@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class ProductBundlesController < ShopController
+      class ProductBundlesController < AdminController
         before_action :set_breadcrumbs
 
         def show

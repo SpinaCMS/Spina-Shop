@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class ProductReviewsController < ShopController
+    class ProductReviewsController < AdminController
       
       def index
         @product_reviews = Spina::ProductReview.sorted.page(params[:page]).per(25)

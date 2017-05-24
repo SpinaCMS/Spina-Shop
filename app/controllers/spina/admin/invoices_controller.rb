@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class InvoicesController < ShopController
+    class InvoicesController < AdminController
       def show
         @invoice = Invoice.find(params[:id])
         presenter = InvoicePresenter.new(@invoice, view_context)

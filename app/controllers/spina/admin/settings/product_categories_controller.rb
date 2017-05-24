@@ -2,7 +2,9 @@ module Spina
   module Admin
     module Settings
       class ProductCategoriesController < ShopController
-        before_action :set_breadcrumbs
+        layout 'spina/admin/admin', except: [:index]
+
+        before_action :set_breadcrumbs, except: [:index]
 
         def index
           @product_categories = ProductCategory.all

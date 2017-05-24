@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class CustomersController < ShopController
+    class CustomersController < AdminController
       before_action :set_breadcrumbs
 
       def index

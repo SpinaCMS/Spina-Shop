@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class DiscountsController < ShopController
+    class DiscountsController < AdminController
       before_action :set_discount, only: [:edit, :update, :destroy]
       before_action :set_breadcrumbs
 

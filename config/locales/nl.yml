@@ -2,9 +2,10 @@ nl:
   spina:
     shop:
       title: Webshop
-      settings: Shop
+      settings: Webshopvoorkeuren
       tax_groups: Btw-groepen
       sales_categories: Omzetcategorieën
+      product_categories: Productcategorieën
       delete_selected: Verwijder geselecteerde regels
 
       emails:

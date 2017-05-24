@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Orders
-      class ShippingLabelsController < ShopController
+      class ShippingLabelsController < AdminController
 
         def show
           @order = Order.find(params[:order_id])

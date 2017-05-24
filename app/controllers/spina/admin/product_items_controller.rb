@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class ProductItemsController < ShopController
+    class ProductItemsController < AdminController
 
       def index
         @q = Spina::ProductItem.ransack(params[:q].permit!)

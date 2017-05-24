@@ -2,8 +2,11 @@ module Spina
   module Admin
     module Settings
       class ProductCategoryPropertiesController < ShopController
+        layout 'spina/admin/admin'
+
         before_action :set_product_category
-        before_action :set_breadcrumbs
+        before_action :set_breadcrumbs, except: [:index]
+        before_action :set_locale
 
         def edit
           @product_category_property = @product_category.properties.find(params[:id])
@@ -23,6 +26,10 @@ module Spina
 
         private
 
+          def set_locale
+            @locale = params[:locale] || I18n.default_locale
+          end
+
           def set_product_category
             @product_category = ProductCategory.find(params[:product_category_id])
           end
@@ -33,8 +40,9 @@ module Spina
           end
 
           def product_category_property_params
-            params.require(:product_category_property).permit(property_options_attributes: [:id, :name, :label, :_destroy])
+            params.require(:product_category_property).permit(property_options_attributes: [:id, :name, :label, :_destroy]).merge(locale: @locale)
           end
+
       end
     end
   end

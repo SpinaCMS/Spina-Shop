@@ -1,6 +1,6 @@
 module Spina
   module Admin
-    class CustomerAccountsController < ShopController
+    class CustomerAccountsController < AdminController
       before_action :set_customer
       before_action :set_breadcrumbs
 

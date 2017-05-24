@@ -1,7 +1,7 @@
 module Spina
   module Admin
     module Products
-      class StockLevelAdjustmentsController < ShopController
+      class StockLevelAdjustmentsController < AdminController
         before_action :set_product
         before_action :set_product_item
 

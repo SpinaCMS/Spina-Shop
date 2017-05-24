@@ -1,11 +1,15 @@
 require 'spina/shop/view_helpers'
+require 'spina/shop/admin_helpers'
 
 module Spina
   module Shop
     class Railtie < Rails::Railtie
 
       initializer "spina_shop.view_helpers" do
-        ActiveSupport.on_load(:action_view) { include Spina::Shop::ViewHelpers } 
+        ActiveSupport.on_load(:action_view) do 
+          include Spina::Shop::ViewHelpers
+          include Spina::Shop::AdminHelpers
+        end
       end
 
       initializer "spina_shop.register_plugin" do

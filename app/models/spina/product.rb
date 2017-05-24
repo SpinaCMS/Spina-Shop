@@ -57,6 +57,14 @@ module Spina
       product_items.active.first
     end
 
+    def active?
+      read_attribute(:active) && product_items.active.any?
+    end
+
+    def properties
+      decorate_with_methods(read_attribute(:properties))
+    end
+
     # Products filtered by filters
     def self.filtered(filters)
       products = all
@@ -86,6 +94,26 @@ module Spina
 
     private
 
+      def decorate_with_methods(jsonb)
+        product_category.properties.each do |property|
+          jsonb.define_singleton_method(property.name) do
+            case property.field_type
+            when 'select'
+              if jsonb[property.name].is_a? Array
+                jsonb[property.name].map do |option|
+                  property.property_options.where(name: option).first
+                end.compact
+              else
+                property.property_options.where(name: jsonb[property.name]).first
+              end
+            else
+              jsonb[property.name]
+            end
+          end
+        end
+        jsonb
+      end
+
       def set_materialized_path
         self.materialized_path = name.try(:parameterize)
         self.materialized_path += "-#{self.class.where(materialized_path: materialized_path).count}" if self.class.where(materialized_path: materialized_path).where.not(id: id).count > 0
@@ -93,7 +121,7 @@ module Spina
       end
 
       def cache_averages
-        # write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
+        write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
         write_attribute :sales_count, product_items.joins(:stock_level_adjustments).where('adjustment < ?', 0).sum(:adjustment) * -1
         write_attribute :lowest_price, product_items.minimum(:price)
         write_attribute :active, product_items.any?(&:active)
