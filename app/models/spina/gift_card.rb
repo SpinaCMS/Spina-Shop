@@ -14,7 +14,34 @@ module Spina
     end
 
     def readable_code
-      code.insert(4, '-')
+      code.insert(4, ' - ')
+    end
+
+    def expired?
+      expires_at < Date.today
+    end
+
+    def status
+      if remaining_balance == BigDecimal(0)
+        'used'
+      elsif expired?
+        'expired'
+      else
+        'unused'
+      end
+    end
+
+    def status_css_class
+      case status
+      when 'used'
+        'default'
+      when 'expired'
+        'danger'
+      when 'unused'
+        'success'
+      else
+        'default'
+      end
     end
 
     private

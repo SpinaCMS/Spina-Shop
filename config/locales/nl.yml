@@ -37,6 +37,15 @@ nl:
         save: Kortingscode opslaan
         new: Nieuwe kortingscode
 
+      gift_cards:
+        save: Cadeaubon opslaan
+        new: Nieuwe cadeaubon
+
+        status:
+          used: Gebruikt
+          unused: Ongebruikt
+          expired: Verlopen
+
       products:
         title: Catalogus
         save: Product opslaan
@@ -135,6 +144,9 @@ nl:
       spina/discount: 
         one: Kortingscode
         other: Kortingscodes
+      spina/gift_card: 
+        one: Cadeaubon
+        other: Cadeaubonnen
       spina/invoice: 
         one: Factuur
         other: Facturen
@@ -262,6 +274,13 @@ nl:
         starts_at: Begindatum
         expires_at: Einddatum
         optional: Optioneel
+
+      spina/gift_card:
+        code: Code
+        value: Waarde
+        remaining_balance: Saldo
+        expires_at: Verloopt op
+        created_at: Aangemaakt op
 
       spina/discounts/actions/percent_off:
         percent_off: Korting

@@ -1,0 +1,29 @@
+%header#header
+  .breadcrumbs
+    .pull-right
+      = link_to new_admin_gift_card_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container.infinite-table
+  %table.table
+    %thead
+      %tr
+        %th= Spina::GiftCard.human_attribute_name :code
+        %th= Spina::GiftCard.human_attribute_name :value
+        %th= Spina::GiftCard.human_attribute_name :remaining_balance
+        %th= Spina::GiftCard.human_attribute_name :created_at
+        %th= Spina::GiftCard.human_attribute_name :expires_at
+        %th
+
+    %tbody
+      - @gift_cards.each do |gift_card|
+        %tr
+          %td
+            = link_to gift_card.readable_code, admin_gift_card_path(gift_card), class: 'table-link'
+          %td= number_to_currency gift_card.value
+          %td= number_to_currency gift_card.remaining_balance
+          %td=l gift_card.created_at, format: :long
+          %td=l gift_card.expires_at, format: :long
+          %td.text-right
+            .status-dot{class: "status-dot-#{gift_card.status_css_class}", data: {tooltip: (t("spina.shop.gift_cards.status.#{gift_card.status}") unless gift_card.status == 'unused')}}

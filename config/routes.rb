@@ -62,5 +62,8 @@ Spina::Engine.routes.draw do
 
     # Discounts
     resources :discounts
+
+    # Gift Cards
+    resources :gift_cards
   end
 end

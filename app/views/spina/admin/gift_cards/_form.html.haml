@@ -1,0 +1,28 @@
+= form_for [:admin, @gift_card] do |f|
+  %header#header
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.shop.gift_cards.save'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::GiftCard.human_attribute_name :value
+
+          .sidebar-form-control
+            = f.number_field :value, placeholder: Spina::GiftCard.human_attribute_name(:value)
+
+    .sidebar-form-sidebar{style: 'padding-top: 20px'}
+      .form-group
+        .form-label
+          = Spina::GiftCard.human_attribute_name :expires_at
+        
+        .form-control
+          .input-group
+            = f.date_field :expires_at
