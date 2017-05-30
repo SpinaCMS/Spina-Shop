@@ -24,6 +24,8 @@ module Spina
 
     has_one :discounts_order, class_name: "Spina::DiscountsOrder"
     has_one :discount, through: :discounts_order, class_name: "Spina::Discount"
+    has_one :gift_cards_order, class_name: "Spina::GiftCardsOrder"
+    has_one :gift_card, through: :gift_cards_order, class_name: "Spina::GiftCard"
 
     scope :sorted, -> { order(order_number: :desc, id: :desc) }
     scope :received, -> { where.not(received_at: nil) }
