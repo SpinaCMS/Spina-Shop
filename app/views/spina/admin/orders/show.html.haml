@@ -158,6 +158,14 @@
             %br/
             = @order.billing_country.name
 
+        - if @order.gift_card.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:gift_card)
+            %td
+              = @order.gift_card.readable_code
+              %br/
+              = number_to_currency @order.gift_card_amount
+
         - if @order.payment_method.present?    
           %tr
             %th= Spina::Order.human_attribute_name(:payment_method)

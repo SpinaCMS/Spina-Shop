@@ -42,6 +42,9 @@ module Spina
       # Cache delivery option
       order.cache_delivery_option! if order.delivery_option.present?
 
+      # Apply gift card
+      order.apply_gift_card! if order.gift_card.present?
+
       # Create customer if necessary
       Spina::CustomerGenerator.new(order).generate!
     end
@@ -51,6 +54,9 @@ module Spina
 
       # Stock weer terugzetten
       order.order_items.each(&:unallocate_allocated_stock)
+
+      # Remove gift card
+      order.remove_gift_card! if order.gift_card.present?
     end
 
     after_transition(to: :cancelled) do |order, transition|
@@ -68,6 +74,9 @@ module Spina
 
       # Stock weer terugzetten
       order.order_items.each(&:unallocate_allocated_stock)
+
+      # Remove gift card
+      order.remove_gift_card! if order.gift_card.present?
     end
 
     after_transition(to: :failed) do |order, transition|

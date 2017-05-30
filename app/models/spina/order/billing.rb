@@ -20,6 +20,10 @@ module Spina
       read_attribute(:delivery_tax_rate) || delivery_option.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
     end
 
+    def gift_card_amount
+      read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
+    end
+
     def billing_first_name
       first_name
     end
@@ -31,6 +35,14 @@ module Spina
     # Total of the order
     def total
       sub_total + tax_amount + delivery_price
+    end
+
+    def total_owed
+      total - gift_card_amount
+    end
+
+    def nothing_owed?
+      paid? || total_owed == BigDecimal(0)
     end
 
     def tax_amount
@@ -56,5 +68,6 @@ module Spina
 
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
     end
+
   end
 end
