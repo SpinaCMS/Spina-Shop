@@ -10,13 +10,13 @@ module Spina
 
       def cancel
         @order = Order.find(params[:id])
-        @order.transition_to!(:cancelled, user: current_user.name, ip_address: request.remote_ip)
+        @order.transition_to!(:cancelled, user: current_spina_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
 
       def order_picked_up
         @order = Order.find(params[:id])
-        @order.transition_to!(:picked_up, user: current_user.name, ip_address: request.remote_ip)
+        @order.transition_to!(:picked_up, user: current_spina_user.name, ip_address: request.remote_ip)
         redirect_to [:admin, @order]
       end
 
@@ -61,12 +61,12 @@ module Spina
         @orders = Order.where(id: params[:order_ids])
         if params[:transition_to] == "order_picking_and_shipped"
           @orders.each do |order|
-            order.transition_to("order_picking", user: current_user.name, ip_address: request.remote_ip)
-            order.transition_to("shipped", user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to("order_picking", user: current_spina_user.name, ip_address: request.remote_ip)
+            order.transition_to("shipped", user: current_spina_user.name, ip_address: request.remote_ip)
           end
         else
           @orders.each do |order|
-            order.transition_to(params[:transition_to], user: current_user.name, ip_address: request.remote_ip)
+            order.transition_to(params[:transition_to], user: current_spina_user.name, ip_address: request.remote_ip)
           end
         end
 
