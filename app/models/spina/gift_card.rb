@@ -3,6 +3,8 @@ module Spina
     before_create :generate_unique_code
     before_create :set_remaining_balance
 
+    scope :available, -> { where('remaining_balance > ?', BigDecimal(0)).where('expires_at > ?', Date.today) }
+
     has_many :gift_cards_orders
     has_many :orders, through: :gift_cards_orders, dependent: :restrict_with_exception
 
