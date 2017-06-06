@@ -9,6 +9,7 @@ module Spina
       end
 
       def show
+        add_breadcrumb @gift_card.readable_code
       end
 
       def new
@@ -30,6 +31,12 @@ module Spina
       end
 
       def destroy
+        @gift_card.destroy
+        redirect_to admin_gift_cards_path
+      rescue ActiveRecord::DeleteRestrictionError
+        flash[:alert] = t('spina.shop.gift_cards.delete_restriction_error')
+        flash[:alert_small] = t('spina.shop.gift_cards.delete_restriction_error_explanation')
+        redirect_to [:admin, @gift_card]
       end
 
       private

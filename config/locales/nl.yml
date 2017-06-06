@@ -40,6 +40,11 @@ nl:
       gift_cards:
         save: Cadeaubon opslaan
         new: Nieuwe cadeaubon
+        no_orders_yet: Nog geen bestellingen
+        delete: Verwijder cadeaubon
+        delete_confirmation: Weet je zeker dat je deze <strong>cadeaubon</strong> wilt verwijderen?
+        delete_restriction_error: <strong>Cadeaubon</strong> kan niet verwijderd worden
+        delete_restriction_error_explanation: Is al in gebruik bij een bestelling
 
         status:
           used: Gebruikt

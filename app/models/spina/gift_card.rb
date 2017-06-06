@@ -31,19 +31,6 @@ module Spina
       end
     end
 
-    def status_css_class
-      case status
-      when 'used'
-        'default'
-      when 'expired'
-        'danger'
-      when 'unused'
-        'success'
-      else
-        'default'
-      end
-    end
-
     private
 
       # Generate a pretty and readable code with distinct characters

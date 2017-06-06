@@ -14,7 +14,6 @@
         %th= Spina::GiftCard.human_attribute_name :remaining_balance
         %th= Spina::GiftCard.human_attribute_name :created_at
         %th= Spina::GiftCard.human_attribute_name :expires_at
-        %th
 
     %tbody
       - @gift_cards.each do |gift_card|
@@ -25,5 +24,3 @@
           %td= number_to_currency gift_card.remaining_balance
           %td=l gift_card.created_at, format: :long
           %td=l gift_card.expires_at, format: :long
-          %td.text-right
-            .status-dot{class: "status-dot-#{gift_card.status_css_class}", data: {tooltip: (t("spina.shop.gift_cards.status.#{gift_card.status}") unless gift_card.status == 'unused')}}
