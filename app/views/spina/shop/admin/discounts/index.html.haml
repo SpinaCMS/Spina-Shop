@@ -1,0 +1,36 @@
+%header#header
+  .breadcrumbs
+    .pull-right{style: "height: 0px"}
+      = link_to spina.new_shop_admin_discount_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container.infinite-table
+  %table.table
+    %thead
+      %tr
+        %th= Spina::Shop::Discount.human_attribute_name :code
+        %th= Spina::Shop::Discount.human_attribute_name :description
+        %th= Spina::Shop::Discount.human_attribute_name :starts_at
+        %th= Spina::Shop::Discount.human_attribute_name :expires_at
+        %th
+
+    %tbody
+      - @discounts.each do |discount|
+        %tr
+          %td
+            = link_to discount.code, spina.edit_shop_admin_discount_path(discount), class: 'table-link'
+          %td
+            = discount.description
+          %td
+            =l discount.starts_at, format: :long
+          %td
+            - if discount.expires_at.present?
+              =l discount.expires_at, format: :long
+            - else
+              .text-muted Geen einddatum
+          %td.text-right
+            - if discount.active?
+              %label.label.label-success{style: 'margin-right: 0'} ACTIEF
+            - else
+              %label.label.label-default{style: 'margin-right: 0'} INACTIEF

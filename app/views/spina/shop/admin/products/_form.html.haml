@@ -1,0 +1,151 @@
+= form_for @product, url: @product.new_record? ? spina.shop_admin_products_path : spina.shop_admin_product_path(@product) do |f|
+  = hidden_field_tag :locale, @locale
+  = f.hidden_field :product_category_id
+
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
+
+    #header_actions
+      - unless @product.new_record?
+        = link_to spina.new_shop_admin_product_product_item_path(@product), class: 'button' do
+          = icon('plus')
+          =t 'spina.shop.product_items.new'
+
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.shop.products.save'
+
+  - if @product.errors.any?
+    - content_for :notifications do
+      .notification.notification-danger.animated.fadeInRight
+        = icon('exclamation')
+        .notification-message
+          = Spina::Shop::Product.human_attribute_name :cannot_be_created
+          %small
+            - @product.errors.full_messages.each do |message|
+              = message
+              %br/
+        = link_to '#', data: {close_notification: true} do
+          = icon('cross')
+
+  - Globalize.with_locale(@locale) do
+    .sidebar-form
+      .sidebar-form-content
+        .well
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :name
+
+            .sidebar-form-control
+              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name)
+
+          - if f.object.product_items.size == 1
+            = f.fields_for :product_items, child_index: 0 do |product_item_builder|
+              = product_item_builder.hidden_field :id
+              .sidebar-form-group
+                .sidebar-form-label
+                  = Spina::Shop::ProductItem.human_attribute_name :sku
+
+                .sidebar-form-control            
+                  = product_item_builder.text_field :sku, placeholder: Spina::Shop::ProductItem.human_attribute_name(:sku)
+
+        .well
+          .sidebar-form-group
+            .sidebar-form-control
+              %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
+                .button-groups
+                  .button-group
+                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                      .icon.icon-bold
+                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                      .icon.icon-italic
+                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                      .icon.icon-list-ul
+                %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
+                = f.hidden_field :description, id: 'product_description'
+        
+        - if @product_category.present?
+          .well
+            = f.fields_for :properties do |property_builder|
+              - @product_category.product_properties.each do |property|
+                = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
+
+        - if f.object.product_items.size == 1
+          = f.fields_for :product_items, child_index: 0 do |product_item_builder|
+            = render partial: 'spina/shop/admin/products/product_items/properties_form', locals: {f: product_item_builder}
+
+        .well
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :supplier
+            .sidebar-form-control
+              = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
+
+        .well
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :related_products
+
+            .sidebar-form-control
+              = f.select :related_product_ids, options_for_select(f.object.related_products.map{|p| [p.name, p.id]}, f.object.related_product_ids), {}, class: 'select-products', multiple: true, style: 'width: 100%'
+
+        .well
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :seo_title
+            .sidebar-form-control
+              = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title)
+
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :seo_description
+            .sidebar-form-control
+              = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description)
+
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Product.human_attribute_name :materialized_path
+            .sidebar-form-control
+              = f.text_field :materialized_path, value: "/products/#{f.object.materialized_path}", disabled: true
+
+      .sidebar-form-sidebar
+        #productImageUploader.sidebar-form-images
+          = f.fields_for :product_images, f.object.product_images.ordered do |image_builder|
+            - if image_builder.object.file.present?
+              .sidebar-form-image{data: {id: image_builder.object.id}}>
+                = image_tag attachment_url(image_builder.object, :file, :fill, 320, 240)
+                = image_builder.hidden_field :id
+                = image_builder.hidden_field :position, class: 'product-image-position'
+                = image_builder.check_box :_destroy, style: 'display: none'
+                = link_to '#', style: "position: absolute; bottom: 0; right: 0" do
+                  = image_tag 'delete-big.png'
+                  = image_tag 'delete-big-confirm.png'
+                .sidebar-form-image-overlay
+
+        = f.attachment_field :product_images_files, direct: true, multiple: true, presigned: true, class: "sidebar-form-image-dropzone"
+
+        - if f.object.product_items.size == 1
+          = f.fields_for :product_items, child_index: 0 do |product_item_builder|
+            = render partial: 'spina/shop/admin/products/product_items/details_form', locals: {f: product_item_builder}
+
+        - else
+          %table.table.table-clickable
+            %thead
+              %tr
+                %th= Spina::Shop::ProductItem.model_name.human
+                %th= Spina::Shop::ProductItem.human_attribute_name(:stock_level)
+                %th.align-right
+                  = Spina::Shop::ProductItem.human_attribute_name(:price)
+
+            %tbody
+              - @product.product_items.each do |product_item|
+                %tr
+                  %td
+                    = link_to product_item.name.presence || t('spina.shop.product_items.nameless'), spina.edit_shop_admin_product_product_item_path(@product, product_item), class: 'table-link'
+                  %td= product_item.stock_level
+                  %td.align-right= number_to_currency product_item.price
+
+        - unless @product.new_record?
+          .pull-right= link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'

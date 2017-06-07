@@ -10,7 +10,7 @@ require "bourbon"
 module Spina
   module Shop
     class Engine < ::Rails::Engine
-      isolate_namespace Spina
+      isolate_namespace Spina::Shop
 
       # Load decorators
       config.to_prepare do

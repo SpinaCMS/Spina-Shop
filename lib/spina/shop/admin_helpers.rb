@@ -7,7 +7,7 @@ module Spina
         id = new_object.object_id
         fields = f.fields_for(association, new_object, child_index: id) do |builder|
           build_structure_parts(f.object.page_part.name, new_object) if structure_item?(new_object)
-          render("#{ partable_partial_namespace(new_object) }_fields", f: builder)
+          render("bundled_product_items_fields", f: builder)
         end
         link_to '#', class: "add_product_item_fields button button-link button-block", data: {id: id, fields: fields.gsub("\n", "")} do
           block.yield
@@ -24,10 +24,6 @@ module Spina
         link_to '#', class: "add_property_option_fields button button-link button-block", data: {id: id, fields: fields.gsub("\n", "")} do
           block.yield
         end
-      end
-
-      def partable_type_partial_namespace(partable_type)
-        partable_type.tableize.sub(/\Aspina\//, '')
       end
 
     end

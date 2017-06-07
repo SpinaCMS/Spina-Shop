@@ -1,0 +1,46 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container
+  %table.table
+    %tr
+      %th= Spina::Shop::GiftCard.human_attribute_name :value
+      %td= number_to_currency @gift_card.value
+
+    %tr
+      %th= Spina::Shop::GiftCard.human_attribute_name :remaining_balance
+      %td= number_to_currency @gift_card.remaining_balance
+
+    %tr
+      %th= Spina::Shop::GiftCard.human_attribute_name :created_at
+      %td=l @gift_card.created_at, format: :long
+
+    %tr
+      %th= Spina::Shop::GiftCard.human_attribute_name :expires_at
+      %td=l @gift_card.expires_at, format: :long
+
+.table-container
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th
+        %th= Spina::Shop::Order.human_attribute_name(:order_number)
+        %th= Spina::Shop::Customer.model_name.human
+        %th= Spina::Shop::Order.human_attribute_name(:received_at)
+        %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
+        %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
+        %th
+
+    %tbody
+      - if @gift_card.orders.received.any?
+        = render partial: 'spina/admin/orders/order', collection: @gift_card.orders.sorted.received
+
+      - else
+        %tr
+          %td{colspan: 7}
+            %p.text-center.text-muted
+              %em=t 'spina.shop.gift_cards.no_orders_yet'
+
+- if @gift_card.orders.none?
+  .pull-right= link_to t('spina.shop.gift_cards.delete'), spina.shop_admin_gift_card_path(@gift_card), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.gift_cards.delete_confirmation')}, style: 'padding-right: 0'

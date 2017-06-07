@@ -1,0 +1,300 @@
+%header#header
+  .pull-right
+    = link_to t('spina.edit'), spina.edit_shop_admin_order_path(@order), class: 'button'
+
+    %div{style: 'display: inline-block', data: {dropdown: true}}
+      = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#actions'} do
+        =t 'spina.shop.orders.actions'
+        %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+      %ul#actions.align-right
+        - if @order.order_picked_at.present?
+          %li= link_to t('spina.shop.orders.download_packing_slip'), spina.shop_admin_order_packing_slip_path(@order)
+
+        - @order.invoices.each do |invoice|
+          %li= link_to t('spina.shop.orders.download_invoice', number: invoice.invoice_number), spina.shop_admin_invoice_path(invoice, format: :pdf)
+
+        - if @order.in_state?(:confirming, :received)
+          %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+
+    - if @order.in_state?(:paid)
+      = link_to t('spina.shop.orders.start_order_picking_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+
+    - if @order.in_state?(:order_picking)
+      - if @order.requires_shipping?
+        = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+      - else
+        = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary.tabs
+    %ul
+      %li.active
+        = link_to '#order' do
+          = Spina::Order.model_name.human
+      %li
+        = link_to '#history' do
+          =t 'spina.shop.orders.history'
+
+.tab-content.active#order
+
+  .wizard-steps
+    - if @order.cancelled?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label=t 'spina.shop.orders.states.cancelled'
+        .wizard-step-connector
+
+    - elsif @order.failed?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label=t 'spina.shop.orders.states.failed'
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.received?)}
+        .wizard-step-circle
+          = icon("shop")
+          .wizard-step-label=t 'spina.shop.orders.states.received'
+        .wizard-step-connector
+
+    - if @order.received? && @order.failed?
+      .wizard-step.error
+        .wizard-step-circle
+          .wizard-step-label=t 'spina.shop.orders.states.failed'
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.paid?)}
+        .wizard-step-circle
+          = icon("mail")
+          .wizard-step-label=t 'spina.shop.orders.states.paid'
+        .wizard-step-connector
+
+    - unless @order.pos?
+      .wizard-step{class: ('done' if @order.order_picked_at.present?)}
+        .wizard-step-circle
+          = icon("dots")
+          .wizard-step-label=t 'spina.shop.orders.states.order_picking'
+        .wizard-step-connector
+
+    - if @order.requires_shipping?
+      .wizard-step{class: ('done' if @order.shipped_at.present?)}
+        .wizard-step-circle
+          = icon("mail")
+          .wizard-step-label=t 'spina.shop.orders.states.shipped'
+        .wizard-step-connector
+
+      .wizard-step{class: ('done' if @order.delivered_at.present?)}
+        .wizard-step-circle
+          = icon("home")
+          .wizard-step-label=t 'spina.shop.orders.states.delivered'
+        .wizard-step-connector
+
+    - else
+      .wizard-step{class: ('done' if @order.picked_up_at.present?)}
+        .wizard-step-circle
+          = icon("shop")
+          .wizard-step-label=t 'spina.shop.orders.states.picked_up'
+        .wizard-step-connector
+
+  .divider-container
+    %hr.divider/
+
+  .information-tables
+    .information-table
+      %table
+        - if @order.billing_name.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:billing_name)
+            %td
+              = link_to_if @order.customer.present?, @order.billing_name, [:admin, @order.customer]
+
+        - if @order.email.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:email)
+            %td
+              = link_to @order.email, @order.email
+
+        - if @order.phone.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:phone)
+            %td= @order.phone
+
+        - if @order.received_at.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:received_at)
+            %td
+              =l @order.received_at, format: '%d %B %Y'
+              %br/
+              =l @order.received_at, format: '%H:%M'
+              %small.text-muted=l @order.received_at, format: '%Z'
+
+        - if @order.ip_address.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:ip_address)
+            %td
+              = @order.ip_address
+
+    .information-table
+      %table
+        - if @order.invoices.any?
+          %tr
+            %th= Spina::Invoice.model_name.human count: @order.invoices.count
+            %td
+              - @order.invoices.each do |invoice|
+                = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
+
+        %tr
+          %th= Spina::Order.human_attribute_name(:billing_address)
+          %td
+            = @order.billing_name
+            %br/
+            = [@order.billing_street1.presence, @order.billing_street2.presence].compact.join('<br />').html_safe
+            = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
+            %br/
+            = [@order.billing_postal_code, @order.billing_city].join(', ')
+            %br/
+            = @order.billing_country.name
+
+        - if @order.gift_card.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:gift_card)
+            %td
+              = @order.gift_card.readable_code
+              %br/
+              = number_to_currency @order.gift_card_amount
+
+        - if @order.payment_method.present?    
+          %tr
+            %th= Spina::Order.human_attribute_name(:payment_method)
+            %td 
+              =t "spina.shop.orders.payment_methods.#{@order.payment_method}"
+              - if @order.paid_at.present?
+                %br/
+                =l @order.paid_at, format: "%d %B %Y"
+                %br/
+                =l @order.paid_at, format: "%H:%M"
+                %small.text-muted=l @order.paid_at, format: '%Z'
+
+        - if @order.cancelled_at.present?
+          %tr
+            %th=t 'spina.shop.orders.states.cancelled'
+            %td
+              =l @order.cancelled_at, format: "%d %B %Y"
+              %br/
+              =l @order.cancelled_at, format: "%H:%M"
+              %small.text-muted=l @order.cancelled_at, format: '%Z'
+
+        - if @order.failed_at.present?
+          %tr
+            %th=t 'spina.shop.orders.states.failed'
+            %td
+              =l @order.failed_at, format: "%d %B %Y"
+              %br/
+              =l @order.failed_at, format: "%H:%M"
+              %small.text-muted=l @order.failed_at, format: '%Z'
+
+    .information-table
+      %table
+        %tr
+          %th= Spina::Order.human_attribute_name(:delivery_address)
+          %td 
+            = @order.delivery_name
+            %br/
+            = [@order.delivery_street1.presence, @order.delivery_street2.presence].compact.join('<br />').html_safe
+            = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
+            %br/
+            = [@order.delivery_postal_code, @order.delivery_city].join(', ')
+
+        - if @order.delivery_tracking_ids.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:delivery_tracking_ids)
+            %td= @order.delivery_tracking_ids.join("<br />").html_safe
+
+        %tr
+          %th= Spina::Order.human_attribute_name(:weight)
+          %td
+            = @order.total_weight
+            gr
+
+        - if @order.shipped_at.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:shipped_at)
+            %td=l @order.shipped_at, format: "%d %B %Y"
+
+        - if @order.delivered_at.present?
+          %tr
+            %th= Spina::Order.human_attribute_name(:delivered_at)
+            %td
+              .text-muted=l @order.delivered_at, format: "%d %B %Y"
+
+  .divider-container
+    %hr.divider/
+
+  - if @order.note.present?
+    %label= Spina::Order.human_attribute_name(:note)
+    = preserve "<p style='white-space: pre'>#{@order.note}</p>".html_safe
+    .divider-container
+      %hr.divider/
+
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th.text-right 
+          %th= Spina::Product.model_name.human
+          %th.text-right= Spina::OrderItem.human_attribute_name(:price)
+          %th.text-right= Spina::OrderItem.human_attribute_name(:total)
+
+      %tbody
+        - @order.order_items.each do |order_item|
+          %tr
+            %td.text-right= "#{order_item.quantity} &times;".html_safe
+            %td
+              - if order_item.is_product_bundle?
+                = link_to order_item.description, [:admin, order_item.orderable], class: 'table-link'
+              - else
+                = link_to order_item.description, [:admin, order_item.orderable.product], class: 'table-link'
+            %td.text-right= number_to_currency order_item.unit_price
+            %td.text-right
+              - if order_item.discount_amount > 0
+                .text-muted{style: 'text-decoration: line-through'}= number_to_currency order_item.total_without_discount
+
+              = number_to_currency order_item.total
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:sub_total)
+            = number_to_currency @order.sub_total_including_tax
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:delivery_price)
+            = number_to_currency @order.delivery_price
+
+        %tr
+          %td.text-right{colspan: 4}
+            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:total)
+            = number_to_currency @order.total
+
+.tab-content#history
+  .table-container
+    %table.table
+      %tr
+        %th= t("spina.shop.orders.states.building")
+        %td=l @order.created_at, format: :long
+        %td.text-right= @order.billing_name
+        %td.text-muted.text-right= @order.ip_address
+
+      - @order.order_transitions.each do |transition|
+        %tr
+          %th= t("spina.shop.orders.states.#{transition.to_state}")
+          %td=l transition.created_at, format: :long
+
+          - if transition.metadata.present?
+            %td.text-right= transition.metadata["user"]
+            %td.text-muted.text-right= transition.metadata['ip_address']
+          - else
+            %td{colspan: 2}

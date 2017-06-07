@@ -1,0 +1,26 @@
+%header#header
+  .breadcrumbs
+    .pull-right{style: 'height: 0px'}
+      = link_to spina.new_shop_admin_gift_card_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container.infinite-table
+  %table.table
+    %thead
+      %tr
+        %th= Spina::Shop::GiftCard.human_attribute_name :code
+        %th= Spina::Shop::GiftCard.human_attribute_name :value
+        %th= Spina::Shop::GiftCard.human_attribute_name :remaining_balance
+        %th= Spina::Shop::GiftCard.human_attribute_name :created_at
+        %th= Spina::Shop::GiftCard.human_attribute_name :expires_at
+
+    %tbody
+      - @gift_cards.each do |gift_card|
+        %tr
+          %td
+            = link_to gift_card.readable_code, spina.shop_admin_gift_card_path(gift_card), class: 'table-link'
+          %td= number_to_currency gift_card.value
+          %td= number_to_currency gift_card.remaining_balance
+          %td=l gift_card.created_at, format: :long
+          %td=l gift_card.expires_at, format: :long

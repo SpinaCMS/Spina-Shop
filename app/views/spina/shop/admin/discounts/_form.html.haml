@@ -1,0 +1,60 @@
+= form_for @discount, url: @discount.new_record? ? spina.shop_admin_discounts_path : spina.shop_admin_discount_path(@discount) do |f|
+  %header#header
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.shop.discounts.save'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Discount.human_attribute_name :code
+
+          .sidebar-form-control
+            = f.text_field :code, placeholder: Spina::Shop::Product.human_attribute_name(:code)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Discount.human_attribute_name :description
+
+          .sidebar-form-control
+            = f.text_field :description, placeholder: Spina::Shop::Product.human_attribute_name(:description)
+
+      .well
+        = f.fields_for :discount_action do |action_fields|
+          = action_fields.hidden_field :type
+
+          = render partial: "spina/shop/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}            
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Discount.human_attribute_name :discount_rule
+
+          .sidebar-form-control
+            = f.fields_for :discount_rule do |rule_fields|
+              = rule_fields.select :type, options_for_select(Spina::Shop::DiscountRule.descendants.map(&:model_name).map{|r| [r.human, r]}, f.object.type), {}, class: "select2", style: 'width: 100%'
+
+              = render partial: "spina/shop/admin/discounts/fields/discount_rule_fields", locals: {f: rule_fields}
+
+    .sidebar-form-sidebar{style: 'padding-top: 20px'}
+      .form-group
+        .form-label
+          = Spina::Shop::Discount.human_attribute_name :starts_at
+        
+        .form-control
+          .input-group
+            = f.date_field :starts_at
+
+      .form-group
+        .form-label
+          = Spina::Shop::Discount.human_attribute_name :expires_at
+          %small.text-muted= Spina::Shop::Discount.human_attribute_name :optional
+        
+        .form-control
+          .input-group
+            = f.date_field :expires_at

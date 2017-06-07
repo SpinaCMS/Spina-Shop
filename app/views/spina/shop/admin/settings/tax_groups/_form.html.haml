@@ -1,0 +1,20 @@
+= form_for @tax_group, url: @tax_group.new_record? ? spina.shop_admin_settings_tax_groups_path : spina.shop_admin_settings_tax_group_path(@tax_group) do |f|
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        Btw-groep opslaan
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::TaxGroup.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::Shop::TaxGroup.human_attribute_name(:name)
+
+= @tax_group.tax_rates

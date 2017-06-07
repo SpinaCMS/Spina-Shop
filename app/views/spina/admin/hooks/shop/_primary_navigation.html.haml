@@ -1,22 +1,22 @@
 %li{class: ('active' if controller_name.in? %w(products customers discounts orders product_items properties customer_accounts product_bundles product_reviews))}
-  = link_to spina.admin_orders_path do
+  = link_to spina.shop_admin_orders_path do
     = icon('shop')
     =t 'spina.shop.title'
     = icon('caret-right')
 
   %ul
     %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
-      = link_to Spina::Order.model_name.human(count: 2), spina.admin_orders_path
+      = link_to Spina::Shop::Order.model_name.human(count: 2), spina.shop_admin_orders_path
     %li{class: ('active' if controller_name.in? %w(products product_items properties product_bundles))}
-      = link_to Spina::Product.model_name.human(count: 2), spina.admin_products_path
+      = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
     %li{class: ('active' if controller_name == 'product_reviews')}
-      = link_to Spina::ProductReview.model_name.human(count: 2), spina.admin_product_reviews_path
+      = link_to Spina::Shop::ProductReview.model_name.human(count: 2), spina.shop_admin_product_reviews_path
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts))}
-      = link_to Spina::Customer.model_name.human(count: 2), spina.admin_customers_path 
+      = link_to Spina::Shop::Customer.model_name.human(count: 2), spina.shop_admin_customers_path 
     %li{class: ('active' if controller_name == 'discounts')}
-      = link_to Spina::Discount.model_name.human(count: 2), spina.admin_discounts_path
+      = link_to Spina::Shop::Discount.model_name.human(count: 2), spina.shop_admin_discounts_path
     %li{class: ('active' if controller_name == 'gift_cards')}
-      = link_to Spina::GiftCard.model_name.human(count: 2), spina.admin_gift_cards_path
+      = link_to Spina::Shop::GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
     %li
       = link_to '#', class: 'back-to-main-menu' do
         = icon('caret-left')

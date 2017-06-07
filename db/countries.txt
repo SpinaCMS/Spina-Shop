@@ -1,0 +1,252 @@
+AD	AND	Andorra	EU	.ad	EUR
+AE	ARE	United Arab Emirates	AS	.ae	AED
+AF	AFG	Afghanistan	AS	.af	AFN
+AG	ATG	Antigua and Barbuda	NA	.ag	XCD
+AI	AIA	Anguilla	NA	.ai	XCD
+AL	ALB	Albania	EU	.al	ALL
+AM	ARM	Armenia	AS	.am	AMD
+AO	AGO	Angola	AF	.ao	AOA
+AQ	ATA	Antarctica	AN	.aq	
+AR	ARG	Argentina	SA	.ar	ARS
+AS	ASM	American Samoa	OC	.as	USD
+AT	AUT	Austria	EU	.at	EUR
+AU	AUS	Australia	OC	.au	AUD
+AW	ABW	Aruba	NA	.aw	AWG
+AX	ALA	Aland Islands	EU	.ax	EUR
+AZ	AZE	Azerbaijan	AS	.az	AZN
+BA	BIH	Bosnia and Herzegovina	EU	.ba	BAM
+BB	BRB	Barbados	NA	.bb	BBD
+BD	BGD	Bangladesh	AS	.bd	BDT
+BE	BEL	Belgium	EU	.be	EUR
+BF	BFA	Burkina Faso	AF	.bf	XOF
+BG	BGR	Bulgaria	EU	.bg	BGN
+BH	BHR	Bahrain	AS	.bh	BHD
+BI	BDI	Burundi	AF	.bi	BIF
+BJ	BEN	Benin	AF	.bj	XOF
+BL	BLM	Saint Barthelemy	NA	.gp	EUR
+BM	BMU	Bermuda	NA	.bm	BMD
+BN	BRN	Brunei	AS	.bn	BND
+BO	BOL	Bolivia	SA	.bo	BOB
+BQ	BES	Bonaire, Saint Eustatius and Saba NA	.bq	USD
+BR	BRA	Brazil	SA	.br	BRL
+BS	BHS	Bahamas	NA	.bs	BSD
+BT	BTN	Bhutan	AS	.bt	BTN
+BV	BVT	Bouvet Island	AN	.bv	NOK
+BW	BWA	Botswana	AF	.bw	BWP
+BY	BLR	Belarus	EU	.by	BYR
+BZ	BLZ	Belize	NA	.bz	BZD
+CA	CAN	Canada	NA	.ca	CAD
+CC	CCK	Cocos Islands	AS	.cc	AUD
+CD	COD	Democratic Republic of the Congo	AF	.cd	CDF
+CF	CAF	Central African Republic	AF	.cf	XAF
+CG	COG	Republic of the Congo	AF	.cg	XAF
+CH	CHE	Switzerland	EU	.ch	CHF
+CI	CIV	Ivory Coast	AF	.ci	XOF
+CK	COK	Cook Islands	OC	.ck	NZD
+CL	CHL	Chile	SA	.cl	CLP
+CM	CMR	Cameroon	AF	.cm	XAF
+CN	CHN	China	AS	.cn	CNY
+CO	COL	Colombia	SA	.co	COP
+CR	CRI	Costa Rica	NA	.cr	CRC
+CU	CUB	Cuba	NA	.cu	CUP
+CV	CPV	Cape Verde	AF	.cv	CVE
+CW	CUW	Curacao	NA	.cw	ANG
+CX	CXR	Christmas Island	AS	.cx	AUD
+CY	CYP	Cyprus	EU	.cy	EUR
+CZ	CZE	Czech Republic	EU	.cz	CZK
+DE	DEU	Germany	EU	.de	EUR
+DJ	DJI	Djibouti	AF	.dj	DJF
+DK	DNK	Denmark	EU	.dk	DKK
+DM	DMA	Dominica	NA	.dm	XCD
+DO	DOM	Dominican Republic	NA	.do	DOP
+DZ	DZA	Algeria	AF	.dz	DZD
+EC	ECU	Ecuador	SA	.ec	USD
+EE	EST	Estonia	EU	.ee	EUR
+EG	EGY	Egypt	AF	.eg	EGP
+EH	ESH	Western Sahara	AF	.eh	MAD
+ER	ERI	Eritrea	AF	.er	ERN
+ES	ESP	Spain	EU	.es	EUR
+ET	ETH	Ethiopia	AF	.et	ETB
+FI	FIN	Finland	EU	.fi	EUR
+FJ	FJI	Fiji	OC	.fj	FJD
+FK	FLK	Falkland Islands	SA	.fk	FKP
+FM	FSM	Micronesia	OC	.fm	USD
+FO	FRO	Faroe Islands	EU	.fo	DKK
+FR	FRA	France	EU	.fr	EUR
+GA	GAB	Gabon	AF	.ga	XAF
+GB	GBR	United Kingdom	EU	.uk	GBP
+GD	GRD	Grenada	NA	.gd	XCD
+GE	GEO	Georgia	AS	.ge	GEL
+GF	GUF	French Guiana	SA	.gf	EUR
+GG	GGY	Guernsey	EU	.gg	GBP
+GH	GHA	Ghana	AF	.gh	GHS
+GI	GIB	Gibraltar	EU	.gi	GIP
+GL	GRL	Greenland	NA	.gl	DKK
+GM	GMB	Gambia	AF	.gm	GMD
+GN	GIN	Guinea	AF	.gn	GNF
+GP	GLP	Guadeloupe	NA	.gp	EUR
+GQ	GNQ	Equatorial Guinea	AF	.gq	XAF
+GR	GRC	Greece	EU	.gr	EUR
+GS	SGS	South Georgia and the South Sandwich Islands	AN	.gs	GBP
+GT	GTM	Guatemala	NA	.gt	GTQ
+GU	GUM	Guam	OC	.gu	USD
+GW	GNB	Guinea-Bissau	AF	.gw	XOF
+GY	GUY	Guyana	SA	.gy	GYD
+HK	HKG	Hong Kong	AS	.hk	HKD
+HM	HMD	Heard Island and McDonald Islands	AN	.hm	AUD
+HN	HND	Honduras	NA	.hn	HNL
+HR	HRV	Croatia	EU	.hr	HRK
+HT	HTI	Haiti	NA	.ht	HTG
+HU	HUN	Hungary	EU	.hu	HUF
+ID	IDN	Indonesia	AS	.id	IDR
+IE	IRL	Ireland	EU	.ie	EUR
+IL	ISR	Israel	AS	.il	ILS
+IM	IMN	Isle of Man	EU	.im	GBP
+IN	IND	India	AS	.in	INR
+IO	IOT	British Indian Ocean Territory	AS	.io	USD
+IQ	IRQ	Iraq	AS	.iq	IQD
+IR	IRN	Iran	AS	.ir	IRR
+IS	ISL	Iceland	EU	.is	ISK
+IT	ITA	Italy	EU	.it	EUR
+JE	JEY	Jersey	EU	.je	GBP
+JM	JAM	Jamaica	NA	.jm	JMD
+JO	JOR	Jordan	AS	.jo	JOD
+JP	JPN	Japan	AS	.jp	JPY
+KE	KEN	Kenya	AF	.ke	KES
+KG	KGZ	Kyrgyzstan	AS	.kg	KGS
+KH	KHM	Cambodia	AS	.kh	KHR
+KI	KIR	Kiribati	OC	.ki	AUD
+KM	COM	Comoros	AF	.km	KMF
+KN	KNA	Saint Kitts and Nevis	NA	.kn	XCD
+KP	PRK	North Korea	AS	.kp	KPW
+KR	KOR	South Korea	AS	.kr	KRW
+XK	XKX	Kosovo	EU		EUR
+KW	KWT	Kuwait	AS	.kw	KWD
+KY	CYM	Cayman Islands	NA	.ky	KYD
+KZ	KAZ	Kazakhstan	AS	.kz	KZT
+LA	LAO	Laos	AS	.la	LAK
+LB	LBN	Lebanon	AS	.lb	LBP
+LC	LCA	Saint Lucia	NA	.lc	XCD
+LI	LIE	Liechtenstein	EU	.li	CHF
+LK	LKA	Sri Lanka	AS	.lk	LKR
+LR	LBR	Liberia	AF	.lr	LRD
+LS	LSO	Lesotho	AF	.ls	LSL
+LT	LTU	Lithuania	EU	.lt	LTL
+LU	LUX	Luxembourg	EU	.lu	EUR
+LV	LVA	Latvia	EU	.lv	LVL
+LY	LBY	Libya	AF	.ly	LYD
+MA	MAR	Morocco	AF	.ma	MAD
+MC	MCO	Monaco	EU	.mc	EUR
+MD	MDA	Moldova	EU	.md	MDL
+ME	MNE	Montenegro	EU	.me	EUR
+MF	MAF	Saint Martin	NA	.gp	EUR
+MG	MDG	Madagascar	AF	.mg	MGA
+MH	MHL	Marshall Islands	OC	.mh	USD
+MK	MKD	Macedonia	EU	.mk	MKD
+ML	MLI	Mali	AF	.ml	XOF
+MM	MMR	Myanmar	AS	.mm	MMK
+MN	MNG	Mongolia	AS	.mn	MNT
+MO	MAC	Macao	AS	.mo	MOP
+MP	MNP	Northern Mariana Islands	OC	.mp	USD
+MQ	MTQ	Martinique	NA	.mq	EUR
+MR	MRT	Mauritania	AF	.mr	MRO
+MS	MSR	Montserrat	NA	.ms	XCD
+MT	MLT	Malta	EU	.mt	EUR
+MU	MUS	Mauritius	AF	.mu	MUR
+MV	MDV	Maldives	AS	.mv	MVR
+MW	MWI	Malawi	AF	.mw	MWK
+MX	MEX	Mexico	NA	.mx	MXN
+MY	MYS	Malaysia	AS	.my	MYR
+MZ	MOZ	Mozambique	AF	.mz	MZN
+NA	NAM	Namibia	AF	.na	NAD
+NC	NCL	New Caledonia	OC	.nc	XPF
+NE	NER	Niger	AF	.ne	XOF
+NF	NFK	Norfolk Island	OC	.nf	AUD
+NG	NGA	Nigeria	AF	.ng	NGN
+NI	NIC	Nicaragua	NA	.ni	NIO
+NL	NLD	Netherlands	EU	.nl	EUR
+NO	NOR	Norway	EU	.no	NOK
+NP	NPL	Nepal	AS	.np	NPR
+NR	NRU	Nauru	OC	.nr	AUD
+NU	NIU	Niue	OC	.nu	NZD
+NZ	NZL	New Zealand	OC	.nz	NZD
+OM	OMN	Oman	AS	.om	OMR
+PA	PAN	Panama	NA	.pa	PAB
+PE	PER	Peru	SA	.pe	PEN
+PF	PYF	French Polynesia	OC	.pf	XPF
+PG	PNG	Papua New Guinea	OC	.pg	PGK
+PH	PHL	Philippines	AS	.ph	PHP
+PK	PAK	Pakistan	AS	.pk	PKR
+PL	POL	Poland	EU	.pl	PLN
+PM	SPM	Saint Pierre and Miquelon	NA	.pm	EUR
+PN	PCN	Pitcairn	OC	.pn	NZD
+PR	PRI	Puerto Rico	NA	.pr	USD
+PS	PSE	Palestinian Territory	AS	.ps	ILS
+PT	PRT	Portugal	EU	.pt	EUR
+PW	PLW	Palau	OC	.pw	USD
+PY	PRY	Paraguay	SA	.py	PYG
+QA	QAT	Qatar	AS	.qa	QAR
+RE	REU	Reunion	AF	.re	EUR
+RO	ROU	Romania	EU	.ro	RON
+RS	SRB	Serbia	EU	.rs	RSD
+RU	RUS	Russia	EU	.ru	RUB
+RW	RWA	Rwanda	AF	.rw	RWF
+SA	SAU	Saudi Arabia	AS	.sa	SAR
+SB	SLB	Solomon Islands	OC	.sb	SBD
+SC	SYC	Seychelles	AF	.sc	SCR
+SD	SDN	Sudan	AF	.sd	SDG
+SS	SSD	South Sudan	AF		SSP
+SE	SWE	Sweden	EU	.se	SEK
+SG	SGP	Singapore	AS	.sg	SGD
+SH	SHN	Saint Helena	AF	.sh	SHP
+SI	SVN	Slovenia	EU	.si	EUR
+SJ	SJM	Svalbard and Jan Mayen	EU	.sj	NOK
+SK	SVK	Slovakia	EU	.sk	EUR
+SL	SLE	Sierra Leone	AF	.sl	SLL
+SM	SMR	San Marino	EU	.sm	EUR
+SN	SEN	Senegal	AF	.sn	XOF
+SO	SOM	Somalia	AF	.so	SOS
+SR	SUR	Suriname	SA	.sr	SRD
+ST	STP	Sao Tome and Principe	AF	.st	STD
+SV	SLV	El Salvador	NA	.sv	USD
+SX	SXM	Sint Maarten	NA	.sx	ANG
+SY	SYR	Syria	AS	.sy	SYP
+SZ	SWZ	Swaziland	AF	.sz	SZL
+TC	TCA	Turks and Caicos Islands	NA	.tc	USD
+TD	TCD	Chad	AF	.td	XAF
+TF	ATF	French Southern Territories	AN	.tf	EUR
+TG	TGO	Togo	AF	.tg	XOF
+TH	THA	Thailand	AS	.th	THB
+TJ	TJK	Tajikistan	AS	.tj	TJS
+TK	TKL	Tokelau	OC	.tk	NZD
+TL	TLS	East Timor	OC	.tl	USD
+TM	TKM	Turkmenistan	AS	.tm	TMT
+TN	TUN	Tunisia	AF	.tn	TND
+TO	TON	Tonga	OC	.to	TOP
+TR	TUR	Turkey	AS	.tr	TRY
+TT	TTO	Trinidad and Tobago	NA	.tt	TTD
+TV	TUV	Tuvalu	OC	.tv	AUD
+TW	TWN	Taiwan	AS	.tw	TWD
+TZ	TZA	Tanzania	AF	.tz	TZS
+UA	UKR	Ukraine	EU	.ua	UAH
+UG	UGA	Uganda	AF	.ug	UGX
+UM	UMI	United States Minor Outlying Islands	OC	.um	USD
+US	USA	United States	NA	.us	USD
+UY	URY	Uruguay	SA	.uy	UYU
+UZ	UZB	Uzbekistan	AS	.uz	UZS
+VA	VAT	Vatican	EU	.va	EUR
+VC	VCT	Saint Vincent and the Grenadines	NA	.vc	XCD
+VE	VEN	Venezuela	SA	.ve	VEF
+VG	VGB	British Virgin Islands	NA	.vg	USD
+VI	VIR	U.S. Virgin Islands	NA	.vi	USD
+VN	VNM	Vietnam	AS	.vn	VND
+VU	VUT	Vanuatu	OC	.vu	VUV
+WF	WLF	Wallis and Futuna	OC	.wf	XPF
+WS	WSM	Samoa	OC	.ws	WST
+YE	YEM	Yemen	AS	.ye	YER
+YT	MYT	Mayotte	AF	.yt	EUR
+ZA	ZAF	South Africa	AF	.za	ZAR
+ZM	ZMB	Zambia	AF	.zm	ZMK
+ZW	ZWE	Zimbabwe	AF	.zw	ZWL
+CS	SCG	Serbia and Montenegro	EU	.cs	RSD
+AN	ANT	Netherlands Antilles	NA	.an	ANG

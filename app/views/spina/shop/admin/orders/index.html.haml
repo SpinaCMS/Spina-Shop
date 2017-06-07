@@ -1,0 +1,78 @@
+%header#header
+  .breadcrumbs
+    .pull-right{style: "height: 0px"}
+      = link_to spina.new_shop_admin_order_path, class: 'button button-mini icon-only' do
+        %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li{class: ('active' if action_name == 'index')}
+        = link_to t('spina.shop.orders.title'), spina.shop_admin_orders_path
+      %li{class: ('active' if action_name == 'to_process')}
+        = link_to t('spina.shop.orders.to_process'), spina.to_process_shop_admin_orders_path
+      %li{class: ('active' if action_name == 'failed')}
+        = link_to t('spina.shop.orders.failed'), spina.failed_shop_admin_orders_path
+
+= search_form_for @q, url: spina.shop_admin_orders_path, html: {class: 'filter-form'} do |f|
+  .filter-form-simple
+    .filter-form-input
+      = f.text_field :first_name_or_last_name_cont, placeholder: t('spina.search')
+      = link_to 'geavanceerd', '#', class: 'filter-form-advanced-link'
+
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      = icon('search')
+
+  .filter-form-advanced
+    .filter-form-advanced-group
+      .filter-form-label
+        ID
+
+      .filter-form-control
+        .input-group
+          = f.text_field :id_gteq, placeholder: 'min'
+          = f.text_field :id_lteq, placeholder: 'max'
+
+    .filter-form-advanced-group
+      .filter-form-label
+        = Spina::Shop::Order.human_attribute_name(:received_at)
+
+      .filter-form-control
+        .input-group
+          = f.text_field :received_at_gteq, value: (l(f.object.received_at_gteq, format: '%d-%m-%Y') if f.object.received_at_gteq), placeholder: 'min', class: 'datepicker'
+          = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
+
+= form_tag spina.transition_shop_admin_orders_path, method: :put do
+  .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}
+    = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
+      =t 'spina.shop.orders.actions'
+      %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+    %ul#actions.align-right
+      %li= button_tag t('spina.shop.orders.start_order_picking_html'), type: :submit, name: 'transition_to', value: 'order_picking'
+      %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
+      %li.divider
+      %li= button_tag t('spina.shop.orders.start_picking_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_picking_and_shipped'
+
+  .table-container.infinite-table
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th
+          %th= sort_link [:spina, @q], :id, Spina::Shop::Order.human_attribute_name(:order_number), {}, class: 'table-sort'
+          %th= sort_link [:spina, @q], :last_name, Spina::Shop::Customer.model_name.human, {}, class: 'table-sort'
+          %th= sort_link [:spina, @q], :received_at, Spina::Shop::Order.human_attribute_name(:received_at), {}, class: 'table-sort'
+          %th= sort_link [:spina, @q], :shipped_at, Spina::Shop::Order.human_attribute_name(:shipped_at), {}, class: 'table-sort'
+          %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
+          %th
+
+      %tbody
+        - if @orders.any?
+          = render partial: 'order', collection: @orders.to_a.uniq
+        - else
+          %tr
+            %td{colspan: 8}
+              %p.text-center
+                %em.text-muted= 'spina.shop.orders.no_orders'
+
+    .pagination= link_to_next_page @orders, "Next"

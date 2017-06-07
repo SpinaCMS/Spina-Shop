@@ -20,7 +20,7 @@ module Spina
       end
 
       initializer "spina_shop.assets.precompile" do |app|
-        app.config.assets.precompile += %w(spina/admin/shop.js spina/admin/shop.css)
+        app.config.assets.precompile += %w(spina/shop/admin/shop.js spina/shop/admin/shop.css)
       end
 
     end
