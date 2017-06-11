@@ -9,17 +9,16 @@ module Spina::Shop
     validates :name, presence: true
 
     def tax_rate_for_order(order)
-      rates_by_country(order.billing_country).first.try(:rate)
+      rate_by_country(order.billing_country).try(:rate)
     end
 
     def tax_code_for_order(order)
-      rates_by_country(order.billing_country).first.try(:tax_code)
+      rate_by_country(order.billing_country).try(:tax_code)
     end
 
     private
 
-      def rates_by_country(country, business: false)
-        tax_rates.where(country: country, business: business).first ||
+      def rates_by_country(country)
         tax_rates.where(country: country).first ||
         tax_rates.where(country: nil).first
       end

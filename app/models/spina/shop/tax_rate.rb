@@ -5,7 +5,7 @@ module Spina
 
       validates :rate, numericality: true, presence: true
 
-      validates :country_id, uniqueness: {scope: [:tax_group_id, :business]}
+      validates :country_id, uniqueness: {scope: [:tax_group_id]}
     end
   end
 end
