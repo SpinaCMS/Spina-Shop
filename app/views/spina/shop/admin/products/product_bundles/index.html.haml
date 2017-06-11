@@ -27,7 +27,7 @@
       - @product_bundles.each do |product_bundle|
         %tr
           %td
-            = link_to product_bundle.name, [:edit, :admin, product_bundle], class: 'table-link'
+            = link_to product_bundle.name, spina.shop_admin_product_bundle_path(product_bundle), class: 'table-link'
           %td
             = product_bundle.bundled_product_items.sum(:quantity)
             producten

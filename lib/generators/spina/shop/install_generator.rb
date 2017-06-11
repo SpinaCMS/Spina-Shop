@@ -20,19 +20,6 @@ module Spina
         default_product_category.save
       end
 
-      def default_tax_group
-        default_tax_group = Spina::Shop::TaxGroup.where(name: "Standard VAT").first_or_initialize
-        default_tax_group.tax_rates = {
-          world: {
-            default: {
-              rate: 20.0,
-              tax_code: "0"
-            }
-          }
-        }
-        default_tax_group.save
-      end
-
       def default_sales_category
         default_sales_category = Spina::Shop::SalesCategory.where(name: "Default").first_or_initialize
         default_sales_category.codes = {

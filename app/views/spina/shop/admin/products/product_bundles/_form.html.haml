@@ -35,8 +35,8 @@
               = image_builder.hidden_field :position, class: 'product-image-position'
               = image_builder.check_box :_destroy, style: 'display: none'
               = link_to '#', style: "position: absolute; bottom: 0; right: 0" do
-                = image_tag 'delete-big.png'
-                = image_tag 'delete-big-confirm.png'
+                = image_tag 'spina/shop/delete-big.png'
+                = image_tag 'spina/shop/delete-big-confirm.png'
               .sidebar-form-image-overlay
 
       = f.attachment_field :product_images_files, direct: true, multiple: true, presigned: true, class: "sidebar-form-image-dropzone"
