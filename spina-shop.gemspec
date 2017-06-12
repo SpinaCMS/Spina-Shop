@@ -26,5 +26,5 @@ Gem::Specification.new do |s|
   s.add_dependency "delocalize"
   s.add_dependency "bourbon"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency 'factory_girl', '~> 4.0'
 end

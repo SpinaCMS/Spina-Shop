@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612093609) do
+ActiveRecord::Schema.define(version: 20170612103031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,7 +458,6 @@ ActiveRecord::Schema.define(version: 20170612093609) do
     t.jsonb    "delivery_metadata",                                      default: "{}",  null: false
     t.text     "note"
     t.string   "token"
-    t.integer  "zone_id"
     t.index ["billing_country_id"], name: "idx_shop_orders_on_billing_country_id", using: :btree
     t.index ["order_number"], name: "idx_shop_orders_on_order_number", unique: true, using: :btree
   end
@@ -664,10 +663,10 @@ ActiveRecord::Schema.define(version: 20170612093609) do
 
   create_table "spina_shop_zones", force: :cascade do |t|
     t.string   "name",       null: false
-    t.string   "zone_type",  null: false
     t.integer  "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "type"
   end
 
   create_table "spina_structure_items", force: :cascade do |t|

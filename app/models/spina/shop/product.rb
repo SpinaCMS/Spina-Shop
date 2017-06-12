@@ -1,6 +1,6 @@
 module Spina::Shop
   class Product < ApplicationRecord
-    belongs_to :product_category
+    belongs_to :product_category, optional: true
 
     has_many :product_items, inverse_of: :product, dependent: :destroy
 

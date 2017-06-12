@@ -8,6 +8,10 @@ module Spina::Shop
 
     validates :name, presence: true
 
+    def default_tax_rate
+      tax_rates.default_rate.first_or_initialize
+    end
+
     # Get the rate based on the order
     # 
     # Priority:
@@ -15,7 +19,7 @@ module Spina::Shop
     # 2. Get rate by zone
     # 3. Default Spina config
     def tax_rate_for_order(order)
-      rate_by_zone(order.zone).try(:rate) || Spina::Shop.config.default_tax_rate
+      rate_by_zone(order.delivery_country).rate || Spina::Shop.config.default_tax_rate
     end
 
     # Get the tax code based on the order
@@ -25,7 +29,7 @@ module Spina::Shop
     # 2. Get code by zone
     # 3. Default Spina config
     def tax_code_for_order(order)
-      rate_by_zone(order.zone).try(:code) || Spina::Shop.config.default_tax_code
+      rate_by_zone(order.delivery_country).code || Spina::Shop.config.default_tax_code
     end
 
     private
@@ -39,7 +43,7 @@ module Spina::Shop
       def rate_by_zone(zone)
         tax_rates.where(tax_rateable: zone).first || 
         tax_rates.where(tax_rateable: zone.parent).first || 
-        tax_rates.default_rate.first
+        default_tax_rate
       end
 
   end

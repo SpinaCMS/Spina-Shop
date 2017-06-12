@@ -2,7 +2,7 @@ module Spina::Shop
   class Invoice < ApplicationRecord
     belongs_to :order
     belongs_to :customer
-    belongs_to :country
+    belongs_to :zone
 
     has_many :invoice_lines, dependent: :destroy
 

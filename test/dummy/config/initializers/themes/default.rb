@@ -19,6 +19,12 @@
     description:  'A simple page',
     usage:        'Use for your content',
     page_parts:   ['text']
+  }, {
+    name: 'products',
+    title:        'Products',
+    description:  'Products index page',
+    usage:        'Use for your products',
+    page_parts:   ['text']
   }]
 
   theme.custom_pages = [{
@@ -26,6 +32,11 @@
     title:          'Homepage',
     deletable:      false,
     view_template:  'homepage'
+  }, {
+    name: 'products',
+    title: 'Products',
+    deletable: false,
+    view_template: 'products'  
   }]
 
 end
