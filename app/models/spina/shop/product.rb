@@ -26,6 +26,11 @@ module Spina::Shop
 
     validates :name, presence: true
 
+    attribute :name
+    attribute :description
+    attribute :seo_title
+    attribute :seo_description
+    attribute :materialized_path
     translates :name, :description, :seo_title, :seo_description, :materialized_path, fallbacks_for_empty_translations: true
 
     # Active product

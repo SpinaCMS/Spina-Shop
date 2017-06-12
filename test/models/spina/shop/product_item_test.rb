@@ -1,6 +1,6 @@
 require 'test_helper'
 
-module Spina
+module Spina::Shop
   class ProductItemTest < ActiveSupport::TestCase
     
     setup do

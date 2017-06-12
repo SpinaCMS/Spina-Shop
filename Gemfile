@@ -11,10 +11,14 @@ group :development, :test do
   gem 'refile', path: '~/apps/refile', require: 'refile/rails'
   gem 'spina', path: '~/apps/spina'
 
+  # Tests
   gem 'rails-controller-testing'
   gem 'minitest-reporters'
-  gem 'guard'
-  gem 'guard-minitest'
+
+  # System tests
+  gem 'capybara', '~> 2.13'
+  gem 'selenium-webdriver'
+  gem 'puma', '~> 3.7'
 end
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
