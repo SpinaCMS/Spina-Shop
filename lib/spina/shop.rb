@@ -5,6 +5,12 @@ module Spina
   module Shop
     include ActiveSupport::Configurable
 
+    config_accessor :default_tax_rate, :default_tax_code
+
+    # Default tax settings
+    self.default_tax_rate = BigDecimal(0)
+    self.default_tax_code = "0"
+
     class << self
 
       def root

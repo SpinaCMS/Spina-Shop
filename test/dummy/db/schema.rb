@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170611094402) do
+ActiveRecord::Schema.define(version: 20170612093609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,6 +458,7 @@ ActiveRecord::Schema.define(version: 20170611094402) do
     t.jsonb    "delivery_metadata",                                      default: "{}",  null: false
     t.text     "note"
     t.string   "token"
+    t.integer  "zone_id"
     t.index ["billing_country_id"], name: "idx_shop_orders_on_billing_country_id", using: :btree
     t.index ["order_number"], name: "idx_shop_orders_on_order_number", unique: true, using: :btree
   end
@@ -651,14 +652,14 @@ ActiveRecord::Schema.define(version: 20170611094402) do
 
   create_table "spina_shop_tax_rates", force: :cascade do |t|
     t.integer  "tax_group_id"
-    t.decimal  "rate",         precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "rate",              precision: 8, scale: 2, default: "0.0", null: false
     t.string   "code"
-    t.integer  "country_id"
-    t.boolean  "business",                             default: false, null: false
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.index ["country_id"], name: "index_spina_shop_tax_rates_on_country_id", using: :btree
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.string   "tax_rateable_type"
+    t.integer  "tax_rateable_id"
     t.index ["tax_group_id"], name: "index_spina_shop_tax_rates_on_tax_group_id", using: :btree
+    t.index ["tax_rateable_type", "tax_rateable_id"], name: "spina_tax_rates_tax_rateable_index", using: :btree
   end
 
   create_table "spina_shop_zones", force: :cascade do |t|
