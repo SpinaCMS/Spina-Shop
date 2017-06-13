@@ -3,7 +3,7 @@
     .form-checkbox{style: 'width: 20px'}
       = check_box_tag 'order_ids[]', order.id
       %label
-  %td= link_to order.number, [:admin, order], class: 'table-link'
+  %td= link_to order.number, spina.shop_admin_order_path(order), class: 'table-link'
   %td= order.billing_name
   %td
     - if order.received_at.present?

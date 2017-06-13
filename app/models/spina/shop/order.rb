@@ -43,7 +43,6 @@ module Spina::Shop
     validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, presence: true, if: -> { validate_details }
     validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :email, email: true, if: -> { validate_details }
-    validate :billing_country_must_be_the_same_as_customer, if: -> { validate_details }
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
 
     # Validate delivery
@@ -200,12 +199,6 @@ module Spina::Shop
       def must_be_of_age_to_buy_products
         if order_items.any?{|item| item.orderable.must_be_of_age_to_buy?}
           errors.add(:date_of_birth, "not of age") unless of_age?
-        end
-      end
-
-      def billing_country_must_be_the_same_as_customer
-        if customer.present? && customer.country != billing_country
-          errors.add(:billing_country, "not allowed")
         end
       end
 

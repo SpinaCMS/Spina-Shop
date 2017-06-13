@@ -32,7 +32,7 @@
     %ul
       %li.active
         = link_to '#order' do
-          = Spina::Order.model_name.human
+          = Spina::Shop::Order.model_name.human
       %li
         = link_to '#history' do
           =t 'spina.shop.orders.history'
@@ -107,24 +107,24 @@
       %table
         - if @order.billing_name.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:billing_name)
+            %th= Spina::Shop::Order.human_attribute_name(:billing_name)
             %td
-              = link_to_if @order.customer.present?, @order.billing_name, [:admin, @order.customer]
+              = link_to_if @order.customer.present?, @order.billing_name, spina.shop_admin_customer_path(@order.customer)
 
         - if @order.email.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:email)
+            %th= Spina::Shop::Order.human_attribute_name(:email)
             %td
               = link_to @order.email, @order.email
 
         - if @order.phone.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:phone)
+            %th= Spina::Shop::Order.human_attribute_name(:phone)
             %td= @order.phone
 
         - if @order.received_at.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:received_at)
+            %th= Spina::Shop::Order.human_attribute_name(:received_at)
             %td
               =l @order.received_at, format: '%d %B %Y'
               %br/
@@ -133,7 +133,7 @@
 
         - if @order.ip_address.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:ip_address)
+            %th= Spina::Shop::Order.human_attribute_name(:ip_address)
             %td
               = @order.ip_address
 
@@ -141,13 +141,13 @@
       %table
         - if @order.invoices.any?
           %tr
-            %th= Spina::Invoice.model_name.human count: @order.invoices.count
+            %th= Spina::Shop::Invoice.model_name.human count: @order.invoices.count
             %td
               - @order.invoices.each do |invoice|
                 = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
 
         %tr
-          %th= Spina::Order.human_attribute_name(:billing_address)
+          %th= Spina::Shop::Order.human_attribute_name(:billing_address)
           %td
             = @order.billing_name
             %br/
@@ -160,7 +160,7 @@
 
         - if @order.gift_card.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:gift_card)
+            %th= Spina::Shop::Order.human_attribute_name(:gift_card)
             %td
               = @order.gift_card.readable_code
               %br/
@@ -168,7 +168,7 @@
 
         - if @order.payment_method.present?    
           %tr
-            %th= Spina::Order.human_attribute_name(:payment_method)
+            %th= Spina::Shop::Order.human_attribute_name(:payment_method)
             %td 
               =t "spina.shop.orders.payment_methods.#{@order.payment_method}"
               - if @order.paid_at.present?
@@ -199,7 +199,7 @@
     .information-table
       %table
         %tr
-          %th= Spina::Order.human_attribute_name(:delivery_address)
+          %th= Spina::Shop::Order.human_attribute_name(:delivery_address)
           %td 
             = @order.delivery_name
             %br/
@@ -210,23 +210,23 @@
 
         - if @order.delivery_tracking_ids.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:delivery_tracking_ids)
+            %th= Spina::Shop::Order.human_attribute_name(:delivery_tracking_ids)
             %td= @order.delivery_tracking_ids.join("<br />").html_safe
 
         %tr
-          %th= Spina::Order.human_attribute_name(:weight)
+          %th= Spina::Shop::Order.human_attribute_name(:weight)
           %td
             = @order.total_weight
             gr
 
         - if @order.shipped_at.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:shipped_at)
+            %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
             %td=l @order.shipped_at, format: "%d %B %Y"
 
         - if @order.delivered_at.present?
           %tr
-            %th= Spina::Order.human_attribute_name(:delivered_at)
+            %th= Spina::Shop::Order.human_attribute_name(:delivered_at)
             %td
               .text-muted=l @order.delivered_at, format: "%d %B %Y"
 
@@ -234,7 +234,7 @@
     %hr.divider/
 
   - if @order.note.present?
-    %label= Spina::Order.human_attribute_name(:note)
+    %label= Spina::Shop::Order.human_attribute_name(:note)
     = preserve "<p style='white-space: pre'>#{@order.note}</p>".html_safe
     .divider-container
       %hr.divider/
@@ -244,9 +244,9 @@
       %thead
         %tr
           %th.text-right 
-          %th= Spina::Product.model_name.human
-          %th.text-right= Spina::OrderItem.human_attribute_name(:price)
-          %th.text-right= Spina::OrderItem.human_attribute_name(:total)
+          %th= Spina::Shop::Product.model_name.human
+          %th.text-right= Spina::Shop::OrderItem.human_attribute_name(:price)
+          %th.text-right= Spina::Shop::OrderItem.human_attribute_name(:total)
 
       %tbody
         - @order.order_items.each do |order_item|
@@ -254,9 +254,9 @@
             %td.text-right= "#{order_item.quantity} &times;".html_safe
             %td
               - if order_item.is_product_bundle?
-                = link_to order_item.description, [:admin, order_item.orderable], class: 'table-link'
+                = link_to order_item.description, spina.shop_admin_product_bundle_path(order_item.orderable), class: 'table-link'
               - else
-                = link_to order_item.description, [:admin, order_item.orderable.product], class: 'table-link'
+                = link_to order_item.description, spina.shop_admin_product_path(order_item.orderable.product), class: 'table-link'
             %td.text-right= number_to_currency order_item.unit_price
             %td.text-right
               - if order_item.discount_amount > 0
@@ -266,17 +266,17 @@
 
         %tr
           %td.text-right{colspan: 4}
-            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:sub_total)
+            %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:sub_total)
             = number_to_currency @order.sub_total_including_tax
 
         %tr
           %td.text-right{colspan: 4}
-            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:delivery_price)
+            %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:delivery_price)
             = number_to_currency @order.delivery_price
 
         %tr
           %td.text-right{colspan: 4}
-            %strong{style: 'margin-right: 12px'}= Spina::Order.human_attribute_name(:total)
+            %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:total)
             = number_to_currency @order.total
 
 .tab-content#history

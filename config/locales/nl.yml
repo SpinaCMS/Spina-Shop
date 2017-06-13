@@ -72,6 +72,9 @@ nl:
         almost_expired: Product is bijna verlopen
         out_of_stock: Voorraad is op
 
+      tax_groups:
+        default_tax_rate: Standaard btw-tarief
+
       product_bundles:
         new: Nieuwe productbundel
         add_bundled_product_item: Product toevoegen

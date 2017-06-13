@@ -8,14 +8,14 @@ module Spina::Shop
     validates :name, presence: true
 
     def code_for_order(order)
-      codes_by_country(order.billing_country)['default'] || default_sales_category_code
+      default_sales_category_code
     end
 
     private
 
       def codes_by_country(country)
-        code = country.eu_member? ? codes['EU'] : codes['default']
-        codes[country.code2] || code || codes['default']
+        # code = country.eu_member? ? codes['EU'] : codes['default']
+        # codes[country.code2] || code || codes['default']
       end
 
       def default_sales_category_code
