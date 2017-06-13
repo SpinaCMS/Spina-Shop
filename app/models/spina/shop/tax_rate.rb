@@ -9,6 +9,12 @@ module Spina
 
       validates :rate, numericality: true, presence: true
       validates :tax_rateable_type, uniqueness: {scope: [:tax_group_id, :tax_rateable_id]}
+
+      # Label of the tax rate is based on the tax rateable's name
+      # Defaults to 'Default tax rate'
+      def label
+        tax_rateable.try(:name) || I18n.t('spina.shop.tax_groups.default_tax_rate')
+      end
     end
   end
 end

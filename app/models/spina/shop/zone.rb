@@ -5,5 +5,7 @@ module Spina::Shop
     # A zone can have multiple members example: EU --> Countries
     belongs_to :parent, class_name: "Spina::Shop::Zone", optional: true
     has_many :members, class_name: "Spina::Shop::Zone", foreign_key: :parent_id, dependent: :nullify
+
+    validates :name, uniqueness: {scope: [:type]}
   end
 end

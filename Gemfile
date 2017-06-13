@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'rails', '5.1'
+  gem 'rails', '5.1.1'
   gem 'globalize', git: 'git@github.com:Bramjetten/globalize.git', branch: :master
   gem 'refile', path: '~/apps/refile', require: 'refile/rails'
   gem 'spina', path: '~/apps/spina'
@@ -14,6 +14,8 @@ group :development, :test do
   # Tests
   gem 'rails-controller-testing'
   gem 'minitest-reporters'
+  gem 'guard'
+  gem 'guard-minitest'
 
   # System tests
   gem 'capybara', '~> 2.13'

@@ -3,8 +3,6 @@ en:
     shop:
       title: Webshop
       settings: Shop settings
-      tax_groups: Tax groups
-      sales_categories: Sales categories
       delete_selected: Delete selected lines
 
       emails:
@@ -46,6 +44,10 @@ en:
         save: Save variant
         almost_expired: Almost expired
         out_of_stock: Out of stock
+
+      tax_groups:
+        new: New tax group
+        default_tax_rate: Default tax rate
 
       product_bundles:
         new: New product bundle
@@ -118,6 +120,9 @@ en:
       spina/product_review:
         one: Product review
         other: Product reviews
+      spina/tax_group:
+        one: Tax group
+        other: Tax groups
 
     attributes:
       spina/order:

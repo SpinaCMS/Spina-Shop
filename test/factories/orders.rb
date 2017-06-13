@@ -18,6 +18,10 @@ FactoryGirl.define do
           product_item = create(:product_item_with_stock, stock_level: 10)
           create(:order_item, quantity: 1, order: order, orderable: product_item)
         end
+
+        factory :order_from_germany do
+          association :delivery_country, factory: :germany
+        end
       end
     end
 

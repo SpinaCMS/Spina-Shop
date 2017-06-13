@@ -7,5 +7,12 @@ FactoryGirl.define do
       tax_group
     end
 
+    factory :german_tax_rate do
+      rate BigDecimal.new(19)
+      code '19'
+      association :tax_rateable, factory: :germany
+      tax_group
+    end
+
   end
 end

@@ -8,6 +8,8 @@ module Spina::Shop
 
     validates :name, presence: true
 
+    accepts_nested_attributes_for :tax_rates
+
     def default_tax_rate
       tax_rates.default_rate.first_or_initialize
     end
@@ -32,7 +34,7 @@ module Spina::Shop
       rate_by_zone(order.delivery_country).code || Spina::Shop.config.default_tax_code
     end
 
-    private
+    # private
 
       # Get the correct rate by zone
       # 

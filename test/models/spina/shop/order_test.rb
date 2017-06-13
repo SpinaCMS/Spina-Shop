@@ -39,20 +39,24 @@ module Spina::Shop
     end
 
     test "Order total" do
-      assert_equal @order_with_order_items.total, BigDecimal.new('12.50')
+      assert_equal BigDecimal.new('12.50'), @order_with_order_items.total
     end
 
     test "Order sub total" do
-      assert_equal @order_with_order_items.sub_total, BigDecimal.new('10.33')
+      assert_equal BigDecimal.new('10.33'), @order_with_order_items.sub_total
     end
 
-    test "Order with delivery method" do
-      # @order.validate_delivery = true
-      # @order.assign_attributes(
-      #   delivery_method: nil
-      # )
-      # assert @order.valid?
+    test "Order with different country tax rate" do
+      order = FactoryGirl.create :order_from_germany
+      assert_equal BigDecimal.new('10.50'), order.sub_total
+    end
+
+    test "Order change tax rate by changing delivery country" do
+      assert_equal BigDecimal.new('10.33'), @order_with_order_items.sub_total
+      @order_with_order_items.delivery_country = FactoryGirl.create :germany
+      assert_equal BigDecimal.new('10.50'), @order_with_order_items.sub_total
     end
 
   end
 end
+

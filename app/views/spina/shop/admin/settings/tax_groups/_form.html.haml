@@ -1,20 +1,19 @@
-= form_for @tax_group, url: @tax_group.new_record? ? spina.shop_admin_settings_tax_groups_path : spina.shop_admin_settings_tax_group_path(@tax_group) do |f|
-  %header#header
-    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.tax_groups.new'
 
-    #header_actions
-      %button.button.button-primary{type: 'submit'}
-        = icon('check')
-        Btw-groep opslaan
+  = form_for @tax_group, url: spina.shop_admin_settings_tax_groups_path do |f|
+    %section
+      = f.text_field :name, placeholder: Spina::Shop::TaxGroup.human_attribute_name(:name)
 
-  .sidebar-form
-    .sidebar-form-content
-      .well
-        .sidebar-form-group
-          .sidebar-form-label
-            = Spina::Shop::TaxGroup.human_attribute_name :name
-
-          .sidebar-form-control
-            = f.text_field :name, placeholder: Spina::Shop::TaxGroup.human_attribute_name(:name)
-
-= @tax_group.tax_rates
+      = f.fields_for :tax_rates do |tax_rate_fields|
+        = tax_rate_fields.number_field :rate, placeholder: Spina::Shop::TaxRate.human_attribute_name(:rate)
+        = tax_rate_fields.text_field :code, placeholder: Spina::Shop::TaxRate.human_attribute_name(:code)
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.save'
