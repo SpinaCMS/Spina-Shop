@@ -131,51 +131,51 @@ nl:
 
   activerecord:
     models:
-      spina/order:
+      spina/shop/order:
         one: Bestelling
         other: Bestellingen
-      spina/product: 
+      spina/shop/product: 
         one: Product
         other: Producten
-      spina/product_item: 
+      spina/shop/product_item: 
         one: Product item
         other: Product items
-      spina/sales_category: 
+      spina/shop/sales_category: 
         one: Omzetcategorie
         other: Omzetcategorieën
-      spina/tax_group: 
+      spina/shop/tax_group: 
         one: Btw-groep
         other: Btw-groepen
-      spina/customer_account: 
+      spina/shop/customer_account: 
         one: Account
         other: Accounts
-      spina/discount: 
+      spina/shop/discount: 
         one: Kortingscode
         other: Kortingscodes
-      spina/gift_card: 
+      spina/shop/gift_card: 
         one: Cadeaubon
         other: Cadeaubonnen
-      spina/invoice: 
+      spina/shop/invoice: 
         one: Factuur
         other: Facturen
-      spina/product_category:
+      spina/shop/product_category:
         one: Productcategorie
         other: Productcategorieën
-      spina/product_bundle:
+      spina/shop/product_bundle:
         one: Productbundle
         other: Productbundels
-      spina/product_review:
+      spina/shop/product_review:
         one: Beoordeling
         other: Beoordelingen
-      spina/customer:
+      spina/shop/customer:
         one: Klant
         other: Klanten
-      spina/discounts/rules/all_orders: Alle bestellingen
-      spina/discounts/rules/collection: Producten uit collectie
-      spina/discounts/rules/order_total: Bestellingen boven een bedrag
+      spina/shop/discounts/rules/all_orders: Alle bestellingen
+      spina/shop/discounts/rules/collection: Producten uit collectie
+      spina/shop/discounts/rules/order_total: Bestellingen boven een bedrag
 
     attributes:
-      spina/order:
+      spina/shop/order:
         billing_address: Factuuradres
         billing_street1: Straat
         billing_street2: Straat 2
@@ -210,7 +210,7 @@ nl:
         delivery_tracking_ids: Track & trace
         note: Notitie
 
-      spina/product:
+      spina/shop/product:
         name: Naam
         sku: SKU
         description: Beschrijving
@@ -219,7 +219,7 @@ nl:
         materialized_path: URL
         supplier: Leverancier
 
-      spina/product_item:
+      spina/shop/product_item:
         price: Prijs
         cost_price: Kostprijs
         sales_category: Omzetcategorie
@@ -236,28 +236,28 @@ nl:
         created_at: Toegevoegd
         supplier_reference: Referentie leverancier
 
-      spina/shop_review:
+      spina/shop/shop_review:
         review_pros: Positieve punten
         review_cons: Verbeterpunten of tips
         score: Cijfer
         score_communication: Cijfer communicatie
         score_speed: Cijfer snelheid / levertijd
 
-      spina/product_review:
+      spina/shop/product_review:
         review: Beoordeling
         review_summary: Eén krachtige zijn
         score: Cijfer
 
-      spina/order_item:
+      spina/shop/order_item:
         price: Prijs
         total: Totaal
 
-      spina/customer_account:
+      spina/shop/customer_account:
         email: Email
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
 
-      spina/customer:
+      spina/shop/customer:
         first_name: Voornaam
         last_name: Achternaam
         name: Naam
@@ -269,13 +269,13 @@ nl:
         created_at: Aangemaakt op
         country: Land
 
-      spina/address:
+      spina/shop/address:
         street1: Straat
         street2: Straat 2
         postal_code: Postcode
         city: Plaats
 
-      spina/discount:
+      spina/shop/discount:
         code: Kortingscode
         description: Omschrijving
         discount_rule: Geldig voor
@@ -283,15 +283,15 @@ nl:
         expires_at: Einddatum
         optional: Optioneel
 
-      spina/gift_card:
+      spina/shop/gift_card:
         code: Code
         value: Waarde
         remaining_balance: Saldo
         expires_at: Verloopt op
         created_at: Aangemaakt op
 
-      spina/discounts/actions/percent_off:
+      spina/shop/discounts/actions/percent_off:
         percent_off: Korting
 
-      spina/in_stock_reminder:
+      spina/shop/in_stock_reminder:
         email: Email
