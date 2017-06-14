@@ -18,9 +18,9 @@ module Spina::Shop
 
           if @stock_level_adjustment.save
             InStockReminderJob.perform_later(@product_item) if params[:send_in_stock_reminders]
-            redirect_to [:admin, @product]
+            redirect_to spina.shop_admin_product_path(@product)
           else
-            redirect_to [:admin, @product]
+            redirect_to spina.shop_admin_product_path(@product)
           end
         end
 

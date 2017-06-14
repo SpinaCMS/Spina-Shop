@@ -4,7 +4,8 @@
       = icon('cross')
     %h3 Hoeveel stuks?
 
-  = form_for [:admin, @product, @product_item, @stock_level_adjustment] do |f|
+  = form_for @stock_level_adjustment, url: @stock_level_adjustment.new_record? ? spina.shop_admin_product_product_item_stock_level_adjustments_path(@product, @product_item) : spina.shop_admin_product_product_item_stock_level_adjustment_path(@product, @product_item, @stock_level_adjustement) do |f|
+
     %section
       .form-group
         = f.number_field :adjustment
