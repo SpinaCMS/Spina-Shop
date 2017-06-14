@@ -4,14 +4,11 @@ module Spina::Shop
     belongs_to :tax_group
     belongs_to :sales_category
 
-    has_many :order_items, as: :orderable, dependent: :restrict_with_exception # Don't destroy product if it has order items
-    has_many :stock_level_adjustments, dependent: :destroy
-
-    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
-
-    # Product bundles
-    has_many :bundled_product_items, dependent: :destroy
+    has_many :order_items, as: :orderable, dependent: :restrict_with_exception
+    has_many :bundled_product_items, dependent: :restrict_with_exception
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
+    has_many :stock_level_adjustments, dependent: :destroy
+    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
 
     # Active items
     scope :active, -> { where(active: true) }
@@ -22,6 +19,8 @@ module Spina::Shop
 
     validates :tax_group, :price, presence: true
 
+    # Short description is description and description is the 
+    # Product's name and ProductItem's name combined. Like wtf.
     def short_description
       description
     end
@@ -42,12 +41,26 @@ module Spina::Shop
       stock_level > 0
     end
 
+    def active?
+      active?
+    end
+
     def inactive?
       !active
     end
 
     private
 
+      def cache_averages
+        write_attribute :stock_level, stock_level_adjustments.sum(:adjustment)
+        write_attribute :expiration_date, can_expire? ? earliest_expiration_date : nil
+      end
+
+      # Earliest expiration date is calculated by the order of stock level adjustments
+      # The order of stock level adjustments is purely based on the created_at column
+      # Can be nil if a ProductItem previously couldn't expire
+      # 
+      # Currently only in mm/yy format. First day of the month.
       def earliest_expiration_date
         offset = 0
         sum = 0
@@ -63,11 +76,6 @@ module Spina::Shop
         else
           nil
         end
-      end
-
-      def cache_averages
-        write_attribute :stock_level, stock_level_adjustments.sum(:adjustment)
-        write_attribute :expiration_date, can_expire? ? earliest_expiration_date : nil
       end
 
       def cache_product_averages
