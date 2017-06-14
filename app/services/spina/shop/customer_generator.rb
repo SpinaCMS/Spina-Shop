@@ -14,7 +14,6 @@ module Spina::Shop
           date_of_birth: @order.date_of_birth,
           country: @order.billing_country
         )
-        CustomerAccountMailer.welcome_email(@customer_account).deliver_later
         @order.customer = customer
         @order.save!
       end
@@ -26,6 +25,7 @@ module Spina::Shop
         email: @order.email,
         password: @order.password
       )
+      CustomerAccountMailer.welcome_email(customer_account).deliver_later
     end
 
   end

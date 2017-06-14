@@ -1,6 +1,6 @@
 module Spina::Shop
   class InStockReminderMailer < ActionMailer::Base
-    layout 'spina/mail'
+    layout 'spina/shop/mail'
 
     def reminder(email, orderable)
       @orderable = orderable
