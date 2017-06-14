@@ -11,13 +11,13 @@ module Spina::Shop
       def cancel
         @order = Order.find(params[:id])
         @order.transition_to!(:cancelled, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to [:admin, @order]
+        redirect_to spina.shop_admin_order_path(@order)
       end
 
       def order_picked_up
         @order = Order.find(params[:id])
         @order.transition_to!(:picked_up, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to [:admin, @order]
+        redirect_to spina.shop_admin_order_path(@order)
       end
 
       def index

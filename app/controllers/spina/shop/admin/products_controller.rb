@@ -77,7 +77,7 @@ module Spina::Shop
       rescue ActiveRecord::DeleteRestrictionError
         flash[:alert] = t('spina.shop.products.delete_restriction_error', name: @product.name)
         flash[:alert_small] = t('spina.shop.products.delete_restriction_error_explanation')
-        redirect_to [:admin, @product]
+        redirect_to spina.shop_admin_product_path(@product)
       end
 
       private

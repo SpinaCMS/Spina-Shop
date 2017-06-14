@@ -11,7 +11,7 @@ module Spina::Shop
           # Create label and print it or some shit
           @order = Order.find(params[:order_id])
           @order.transition_to! :shipped, user: current_spina_user.name, ip_address: request.remote_ip
-          redirect_to [:admin, @order]
+          redirect_to spina.shop_admin_order_path(@order)
         end
       end
     end

@@ -12,7 +12,7 @@ module Spina::Shop
       def update
         @customer_account = @customer.customer_account
         if @customer_account.update_attributes(customer_account_params)
-          redirect_to [:admin, @customer]
+          redirect_to spina.shop_admin_customer_path(@customer)
         else
           add_breadcrumb CustomerAccount.model_name.human
           render :edit

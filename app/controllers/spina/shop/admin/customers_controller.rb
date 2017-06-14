@@ -16,7 +16,7 @@ module Spina::Shop
       def create
         @customer = Customer.new(customer_params)
         if @customer.save
-          redirect_to [:admin, @customer]
+          redirect_to spina.shop_admin_customer_path(@customer)
         else
           render :new
         end
@@ -36,7 +36,7 @@ module Spina::Shop
       def update
         @customer = Customer.find(params[:id])
         if @customer.update_attributes(customer_params)
-          redirect_to [:admin, @customer]
+          redirect_to spina.shop_admin_customer_path(@customer)
         else
           add_breadcrumb t('spina.edit')
           render :edit

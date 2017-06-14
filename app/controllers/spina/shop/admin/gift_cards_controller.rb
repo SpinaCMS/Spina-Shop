@@ -36,7 +36,7 @@ module Spina::Shop
       rescue ActiveRecord::DeleteRestrictionError
         flash[:alert] = t('spina.shop.gift_cards.delete_restriction_error')
         flash[:alert_small] = t('spina.shop.gift_cards.delete_restriction_error_explanation')
-        redirect_to [:admin, @gift_card]
+        redirect_to spina.shop_admin_gift_card_path(@gift_card)
       end
 
       private

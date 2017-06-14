@@ -12,7 +12,7 @@ module Spina::Shop
         def create
           @order = Order.find(params[:order_id])
           @order.transition_to! :order_picking, user: current_spina_user.name, ip_address: request.remote_ip
-          redirect_to [:admin, @order]
+          redirect_to spina.shop_admin_order_path(@order)
         end
 
         private
