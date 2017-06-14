@@ -8,8 +8,10 @@ GIT
       activerecord (>= 4.2, < 5.2)
       request_store (~> 1.0)
 
-PATH
-  remote: ../refile
+GIT
+  remote: git@github.com:Bramjetten/refile.git
+  revision: c34a49270b16d387400be85b87bf712d028c7057
+  branch: master
   specs:
     refile (0.6.2)
       image_processing
@@ -18,8 +20,10 @@ PATH
       rest-client
       sinatra
 
-PATH
-  remote: ../spina
+GIT
+  remote: git@github.com:denkGroot/Spina.git
+  revision: 2b2c8de5652de5844a40aa944c672e2f09cc36a0
+  branch: master
   specs:
     spina (0.11.1)
       ancestry
@@ -46,7 +50,7 @@ PATH
       delocalize
       email_validator
       pg
-      rails (>= 5.0)
+      rails (>= 5.1)
       ransack
       refile
       spina
@@ -126,7 +130,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    delocalize (1.1.0)
+    delocalize (1.2.0)
       rails (>= 2)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
@@ -222,7 +226,7 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    pg (0.20.0)
+    pg (0.21.0)
     polyamorous (1.3.1)
       activerecord (>= 3.0)
     pry (0.10.4)
@@ -230,7 +234,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
-    puma (3.8.2)
+    puma (3.9.1)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
@@ -249,10 +253,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.1.1)
       sprockets-rails (>= 2.0.0)
-    rails-controller-testing (1.0.2)
-      actionpack (~> 5.x, >= 5.0.1)
-      actionview (~> 5.x, >= 5.0.1)
-      activesupport (~> 5.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -291,10 +291,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.4.0)
+    selenium-webdriver (3.4.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-      websocket (~> 1.0)
     sexp_processor (4.9.0)
     shellany (0.0.1)
     sinatra (2.0.0)
@@ -323,7 +322,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
-    websocket (1.2.4)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -334,15 +332,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  capybara (~> 2.13)
+  capybara
   factory_girl (~> 4.0)
   globalize!
   guard
   guard-minitest
   minitest-reporters
-  puma (~> 3.7)
-  rails (= 5.1.1)
-  rails-controller-testing
+  puma
   refile!
   selenium-webdriver
   spina!

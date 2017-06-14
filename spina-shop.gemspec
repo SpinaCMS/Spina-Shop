@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", ">= 5.0"
+  s.add_dependency "rails", ">= 5.1"
   s.add_dependency "spina"
   s.add_dependency "pg"
   s.add_dependency "refile"
@@ -27,4 +27,10 @@ Gem::Specification.new do |s|
   s.add_dependency "bourbon"
 
   s.add_development_dependency 'factory_girl', '~> 4.0'
+  s.add_development_dependency 'minitest-reporters'
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-minitest'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'selenium-webdriver'
+  s.add_development_dependency 'puma'
 end

@@ -8,11 +8,6 @@ module Spina
         @user = FactoryGirl.create :user
       end
 
-      test "login renders the correct layout" do
-        get :new
-        assert_template layout: 'spina/login'
-      end
-
       test "should be able to login" do
         post :create, params: {email: @user.email, password: "password"}
         assert_not_nil session[:user_id]

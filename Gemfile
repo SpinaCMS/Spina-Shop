@@ -6,21 +6,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'rails', '5.1.1'
   gem 'globalize', git: 'git@github.com:Bramjetten/globalize.git', branch: :master
-  gem 'refile', path: '~/apps/refile', require: 'refile/rails'
-  gem 'spina', path: '~/apps/spina'
-
-  # Tests
-  gem 'rails-controller-testing'
-  gem 'minitest-reporters'
-  gem 'guard'
-  gem 'guard-minitest'
-
-  # System tests
-  gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
-  gem 'puma', '~> 3.7'
+  gem 'refile', git: 'git@github.com:Bramjetten/refile.git', branch: :master, require: 'refile/rails'
+  gem 'spina', git: 'git@github.com:denkGroot/Spina.git', branch: :master
 end
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
