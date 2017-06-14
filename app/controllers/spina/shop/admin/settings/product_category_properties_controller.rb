@@ -21,7 +21,7 @@ module Spina::Shop
         def update
           @product_category_property = @product_category.properties.find(params[:id])
           @product_category_property.update_attributes(product_category_property_params)
-          redirect_to [:admin, :settings, @product_category]
+          redirect_to spina.shop_admin_settings_product_category_path(@product_category)
         end
 
         private
@@ -36,11 +36,11 @@ module Spina::Shop
 
           def set_breadcrumbs
             add_breadcrumb ProductCategory.model_name.human(count: 2), spina.shop_admin_settings_product_categories_path
-            add_breadcrumb @product_category.name, [:admin, :settings, @product_category]
+            add_breadcrumb @product_category.name, spina.shop_admin_settings_product_category_path(@product_category)
           end
 
           def product_category_property_params
-            params.require(:product_category_property).permit(property_options_attributes: [:id, :name, :label, :_destroy]).merge(locale: @locale)
+            params.require(:product_category_property).permit(property_options_attributes: [:id, :name, :label, :_destroy])
           end
 
       end
