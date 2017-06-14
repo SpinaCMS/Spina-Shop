@@ -1,5 +1,5 @@
 %tr
-  %td= link_to customer.full_name, [:admin, customer], class: 'table-link'
+  %td= link_to customer.full_name, spina.shop_admin_customer_path(customer), class: 'table-link'
   %td= mail_to customer.email, customer.email, class: 'table-link'
   %td=l customer.created_at, format: "%d-%m-%Y"
   %td.text-right

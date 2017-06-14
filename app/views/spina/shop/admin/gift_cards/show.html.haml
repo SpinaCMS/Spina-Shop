@@ -34,7 +34,7 @@
 
     %tbody
       - if @gift_card.orders.received.any?
-        = render partial: 'spina/admin/orders/order', collection: @gift_card.orders.sorted.received
+        = render partial: 'spina/shop/admin/orders/order', collection: @gift_card.orders.sorted.received
 
       - else
         %tr

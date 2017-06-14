@@ -23,23 +23,23 @@
     .information-table
       %table
         %tr
-          %th= Spina::Customer.human_attribute_name(:name)
+          %th= Spina::Shop::Customer.human_attribute_name(:name)
           %td= @customer.name
 
         %tr
-          %th= Spina::Customer.human_attribute_name(:number)
+          %th= Spina::Shop::Customer.human_attribute_name(:number)
           %td= @customer.number
 
         %tr
-          %th= Spina::Customer.human_attribute_name(:email)
+          %th= Spina::Shop::Customer.human_attribute_name(:email)
           %td= mail_to @customer.email, @customer.email
 
         %tr
-          %th= Spina::Customer.human_attribute_name(:phone)
+          %th= Spina::Shop::Customer.human_attribute_name(:phone)
           %td= @customer.phone
 
         %tr
-          %th= Spina::CustomerAccount.model_name.human
+          %th= Spina::Shop::CustomerAccount.model_name.human
           %td
             - if @customer.customer_account.present?
               =t 'spina.shop.customer_accounts.registered'
@@ -47,7 +47,7 @@
               =t 'spina.shop.customer_accounts.guest'
 
         %tr
-          %th= Spina::Customer.human_attribute_name(:ip_addresses)
+          %th= Spina::Shop::Customer.human_attribute_name(:ip_addresses)
           %td= @customer.ip_addresses.join("<br />").html_safe
 
     .information-table
@@ -67,7 +67,7 @@
       %table
         - @customer.addresses.each do |address|
           %tr
-            %th= Spina::Address.model_name.human
+            %th= Spina::Shop::Address.model_name.human
             %td
               = [address.street1, address.street2].compact.join('<br />').html_safe
               %br/
@@ -81,16 +81,16 @@
       %thead
         %tr
           %th
-          %th= Spina::Order.human_attribute_name(:order_number)
-          %th= Spina::Customer.model_name.human
-          %th= Spina::Order.human_attribute_name(:received_at)
-          %th= Spina::Order.human_attribute_name(:shipped_at)
-          %th.text-right= Spina::Order.human_attribute_name(:total)
+          %th= Spina::Shop::Order.human_attribute_name(:order_number)
+          %th= Spina::Shop::Customer.model_name.human
+          %th= Spina::Shop::Order.human_attribute_name(:received_at)
+          %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
+          %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
           %th
 
       %tbody
         - if @customer.orders.received.any?
-          = render partial: 'spina/admin/orders/order', collection: @customer.orders.sorted.received
+          = render partial: 'spina/shop/admin/orders/order', collection: @customer.orders.sorted.received
 
         - else
           %tr
