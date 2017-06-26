@@ -8,6 +8,8 @@ module Spina::Shop
     has_many :product_relations, dependent: :destroy
     has_many :related_products, through: :product_relations
     has_many :favorites, dependent: :destroy
+    has_many :collectables, dependent: :destroy
+    has_many :product_collections, through: :collectables
 
     accepts_nested_attributes_for :product_items, :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
