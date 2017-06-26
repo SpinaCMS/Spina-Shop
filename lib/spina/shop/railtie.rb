@@ -1,5 +1,7 @@
 require 'spina/shop/view_helpers'
 require 'spina/shop/admin_helpers'
+require 'spina/shop/errors/empty_order'
+require 'spina/shop/errors/order_already_received'
 
 module Spina
   module Shop
