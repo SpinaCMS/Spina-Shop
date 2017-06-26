@@ -37,12 +37,21 @@ module Spina::Shop
       sub_total + tax_amount + delivery_price
     end
 
-    def total_owed
+    def to_be_paid
       total - gift_card_amount
     end
 
+    # Mandatory rounding to 0.05 for cash payments in a store
+    def to_be_paid_round
+      (to_be_paid * 2).round(1, :half_up) / 2
+    end
+
+    def to_be_paid_rounding_difference
+      to_be_paid_round - to_be_paid
+    end
+
     def nothing_owed?
-      paid? || total_owed == BigDecimal(0)
+      paid? || to_be_paid == BigDecimal(0)
     end
 
     def tax_amount

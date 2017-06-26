@@ -30,6 +30,7 @@ module Spina::Shop
     scope :sorted, -> { order(order_number: :desc, id: :desc) }
     scope :received, -> { where.not(received_at: nil) }
     scope :confirmed, -> { where.not(confirming_at: nil) }
+    scope :paid, -> { where.not(paid_at: nil) }
     scope :building, -> { in_state(:building) }
 
     # Always validate
