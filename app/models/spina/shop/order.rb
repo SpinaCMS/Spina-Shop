@@ -12,8 +12,8 @@ module Spina::Shop
     attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password
 
     belongs_to :customer, optional: true
-    belongs_to :billing_country, class_name: "Spina::Shop::Country", optional: true
-    belongs_to :delivery_country, class_name: "Spina::Shop::Country"
+    belongs_to :billing_country, class_name: "Spina::Shop::Country"
+    belongs_to :delivery_country, class_name: "Spina::Shop::Country", optional: true
     belongs_to :delivery_option, optional: true
     belongs_to :duplicate, class_name: "Spina::Shop::Order", optional: true
 
@@ -58,7 +58,7 @@ module Spina::Shop
     accepts_nested_attributes_for :order_items
 
     # Override addresses if necessary
-    [:delivery_name, :delivery_street1, :delivery_postal_code, :delivery_city, :delivery_house_number, :delivery_house_number_addition].each do |f|
+    [:delivery_name, :delivery_street1, :delivery_postal_code, :delivery_city, :delivery_house_number, :delivery_house_number_addition, :delivery_country].each do |f|
       define_method(f) do
         separate_delivery_address? ? super() : send(f.to_s.gsub('delivery_', 'billing_'))
       end
