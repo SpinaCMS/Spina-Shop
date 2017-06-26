@@ -24,8 +24,8 @@ module Spina::Shop
     transition from: :delivered,      to: :refunded
 
     guard_transition(to: :confirming) do |order, transition|
-      # Are all product items in stock and details right?
-      order.everything_valid?
+      # Are all product items in stock and details right? Do we even have any order items?
+      order.everything_valid? && order.order_items.any?
     end
 
     before_transition(to: :confirming) do |order, transition|
