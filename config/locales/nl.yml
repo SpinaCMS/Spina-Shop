@@ -75,6 +75,9 @@ nl:
       tax_groups:
         default_tax_rate: Standaard btw-tarief
 
+      sales_categories:
+        default_sales_category_code: Standaard omzetcategorie
+
       product_bundles:
         new: Nieuwe productbundel
         add_bundled_product_item: Product toevoegen

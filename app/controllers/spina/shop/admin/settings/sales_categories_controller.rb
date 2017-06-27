@@ -5,7 +5,7 @@ module Spina::Shop
         layout 'spina/admin/admin', except: [:index]
 
         def index
-
+          @sales_categories = SalesCategory.all
         end
 
       end

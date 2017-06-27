@@ -13,7 +13,7 @@ module Spina
       # Label of the sales category code is based on the sales categorizable's name
       # Defaults to 'Default sales category code'
       def label
-        sales_categorizable.try(:name) || I18n.t('spina.shop.sales_category.default_sales_category_code')
+        sales_categorizable.try(:name) || I18n.t('spina.shop.sales_categories.default_sales_category_code')
       end
     end
   end

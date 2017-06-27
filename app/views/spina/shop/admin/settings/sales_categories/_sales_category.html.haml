@@ -1,0 +1,13 @@
+.table-container
+  %table.table
+    %tr
+      %td
+        %strong= sales_category.name
+      %td.align-right.text-muted
+        = sales_category.product_items.count
+        products
+
+    - sales_category.sales_category_codes.each do |sales_category_code|
+      %tr
+        %td= sales_category_code.label
+        %td.align-right= sales_category_code.code
