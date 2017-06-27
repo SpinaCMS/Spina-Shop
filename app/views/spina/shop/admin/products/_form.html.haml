@@ -69,7 +69,7 @@
         - if @product_category.present?
           .well
             = f.fields_for :properties do |property_builder|
-              - @product_category.product_properties.each do |property|
+              - @product_category.product_properties.includes(property_options: :translations).each do |property|
                 = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
         - if f.object.product_items.size == 1

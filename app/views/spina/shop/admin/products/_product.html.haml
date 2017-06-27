@@ -1,8 +1,7 @@
 - product.product_items.each_with_index do |product_item, index|
   %tr{class: ('text-muted' if product_item.inactive?)}
     %td.align-center{style: 'width: 30px'}
-      - if product.product_images.any?
-        = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30), style: 'vertical-align: middle; margin: -10px 0'
+      = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
     %td
       = link_to spina.shop_admin_product_path(product), class: 'table-link' do
         = product.name

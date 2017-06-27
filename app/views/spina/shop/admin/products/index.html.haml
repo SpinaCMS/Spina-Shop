@@ -34,7 +34,7 @@
           = f.text_field :id_gteq, placeholder: 'min'
           = f.text_field :id_lteq, placeholder: 'max'
 
-    - Spina::Shop::ProductCategoryProperty.all.each do |property|
+    - @product_category_properties.each do |property|
       .filter-form-advanced-group
         .filter-form-label
           = property.label

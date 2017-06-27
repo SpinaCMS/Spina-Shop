@@ -22,23 +22,23 @@ module Spina::Shop
 
       def index
         @q = Order.ransack(params[:q])
-        @orders = @q.result.confirmed.sorted.page(params[:page]).per(25)
+        @orders = @q.result.confirmed.sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
       end
 
       def to_process
         @q = Order.ransack(params[:q])
-        @orders = @q.result.in_state(:paid, :order_picking).sorted.page(params[:page]).per(25)
+        @orders = @q.result.in_state(:paid, :order_picking).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
         render :index
       end
 
       def failed
         @q = Order.ransack(params[:q])
-        @orders = @q.result.in_state(:failed).sorted.page(params[:page]).per(25)
+        @orders = @q.result.in_state(:failed).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
         render :index
       end
 
       def show
-        @order = Order.find(params[:id])
+        @order = Order.includes(order_items: :orderable).find(params[:id])
         add_breadcrumb @order.number
       end
 
