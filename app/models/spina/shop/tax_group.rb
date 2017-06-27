@@ -34,7 +34,7 @@ module Spina::Shop
       rate_by_zone(order.delivery_country).code || Spina::Shop.config.default_tax_code
     end
 
-    # private
+    private
 
       # Get the correct rate by zone
       # 

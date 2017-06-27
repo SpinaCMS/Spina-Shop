@@ -11,6 +11,8 @@ module Spina
     self.default_tax_rate = BigDecimal(0)
     self.default_tax_code = "0"
 
+    self.default_sales_category_code = "8000"
+
     class << self
 
       def root
