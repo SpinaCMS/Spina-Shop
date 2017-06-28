@@ -21,7 +21,10 @@ module Spina::Shop
     # 2. Get rate by zone
     # 3. Default Spina config
     def tax_rate_for_order(order)
-      rate_by_zone(order.delivery_country).rate || Spina::Shop.config.default_tax_rate
+      @tax_rates ||= Hash.new do |h, key|
+        h[key] = rate_by_zone(order.delivery_country).rate || Spina::Shop.config.default_tax_rate
+      end
+      @tax_rates[order]
     end
 
     # Get the tax code based on the order
@@ -31,7 +34,10 @@ module Spina::Shop
     # 2. Get code by zone
     # 3. Default Spina config
     def tax_code_for_order(order)
-      rate_by_zone(order.delivery_country).code || Spina::Shop.config.default_tax_code
+      @tax_codes ||= Hash.new do |h, key|
+        h[key] = rate_by_zone(order.delivery_country).code || Spina::Shop.config.default_tax_code
+      end
+      @tax_codes[order]
     end
 
     private

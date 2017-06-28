@@ -9,6 +9,7 @@ module Spina::Shop
     has_many :product_bundles, through: :bundled_product_items, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
     has_many :in_stock_reminders, as: :orderable, dependent: :destroy
+    has_many :price_exceptions, dependent: :destroy
 
     # Active items
     scope :active, -> { where(active: true) }
@@ -18,6 +19,15 @@ module Spina::Shop
     after_save :cache_product_averages
 
     validates :tax_group, :price, presence: true
+
+    # Get the price based on the one ordering. Can be different based on customer groups.
+    def price_for_customer(customer)
+      return price if customer.nil?
+      # price_exceptions.find_by!(exceptionable: [customer, customer.customer_group]).price
+      price
+    rescue ActiveRecord::RecordNotFound
+      price
+    end
 
     # Short description is description and description is the 
     # Product's name and ProductItem's name combined. Like wtf.

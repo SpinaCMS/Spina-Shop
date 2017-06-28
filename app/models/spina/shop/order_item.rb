@@ -14,24 +14,29 @@ module Spina::Shop
     scope :ordered, -> { order(:created_at) }
 
     def unit_price
-      read_attribute(:unit_price) || orderable.price || BigDecimal(0)
+      return @unit_price if defined? @unit_price
+      @unit_price = read_attribute(:unit_price) || orderable.price_for_customer(order.customer) || BigDecimal(0)
     end
 
     def unit_cost_price
-      read_attribute(:unit_cost_price) || orderable.cost_price || BigDecimal(0)
+      return @unit_cost_price if defined? @unit_cost_price
+      @unit_cost_price = read_attribute(:unit_cost_price) || orderable.cost_price || BigDecimal(0)
     end
 
     def tax_rate
-      read_attribute(:tax_rate) || orderable.tax_group.tax_rate_for_order(order) || BigDecimal(0)
+      return @tax_rate if defined? @tax_rate
+      @tax_rate = read_attribute(:tax_rate) || orderable.tax_group.tax_rate_for_order(order) || BigDecimal(0)
     end
 
     # Discount as amount
     def discount_amount
-      read_attribute(:discount_amount) || order.discount.try(:discount_for_order_item, self) || BigDecimal(0)
+      return @discount_amount if defined? @discount_amount
+      @discount_amount = read_attribute(:discount_amount) || order.discount.try(:discount_for_order_item, self) || BigDecimal(0)
     end
 
     def weight
-      read_attribute(:weight) || orderable.weight || BigDecimal(0)
+      return @weight if defined? @weight
+      @weight = read_attribute(:weight) || orderable.weight || BigDecimal(0)
     end
 
     def description
@@ -55,7 +60,8 @@ module Spina::Shop
     end
 
     def in_stock?
-      if is_product_bundle?
+      return @in_stock if defined? @in_stock
+      @in_stock = if is_product_bundle?
         orderable.bundled_product_items.all?{|p| product_item_in_stock?(p.product_item_id)}
       else
         product_item_in_stock?(orderable_id)

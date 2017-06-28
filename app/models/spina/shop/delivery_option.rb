@@ -6,7 +6,7 @@ module Spina::Shop
     has_many :orders, dependent: :restrict_with_exception
 
     def price_for_order(order)
-      order.sub_total_including_tax >= BigDecimal(60) ? BigDecimal(0) : price
+      price
     end
 
     # You probably want to override this method to return a realistic date

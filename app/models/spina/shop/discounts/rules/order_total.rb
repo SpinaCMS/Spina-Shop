@@ -7,7 +7,7 @@ module Spina::Shop
         validates :total, presence: true, numericality: true
 
         def eligible?(order_item)
-          # order_item.order.sub_total_including_tax >= total
+          # order_item.order.order_total >= total
           true
         end
 

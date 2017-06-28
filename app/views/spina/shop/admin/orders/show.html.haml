@@ -266,8 +266,8 @@
 
         %tr
           %td.text-right{colspan: 4}
-            %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:sub_total)
-            = number_to_currency @order.sub_total_including_tax
+            %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:order_total)
+            = number_to_currency @order.order_total
 
         %tr
           %td.text-right{colspan: 4}

@@ -1,27 +1,36 @@
 module Spina::Shop
   class Order < ApplicationRecord
-    def sub_total
+
+    def order_total
+      return @order_total if defined? @order_total
+      @order_total = order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
+    end
+
+    def order_total_excluding_tax
       if prices_include_tax
         order_items.inject(BigDecimal(0)) { |t, i| t + (i.total / i.tax_modifier).round(2) }
       else
-        order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
+        order_total
       end
     end
 
-    def sub_total_including_tax
-      sub_total + tax_amount
+    def order_total_including_tax
+      order_total_excluding_tax + tax_amount
     end
 
     def delivery_price
-      read_attribute(:delivery_price) || delivery_option.try(:price_for_order, self) || BigDecimal(0)
+      return @delivery_price if defined? @delivery_price
+      @delivery_price = read_attribute(:delivery_price) || delivery_option.try(:price_for_order, self) || BigDecimal(0)
     end
 
     def delivery_tax_rate
-      read_attribute(:delivery_tax_rate) || delivery_option.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
+      return @delivery_tax_rate if defined? @delivery_tax_rate
+      @delivery_tax_rate = read_attribute(:delivery_tax_rate) || delivery_option.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
     end
 
     def gift_card_amount
-      read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
+      return @gift_card_amount if defined? @gift_card_amount
+      @gift_card_amount = read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
     end
 
     def billing_first_name
@@ -35,9 +44,9 @@ module Spina::Shop
     # Total of the order
     def total
       if prices_include_tax
-        order_items.includes(:orderable).inject(BigDecimal(0)) { |t, i| t + i.total } + delivery_price
+        order_total + delivery_price
       else
-        sub_total + tax_amount + delivery_price
+        order_total_excluding_tax + tax_amount + delivery_price
       end
     end
 

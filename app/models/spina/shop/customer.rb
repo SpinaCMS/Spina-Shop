@@ -20,6 +20,8 @@ module Spina::Shop
 
     belongs_to :country
 
+    belongs_to :customer_group, optional: true
+
     before_save :set_full_name, if: -> { first_name_changed? || last_name_changed? }
     after_create :set_number
 
