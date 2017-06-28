@@ -34,7 +34,11 @@ module Spina::Shop
 
     # Total of the order
     def total
-      sub_total + tax_amount + delivery_price
+      if prices_include_tax
+        order_items.includes(:orderable).inject(BigDecimal(0)) { |t, i| t + i.total } + delivery_price
+      else
+        sub_total + tax_amount + delivery_price
+      end
     end
 
     def to_be_paid

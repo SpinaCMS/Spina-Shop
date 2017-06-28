@@ -13,13 +13,6 @@ module Spina::Shop
 
     scope :ordered, -> { order(:created_at) }
 
-    before_save do
-      if order.confirmed? && (unit_price_changed? || unit_cost_price_changed? || tax_rate_changed? || discount_amount_changed?)
-        cache_pricing
-        cache_metadata
-      end
-    end
-
     def unit_price
       read_attribute(:unit_price) || orderable.price || BigDecimal(0)
     end
