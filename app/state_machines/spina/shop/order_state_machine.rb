@@ -33,11 +33,20 @@ module Spina::Shop
       order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
 
       # Allocate stock baby!
-      order.order_items.each(&:allocate_unallocated_stock!)
+      adjustments = order.order_items.map(&:allocate_unallocated_stock)
+      adjustments = StockLevelAdjustment.create!(adjustments)
 
-      # Cache prices 
-      order.order_items.each(&:cache_pricing!)
-      order.order_items.each(&:cache_metadata!)
+      # Save and cache product item stuff
+      product_items = adjustments.map(&:product_item).each(&:cache_everything)
+      product_items.each do |product_item|
+        product_item.save(validate: false)
+      end
+
+      # Cache prices and metadata
+      order.order_items.each(&:cache_everything)
+      order.order_items.each do |order_item|
+        order_item.save(validate: false)
+      end
 
       # Cache delivery option
       order.cache_delivery_option! if order.delivery_option.present?

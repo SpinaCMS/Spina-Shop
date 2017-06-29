@@ -68,13 +68,13 @@ module Spina::Shop
       end
     end
 
-    def allocate_unallocated_stock!
+    def allocate_unallocated_stock
       if is_product_bundle?
-        orderable.bundled_product_items.each do |bundled_product|
-          create_stock_level_adjustment(bundled_product.product_item_id)
+        orderable.bundled_product_items.map do |bundled_product|
+          build_stock_level_adjustment(bundled_product.product_item_id)
         end
       else
-        create_stock_level_adjustment(orderable_id)
+        build_stock_level_adjustment(orderable_id)
       end
     end
 
@@ -82,14 +82,9 @@ module Spina::Shop
       stock_level_adjustments.destroy_all
     end
 
-    def cache_pricing!
+    def cache_everything
       cache_pricing
-      save!
-    end
-
-    def cache_metadata!
-      cache_metadata
-      save!
+      #cache_metadata
     end
 
     def is_product_bundle?
@@ -107,9 +102,9 @@ module Spina::Shop
 
     private
 
-      def create_stock_level_adjustment(product_item_id)
+      def build_stock_level_adjustment(product_item_id)
         if (stock = unallocated_stock(product_item_id)) > 0
-          stock_level_adjustments.create!(product_item_id: product_item_id, adjustment: -stock, description: "Bestelling #{order.number}")
+          {order_item_id: id, product_item_id: product_item_id, adjustment: -stock, description: "Bestelling #{order.number}"}
         end
       end
 

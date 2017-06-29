@@ -15,10 +15,10 @@ module Spina::Shop
     scope :active, -> { where(active: true) }
 
     # Cache product averages
-    before_save :cache_averages
-    after_save :cache_product_averages
+    #before_save :cache_averages
+    #after_save :cache_product_averages
 
-    validates :tax_group, :price, presence: true
+    validates :price, presence: true
 
     # Get the price based on the one ordering. Can be different based on customer groups.
     def price_for_customer(customer)
@@ -57,6 +57,10 @@ module Spina::Shop
 
     def inactive?
       !active
+    end
+
+    def cache_everything
+      cache_averages
     end
 
     private
