@@ -75,7 +75,7 @@ nl:
 
       product_bundles:
         new: Nieuwe productbundel
-        add_bundled_product_item: Product toevoegen
+        add_bundled_product: Product toevoegen
 
       properties:
         new: Nieuwe eigenschap

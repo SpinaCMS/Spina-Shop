@@ -22,10 +22,7 @@ module Spina::Shop
     # 2. Get code by zone
     # 3. Default Spina config
     def code_for_order(order)
-      @codes ||= Hash.new do |h, key|
-        h[key] = code_by_zone(order.delivery_country).code || Spina::Shop.config.default_sales_category_code
-      end
-      @codes[order]
+      code_by_zone(order.delivery_country).code || Spina::Shop.config.default_sales_category_code
     end
 
     private

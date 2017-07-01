@@ -32,7 +32,7 @@ $(document).on 'click', '.sidebar-form-image a', (e) ->
 $(document).on 'spina:structure_added', 'form', (e) ->
   selectProducts($(this))
 
-$(document).on 'spina:product_item_fields_added', 'form', (e) ->
+$(document).on 'spina:product_fields_added', 'form', (e) ->
   selectProductItems($(this))
   $('select.select2').select2()
 

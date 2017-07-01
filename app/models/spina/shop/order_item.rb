@@ -82,9 +82,9 @@ module Spina::Shop
       stock_level_adjustments.destroy_all
     end
 
-    def cache_everything
+    def cache
       cache_pricing
-      #cache_metadata
+      cache_metadata
     end
 
     def is_product_bundle?

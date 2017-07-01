@@ -18,12 +18,12 @@
             = f.text_field :name, placeholder: Spina::Shop::ProductBundle.human_attribute_name(:name)
 
       .well
-        = f.fields_for :bundled_product_items do |ff|
-          = render 'bundled_product_items_fields', f: ff
+        = f.fields_for :bundled_products do |ff|
+          = render 'bundled_products_fields', f: ff
 
-        = link_to_add_product_item_fields f, :bundled_product_items do
+        = link_to_add_product_fields f, :bundled_products do
           = icon('plus')
-          =t 'spina.shop.product_bundles.add_bundled_product_item'
+          =t 'spina.shop.product_bundles.add_bundled_product'
 
     .sidebar-form-sidebar
       #productImageUploader.sidebar-form-images

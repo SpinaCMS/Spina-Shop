@@ -29,7 +29,7 @@
           %td
             = link_to product_bundle.name, spina.shop_admin_product_bundle_path(product_bundle), class: 'table-link'
           %td
-            = product_bundle.bundled_product_items.sum(:quantity)
+            = product_bundle.bundled_products.sum(:quantity)
             producten
           %td.text-right
             %em.text-muted{style: 'text-decoration: line-through'}

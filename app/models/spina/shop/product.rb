@@ -68,6 +68,10 @@ module Spina::Shop
       decorate_with_methods(read_attribute(:properties))
     end
 
+    def cache
+      cache_averages
+    end
+
     # Get products by filtering their properties
     # Based on querying the jsonb column using Postgres
     def self.filtered(filters)
