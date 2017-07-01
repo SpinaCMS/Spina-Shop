@@ -37,13 +37,10 @@ Spina::Engine.routes.draw do
         resources :invoices, only: [:show]
 
         # Products
-        resources :product_items, only: [:index], format: :json
         resources :products do
           get :new_by_category, on: :collection
           scope module: :products do
-            resources :product_items do
-              resources :stock_level_adjustments
-            end
+            resources :stock_level_adjustments
           end
         end
         scope module: :products do

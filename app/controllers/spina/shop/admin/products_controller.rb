@@ -5,7 +5,7 @@ module Spina::Shop
       before_action :set_locale
 
       def index
-        @q = Product.filtered(filters).order(created_at: :desc).includes(:product_items, :product_images).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @q = Product.filtered(filters).order(created_at: :desc).includes(:product_images).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
         @products = @q.result.page(params[:page]).per(25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
@@ -17,7 +17,7 @@ module Spina::Shop
               { id: product.id, 
                 name: product.name, 
                 image_url: view_context.attachment_url(product.product_images.first, :file, :fit, 30, 30), 
-                price: view_context.number_to_currency(product.lowest_price) }
+                price: view_context.number_to_currency(product.price) }
             end
             render inline: {results: results, total_count: @q.result.count}.to_json
           end
@@ -41,7 +41,6 @@ module Spina::Shop
 
         # Always build at least one product item
         @product.product_category = @product_category
-        @product.product_items.build
       end
 
       def create
@@ -57,9 +56,7 @@ module Spina::Shop
         @product = Product.find_by(materialized_path: params[:id])
         add_breadcrumb @product.name
 
-        # Always build at least one product item
         @product_category = @product.product_category
-        @product.product_items.build if @product.product_items.none?
       end
 
       def update
@@ -94,7 +91,7 @@ module Spina::Shop
         end
 
         def product_params
-          params.require(:product).permit!.merge(locale: @locale).delocalize({product_items_attributes: {price: :number, cost_price: :number, weight: :number}})
+          params.require(:product).permit!.merge(locale: @locale).delocalize({price: :number, cost_price: :number, weight: :number})
         end
 
         def set_breadcrumbs

@@ -69,7 +69,7 @@ selectProductItems = (element) ->
     $select = $(this)
     $select.select2(
       ajax:
-        url: '/admin/shop/product_items'
+        url: '/admin/shop/products'
         delay: 250
         dataType: 'json'
         data: (params) ->

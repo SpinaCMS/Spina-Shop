@@ -18,7 +18,7 @@
 = search_form_for @q, url: spina.shop_admin_products_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :product_items_sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of SKU'
+      = f.text_field :sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of SKU'
       = link_to 'geavanceerd', '#', class: 'filter-form-advanced-link'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
@@ -52,13 +52,13 @@
     %thead
       %tr
         %th
-        %th= sort_link [:spina, @q], :translations_name, Spina::Shop::ProductItem.human_attribute_name(:name), {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= sort_link [:spina, @q], :product_items_price, Spina::Shop::ProductItem.human_attribute_name(:price), {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= sort_link [:spina, @q], :product_items_stock_level, Spina::Shop::ProductItem.human_attribute_name(:stock_level), {}, class: 'table-sort'
-        %th.align-right= sort_link [:spina, @q], :product_items_expiration_date, Spina::Shop::ProductItem.human_attribute_name(:expiration_date), {}, class: 'table-sort'
+        %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
+        %th{style: 'text-align: right'}= sort_link [:spina, @q], :price, Spina::Shop::Product.human_attribute_name(:price), {}, class: 'table-sort'
+        %th{style: 'text-align: right'}= sort_link [:spina, @q], :stock_level, Spina::Shop::Product.human_attribute_name(:stock_level), {}, class: 'table-sort'
+        %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
         %th
 
     %tbody
-      = render partial: "product", collection: @products.to_a.uniq
+      = render partial: "product", collection: @products
 
   .pagination= link_to_next_page @products, 'Next'

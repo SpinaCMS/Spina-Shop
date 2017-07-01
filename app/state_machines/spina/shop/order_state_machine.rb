@@ -36,12 +36,6 @@ module Spina::Shop
       adjustments = order.order_items.map(&:allocate_unallocated_stock)
       adjustments = StockLevelAdjustment.create!(adjustments)
 
-      # Save and cache product item stuff
-      product_items = adjustments.map(&:product_item).each(&:cache_everything)
-      product_items.each do |product_item|
-        product_item.save(validate: false)
-      end
-
       # Cache prices and metadata
       order.order_items.each(&:cache_everything)
       order.order_items.each do |order_item|

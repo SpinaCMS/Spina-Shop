@@ -1,7 +1,7 @@
 module Spina::Shop
   class TaxGroup < ApplicationRecord
     # All product items that belong to this tax group
-    has_many :product_items, dependent: :restrict_with_exception
+    has_many :products, dependent: :restrict_with_exception
     has_many :delivery_options, dependent: :restrict_with_exception
 
     has_many :tax_rates, dependent: :destroy

@@ -1,6 +1,6 @@
 module Spina::Shop
   class StockLevelAdjustment < ApplicationRecord
-    belongs_to :product_item
+    belongs_to :product
     belongs_to :order_item, optional: true
 
     scope :additions, -> { where('adjustment > ?', 0) }
@@ -8,8 +8,8 @@ module Spina::Shop
 
     validates :adjustment, presence: true
 
-    #after_save :cache_product_item
-    #after_destroy :cache_product_item
+    after_save :cache_product
+    after_destroy :cache_product
 
     def expiration_date
       "#{expiration_month || '–'}/#{expiration_year.to_s.last(2).presence || '–'}"
@@ -17,8 +17,9 @@ module Spina::Shop
 
     private
 
-      def cache_product_item
-        product_item.save
+      # TODO: Extract into service object
+      def cache_product
+        product.save
       end
 
   end

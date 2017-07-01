@@ -1,8 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
+    belongs_to :tax_group
+    belongs_to :sales_category
     belongs_to :product_category, optional: true
 
-    has_many :product_items, inverse_of: :product, dependent: :destroy
     has_many :product_images, dependent: :destroy
     has_many :product_reviews, dependent: :destroy
     has_many :product_relations, dependent: :destroy
@@ -11,14 +12,18 @@ module Spina::Shop
     has_many :collectables, dependent: :destroy
     has_many :product_collections, through: :collectables
 
-    accepts_nested_attributes_for :product_items, :product_images, allow_destroy: true
+    has_many :order_items, as: :orderable, dependent: :restrict_with_exception
+    has_many :stock_level_adjustments, dependent: :destroy
+    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
+
+    accepts_nested_attributes_for :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
     # Cache averages for quick ordering
     before_save :cache_averages
     before_validation :set_materialized_path
 
-    validates :name, presence: true
+    validates :name, :price, presence: true
 
     # Always include translations
     default_scope { includes(:translations) }
@@ -46,21 +51,16 @@ module Spina::Shop
 
     scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_shop_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
-    scope :items_where_in_range, -> (key, min, max) { joins(:product_items).where("CAST(coalesce(NULLIF(REPLACE(spina_shop_product_items.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
+    def price_for_customer(customer)
+      price
+    end
 
     def to_param
       materialized_path
     end
 
-    # First active ProductItem is the default item. TODO: sorting.
-    def default_product_item
-      product_items.active.first
-    end
-
-    # A product is only active if any of it's ProductItems are active
-    # Cached in the active column for faster querying in the cache_averages method
-    def active?
-      product_items.active.any?
+    def in_stock?
+      stock_level > 0
     end
 
     # All properties are dynamically stored using jsonb
@@ -121,13 +121,30 @@ module Spina::Shop
         materialized_path
       end
 
+      def earliest_expiration_date
+        offset = 0
+        sum = 0
+        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+        while sum < stock_level do
+          adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+          offset = offset.next
+          sum = sum + adjustment.try(:adjustment).to_i
+        end 
+
+        if adjustment.try(:expiration_year).present?
+          Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
+        else
+          nil
+        end
+      end
+
       # After saving this product always make sure to update some cached values
       # Useful for frontend and fast queries
       def cache_averages
+        write_attribute :stock_level, stock_level_adjustments.sum(:adjustment)
+        write_attribute :expiration_date, can_expire? ? earliest_expiration_date : nil
         write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
-        write_attribute :sales_count, product_items.joins(:stock_level_adjustments).where('adjustment < ?', 0).sum(:adjustment) * -1
-        write_attribute :lowest_price, product_items.minimum(:price)
-        write_attribute :active, product_items.any?(&:active)
+        write_attribute :sales_count, stock_level_adjustments.where('adjustment < ?', 0).sum(:adjustment) * -1
       end
   end
 end

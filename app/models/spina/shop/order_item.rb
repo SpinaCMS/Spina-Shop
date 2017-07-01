@@ -40,7 +40,7 @@ module Spina::Shop
     end
 
     def description
-      orderable.description
+      orderable.name
     end
 
     def total_without_discount
@@ -62,16 +62,16 @@ module Spina::Shop
     def in_stock?
       return @in_stock if defined? @in_stock
       @in_stock = if is_product_bundle?
-        orderable.bundled_product_items.all?{|p| product_item_in_stock?(p.product_item_id)}
+        orderable.bundled_products.all?{|p| product_in_stock?(p.product_id)}
       else
-        product_item_in_stock?(orderable_id)
+        product_in_stock?(orderable_id)
       end
     end
 
     def allocate_unallocated_stock
       if is_product_bundle?
-        orderable.bundled_product_items.map do |bundled_product|
-          build_stock_level_adjustment(bundled_product.product_item_id)
+        orderable.bundled_products.map do |bundled_product|
+          build_stock_level_adjustment(bundled_product.product_id)
         end
       else
         build_stock_level_adjustment(orderable_id)
@@ -91,36 +91,36 @@ module Spina::Shop
       orderable_type == "Spina::Shop::ProductBundle"
     end
 
-    def unallocated_stock(product_item_id)
+    def unallocated_stock(product_id)
       multiplier = if is_product_bundle? 
-        orderable.bundled_product_items.find_by(product_item_id: product_item_id).try(:quantity).to_i 
+        orderable.bundled_products.find_by(product_id: product_id).try(:quantity).to_i 
       else
-        orderable_id == product_item_id ? 1 : 0
+        orderable_id == product_id ? 1 : 0
       end
-      quantity * multiplier - allocated_stock(product_item_id)
+      quantity * multiplier - allocated_stock(product_id)
     end
 
     private
 
-      def build_stock_level_adjustment(product_item_id)
-        if (stock = unallocated_stock(product_item_id)) > 0
-          {order_item_id: id, product_item_id: product_item_id, adjustment: -stock, description: "Bestelling #{order.number}"}
+      def build_stock_level_adjustment(product_id)
+        if (stock = unallocated_stock(product_id)) > 0
+          {order_item_id: id, product_id: product_id, adjustment: -stock, description: "Bestelling #{order.number}"}
         end
       end
 
-      def product_item_in_stock?(product_item_id)
+      def product_in_stock?(product_id)
         # Add itself to an array of order items 
         # If the record isn't persisted yet it won't show up in order.order_items
         order_items = order.order_items.to_a | [self]
-        product_item = ProductItem.find(product_item_id)
-        product_item.stock_level >= order_items.inject(BigDecimal(0)) do |total, order_item|
+        product = Product.find(product_id)
+        product.stock_level >= order_items.inject(BigDecimal(0)) do |total, order_item|
           order_item.quantity = quantity if order_item == self
-          total + order_item.unallocated_stock(product_item.id)
+          total + order_item.unallocated_stock(product_id)
         end
       end
 
-      def allocated_stock(product_item_id)
-        -stock_level_adjustments.where(product_item_id: product_item_id).sum(:adjustment)
+      def allocated_stock(product_id)
+        -stock_level_adjustments.where(product_id: product_id).sum(:adjustment)
       end
 
       def item_must_be_in_stock

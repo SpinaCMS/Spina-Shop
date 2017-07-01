@@ -2,7 +2,7 @@ module Spina::Shop
   class SalesCategory < ApplicationRecord
 
     # Cannot destroy if it has any products or delivery options
-    has_many :product_items, dependent: :restrict_with_exception
+    has_many :products, dependent: :restrict_with_exception
     has_many :delivery_options, dependent: :restrict_with_exception
 
     has_many :sales_category_codes, dependent: :destroy

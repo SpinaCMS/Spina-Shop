@@ -4,7 +4,7 @@
       %td
         %strong= sales_category.name
       %td.align-right.text-muted
-        = sales_category.product_items.count
+        = sales_category.products.count
         products
 
     - sales_category.sales_category_codes.each do |sales_category_code|

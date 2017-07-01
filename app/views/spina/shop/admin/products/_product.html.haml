@@ -1,25 +1,24 @@
-- product.product_items.each_with_index do |product_item, index|
-  %tr{class: ('text-muted' if product_item.inactive?)}
-    %td.align-center{style: 'width: 30px'}
-      = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
-    %td
-      = link_to spina.shop_admin_product_path(product), class: 'table-link' do
-        = product.name
-        = product_item.name
-    %td.align-right
-      = number_to_currency product_item.price
-    %td.align-right
-      = product_item.stock_level
-    %td.align-right
-      =l product_item.expiration_date, format: '%B \'%y' if product_item.can_expire? && product_item.expiration_date.present?
-    %td.align-right
-      - if product_item.inactive?
-        .status-dot
-      - else
-        - if product_item.in_stock?
-          - if product_item.can_expire? && product_item.expiration_date.present? && product_item.expiration_date < 2.months.from_now
-            .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.product_items.almost_expired')}}
-          - else
-            .status-dot.status-dot-success
+%tr{class: ('text-muted' unless product.active?)}
+  %td.align-center{style: 'width: 30px'}
+    = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
+  %td
+    = link_to product.name, spina.shop_admin_product_path(product), class: 'table-link'
+  %td.align-right
+    = number_to_currency product.price
+  %td.align-right
+    = product.stock_level
+  %td.align-right
+    =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
+  %td.align-right
+    - if product.active?
+      - if product.in_stock?
+        - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
+          .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
         - else
-          .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.product_items.out_of_stock')}}
+          .status-dot.status-dot-success
+      - else
+        .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
+
+    - else
+      .status-dot
+      
