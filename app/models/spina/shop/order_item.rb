@@ -62,27 +62,16 @@ module Spina::Shop
       end
     end
 
-    def allocate_unallocated_stock
-      if is_product_bundle?
-        orderable.bundled_products.map do |bundled_product|
-          build_stock_level_adjustment(bundled_product.product_id)
-        end
-      else
-        build_stock_level_adjustment(orderable_id)
-      end
-    end
-
     def unallocate_allocated_stock
       stock_level_adjustments.destroy_all
     end
 
-    def cache
-      cache_pricing
-      cache_metadata
-    end
-
     def is_product_bundle?
       orderable_type == "Spina::Shop::ProductBundle"
+    end
+
+    def allocated_stock(product_id)
+      -stock_level_adjustments.where(product_id: product_id).sum(:adjustment)
     end
 
     def unallocated_stock(product_id)
@@ -94,13 +83,12 @@ module Spina::Shop
       quantity * multiplier - allocated_stock(product_id)
     end
 
-    private
+     def cache
+      cache_pricing
+      cache_metadata
+    end
 
-      def build_stock_level_adjustment(product_id)
-        if (stock = unallocated_stock(product_id)) > 0
-          {order_item_id: id, product_id: product_id, adjustment: -stock, description: "Bestelling #{order.number}"}
-        end
-      end
+    private
 
       def product_in_stock?(product_id)
         # Add itself to an array of order items 
@@ -111,10 +99,6 @@ module Spina::Shop
           order_item.quantity = quantity if order_item == self
           total + order_item.unallocated_stock(product_id)
         end
-      end
-
-      def allocated_stock(product_id)
-        -stock_level_adjustments.where(product_id: product_id).sum(:adjustment)
       end
 
       def item_must_be_in_stock

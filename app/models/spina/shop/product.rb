@@ -96,7 +96,7 @@ module Spina::Shop
       offset = 0
       sum = 0
       adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-      while sum < stock_level do
+      while sum < stock_level && adjustment.present? do
         adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
         offset = offset.next
         sum = sum + adjustment.try(:adjustment).to_i

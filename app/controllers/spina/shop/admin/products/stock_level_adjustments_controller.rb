@@ -13,7 +13,7 @@ module Spina::Shop
         end
 
         def create
-          change = ChangeStockLevel.new(@product, *stock_level_adjustment_params, send_in_stock_reminders: params[:send_in_stock_reminders])
+          change = ChangeStockLevel.new(@product, stock_level_adjustment_params, send_in_stock_reminders: params[:send_in_stock_reminders])
           change.save
           redirect_to spina.shop_admin_product_path(@product)
         end
