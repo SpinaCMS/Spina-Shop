@@ -13,15 +13,9 @@ module Spina::Shop
         end
 
         def create
-          @stock_level_adjustment = @product.stock_level_adjustments.build(stock_level_adjustment_params)
-
-          if @stock_level_adjustment.save
-            @product.save
-            InStockReminderJob.perform_later(@product) if params[:send_in_stock_reminders]
-            redirect_to spina.shop_admin_product_path(@product)
-          else
-            redirect_to spina.shop_admin_product_path(@product)
-          end
+          change = ChangeStockLevel.new(@product, *stock_level_adjustment_params, send_in_stock_reminders: params[:send_in_stock_reminders])
+          change.save
+          redirect_to spina.shop_admin_product_path(@product)
         end
 
         private
@@ -31,7 +25,7 @@ module Spina::Shop
           end
 
           def stock_level_adjustment_params
-            params.require(:stock_level_adjustment).permit(:adjustment, :description, :expiration_month, :expiration_year).merge(actor: current_spina_user.name, product_id: @product.id)
+            params.require(:stock_level_adjustment).permit(:adjustment, :description, :expiration_month, :expiration_year).merge(actor: current_spina_user.name)
           end
       end
     end

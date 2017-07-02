@@ -92,6 +92,23 @@ module Spina::Shop
       return products
     end
 
+    def earliest_expiration_date
+      offset = 0
+      sum = 0
+      adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+      while sum < stock_level do
+        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+        offset = offset.next
+        sum = sum + adjustment.try(:adjustment).to_i
+      end 
+
+      if adjustment.try(:expiration_year).present?
+        Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
+      else
+        nil
+      end
+    end
+
     private
 
       # Get all values for properties defined on the ProductCategory.
@@ -125,28 +142,9 @@ module Spina::Shop
         materialized_path
       end
 
-      def earliest_expiration_date
-        offset = 0
-        sum = 0
-        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-        while sum < stock_level do
-          adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-          offset = offset.next
-          sum = sum + adjustment.try(:adjustment).to_i
-        end 
-
-        if adjustment.try(:expiration_year).present?
-          Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
-        else
-          nil
-        end
-      end
-
       # After saving this product always make sure to update some cached values
       # Useful for frontend and fast queries
       def cache_averages
-        write_attribute :stock_level, stock_level_adjustments.sum(:adjustment)
-        write_attribute :expiration_date, can_expire? ? earliest_expiration_date : nil
         write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
         write_attribute :sales_count, stock_level_adjustments.where('adjustment < ?', 0).sum(:adjustment) * -1
       end
