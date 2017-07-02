@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :order, class: Spina::Shop::Order do
     # Order stuff
     prices_include_tax true
-    association :delivery_country, factory: :the_netherlands
+    association :billing_country, factory: :the_netherlands
 
     factory :order_with_details do
       first_name            "Bram"
@@ -15,12 +15,12 @@ FactoryGirl.define do
 
       factory :order_with_order_items do
         after(:create) do |order, evaluator|
-          product_item = create(:product_item_with_stock, stock_level: 10)
-          create(:order_item, quantity: 1, order: order, orderable: product_item)
+          product = create(:product_with_stock, stock_level: 10)
+          create(:order_item, quantity: 1, order: order, orderable: product)
         end
 
         factory :order_from_germany do
-          association :delivery_country, factory: :germany
+          association :billing_country, factory: :germany
         end
       end
     end

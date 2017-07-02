@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614123139) do
+ActiveRecord::Schema.define(version: 20170702093931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,14 +186,23 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.index ["customer_id"], name: "idx_shop_addresses_on_customer_id"
   end
 
-  create_table "spina_shop_bundled_product_items", id: :serial, force: :cascade do |t|
-    t.integer "product_item_id"
+  create_table "spina_shop_bundled_products", force: :cascade do |t|
+    t.integer "product_id"
     t.integer "product_bundle_id"
     t.integer "quantity", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_bundle_id"], name: "idx_shop_bundled_product_items_on_product_bundle_id"
-    t.index ["product_item_id"], name: "idx_shop_bundled_product_items_on_product_item_id"
+    t.index ["product_bundle_id"], name: "index_spina_shop_bundled_products_on_product_bundle_id"
+    t.index ["product_id"], name: "index_spina_shop_bundled_products_on_product_id"
+  end
+
+  create_table "spina_shop_collectables", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "product_collection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_collection_id"], name: "index_spina_shop_collectables_on_product_collection_id"
+    t.index ["product_id"], name: "index_spina_shop_collectables_on_product_id"
   end
 
   create_table "spina_shop_countries", id: :serial, force: :cascade do |t|
@@ -217,6 +226,12 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.index ["password_reset_token"], name: "idx_shop_customer_accounts_on_password_reset_token", unique: true
   end
 
+  create_table "spina_shop_customer_groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "spina_shop_customers", id: :serial, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -229,7 +244,9 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.integer "number"
     t.date "date_of_birth"
     t.integer "country_id"
+    t.integer "customer_group_id"
     t.index ["country_id"], name: "idx_shop_customers_on_country_id"
+    t.index ["customer_group_id"], name: "index_spina_shop_customers_on_customer_group_id"
   end
 
   create_table "spina_shop_delivery_options", id: :serial, force: :cascade do |t|
@@ -508,6 +525,12 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.index ["product_category_id"], name: "idx_shop_product_category_properties_on_product_category_id"
   end
 
+  create_table "spina_shop_product_collections", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "spina_shop_product_images", id: :serial, force: :cascade do |t|
     t.integer "product_id"
     t.string "file_id"
@@ -601,8 +624,23 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.decimal "lowest_price", precision: 8, scale: 2
     t.string "supplier"
     t.boolean "active", default: false, null: false
+    t.string "sku"
+    t.string "location"
+    t.integer "tax_group_id"
+    t.decimal "weight", precision: 8, scale: 3
+    t.decimal "price", precision: 8, scale: 2
+    t.decimal "cost_price", precision: 8, scale: 2
+    t.string "ean"
+    t.integer "sales_category_id"
+    t.boolean "must_be_of_age_to_buy", default: false
+    t.boolean "can_expire", default: false
+    t.date "expiration_date"
+    t.integer "stock_level", default: 0, null: false
+    t.string "supplier_reference"
     t.index ["name"], name: "idx_shop_products_on_name", using: :gin
     t.index ["product_category_id"], name: "idx_shop_products_on_product_category_id"
+    t.index ["sales_category_id"], name: "index_spina_shop_products_on_sales_category_id"
+    t.index ["tax_group_id"], name: "index_spina_shop_products_on_tax_group_id"
   end
 
   create_table "spina_shop_sales_categories", id: :serial, force: :cascade do |t|
@@ -611,6 +649,17 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "metadata", default: "{}", null: false
+  end
+
+  create_table "spina_shop_sales_category_codes", force: :cascade do |t|
+    t.string "code"
+    t.string "sales_categorizable_type"
+    t.integer "sales_categorizable_id"
+    t.integer "sales_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sales_categorizable_id"], name: "index_spina_shop_sales_category_codes_on_sales_categorizable_id"
+    t.index ["sales_category_id"], name: "index_spina_shop_sales_category_codes_on_sales_category_id"
   end
 
   create_table "spina_shop_shop_reviews", id: :serial, force: :cascade do |t|
@@ -637,7 +686,9 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.datetime "updated_at", null: false
     t.integer "expiration_month"
     t.integer "expiration_year"
+    t.integer "product_id"
     t.index ["order_item_id"], name: "idx_shop_stock_level_adjustments_on_order_item_id"
+    t.index ["product_id"], name: "index_spina_shop_stock_level_adjustments_on_product_id"
     t.index ["product_item_id"], name: "idx_shop_stock_level_adjustments_on_product_item_id"
   end
 
@@ -722,21 +773,15 @@ ActiveRecord::Schema.define(version: 20170614123139) do
     t.datetime "password_reset_sent_at"
   end
 
-  add_foreign_key "spina_shop_addresses", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_addresses", "spina_shop_customers", column: "customer_id"
-  add_foreign_key "spina_shop_bundled_product_items", "spina_shop_product_bundles", column: "product_bundle_id"
-  add_foreign_key "spina_shop_bundled_product_items", "spina_shop_product_items", column: "product_item_id"
   add_foreign_key "spina_shop_customer_accounts", "spina_shop_customers", column: "customer_id"
-  add_foreign_key "spina_shop_customers", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_delivery_options", "spina_shop_sales_categories", column: "sales_category_id"
   add_foreign_key "spina_shop_delivery_options", "spina_shop_tax_groups", column: "tax_group_id"
   add_foreign_key "spina_shop_invoice_lines", "spina_shop_invoices", column: "invoice_id"
-  add_foreign_key "spina_shop_invoices", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_invoices", "spina_shop_customers", column: "customer_id"
   add_foreign_key "spina_shop_invoices", "spina_shop_orders", column: "order_id"
   add_foreign_key "spina_shop_order_items", "spina_shop_orders", column: "order_id"
   add_foreign_key "spina_shop_order_transitions", "spina_shop_orders", column: "order_id"
-  add_foreign_key "spina_shop_orders", "spina_shop_countries", column: "billing_country_id"
   add_foreign_key "spina_shop_product_bundles", "spina_shop_sales_categories", column: "sales_category_id"
   add_foreign_key "spina_shop_product_bundles", "spina_shop_tax_groups", column: "tax_group_id"
   add_foreign_key "spina_shop_product_category_properties", "spina_shop_product_categories", column: "product_category_id"

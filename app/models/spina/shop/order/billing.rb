@@ -2,8 +2,7 @@ module Spina::Shop
   class Order < ApplicationRecord
 
     def order_total
-      return @order_total if defined? @order_total
-      @order_total = order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
+      order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
     end
 
     def order_total_excluding_tax
@@ -19,18 +18,15 @@ module Spina::Shop
     end
 
     def delivery_price
-      return @delivery_price if defined? @delivery_price
-      @delivery_price = read_attribute(:delivery_price) || delivery_option.try(:price_for_order, self) || BigDecimal(0)
+      read_attribute(:delivery_price) || delivery_option.try(:price_for_order, self) || BigDecimal(0)
     end
 
     def delivery_tax_rate
-      return @delivery_tax_rate if defined? @delivery_tax_rate
-      @delivery_tax_rate = read_attribute(:delivery_tax_rate) || delivery_option.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
+      read_attribute(:delivery_tax_rate) || delivery_option.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
     end
 
     def gift_card_amount
-      return @gift_card_amount if defined? @gift_card_amount
-      @gift_card_amount = read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
+      read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
     end
 
     def billing_first_name

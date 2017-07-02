@@ -32,8 +32,8 @@ module Spina::Shop
     end
 
     test "Add order items to order" do
-      product_item = FactoryGirl.create :product_item_with_stock, stock_level: 10
-      @order.order_items.create(quantity: 1, orderable: product_item)
+      product = FactoryGirl.create :product_with_stock, stock_level: 10
+      @order.order_items.create(quantity: 1, orderable: product)
       @order.validate_stock = true
       assert @order.valid?
     end
@@ -43,18 +43,19 @@ module Spina::Shop
     end
 
     test "Order sub total" do
-      assert_equal BigDecimal.new('10.33'), @order_with_order_items.sub_total
+      assert_equal BigDecimal.new('10.33'), @order_with_order_items.order_total_excluding_tax
     end
 
     test "Order with different country tax rate" do
       order = FactoryGirl.create :order_from_germany
-      assert_equal BigDecimal.new('10.50'), order.sub_total
+      assert_equal BigDecimal.new('10.50'), order.order_total_excluding_tax
     end
 
     test "Order change tax rate by changing delivery country" do
-      assert_equal BigDecimal.new('10.33'), @order_with_order_items.sub_total
-      @order_with_order_items.delivery_country = FactoryGirl.create :germany
-      assert_equal BigDecimal.new('10.50'), @order_with_order_items.sub_total
+      assert_equal BigDecimal.new('10.33'), @order_with_order_items.order_total_excluding_tax
+      @order_with_order_items.delivery_country = FactoryGirl.create(:germany)
+      @order_with_order_items.separate_delivery_address = true
+      assert_equal BigDecimal.new('10.50'), @order_with_order_items.order_total_excluding_tax
     end
 
   end
