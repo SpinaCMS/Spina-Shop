@@ -10,12 +10,13 @@ module Spina::Shop
     validates :score, numericality: {greater_than: 1, less_than_or_equal_to: 10}
     validates :email, email: true, uniqueness: {scope: [:product_id, :customer_id, :shop_review]}
 
-    after_save :cache_product_averages
+    after_save :cache_product_review_score
+    after_destroy :cache_product_review_score
 
     private
 
-      def cache_product_averages
-        product.save
+      def cache_product_review_score
+        product.average_review_score = product.product_reviews.average(:score).try(:round, 1)
       end
   end
 end

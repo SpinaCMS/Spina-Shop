@@ -19,8 +19,7 @@ module Spina::Shop
     accepts_nested_attributes_for :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
-    # Cache averages for quick ordering
-    before_save :cache_averages
+    # Generate materialized path
     before_validation :set_materialized_path
 
     validates :name, :price, presence: true
@@ -68,10 +67,6 @@ module Spina::Shop
       decorate_with_methods(read_attribute(:properties))
     end
 
-    def cache
-      cache_averages
-    end
-
     # Get products by filtering their properties
     # Based on querying the jsonb column using Postgres
     def self.filtered(filters)
@@ -93,7 +88,11 @@ module Spina::Shop
     end
 
     def cache_stock_level
-      update_columns(stock_level: stock_level_adjustments.sum(:adjustment), expiration_date: can_expire? ? earliest_expiration_date : nil)
+      update_columns(
+        stock_level: stock_level_adjustments.sum(:adjustment), 
+        sales_count: stock_level_adjustments.where('adjustment < ?', 0).sum(:adjustment) * -1,
+        expiration_date: can_expire? ? earliest_expiration_date : nil
+      )
     end
 
     def earliest_expiration_date
@@ -146,11 +145,5 @@ module Spina::Shop
         materialized_path
       end
 
-      # After saving this product always make sure to update some cached values
-      # Useful for frontend and fast queries
-      def cache_averages
-        write_attribute :average_review_score, product_reviews.average(:score).try(:round, 1)
-        write_attribute :sales_count, stock_level_adjustments.where('adjustment < ?', 0).sum(:adjustment) * -1
-      end
   end
 end

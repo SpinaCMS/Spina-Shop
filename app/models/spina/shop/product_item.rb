@@ -21,11 +21,6 @@ module Spina::Shop
     # Get the price based on the one ordering. Can be different based on customer groups.
     def price_for_customer(customer)
       price
-    #   return price if customer.nil?
-    #   # price_exceptions.find_by!(exceptionable: [customer, customer.customer_group]).price
-    #   price
-    # rescue ActiveRecord::RecordNotFound
-    #   price
     end
 
     # Short description is description and description is the 
