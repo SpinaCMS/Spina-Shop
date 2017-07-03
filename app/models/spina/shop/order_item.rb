@@ -62,10 +62,6 @@ module Spina::Shop
       end
     end
 
-    def unallocate_allocated_stock
-      stock_level_adjustments.destroy_all
-    end
-
     def is_product_bundle?
       orderable_type == "Spina::Shop::ProductBundle"
     end

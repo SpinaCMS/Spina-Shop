@@ -20,7 +20,7 @@ module Spina::Shop
       StockLevelAdjustment.create(@params)
 
       # Cache product columns for fast querying
-      cache_product_columns
+      @product.cache_stock_level
 
       # Stock reminders
       send_in_stock_reminders if @send_in_stock_reminders && @product.in_stock?
@@ -32,13 +32,6 @@ module Spina::Shop
 
       def send_in_stock_reminders
         InStockReminderJob.perform_later(@product)
-      end
-
-      def cache_product_columns
-        @product.update_columns(
-          stock_level: @product.stock_level_adjustments.sum(:adjustment),
-          expiration_date: @product.can_expire? ? @product.earliest_expiration_date : nil
-        )
       end
 
   end

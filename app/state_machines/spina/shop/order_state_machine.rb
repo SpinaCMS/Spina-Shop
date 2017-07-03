@@ -42,10 +42,6 @@ module Spina::Shop
         order_item.save(validate: false)
       end
 
-      order.valid?
-
-      Rails.logger.info order.errors.full_messages
-
       # Cache delivery option
       order.cache_delivery_option! if order.delivery_option.present?
 
@@ -60,7 +56,7 @@ module Spina::Shop
       order.update_attributes!(cancelled_at: Time.zone.now)
 
       # Stock weer terugzetten
-      order.order_items.each(&:unallocate_allocated_stock)
+      DeallocateStock.new(order).deallocate
 
       # Remove gift card
       order.remove_gift_card! if order.gift_card.present?
@@ -80,7 +76,7 @@ module Spina::Shop
       order.update_attributes!(failed_at: Time.zone.now)
 
       # Stock weer terugzetten
-      order.order_items.each(&:unallocate_allocated_stock)
+      DeallocateStock.new(order).deallocate
 
       # Remove gift card
       order.remove_gift_card! if order.gift_card.present?

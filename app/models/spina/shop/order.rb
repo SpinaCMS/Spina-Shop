@@ -89,6 +89,16 @@ module Spina::Shop
       delivery_option.try(:requires_shipping)
     end
 
+    def products
+      order_items.map do |order_item|
+        if order_item.is_product_bundle?
+          order_item.orderable.products
+        else
+          order_item.orderable
+        end
+      end.flatten.uniq
+    end
+
     # Order number with zeroes
     def number
       order_number ? order_number.to_s.rjust(8, '0') : nil

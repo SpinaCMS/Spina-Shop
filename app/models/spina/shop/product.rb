@@ -92,6 +92,10 @@ module Spina::Shop
       return products
     end
 
+    def cache_stock_level
+      update_columns(stock_level: stock_level_adjustments.sum(:adjustment), expiration_date: can_expire? ? earliest_expiration_date : nil)
+    end
+
     def earliest_expiration_date
       offset = 0
       sum = 0
