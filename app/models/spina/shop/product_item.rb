@@ -1,6 +1,5 @@
 module Spina::Shop
   class ProductItem < ApplicationRecord
-    belongs_to :product, inverse_of: :product_items
     belongs_to :tax_group
     belongs_to :sales_category
 

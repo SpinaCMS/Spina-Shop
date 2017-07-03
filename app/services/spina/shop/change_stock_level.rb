@@ -6,6 +6,7 @@ module Spina::Shop
       @send_in_stock_reminders = send_in_stock_reminders
       @params = {
         product_id: @product.id,
+        order_item_id: params[:order_item_id],
         adjustment: params[:adjustment],
         expiration_year: params[:expiration_year],
         expiration_month: params[:expiration_month],

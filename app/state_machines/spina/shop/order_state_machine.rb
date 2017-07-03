@@ -42,6 +42,10 @@ module Spina::Shop
         order_item.save(validate: false)
       end
 
+      order.valid?
+
+      Rails.logger.info order.errors.full_messages
+
       # Cache delivery option
       order.cache_delivery_option! if order.delivery_option.present?
 
