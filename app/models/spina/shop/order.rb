@@ -146,11 +146,6 @@ module Spina::Shop
       age >= 18 if age
     end
 
-    def cache_delivery_option!
-      cache_delivery_option
-      save!
-    end
-
     def apply_gift_card!
       transaction do
         update_attributes!(gift_card_amount: gift_card_amount)
@@ -187,15 +182,6 @@ module Spina::Shop
     end
 
     private
-
-      def cache_delivery_option
-        write_attribute :delivery_price, delivery_price
-        write_attribute :delivery_tax_rate, delivery_tax_rate
-        write_attribute :delivery_metadata, {
-          tax_code: delivery_option.tax_group.tax_code_for_order(self),
-          sales_category_code: delivery_option.sales_category.code_for_order(self)
-        }
-      end
 
       def items_must_be_in_stock
         errors.add(:stock_level, "not sufficient") unless order_items.all?(&:in_stock?)

@@ -79,11 +79,6 @@ module Spina::Shop
       quantity * multiplier - allocated_stock(product_id)
     end
 
-     def cache
-      cache_pricing
-      cache_metadata
-    end
-
     private
 
       def product_in_stock?(product_id)
@@ -99,21 +94,6 @@ module Spina::Shop
 
       def item_must_be_in_stock
         errors.add(:stock_level, "not sufficient") unless in_stock?
-      end
-
-      def cache_pricing
-        write_attribute :weight, weight
-        write_attribute :unit_price, unit_price
-        write_attribute :unit_cost_price, unit_cost_price
-        write_attribute :tax_rate, tax_rate
-        write_attribute :discount_amount, discount_amount
-      end
-
-      def cache_metadata
-        write_attribute :metadata, {
-          tax_code: orderable.tax_group.tax_code_for_order(order),
-          sales_category_code: orderable.sales_category.code_for_order(order)
-        }
       end
 
   end

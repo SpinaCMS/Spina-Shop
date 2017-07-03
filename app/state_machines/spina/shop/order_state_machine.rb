@@ -33,17 +33,10 @@ module Spina::Shop
       order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
 
       # Allocate stock baby!
-      allocator = AllocateStock.new(order)
-      allocator.allocate
+      AllocateStock.new(order).allocate
 
-      # Cache prices and metadata
-      order.order_items.each(&:cache)
-      order.order_items.each do |order_item|
-        order_item.save(validate: false)
-      end
-
-      # Cache delivery option
-      order.cache_delivery_option! if order.delivery_option.present?
+      # Cache prices, metadata and delivery
+      CacheOrder.new(order).cache
 
       # Apply gift card
       order.apply_gift_card! if order.gift_card.present?
