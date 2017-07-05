@@ -117,6 +117,7 @@ module Spina::Shop
       # Get all values for properties defined on the ProductCategory.
       # Defines singleton methods on the properties attribute for this product.
       def decorate_with_methods(jsonb)
+        return jsonb unless product_category.present?
         product_category.properties.each do |property|
           jsonb.define_singleton_method(property.name) do
             case property.field_type
