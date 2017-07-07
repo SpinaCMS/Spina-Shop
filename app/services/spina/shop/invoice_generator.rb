@@ -54,13 +54,15 @@ module Spina::Shop
         end
       end
 
-      invoice.invoice_lines << InvoiceLine.new(
-        quantity: 1,
-        description: "Verzendkosten",
-        unit_price: @order.delivery_price,
-        tax_rate: @order.delivery_tax_rate,
-        metadata: @order.delivery_metadata
-      )
+      if @order.delivery_option.present?
+        invoice.invoice_lines << InvoiceLine.new(
+          quantity: 1,
+          description: "Verzendkosten",
+          unit_price: @order.delivery_price,
+          tax_rate: @order.delivery_tax_rate,
+          metadata: @order.delivery_metadata
+        )
+      end
 
       return invoice if invoice.save!
     end
