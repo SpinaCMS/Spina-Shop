@@ -41,11 +41,11 @@ module Spina::Shop
     end
 
     def weight
-      bundled_products.inject(BigDecimal(0)){|t, i| t + i.product.weight * i.quantity}
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.weight || BigDecimal.new(0)) * i.quantity}
     end
 
     def cost_price
-      bundled_products.inject(BigDecimal(0)){|t, i| t + i.product.cost_price * i.quantity}
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.cost_price || BigDecimal.new(0)) * i.quantity}
     end
   end
 end
