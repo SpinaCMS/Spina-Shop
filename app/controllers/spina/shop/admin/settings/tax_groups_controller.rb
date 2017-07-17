@@ -3,8 +3,6 @@ module Spina::Shop
     module Settings
       class TaxGroupsController < ShopController
         layout 'spina/admin/admin', except: [:index]
-        
-        before_action :set_breadcrumbs
 
         def new
           @tax_group = TaxGroup.new
@@ -43,9 +41,6 @@ module Spina::Shop
             params.require(:tax_group).permit(:name, tax_rates_attributes: [:rate, :code])
           end
 
-          def set_breadcrumbs
-            add_breadcrumb TaxGroup.model_name.human(count: 2), spina.shop_admin_settings_tax_groups_path
-          end
       end
     end
   end

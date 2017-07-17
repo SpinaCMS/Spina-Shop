@@ -54,10 +54,6 @@ module Spina::Shop
       price
     end
 
-    def to_param
-      materialized_path
-    end
-
     def in_stock?
       stock_level > 0
     end
@@ -141,9 +137,17 @@ module Spina::Shop
       # Actually more like a slug than a path
       # TODO: rename materialized_path to slug
       def set_materialized_path
-        self.materialized_path = name.try(:parameterize)
+        self.materialized_path = localized_materialized_path
         self.materialized_path += "-#{self.class.where(materialized_path: materialized_path).count}" if self.class.where(materialized_path: materialized_path).where.not(id: id).count > 0
         materialized_path
+      end
+
+      def localized_materialized_path
+        if I18n.locale == I18n.default_locale
+          name.try(:parameterize).prepend('/products/')
+        else
+          name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+        end
       end
 
   end

@@ -24,9 +24,9 @@
               %br/
         = link_to '#', data: {close_notification: true} do
           = icon('cross')
-
-  - Globalize.with_locale(@locale) do
-    .sidebar-form
+  
+  .sidebar-form
+    - Globalize.with_locale(@locale) do
       .sidebar-form-content
         .well
           .sidebar-form-group
@@ -34,7 +34,7 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name)
+              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name
 
           .sidebar-form-group
             .sidebar-form-label
@@ -103,7 +103,7 @@
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :materialized_path
             .sidebar-form-control
-              = f.text_field :materialized_path, value: "/products/#{f.object.materialized_path}", disabled: true
+              = f.text_field :materialized_path, disabled: true
 
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images

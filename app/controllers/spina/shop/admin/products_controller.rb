@@ -25,7 +25,7 @@ module Spina::Shop
       end
 
       def show
-        @product = Product.find_by(materialized_path: params[:id])
+        @product = Product.find(params[:id])
         redirect_to spina.edit_shop_admin_product_path(@product)
       end
 
@@ -53,15 +53,15 @@ module Spina::Shop
       end
 
       def edit
-        @product = Product.find_by(materialized_path: params[:id])
+        @product = Product.find(params[:id])
         add_breadcrumb @product.name
 
         @product_category = @product.product_category
       end
 
       def update
-        @product = Product.find_by(materialized_path: params[:id])
-        if @product.update_attributes(product_params)
+        @product = Product.find(params[:id])
+        if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :edit
@@ -69,7 +69,7 @@ module Spina::Shop
       end
 
       def destroy
-        @product = Product.find_by(materialized_path: params[:id])
+        @product = Product.find(params[:id])
         @product.destroy
         redirect_to spina.shop_admin_products_path
       rescue ActiveRecord::DeleteRestrictionError
@@ -91,7 +91,9 @@ module Spina::Shop
         end
 
         def product_params
-          params.require(:product).permit!.merge(locale: @locale).delocalize({price: :number, cost_price: :number, weight: :number})
+          I18n.with_locale I18n.default_locale do
+            params.require(:product).permit!.merge(locale: @locale).delocalize({price: :number, cost_price: :number, weight: :number})
+          end
         end
 
         def set_breadcrumbs
