@@ -52,6 +52,7 @@ module Spina::Shop
     end
 
     def in_stock?
+      return true unless stock_enabled?
       stock_level > 0
     end
 

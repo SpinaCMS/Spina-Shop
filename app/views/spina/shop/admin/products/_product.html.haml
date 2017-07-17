@@ -8,7 +8,7 @@
   %td.align-right
     = product.location
   %td.align-right
-    = product.stock_level
+    = product.stock_level if product.stock_enabled?
   %td.align-right
     =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
   %td.align-right
