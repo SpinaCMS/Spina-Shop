@@ -86,6 +86,7 @@ module Spina::Shop
         # If the record isn't persisted yet it won't show up in order.order_items
         order_items = order.order_items.to_a | [self]
         product = Product.find(product_id)
+        return true unless product.stock_enabled
         product.stock_level >= order_items.inject(BigDecimal(0)) do |total, order_item|
           order_item.quantity = quantity if order_item == self
           total + order_item.unallocated_stock(product_id)

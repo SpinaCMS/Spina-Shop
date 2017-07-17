@@ -155,22 +155,30 @@
 
         .form-group
           .form-label
-            .pull-right.text-muted{style: 'font-weight: 400'}=l(f.object.expiration_date, format: '%B \'%y') if f.object.expiration_date
-            = Spina::Shop::Product.human_attribute_name :can_expire
+            = Spina::Shop::Product.human_attribute_name :stock_enabled
 
           .form-control
-            = f.check_box :can_expire, data: {switch: true}
+            = f.check_box :stock_enabled, data: {switch: true}
 
-        - unless f.object.new_record?
+        - if f.object.stock_enabled?
           .form-group
             .form-label
-              %small= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
-              = Spina::Shop::Product.human_attribute_name :stock_level
+              .pull-right.text-muted{style: 'font-weight: 400'}=l(f.object.expiration_date, format: '%B \'%y') if f.object.expiration_date
+              = Spina::Shop::Product.human_attribute_name :can_expire
 
             .form-control
-              .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
-                = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
-              = text_field_tag :stock_level, f.object.stock_level, disabled: true
+              = f.check_box :can_expire, data: {switch: true}
+
+          - unless f.object.new_record?
+            .form-group
+              .form-label
+                %small= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
+                = Spina::Shop::Product.human_attribute_name :stock_level
+
+              .form-control
+                .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
+                  = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
+                = text_field_tag :stock_level, f.object.stock_level, disabled: true
 
         .form-group
           .form-label

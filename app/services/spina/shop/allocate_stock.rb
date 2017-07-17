@@ -27,6 +27,7 @@ module Spina::Shop
       end
 
       def params_for_order_item(order_item, product_id)
+        return nil if Product.where(id: product_id, stock_enabled: true).none?
         if (stock = order_item.unallocated_stock(product_id)) > 0
           {
             order_item_id: order_item.id,
