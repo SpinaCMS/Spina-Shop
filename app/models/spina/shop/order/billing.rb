@@ -34,6 +34,10 @@ module Spina::Shop
       order_total + delivery_price + (prices_include_tax ? 0 : tax_amount)
     end
 
+    def total_excluding_tax
+      total - tax_amount
+    end
+
     def to_be_paid
       total - gift_card_amount
     end

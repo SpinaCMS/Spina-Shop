@@ -24,9 +24,6 @@ module Spina::Shop
 
     validates :name, :price, presence: true
 
-    # Always include translations
-    default_scope { includes(:translations) }
-
     # Globalize translates
     # Virtual attributes need to be defined because of Rails 5.1 Attributes API
     [:name, :description, :seo_title, :seo_description, :materialized_path].each do |attr|
