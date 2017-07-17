@@ -5,7 +5,7 @@ module Spina::Shop
       before_action :set_locale
 
       def index
-        @q = Product.filtered(filters).order(created_at: :desc).includes(:product_images).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @q = Product.filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
         @products = @q.result.page(params[:page]).per(25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
