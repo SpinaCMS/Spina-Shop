@@ -83,7 +83,7 @@
       .wizard-step{class: ('done' if @order.shipped_at.present?)}
         .wizard-step-circle
           = icon("mail")
-          .wizard-step-label=t 'spina.shop.orders.states.shipped'
+          .wizard-step-label{style: 'white-space: nowrap'}=t 'spina.shop.orders.states.shipped'
         .wizard-step-connector
 
       .wizard-step{class: ('done' if @order.delivered_at.present?)}

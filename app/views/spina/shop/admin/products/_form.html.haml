@@ -41,7 +41,7 @@
               = Spina::Shop::Product.human_attribute_name :sku
 
             .sidebar-form-control            
-              = f.text_field :sku, placeholder: Spina::Shop::Product.human_attribute_name(:sku)
+              = f.text_field :sku, placeholder: Spina::Shop::Product.human_attribute_name(:sku), disabled: !@product.editable_sku
 
         .well
           .sidebar-form-group
@@ -208,5 +208,5 @@
           .form-control
             = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
 
-        - unless @product.new_record?
+        - unless @product.new_record? || !@product.deletable
           .pull-right= link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'

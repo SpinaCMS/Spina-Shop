@@ -98,9 +98,9 @@ nl:
         to_process: Te verwerken
         failed: Mislukt
         actions: Acties
-        start_order_picking_html: Pakbon <strong>genereren</strong>
+        start_order_picking_html: Begin <strong>voorbereiden</strong>
         start_order_picking_success_html: Pakbon is <strong>gegenereerd</strong>
-        ship_order_html: Bestelling <strong>verzenden</strong>
+        ship_order_html: <strong>Zending</strong> aanmaken
         ship_order_success_html: Bestellingen <strong>verzonden</strong>
         start_picking_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
         start_picking_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
@@ -117,8 +117,8 @@ nl:
         states:
           received: Bestelling
           paid: Betaald
-          order_picking: Orderpicken
-          shipped: Verzonden
+          order_picking: Voorbereiden
+          shipped: Zending aangemaakt
           delivered: Afgeleverd
           failed: Mislukt
           refunded: Teruggegeven

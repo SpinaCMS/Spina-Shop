@@ -23,6 +23,7 @@ module Spina::Shop
     before_validation :set_materialized_path
 
     validates :name, :price, presence: true
+    validates :sku, uniqueness: true, allow_blank: true
 
     # Globalize translates
     # Virtual attributes need to be defined because of Rails 5.1 Attributes API
