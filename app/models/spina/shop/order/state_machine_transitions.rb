@@ -24,8 +24,8 @@ module Spina::Shop
       paid_at.present?
     end
 
-    def order_picked?
-      order_picked_at.present?
+    def order_prepared?
+      order_prepared_at.present?
     end
 
     def shipped?
@@ -53,7 +53,7 @@ module Spina::Shop
         100
       elsif shipped?
         80
-      elsif order_picked?
+      elsif order_prepared?
         60
       elsif paid?
         40
@@ -66,7 +66,7 @@ module Spina::Shop
 
     def status_css_class
       case current_state
-      when 'order_picking'
+      when 'preparing'
         'primary'
       when 'paid'
         'primary'

@@ -6,6 +6,9 @@ require 'statesman'
 require "email_validator"
 require "delocalize"
 require "bourbon"
+require "prawn"
+require "prawn/table"
+require "ruby-measurement"
 
 module Spina
   module Shop

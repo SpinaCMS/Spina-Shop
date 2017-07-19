@@ -27,7 +27,7 @@ module Spina::Shop
 
       def to_process
         @q = Order.ransack(params[:q])
-        @orders = @q.result.in_state(:paid, :order_picking).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
+        @orders = @q.result.in_state(:paid, :preparing).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
         render :index
       end
 
@@ -59,9 +59,9 @@ module Spina::Shop
 
       def transition
         @orders = Order.where(id: params[:order_ids])
-        if params[:transition_to] == "order_picking_and_shipped"
+        if params[:transition_to] == "preparing_and_shipped"
           @orders.each do |order|
-            order.transition_to("order_picking", user: current_spina_user.name, ip_address: request.remote_ip)
+            order.transition_to("preparing", user: current_spina_user.name, ip_address: request.remote_ip)
             order.transition_to("shipped", user: current_spina_user.name, ip_address: request.remote_ip)
           end
         else
@@ -70,12 +70,12 @@ module Spina::Shop
           end
         end
 
-        if params[:transition_to] == "order_picking"
-          flash[:success] = t('spina.shop.orders.start_order_picking_success_html')
+        if params[:transition_to] == "preparing"
+          flash[:success] = t('spina.shop.orders.start_preparing_success_html')
         elsif params[:transition_to] == "shipping"
           flash[:success] = t('spina.shop.orders.ship_order_success_html')
         else
-          flash[:success] = t('spina.shop.orders.start_picking_and_ship_success_html')
+          flash[:success] = t('spina.shop.orders.start_preparing_and_ship_success_html')
         end
         redirect_to :back
       end

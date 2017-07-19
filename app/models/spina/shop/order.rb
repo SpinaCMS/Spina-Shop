@@ -20,6 +20,7 @@ module Spina::Shop
     has_many :order_transitions, autosave: false, dependent: :destroy
     has_many :order_items, dependent: :destroy # Destroy order items if the order is destroyed as well
     has_many :invoices, dependent: :restrict_with_exception
+    has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
 
     has_one :discounts_order, class_name: "Spina::Shop::DiscountsOrder"
@@ -163,7 +164,7 @@ module Spina::Shop
     def duplicate!
       # Duplicate order
       transaction do
-        shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_picked_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
+        shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_prepared_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
         shopping_cart.discount = discount
         shopping_cart.gift_card = gift_card
         order_items.each do |order_item|

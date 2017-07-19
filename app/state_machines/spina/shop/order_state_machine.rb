@@ -6,7 +6,7 @@ module Spina::Shop
     state :confirming
     state :received
     state :paid
-    state :order_picking
+    state :preparing
     state :shipped
     state :picked_up
     state :delivered
@@ -17,8 +17,8 @@ module Spina::Shop
     transition from: :building,       to: :confirming
     transition from: :confirming,     to: [:received, :cancelled, :failed]
     transition from: :received,       to: [:paid, :cancelled, :failed]
-    transition from: :paid,           to: [:order_picking, :picked_up]
-    transition from: :order_picking,  to: [:shipped, :picked_up]
+    transition from: :paid,           to: [:preparing, :picked_up]
+    transition from: :preparing,  to: [:shipped, :picked_up]
     transition from: :shipped,        to: [:delivered, :refunded]
     transition from: :picked_up,      to: :refunded
     transition from: :delivered,      to: :refunded
@@ -88,8 +88,8 @@ module Spina::Shop
       InvoiceGenerator.new(order).generate!
     end
 
-    after_transition(to: :order_picking) do |order, transition|
-      order.update_attributes!(order_picked_at: Time.zone.now)
+    after_transition(to: :preparing) do |order, transition|
+      order.update_attributes!(order_prepared_at: Time.zone.now)
     end
 
     guard_transition(to: :shipped) do |order, transition|
@@ -103,8 +103,6 @@ module Spina::Shop
     after_transition(to: :shipped) do |order, transition|
       # Set shipped_at and send mail
       order.update_attributes!(shipped_at: Time.zone.now)
-
-      OrderMailer.shipped(order).deliver_later
     end
 
     after_transition(to: :delivered) do |order, transition|

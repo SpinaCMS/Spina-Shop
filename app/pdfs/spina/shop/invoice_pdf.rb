@@ -8,22 +8,22 @@ module Spina::Shop
       @presenter = presenter
       
       # Base font size
-      font_families.update(
-        "Proxima Nova" => {
-          normal: "#{Rails.root}/app/assets/fonts/proximanova-regular-webfont.ttf",
-          semibold: "#{Rails.root}/app/assets/fonts/proximanova-semibold-webfont.ttf",
-          bold: "#{Rails.root}/app/assets/fonts/proximanova-bold-webfont.ttf",
-          italic: "#{Rails.root}/app/assets/fonts/proximanova-regitalic-webfont.ttf"
-        },
-        "Icons" => {
-          normal: "#{Rails.root}/app/assets/fonts/plango-next.ttf"
-        }
-      )
-      font "Proxima Nova"
-      font_size 10
+      # font_families.update(
+      #   "Proxima Nova" => {
+      #     normal: "#{Rails.root}/app/assets/fonts/proximanova-regular-webfont.ttf",
+      #     semibold: "#{Rails.root}/app/assets/fonts/proximanova-semibold-webfont.ttf",
+      #     bold: "#{Rails.root}/app/assets/fonts/proximanova-bold-webfont.ttf",
+      #     italic: "#{Rails.root}/app/assets/fonts/proximanova-regitalic-webfont.ttf"
+      #   },
+      #   "Icons" => {
+      #     normal: "#{Rails.root}/app/assets/fonts/plango-next.ttf"
+      #   }
+      # )
+      # font "Arial"
+      # font_size 10
       default_leading 3
 
-      @logo_path = Rails.root.join('app', 'assets', 'images', 'logo.png').to_s
+      @logo_path = Rails.root.join('app', 'assets', 'images', 'busbiker', 'logo.jpg').to_s
 
       header_logo()
       recipient()

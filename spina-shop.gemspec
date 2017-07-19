@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
   s.add_dependency "email_validator"
   s.add_dependency "delocalize"
   s.add_dependency "bourbon"
+  s.add_dependency "prawn"
+  s.add_dependency "prawn-table"
+  s.add_dependency "ruby-measurement"
 
   s.add_development_dependency 'factory_girl', '~> 4.0'
   s.add_development_dependency 'minitest-reporters'

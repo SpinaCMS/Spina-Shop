@@ -44,7 +44,7 @@ module Spina::Shop
     def header
       text "Pakbon", style: :semibold, size: 28
       fill_color '999999'
-      text "#{I18n.l @order.order_picked_at, format: '%d %B %Y - %H:%M'}"
+      text "#{I18n.l @order.order_prepared_at, format: '%d %B %Y - %H:%M'}"
       fill_color '000000'
       move_down 5.cm
     end

@@ -98,12 +98,12 @@ nl:
         to_process: Te verwerken
         failed: Mislukt
         actions: Acties
-        start_order_picking_html: Begin <strong>voorbereiden</strong>
-        start_order_picking_success_html: Pakbon is <strong>gegenereerd</strong>
+        start_preparing_html: Begin <strong>voorbereiden</strong>
+        start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
         ship_order_html: <strong>Zending</strong> aanmaken
         ship_order_success_html: Bestellingen <strong>verzonden</strong>
-        start_picking_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
-        start_picking_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
+        start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
+        start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
         ship_order_confirmation_html: Weet je zeker dat je de bestelling wilt <strong>verzenden</strong>? De klant krijgt hier <strong>automatisch</strong> een email van.
         no_orders: Geen bestellingen
         download_packing_slip: Download pakbon
@@ -117,7 +117,7 @@ nl:
         states:
           received: Bestelling
           paid: Betaald
-          order_picking: Voorbereiden
+          order_preparing: Voorbereiden
           shipped: Zending aangemaakt
           delivered: Afgeleverd
           failed: Mislukt
