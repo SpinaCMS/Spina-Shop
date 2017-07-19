@@ -49,7 +49,14 @@ module Spina::Shop
     scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_shop_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
     def price_for_customer(customer)
-      price
+      return price if customer.nil?
+      if price_exceptions['customer_groups'].present?
+        prijs = price_exceptions['customer_groups'].find do |hash|
+          hash["customer_group_id"] == customer.customer_group_id
+        end
+        prijs = BigDecimal.new(prijs['price']) if prijs.present?
+      end
+      prijs || price
     end
 
     def in_stock?

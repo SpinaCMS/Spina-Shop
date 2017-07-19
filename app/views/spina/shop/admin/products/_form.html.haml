@@ -138,6 +138,17 @@
               .select-dropdown{style: "min-width: 120px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
 
+        - if @product.price_exceptions['customer_groups'].present?
+          .form-group
+            .form-label
+              = Spina::Shop::Product.human_attribute_name :price_exceptions
+            
+            .form-control
+              - @product.price_exceptions['customer_groups'].each do |price_exception|
+                .pull-right= number_to_currency BigDecimal.new(price_exception["price"])
+                = Spina::Shop::CustomerGroup.find_by(id: price_exception["customer_group_id"]).try(:name)
+                %br/
+
         .form-group
           .form-label
             = Spina::Shop::Product.human_attribute_name :cost_price

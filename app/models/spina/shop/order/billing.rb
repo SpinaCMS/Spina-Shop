@@ -60,7 +60,9 @@ module Spina::Shop
     end
 
     def tax_amount_by_rates
-      rates = [order_items, OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price)].flatten.inject({}) do |h, item|
+      items = [order_items]
+      items << OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price) if delivery_option.present?
+      rates = items.flatten.inject({}) do |h, item|
         rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
         if prices_include_tax
           rate[:total] += (item.total / item.tax_modifier).round(2)

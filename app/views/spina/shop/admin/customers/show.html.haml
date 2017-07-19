@@ -30,6 +30,11 @@
           %th= Spina::Shop::Customer.human_attribute_name(:number)
           %td= @customer.number
 
+        - if @customer.customer_group.present?
+          %tr
+            %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
+            %td= @customer.customer_group.name
+
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:email)
           %td= mail_to @customer.email, @customer.email
