@@ -67,6 +67,10 @@ nl:
         almost_expired: Product is bijna verlopen
         out_of_stock: Voorraad is op
 
+      tax:
+        no_tax: Geen btw
+        rate: "%{rate}% btw"
+
       tax_groups:
         default_tax_rate: Standaard btw-tarief
 

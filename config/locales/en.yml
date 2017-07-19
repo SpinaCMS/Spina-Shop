@@ -45,6 +45,9 @@ en:
         almost_expired: Almost expired
         out_of_stock: Out of stock
 
+      tax:
+        no_tax: No tax
+
       tax_groups:
         new: New tax group
         default_tax_rate: Default tax rate
@@ -87,45 +90,45 @@ en:
 
   activerecord:
     models:
-      spina/order:
+      spina/shop/order:
         one: Order
         other: Orders
-      spina/product: 
+      spina/shop/product: 
         one: Product
         other: Products
-      spina/product_item: 
+      spina/shop/product_item: 
         one: Product item
         other: Product items
-      spina/sales_category: 
+      spina/shop/sales_category: 
         one: Sales category
         other: Sales categories
-      spina/tax_group: 
+      spina/shop/tax_group: 
         one: Tax group
         other: Tax groups
-      spina/customer_account: 
+      spina/shop/customer_account: 
         one: Customer account
         other: Customer accounts
-      spina/campaign: 
+      spina/shop/campaign: 
         one: Campaign
         other: Campaigns
-      spina/invoice: 
+      spina/shop/invoice:
         one: Invoice
         other: Invoices
-      spina/product_category:
+      spina/shop/product_category:
         one: Product category
         other: Product categories
-      spina/product_bundle:
+      spina/shop/product_bundle:
         one: Product bundle
         other: Product bundles
-      spina/product_review:
+      spina/shop/product_review:
         one: Product review
         other: Product reviews
-      spina/tax_group:
+      spina/shop/tax_group:
         one: Tax group
         other: Tax groups
 
     attributes:
-      spina/order:
+      spina/shop/order:
         billing_address: Billing address
         billing_street1: Street
         billing_street2: Street 2
@@ -146,7 +149,7 @@ en:
         delivery_price: Shipping costs
         delivery_tracking_ids: Delivery tracking IDs
 
-      spina/product:
+      spina/shop/product:
         name: Name
         sku: SKU
         description: Description
@@ -154,7 +157,7 @@ en:
         seo_description: SEO description
         materialized_path: Materialized path
 
-      spina/product_item:
+      spina/shop/product_item:
         price: Price
         cost_price: Cost price
         sales_category: Sales category
@@ -169,16 +172,16 @@ en:
         can_expire: Has an expiration date
         expiration_date: Expiration date
 
-      spina/order_item:
+      spina/shop/order_item:
         price: Price
         total: Total
 
-      spina/customer_account:
+      spina/shop/customer_account:
         email: Email
         password: Password
         password_confirmation: Password confirmation
 
-      spina/customer:
+      spina/shop/customer:
         first_name: First name
         last_name: Last name
         name: Name
@@ -190,7 +193,7 @@ en:
         created_at: Created at
         country: Country
 
-      spina/address:
+      spina/shop/address:
         street1: Street
         street2: Street 2
         postal_code: Postal code

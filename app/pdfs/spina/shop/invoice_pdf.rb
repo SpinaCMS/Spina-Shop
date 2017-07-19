@@ -2,28 +2,26 @@ require 'prawn/measurement_extensions'
 
 module Spina::Shop
   class InvoicePdf < Prawn::Document
-    def initialize(presenter)
+    def initialize(presenter, locale: I18n.locale)
+      I18n.locale = locale
       super(page_size: "A4", margin: 15.mm, print_scaling: :none)
 
       @presenter = presenter
       
       # Base font size
-      # font_families.update(
-      #   "Proxima Nova" => {
-      #     normal: "#{Rails.root}/app/assets/fonts/proximanova-regular-webfont.ttf",
-      #     semibold: "#{Rails.root}/app/assets/fonts/proximanova-semibold-webfont.ttf",
-      #     bold: "#{Rails.root}/app/assets/fonts/proximanova-bold-webfont.ttf",
-      #     italic: "#{Rails.root}/app/assets/fonts/proximanova-regitalic-webfont.ttf"
-      #   },
-      #   "Icons" => {
-      #     normal: "#{Rails.root}/app/assets/fonts/plango-next.ttf"
-      #   }
-      # )
-      # font "Arial"
-      # font_size 10
+      font_families.update(
+        "Montserrat" => {
+          normal: "#{Spina::Shop.root}/app/assets/fonts/montserrat-regular.ttf",
+          semibold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-semibold.ttf",
+          bold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-bold.ttf",
+          italic: "#{Spina::Shop.root}/app/assets/fonts/montserrat-italic.ttf"
+        }
+      )
+      font "Montserrat"
+      font_size 9
       default_leading 3
 
-      @logo_path = Rails.root.join('app', 'assets', 'images', 'busbiker', 'logo.jpg').to_s
+      @logo_path = Rails.root.join('app', 'assets', 'images', 'invoice_logo.jpg').to_s
 
       header_logo()
       recipient()
@@ -64,34 +62,34 @@ module Spina::Shop
     def header
       float do
         indent(12.cm) do
-          formatted_text [{text: "Factuurdatum: "}, {text: I18n.l(@presenter.date, format: '%d-%m-%Y'), style: :semibold}]
-          # formatted_text [{text: "Betaaltermijn: "}, {text: '14 dagen', style: :semibold}]
+          formatted_text [{text: "#{Invoice.human_attribute_name(:date)}: "}, {text: I18n.l(@presenter.date, format: '%d-%m-%Y'), style: :semibold}]
         end
       end
 
-      text "Factuur #{@presenter.invoice_number}", style: :semibold, size: 24
-      text "Klantnummer: #{@presenter.customer_number}"
+      text "#{Invoice.model_name.human} #{@presenter.invoice_number}", style: :semibold, size: 24
+      text "#{Invoice.human_attribute_name(:customer_number)}: #{@presenter.customer_number}"
 
       move_down 5.mm
     end
 
     def invoice_details()
-      lines = [["", "Omschrijving", "Prijs", "Totaal", "Btw"]]
+      lines = [["", InvoiceLine.human_attribute_name(:description), InvoiceLine.human_attribute_name(:price), InvoiceLine.human_attribute_name(:total), InvoiceLine.human_attribute_name(:tax)]]
 
       @presenter.invoice.invoice_lines.each do |line|
-        lines << ["#{line.quantity} x", line.description, @presenter.number_to_currency(line.unit_price), @presenter.number_to_currency(line.total), ("#{@presenter.number_to_human(line.tax_rate)}%" if line.tax_rate > 0)]
+        lines << ["#{line.quantity} x", line.description, @presenter.number_to_currency(line.unit_price), @presenter.number_to_currency(line.total), ("#{@presenter.number_with_precision(line.tax_rate, precision: 0)}%" if line.tax_rate > 0)]
       end
 
-      lines << [{content: "Subtotaal excl. btw", colspan: 3, font_style: :bold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
+      lines << [{content: Invoice.human_attribute_name(:sub_total), colspan: 3, font_style: :bold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
 
       @presenter.invoice.tax_amount_by_rates.each do |rate|
-        lines << [{content: "#{rate[0] == 0 ? 'Geen btw' :
-          @presenter.number_to_human(rate[0]) + '% btw'}", colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(rate[1][:tax_amount]), border_width: 0}, {content: "", border_width: 0}]
+        unless rate[0] == 0
+          lines << [{content: I18n.t('spina.shop.tax.rate', rate: @presenter.number_with_precision(rate[0], precision: 0)), colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(rate[1][:tax_amount]), border_width: 0}, {content: "", border_width: 0}]
+        end
       end
 
-      lines << [{content: "Totaal", colspan: 3, font_style: :bold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
+      lines << [{content: Invoice.human_attribute_name(:total), colspan: 3, font_style: :bold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
 
-      table lines, header: true, column_widths: {0 => 2.cm, 1 => 10.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 8} do |t|
+      table lines, header: true, column_widths: {0 => 2.cm, 1 => 8.cm, 4 => 2.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 8} do |t|
         t.before_rendering_page do |page|
           page.row(0).border_top_width = 0
           page.row(0).font_style = :bold
