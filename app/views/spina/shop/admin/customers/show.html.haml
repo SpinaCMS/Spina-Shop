@@ -30,6 +30,11 @@
           %th= Spina::Shop::Customer.human_attribute_name(:number)
           %td= @customer.number
 
+        - if @customer.vat_id.present?
+          %tr
+            %th= Spina::Shop::Customer.human_attribute_name(:vat_id)
+            %td= @customer.vat_id
+
         - if @customer.customer_group.present?
           %tr
             %th= Spina::Shop::Customer.human_attribute_name(:customer_group)

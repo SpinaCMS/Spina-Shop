@@ -11,24 +11,42 @@
 
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
-  %nav#secondary
+  %nav#secondary.tabs
     %ul
       %li.active
         = link_to '#customers' do
           =t 'spina.shop.customers.title'
+      %li
+        = link_to '#customer_groups' do
+          =t 'spina.shop.customer_groups.title'
 
-.table-container.infinite-table
-  %table.table.table-clickable
-    %thead
-      %tr
-        %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
-        %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
-        %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
-        %th= sort_link [:spina, @q], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
-        %th.text-right= Spina::Shop::Order.model_name.human count: 2
-        %th 
+.tab-content.active#customers
+  .table-container.infinite-table
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
+          %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
+          %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
+          %th= sort_link [:spina, @q], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
+          %th.text-right= Spina::Shop::Order.model_name.human count: 2
+          %th 
 
-    %tbody
-      = render partial: 'customer', collection: @customers.to_a.uniq
+      %tbody
+        = render partial: 'customer', collection: @customers.to_a.uniq
 
-  .pagination= link_to_next_page @customers, "Next"
+    .pagination= link_to_next_page @customers, "Next"
+
+.tab-content#customer_groups
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th= Spina::Shop::CustomerGroup.human_attribute_name(:name)
+          %th
+
+      %tbody
+        - @customer_groups.each do |customer_group|
+          %tr
+            %td= customer_group.name
+            %td= customer_group.customers.count

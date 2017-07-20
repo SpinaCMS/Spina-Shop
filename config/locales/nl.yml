@@ -33,6 +33,9 @@ nl:
         no_orders_yet: Deze klant heeft nog niks besteld.
         new: Nieuwe klant
 
+      customer_groups:
+        title: Klantgroepen
+
       discounts:
         save: Kortingscode opslaan
         new: Nieuwe kortingscode
@@ -270,6 +273,7 @@ nl:
         ip_addresses: IP-adressen
         created_at: Aangemaakt op
         country: Land
+        vat_id: BTW-nummer
 
       spina/shop/address:
         street1: Straat

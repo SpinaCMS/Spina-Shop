@@ -38,6 +38,20 @@
           .sidebar-form-control
             = f.text_field :phone, placeholder: Spina::Shop::Customer.human_attribute_name(:phone)
 
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :vat_id
+
+          .sidebar-form-control
+            = f.text_field :vat_id, placeholder: Spina::Shop::Customer.human_attribute_name(:vat_id)
+
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :customer_group
+          .sidebar-form-control
+            = f.select :customer_group_id, options_for_select(Spina::Shop::CustomerGroup.all.map{|g| [g.name, g.id]}, f.object.customer_group_id), {include_blank: t('spina.shop.customers.no_customer_group')}, class: 'select2', style: 'width: 100%'
+
       = f.fields_for :addresses do |address_builder|
         .well
           .sidebar-form-group

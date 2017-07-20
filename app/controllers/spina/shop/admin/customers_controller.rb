@@ -6,6 +6,7 @@ module Spina::Shop
       def index
         @q = Customer.ransack(params[:q])
         @customers = @q.result.sorted.page(params[:page]).per(25)
+        @customer_groups = CustomerGroup.all
       end
 
       def new
@@ -46,7 +47,7 @@ module Spina::Shop
       private
 
         def customer_params
-          params.require(:customer).permit(:first_name, :last_name, :email, :phone, addresses_attributes: [:id, :_destroy, :street1, :street2, :postal_code, :city])
+          params.require(:customer).permit(:first_name, :last_name, :email, :phone, :customer_group_id, :vat_id, addresses_attributes: [:id, :_destroy, :street1, :street2, :postal_code, :city])
         end
 
         def set_breadcrumbs
