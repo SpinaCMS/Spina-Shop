@@ -231,6 +231,7 @@
             %td
               - @order.order_attachments.each do |order_attachment|
                 = link_to order_attachment.name, attachment_url(order_attachment, :attachment), target: :blank
+                %br/
 
   .divider-container
     %hr.divider/
