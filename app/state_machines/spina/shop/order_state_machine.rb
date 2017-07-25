@@ -14,14 +14,14 @@ module Spina::Shop
     state :cancelled
     state :refunded
 
-    transition from: :building,       to: :confirming
-    transition from: :confirming,     to: [:received, :cancelled, :failed]
-    transition from: :received,       to: [:paid, :cancelled, :failed]
-    transition from: :paid,           to: [:preparing, :picked_up]
+    transition from: :building,   to: :confirming
+    transition from: :confirming, to: [:received, :cancelled, :failed]
+    transition from: :received,   to: [:paid, :cancelled, :failed]
+    transition from: :paid,       to: [:preparing, :picked_up]
     transition from: :preparing,  to: [:shipped, :picked_up]
-    transition from: :shipped,        to: [:delivered, :refunded]
-    transition from: :picked_up,      to: :refunded
-    transition from: :delivered,      to: :refunded
+    transition from: :shipped,    to: [:delivered, :refunded]
+    transition from: :picked_up,  to: :refunded
+    transition from: :delivered,  to: :refunded
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right? Do we even have any order items?
