@@ -1,7 +1,7 @@
 class CreateSpinaShopProductsWithoutItems < ActiveRecord::Migration[5.1]
   def change
     add_column :spina_shop_products, :sku, :string
-    add_column :spina_shop_products, :location, :string
+    add_column :spina_shop_products, :location, :string, default: "", null: false
     add_column :spina_shop_products, :tax_group_id, :integer
     add_column :spina_shop_products, :weight, :decimal, precision: 8, scale: 3
     add_column :spina_shop_products, :price, :decimal, precision: 8, scale: 2

@@ -625,7 +625,7 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.string "supplier"
     t.boolean "active", default: false, null: false
     t.string "sku"
-    t.string "location"
+    t.string "location", default: "", null: false
     t.integer "tax_group_id"
     t.decimal "weight", precision: 8, scale: 3
     t.decimal "price", precision: 8, scale: 2
