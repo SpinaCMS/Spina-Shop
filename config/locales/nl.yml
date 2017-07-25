@@ -68,6 +68,7 @@ nl:
         adjust_stock: Voorraad aanpassen
         send_in_stock_reminders: Voorraadmeldingen verzenden
         almost_expired: Product is bijna verlopen
+        expired: Product is verlopen
         out_of_stock: Voorraad is op
 
       tax:

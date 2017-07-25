@@ -13,14 +13,19 @@
     =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
   %td.align-right
     - if product.active?
-      - if product.in_stock?
-        - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
-          .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
+      - if product.stock_enabled?
+        - if product.in_stock?
+          - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
+            - if product.expiration_date < Date.today
+              .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.expired')}}
+            - else
+              .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
+          - else
+            .status-dot.status-dot-success
         - else
-          .status-dot.status-dot-success
+          .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
       - else
-        .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
-
+        .status-dot.status-dot-success
     - else
       .status-dot
       
