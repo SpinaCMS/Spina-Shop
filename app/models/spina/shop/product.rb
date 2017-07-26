@@ -16,6 +16,8 @@ module Spina::Shop
     has_many :stock_level_adjustments, dependent: :destroy
     has_many :in_stock_reminders, as: :orderable, dependent: :destroy
 
+    has_many :bundled_products, dependent: :restrict_with_exception
+
     accepts_nested_attributes_for :product_images, allow_destroy: true
     accepts_attachments_for :product_images, append: true
 
