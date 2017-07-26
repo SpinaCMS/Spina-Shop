@@ -224,6 +224,25 @@ nl:
         seo_description: SEO omschrijving
         materialized_path: URL
         supplier: Leverancier
+        stock_enabled: Voorraadbeheer
+        location: Locatie
+        weight: Gewicht
+        ean: EAN
+        supplier_reference: Leverancier referentie
+        sales_category: Omzetcategorie
+        cost_price: Kostprijs
+        price: Prijs
+        active: Weergeven in webshop
+        related_products: Gerelateerde producten
+        must_be_of_age_to_buy: Alleen voor 18+
+        can_expire: Heeft een verloopdatum
+        stock_level: Voorraad
+        expiration_date: Verloopdatum
+
+      spina/shop/product_bundle:
+        price: Prijs
+        sales_category: Omzetcategorie
+        name: Naam
 
       spina/shop/product_item:
         price: Prijs
