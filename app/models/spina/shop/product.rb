@@ -52,7 +52,7 @@ module Spina::Shop
       return price if customer.nil?
       if price_exceptions['customer_groups'].present?
         prijs = price_exceptions['customer_groups'].find do |hash|
-          hash["customer_group_id"] == customer.customer_group_id
+          hash["customer_group_id"].to_s == customer.customer_group_id.to_s
         end
         prijs = BigDecimal.new(prijs['price']) if prijs.present?
       end
