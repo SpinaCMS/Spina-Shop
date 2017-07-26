@@ -132,22 +132,22 @@
           .form-label
             = Spina::Shop::Product.human_attribute_name :price
           
-          .form-control{data: {form_prepend: '€'}}
+          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
             .input-group
               = f.text_field :price, value: number_with_precision(f.object.price, precision: 2)
-              .select-dropdown{style: "min-width: 120px"}
+              .select-dropdown{style: "min-width: 208px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
 
-        - if @product.price_exceptions['customer_groups'].present?
-          .form-group
+        - if Spina::Shop::CustomerGroup.any?
+          .form-group{style: 'margin-bottom: 40px'}
             .form-label
               = Spina::Shop::Product.human_attribute_name :price_exceptions
             
-            .form-control
-              - @product.price_exceptions['customer_groups'].each do |price_exception|
-                .pull-right= number_to_currency BigDecimal.new(price_exception["price"])
-                = Spina::Shop::CustomerGroup.find_by(id: price_exception["customer_group_id"]).try(:name)
-                %br/
+            - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
+              = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception}
+
+            = link_to_add_price_exception f do
+              = icon('plus')
 
         .form-group
           .form-label

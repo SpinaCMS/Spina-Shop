@@ -40,6 +40,22 @@ $(document).on 'spina:product_fields_added', 'form', (e) ->
   selectProducts($(this))
   $('select.select2').select2()
 
+# Dynamically add and remove fields in a nested form
+$(document).on 'click', 'form .add_price_exception', (event) ->
+  time = new Date().getTime()
+  regexp = new RegExp($(this).data('id'), 'g')
+  $(this).before($(this).data('fields').replace(regexp, time))
+
+  # Fire event
+  $(this).closest('form').trigger('spina:price_exception_added')
+
+  event.preventDefault()
+
+$(document).on 'click', 'form .remove_price_exception', (event) ->
+  $(this).closest('.form-control').slideUp 400, ->
+    $(this).remove()
+  event.preventDefault()
+
 selectProducts = (element) ->
   element.find('select.select-products:not(.select2-hidden-accessible)').each ->
     $select = $(this)

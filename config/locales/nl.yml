@@ -70,6 +70,7 @@ nl:
         almost_expired: Product is bijna verlopen
         expired: Product is verlopen
         out_of_stock: Voorraad is op
+        choose_customer_group: Kies klantgroep
 
       tax:
         no_tax: Geen btw
@@ -238,6 +239,7 @@ nl:
         can_expire: Heeft een verloopdatum
         stock_level: Voorraad
         expiration_date: Verloopdatum
+        price_exceptions: Prijsuitzonderingen
 
       spina/shop/product_bundle:
         price: Prijs
