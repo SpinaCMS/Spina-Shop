@@ -232,7 +232,7 @@ nl:
         sales_category: Omzetcategorie
         cost_price: Kostprijs
         price: Prijs
-        active: Weergeven in webshop
+        active: Beschikbaar in webshop
         related_products: Gerelateerde producten
         must_be_of_age_to_buy: Alleen voor 18+
         can_expire: Heeft een verloopdatum

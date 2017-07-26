@@ -4,11 +4,6 @@
     = @locale.upcase
 
   %ul#locales
-    %li
-      = link_to "Nederlands", "?locale=nl", style: ("font-weight: 600" if @locale.to_s == "nl")
-    %li
-      = link_to "Engels", "?locale=en", style: ("font-weight: 600" if @locale.to_s == "en")
-    %li
-      = link_to "Duits", "?locale=de", style: ("font-weight: 600" if @locale.to_s == "de")
-    %li
-      = link_to "Frans", "?locale=fr", style: ("font-weight: 600" if @locale.to_s == "fr")
+    - Spina.config.locales.each do |locale|
+      %li
+        = link_to t("languages.#{locale}"), "?locale=#{locale}", style: ('font-weight: 600' if @locale.to_s == locale.to_s)
