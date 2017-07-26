@@ -239,7 +239,7 @@ nl:
         can_expire: Heeft een verloopdatum
         stock_level: Voorraad
         expiration_date: Verloopdatum
-        price_exceptions: Prijsuitzonderingen
+        price_exceptions: Prijs per klantgroep
 
       spina/shop/product_bundle:
         price: Prijs
