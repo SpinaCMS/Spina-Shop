@@ -50,15 +50,39 @@ module Spina::Shop
 
     scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_shop_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
+    def price_for_order(order)
+      # Return the default price if we don't know anything about the order
+      return price if order.nil? 
+
+      # If no conversion is needed, simply return price
+      price = price_for_customer(order.customer)
+      price_includes_tax = price_includes_tax_for_customer(order.customer)
+      return price if price_includes_tax == order.prices_include_tax
+
+      # Get tax rate
+      tax_rate = tax_group.tax_rate_for_order(order)
+      tax_modifier = (tax_rate + BigDecimal(100)) / BigDecimal(100)
+
+      # Calculate unit price based on tax modifier
+      unit_price = price_includes_tax ? price / tax_modifier : price * tax_modifier
+
+      # Round to two decimals using bankers' rounding
+      return unit_price.round(2, :half_even)
+    end
+
     def price_for_customer(customer)
       return price if customer.nil?
-      if price_exceptions['customer_groups'].present?
-        prijs = price_exceptions['customer_groups'].find do |hash|
-          hash["customer_group_id"].to_s == customer.customer_group_id.to_s
-        end
-        prijs = BigDecimal.new(prijs['price']) if prijs.present?
+      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price
+    end
+
+    def price_includes_tax_for_customer(customer)
+      return price_includes_tax if customer.nil?
+      price_exception = price_exception_for_customer(customer)
+      if price_exception.present?
+        ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
+      else
+        price_includes_tax
       end
-      prijs || price
     end
 
     def in_stock?
@@ -117,6 +141,13 @@ module Spina::Shop
     end
 
     private
+
+      # Get price exception based on Customer / CustomerGroup if available
+      def price_exception_for_customer(customer)
+        price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
+          h["customer_group_id"].to_i == customer.customer_group_id
+        end
+      end
 
       # Get all values for properties defined on the ProductCategory.
       # Defines singleton methods on the properties attribute for this product.

@@ -1,7 +1,11 @@
-.form-control{style: 'margin-bottom: 4px', data: {form_prepend: t('number.currency.format.unit')}}
+.form-control{style: 'margin-bottom: 20px', data: {form_prepend: t('number.currency.format.unit')}}
   .input-group
     = f.text_field 'price_exceptions[customer_groups][][price]', value: number_with_precision(price_exception["price"], precision: 2), placeholder: Spina::Shop::Product.human_attribute_name(:price)
-    .select-dropdown{style: "border-right: 1px solid #ccc; border-radius: 0 3px 3px 0; min-width: 170px"}= select_tag 'product[price_exceptions[customer_groups][][customer_group_id]]', options_for_select(Spina::Shop::CustomerGroup.all.map{|g|[g.name, g.id]}, price_exception["customer_group_id"]), prompt: t('spina.shop.products.choose_customer_group')
 
-    = link_to '#', class: 'button button-link remove_price_exception', style: "margin: 0; padding-right: 0" do
-      = icon('trash')
+    .select-dropdown{style: "min-width: 100px"}= select_tag 'product[price_exceptions[customer_groups][][price_includes_tax]]', options_for_select([['incl. btw', true], ['excl. btw', false]], price_exception["price_includes_tax"])
+
+  .select-dropdown{style: 'width: 100%'}= select_tag 'product[price_exceptions[customer_groups][][customer_group_id]]', options_for_select(Spina::Shop::CustomerGroup.all.map{|g|[g.name, g.id]}, price_exception["customer_group_id"]), prompt: t('spina.shop.products.choose_customer_group')
+
+  = link_to '#', class: 'button button-link remove_price_exception', style: "margin: 0; padding-right: 0" do
+    = icon('trash')
+    =t 'spina.delete'

@@ -14,7 +14,7 @@ module Spina::Shop
     scope :ordered, -> { order(:created_at) }
 
     def unit_price
-      read_attribute(:unit_price) || orderable.price_for_customer(order.customer) || BigDecimal(0)
+      read_attribute(:unit_price) || orderable.price_for_order(order) || BigDecimal(0)
     end
 
     def unit_cost_price

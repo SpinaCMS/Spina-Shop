@@ -16,7 +16,7 @@ module Spina::Shop
     accepts_attachments_for :product_images, append: true
 
     # Calculate the price based on this order
-    def price_for_customer(customer)
+    def price_for_order(order)
       price
     end
 

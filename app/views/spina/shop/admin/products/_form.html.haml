@@ -135,7 +135,9 @@
           .form-control{data: {form_prepend: t('number.currency.format.unit')}}
             .input-group
               = f.text_field :price, value: number_with_precision(f.object.price, precision: 2)
-              .select-dropdown{style: "min-width: 208px"}
+              .select-dropdown
+                = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
+              .select-dropdown{style: "min-width: 120px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
 
         - if Spina::Shop::CustomerGroup.any?

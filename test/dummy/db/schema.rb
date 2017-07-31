@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170702093931) do
+ActiveRecord::Schema.define(version: 20170731082105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.date "date_of_birth"
     t.integer "country_id"
     t.integer "customer_group_id"
+    t.string "vat_id"
     t.index ["country_id"], name: "idx_shop_customers_on_country_id"
     t.index ["customer_group_id"], name: "index_spina_shop_customers_on_customer_group_id"
   end
@@ -393,6 +394,18 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "spina_shop_order_attachments", force: :cascade do |t|
+    t.string "name"
+    t.integer "order_id"
+    t.string "attachment_id"
+    t.string "attachment_filename"
+    t.string "attachment_size"
+    t.string "attachment_content_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_spina_shop_order_attachments_on_order_id"
+  end
+
   create_table "spina_shop_order_items", id: :serial, force: :cascade do |t|
     t.integer "order_id"
     t.integer "quantity", default: 0, null: false
@@ -439,7 +452,7 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.integer "order_number"
     t.datetime "paid_at"
     t.datetime "delivered_at"
-    t.datetime "order_picked_at"
+    t.datetime "order_prepared_at"
     t.string "delivery_postal_code"
     t.string "delivery_city"
     t.integer "delivery_country_id"
@@ -625,7 +638,7 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.string "supplier"
     t.boolean "active", default: false, null: false
     t.string "sku"
-    t.string "location", default: "", null: false
+    t.string "location"
     t.integer "tax_group_id"
     t.decimal "weight", precision: 8, scale: 3
     t.decimal "price", precision: 8, scale: 2
@@ -637,6 +650,11 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.date "expiration_date"
     t.integer "stock_level", default: 0, null: false
     t.string "supplier_reference"
+    t.boolean "stock_enabled", default: false, null: false
+    t.boolean "editable_sku", default: true, null: false
+    t.boolean "deletable", default: true, null: false
+    t.jsonb "price_exceptions", default: "{}", null: false
+    t.boolean "price_includes_tax", default: true, null: false
     t.index ["name"], name: "idx_shop_products_on_name", using: :gin
     t.index ["product_category_id"], name: "idx_shop_products_on_product_category_id"
     t.index ["sales_category_id"], name: "index_spina_shop_products_on_sales_category_id"
@@ -773,15 +791,19 @@ ActiveRecord::Schema.define(version: 20170702093931) do
     t.datetime "password_reset_sent_at"
   end
 
+  add_foreign_key "spina_shop_addresses", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_addresses", "spina_shop_customers", column: "customer_id"
   add_foreign_key "spina_shop_customer_accounts", "spina_shop_customers", column: "customer_id"
+  add_foreign_key "spina_shop_customers", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_delivery_options", "spina_shop_sales_categories", column: "sales_category_id"
   add_foreign_key "spina_shop_delivery_options", "spina_shop_tax_groups", column: "tax_group_id"
   add_foreign_key "spina_shop_invoice_lines", "spina_shop_invoices", column: "invoice_id"
+  add_foreign_key "spina_shop_invoices", "spina_shop_countries", column: "country_id"
   add_foreign_key "spina_shop_invoices", "spina_shop_customers", column: "customer_id"
   add_foreign_key "spina_shop_invoices", "spina_shop_orders", column: "order_id"
   add_foreign_key "spina_shop_order_items", "spina_shop_orders", column: "order_id"
   add_foreign_key "spina_shop_order_transitions", "spina_shop_orders", column: "order_id"
+  add_foreign_key "spina_shop_orders", "spina_shop_countries", column: "billing_country_id"
   add_foreign_key "spina_shop_product_bundles", "spina_shop_sales_categories", column: "sales_category_id"
   add_foreign_key "spina_shop_product_bundles", "spina_shop_tax_groups", column: "tax_group_id"
   add_foreign_key "spina_shop_product_category_properties", "spina_shop_product_categories", column: "product_category_id"
