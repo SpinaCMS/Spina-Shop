@@ -13,6 +13,7 @@ module Spina::Shop
       invoice = Invoice.new(
         order_id: @order.id,
         customer_id: @customer.id,
+        vat_id: @customer.vat_id,
         prices_include_tax: @order.prices_include_tax,
         country_id: @order.billing_country.id,
         country_name: @order.billing_country.name,
@@ -28,7 +29,6 @@ module Spina::Shop
         identity_name: @account.name,
         identity_details: "#{@account.address}
         #{@account.postal_code}, #{@account.city}
-        #{@account.country}
 
         #{@account.phone}
         #{@account.email}"

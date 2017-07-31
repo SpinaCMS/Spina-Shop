@@ -69,6 +69,10 @@ module Spina::Shop
       text "#{Invoice.model_name.human} #{@presenter.invoice_number}", style: :semibold, size: 24
       text "#{Invoice.human_attribute_name(:customer_number)}: #{@presenter.customer_number}"
 
+      if @presenter.vat_id.present?
+        text "#{Customer.human_attribute_name(:vat_id)}: #{@presenter.vat_id}"
+      end
+
       move_down 5.mm
     end
 
@@ -79,7 +83,7 @@ module Spina::Shop
         lines << ["#{line.quantity} x", line.description, @presenter.number_to_currency(line.unit_price), @presenter.number_to_currency(line.total), ("#{@presenter.number_with_precision(line.tax_rate, precision: 0)}%" if line.tax_rate > 0)]
       end
 
-      lines << [{content: Invoice.human_attribute_name(:sub_total), colspan: 3, font_style: :bold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
+      lines << [{content: Invoice.human_attribute_name(:sub_total), colspan: 3, font_style: :semibold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
 
       @presenter.invoice.tax_amount_by_rates.each do |rate|
         unless rate[0] == 0
@@ -87,12 +91,12 @@ module Spina::Shop
         end
       end
 
-      lines << [{content: Invoice.human_attribute_name(:total), colspan: 3, font_style: :bold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
+      lines << [{content: Invoice.human_attribute_name(:total), colspan: 3, font_style: :semibold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
 
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 8.cm, 4 => 2.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 8} do |t|
         t.before_rendering_page do |page|
           page.row(0).border_top_width = 0
-          page.row(0).font_style = :bold
+          page.row(0).font_style = :semibold
           page.row(1).border_top_width = 2
           page.column(0).align = :right
           page.column(2).align = :right

@@ -295,7 +295,19 @@ nl:
         ip_addresses: IP-adressen
         created_at: Aangemaakt op
         country: Land
-        vat_id: BTW-nummer
+        vat_id: Btw-nummer
+
+      spina/shop/invoice:
+        customer_number: Klantnummer
+        sub_total: Subtotaal
+        total: Totaal
+        date: Factuurdatum
+
+      spina/shop/invoice_line:
+        description: Omschrijving
+        price: Prijs
+        total: Totaal
+        tax: Btw
 
       spina/shop/address:
         street1: Straat
@@ -323,6 +335,11 @@ nl:
 
       spina/shop/in_stock_reminder:
         email: Email
+
+      spina/shop/tax_rate:
+        rate: Percentage
+        reverse_charge_vat: btw verlegd
+        code: Code
 
   number:
     currency:

@@ -1,15 +1,20 @@
 .table-container
   %table.table
     %tr
-      %td
-        %strong= tax_group.name
-      %td.align-right.text-muted
-        = tax_group.products.count
-        products
+      %th
+        = tax_group.name
+        %span.text-muted{style: 'font-weight: 400'}
+          = "(#{tax_group.products.count} producten)"
+      %th.align-right
+        = Spina::Shop::TaxRate.human_attribute_name :rate
+      %th.align-right
+        = Spina::Shop::TaxRate.human_attribute_name :code
 
     - tax_group.tax_rates.each do |tax_rate|
       %tr
         %td= tax_rate.label
         %td.align-right
           = "#{tax_rate.rate}%"
-          %small= "BTW-code: #{tax_rate.code}"
+          - if tax_rate.reverse_charge_vat
+            %span.text-muted= "(#{Spina::Shop::TaxRate.human_attribute_name :reverse_charge_vat})"
+        %td.align-right= tax_rate.code
