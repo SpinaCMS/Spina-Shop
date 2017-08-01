@@ -129,11 +129,16 @@ en:
 
     attributes:
       spina/shop/order:
+        first_name: First name
+        last_name: Last name
         billing_address: Billing address
         billing_street1: Street
         billing_street2: Street 2
         billing_city: City
         billing_name: Name
+        billing_house_number: House number
+        billing_house_number_addition: Addition
+        billing_postal_code: Postal code
         email: Email
         phone: Phone
         separate_delivery_address: Separate delivery address
@@ -148,6 +153,9 @@ en:
         sub_total: Sub total
         delivery_price: Shipping costs
         delivery_tracking_ids: Delivery tracking IDs
+        total: Total
+        sub_total: Sub total
+        total_excluding_tax: Total excl. tax
 
       spina/shop/product:
         name: Name
@@ -198,3 +206,9 @@ en:
         street2: Street 2
         postal_code: Postal code
         city: City
+
+      spina/shop/invoice:
+        customer_number: Customer number
+        sub_total: Sub total
+        total: Total
+        date: Invoice date
