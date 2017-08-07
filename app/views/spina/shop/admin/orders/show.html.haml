@@ -1,5 +1,21 @@
 %header#header
   .pull-right
+    - if @order.order_attachments.any?
+      %div{style: 'display: inline-block', data: {dropdown: true}}
+        = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#attachments'} do
+          = Spina::Shop::Order.human_attribute_name(:order_attachments)
+          %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+        %ul#attachments.align-right
+          - @order.order_attachments.each do |order_attachment|
+            %li
+              = link_to attachment_url(order_attachment, :attachment), target: :blank do
+                = order_attachment.name
+                %br/
+                %small.text-muted
+                  .pull-right= number_to_human_size order_attachment.attachment_size
+                  = order_attachment.attachment_content_type
+
     = link_to t('spina.edit'), spina.edit_shop_admin_order_path(@order), class: 'button'
 
     - if @order.in_state?(:confirming, :received)
@@ -224,14 +240,6 @@
             %th= Spina::Shop::Order.human_attribute_name(:delivered_at)
             %td
               .text-muted=l @order.delivered_at, format: "%d %B %Y"
-
-        - if @order.order_attachments.any?
-          %tr
-            %th= Spina::Shop::Order.human_attribute_name(:order_attachments)
-            %td
-              - @order.order_attachments.each do |order_attachment|
-                = link_to order_attachment.name, attachment_url(order_attachment, :attachment), target: :blank
-                %br/
 
   .divider-container
     %hr.divider/

@@ -217,6 +217,7 @@ nl:
         delivery_city: Plaats
         delivery_tracking_ids: Track & trace
         note: Notitie
+        order_attachments: Bijlagen
 
       spina/shop/product:
         name: Naam
