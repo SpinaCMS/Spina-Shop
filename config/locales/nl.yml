@@ -298,6 +298,7 @@ nl:
         created_at: Aangemaakt op
         country: Land
         vat_id: Btw-nummer
+        company: Bedrijf
 
       spina/shop/invoice:
         customer_number: Klantnummer
