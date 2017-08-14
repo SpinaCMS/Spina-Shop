@@ -56,22 +56,26 @@ module Spina::Shop
     end
 
     def tax_amount
-      tax_amount_by_rates.inject(BigDecimal(0)) { |t, r| t + r[1][:tax_amount] }
+      tax_amount_by_rates.inject(BigDecimal.new(0)) { |t, r| t + r[1][:tax_amount] }
     end
 
     def tax_amount_by_rates
-      items = [order_items]
-      items << OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price) if delivery_option.present?
-      rates = items.flatten.inject({}) do |h, item|
-        rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
-        if prices_include_tax
-          rate[:total] += (item.total / item.tax_modifier).round(2)
-          rate[:tax_amount] += item.total - (item.total / item.tax_modifier).round(2)
-        else
-          rate[:total] += item.total
-          rate[:tax_amount] += (item.total * (BigDecimal(item.tax_rate) / BigDecimal(100))).round(2)
+      if vat_reverse_charge?
+        rates = {"0": {tax_amount: BigDecimal.new(0), total: BigDecimal.new(0)}}
+      else
+        items = [order_items]
+        items << OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price) if delivery_option.present?
+        rates = items.flatten.inject({}) do |h, item|
+          rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
+          if prices_include_tax
+            rate[:total] += (item.total / item.tax_modifier).round(2)
+            rate[:tax_amount] += item.total - (item.total / item.tax_modifier).round(2)
+          else
+            rate[:total] += item.total
+            rate[:tax_amount] += (item.total * (BigDecimal(item.tax_rate) / BigDecimal(100))).round(2)
+          end
+          h
         end
-        h
       end
 
       rates.sort{|x, y| y[0] <=> x[0]}.to_h

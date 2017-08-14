@@ -51,7 +51,12 @@ module Spina::Shop
 
       move_down 45.mm
       indent(2.cm) do
-        text @presenter.customer_name, style: :semibold
+        if @presenter.company_name.present?
+          text @presenter.company_name, style: :semibold
+          text @presenter.customer_name
+        else
+          text @presenter.customer_name, style: :semibold
+        end
         text @presenter.address_1
         text [@presenter.postal_code, @presenter.city].join(' ')
         text @presenter.country_name
@@ -88,6 +93,9 @@ module Spina::Shop
       @presenter.invoice.tax_amount_by_rates.each do |rate|
         unless rate[0] == 0
           lines << [{content: I18n.t('spina.shop.tax.rate', rate: @presenter.number_with_precision(rate[0], precision: 0)), colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(rate[1][:tax_amount]), border_width: 0}, {content: "", border_width: 0}]
+        end
+        if @presenter.invoice.vat_reverse_charge 
+          lines << [{content: I18n.t('spina.shop.tax.vat_reverse_charge'), colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(BigDecimal.new(0)), border_width: 0}, {content: "", border_width: 0}]
         end
       end
 

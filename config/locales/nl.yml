@@ -75,6 +75,7 @@ nl:
       tax:
         no_tax: Geen btw
         rate: "%{rate}% btw"
+        vat_reverse_charge: Btw verlegd
 
       tax_groups:
         default_tax_rate: Standaard btw-tarief

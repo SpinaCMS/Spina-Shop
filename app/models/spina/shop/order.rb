@@ -101,6 +101,16 @@ module Spina::Shop
       end.flatten.uniq
     end
 
+    # By default this method returns false, but you can override it and add your own logic
+    def vat_reverse_charge?
+      false
+    end
+
+    # If VAT is reverse charged, all prices must be excluding VAT
+    def prices_include_tax
+      vat_reverse_charge? ? false : read_attribute(:prices_include_tax)
+    end
+
     # Order number with zeroes
     def number
       order_number ? order_number.to_s.rjust(8, '0') : nil

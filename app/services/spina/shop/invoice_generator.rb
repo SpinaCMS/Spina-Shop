@@ -14,7 +14,9 @@ module Spina::Shop
         order_id: @order.id,
         customer_id: @customer.id,
         vat_id: @customer.vat_id,
+        company_name: @customer.company,
         prices_include_tax: @order.prices_include_tax,
+        vat_reverse_charge: @order.vat_reverse_charge?,
         country_id: @order.billing_country.id,
         country_name: @order.billing_country.name,
         order_number: @order.number,
@@ -39,7 +41,7 @@ module Spina::Shop
           quantity: order_item.quantity,
           description: order_item.description,
           unit_price: order_item.unit_price,
-          tax_rate: order_item.tax_rate,
+          tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : order_item.tax_rate,
           metadata: order_item.metadata
         )
         
@@ -48,7 +50,7 @@ module Spina::Shop
             quantity: -1,
             description: "Korting #{order_item.description}",
             unit_price: order_item.discount_amount,
-            tax_rate: order_item.tax_rate,
+            tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : order_item.tax_rate,
             metadata: order_item.metadata
           )
         end
@@ -59,7 +61,7 @@ module Spina::Shop
           quantity: 1,
           description: "Verzendkosten",
           unit_price: @order.delivery_price,
-          tax_rate: @order.delivery_tax_rate,
+          tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : @order.delivery_tax_rate,
           metadata: @order.delivery_metadata
         )
       end
