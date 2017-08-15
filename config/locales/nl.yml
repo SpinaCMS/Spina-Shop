@@ -203,7 +203,7 @@ nl:
         shipped_at: Verzonden op
         delivered_at: Geleverd op
         total: Totaal
-        total_exluding_tax: Totaal excl. btw
+        total_excluding_tax: Totaal excl. btw
         ip_address: IP-adres
         payment_method: Betaalmethode
         delivery_address: Verzendadres
