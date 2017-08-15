@@ -79,6 +79,14 @@
               = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
         .well
+          - if Spina::Shop::ProductCollection.any?
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :product_collections
+
+              .sidebar-form-control
+                = f.select :product_collection_ids, options_for_select(Spina::Shop::ProductCollection.pluck(:name, :id), f.object.product_collection_ids), {}, class: 'select2', multiple: true, style: 'width: 100%'
+
           .sidebar-form-group
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :related_products
