@@ -14,6 +14,14 @@ module Spina::Shop
       tax_rates.default_rate.first_or_initialize
     end
 
+    # The price modifier for calculating exclusive prices is based on the tax rate.
+    # If VAT is reverse charged we will use the default rate to calculate the price ex VAT
+    def price_modifier_for_order(order)
+      tax_rate = rate_by_order(order)
+      rate = order.vat_reverse_charge? ? default_tax_rate.rate : tax_rate.rate
+      (rate + BigDecimal.new(100)) / BigDecimal.new(100)
+    end
+
     # Get the rate based on the order
     # 
     # Priority:
@@ -21,8 +29,7 @@ module Spina::Shop
     # 2. Get rate by zone
     # 3. Default Spina config
     def tax_rate_for_order(order)
-      rate_by_customer_group(order.customer.try(:customer_group)).try(:rate) ||
-        rate_by_zone(order.delivery_country).rate || 
+      rate_by_order(order).rate || 
         Spina::Shop.config.default_tax_rate
     end
 
@@ -33,8 +40,7 @@ module Spina::Shop
     # 2. Get code by zone
     # 3. Default Spina config
     def tax_code_for_order(order)
-      rate_by_customer_group(order.customer.try(:customer_group)).try(:code) ||
-        rate_by_zone(order.delivery_country).code || 
+      rate_by_order(order).code || 
         Spina::Shop.config.default_tax_code
     end
 
@@ -46,15 +52,10 @@ module Spina::Shop
       # 1. Match zone
       # 2. Match parent of zone
       # 3. Default zone
-      def rate_by_zone(zone)
-        tax_rates.where(tax_rateable: zone).first || 
-        tax_rates.where(tax_rateable: zone.parent).first || 
+      def rate_by_order(o)
+        tax_rates.where(tax_rateable: o.delivery_country, business: o.business).first || 
+        tax_rates.where(tax_rateable: o.delivery_country.parent, business: o.business).first || 
         default_tax_rate
-      end
-
-      def rate_by_customer_group(customer_group)
-        return nil unless customer_group.present?
-        tax_rates.where(tax_rateable: customer_group).first
       end
 
   end

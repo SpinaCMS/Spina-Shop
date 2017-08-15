@@ -59,12 +59,11 @@ module Spina::Shop
       price_includes_tax = price_includes_tax_for_customer(order.customer)
       return price if price_includes_tax == order.prices_include_tax
 
-      # Get tax rate
-      tax_rate = tax_group.tax_rate_for_order(order)
-      tax_modifier = (tax_rate + BigDecimal(100)) / BigDecimal(100)
+      # Price modifier for unit price
+      price_modifier = tax_group.price_modifier_for_order(order)
 
-      # Calculate unit price based on tax modifier
-      unit_price = price_includes_tax ? price / tax_modifier : price * tax_modifier
+      # Calculate unit price based on price modifier
+      unit_price = price_includes_tax ? price / price_modifier : price * price_modifier
 
       # Round to two decimals using bankers' rounding
       return unit_price.round(2, :half_even)

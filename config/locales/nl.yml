@@ -342,8 +342,9 @@ nl:
 
       spina/shop/tax_rate:
         rate: Percentage
-        reverse_charge_vat: btw verlegd
+        vat_reverse_charge: btw verlegd
         code: Code
+        business: Zakelijk
 
   number:
     currency:
