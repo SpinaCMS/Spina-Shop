@@ -7,15 +7,19 @@
 
   %nav#secondary
     %ul
-      %li.active
+      %li{class: ("active" if action_name == "index")}
         = link_to spina.shop_admin_products_path do
           =t 'spina.shop.products.title'
+
+      %li{class: ("active" if action_name == "archived")}
+        = link_to spina.archived_shop_admin_products_path do
+          =t 'spina.shop.products.archived_title'
 
       %li
         = link_to spina.shop_admin_product_bundles_path do
           = Spina::Shop::ProductBundle.model_name.human count: 2
 
-= search_form_for @q, url: spina.shop_admin_products_path, html: {class: 'filter-form'} do |f|
+= search_form_for @q, url: (action_name == "index" ? spina.shop_admin_products_path : spina.archived_shop_admin_products_path), html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
       = f.text_field :sku_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of SKU'

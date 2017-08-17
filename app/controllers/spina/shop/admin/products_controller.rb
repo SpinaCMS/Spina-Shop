@@ -5,7 +5,7 @@ module Spina::Shop
       before_action :set_locale
 
       def index
-        @q = Product.filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @q = Product.where(archived: false).filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
         @products = @q.result.page(params[:page]).per(25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
@@ -22,6 +22,13 @@ module Spina::Shop
             render inline: {results: results, total_count: @q.result.count}.to_json
           end
         end
+      end
+
+      def archived
+        @q = Product.where(archived: true).filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @products = @q.result.page(params[:page]).per(25)
+        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
+        render :index
       end
 
       def show
@@ -75,6 +82,18 @@ module Spina::Shop
       rescue ActiveRecord::DeleteRestrictionError
         flash[:alert] = t('spina.shop.products.delete_restriction_error', name: @product.name)
         flash[:alert_small] = t('spina.shop.products.delete_restriction_error_explanation')
+        redirect_to spina.shop_admin_product_path(@product)
+      end
+
+      def archive
+        @product = Product.find(params[:id])
+        @product.update_attributes(archived: true)
+        redirect_to spina.shop_admin_product_path(@product)
+      end
+
+      def unarchive
+        @product = Product.find(params[:id])
+        @product.update_attributes(archived: false)
         redirect_to spina.shop_admin_product_path(@product)
       end
 

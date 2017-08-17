@@ -229,5 +229,12 @@
           .form-control
             = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
 
-        - unless @product.new_record? || !@product.deletable
-          .pull-right= link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'
+        - unless @product.new_record?
+          .pull-right
+            - if @product.archived?
+              = link_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), method: :post, class: 'button button-link'
+            - else
+              = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), method: :post, class: 'button button-link', data: {confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
+
+            - if @product.deletable
+              = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'

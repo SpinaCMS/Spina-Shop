@@ -35,7 +35,7 @@ module Spina::Shop
     end
 
     # Active product
-    scope :active, -> { where(active: true) }
+    scope :active, -> { where(active: true, archived: false) }
 
     # Postgres-specific queries for the jsonb column
     scope :where_any_tags, -> (key, value) do

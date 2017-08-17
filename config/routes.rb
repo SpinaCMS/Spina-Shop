@@ -38,6 +38,13 @@ Spina::Engine.routes.draw do
 
         # Products
         resources :products do
+          collection do
+            get :archived
+          end
+          member do
+            post :archive
+            post :unarchive
+          end
           get :new_by_category, on: :collection
           scope module: :products do
             resources :stock_level_adjustments

@@ -1,4 +1,4 @@
-%tr{class: ('text-muted' unless product.active?)}
+%tr{class: ('text-muted' if !product.active? || product.archived?)}
   %td.align-center{style: 'width: 30px'}
     = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
   %td
@@ -13,19 +13,22 @@
     =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
   %td.align-right
     - if product.active?
-      - if product.stock_enabled?
-        - if product.in_stock?
-          - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
-            - if product.expiration_date < Date.today
-              .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.expired')}}
+      - if !product.archived?
+        - if product.stock_enabled?
+          - if product.in_stock?
+            - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
+              - if product.expiration_date < Date.today
+                .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.expired')}}
+              - else
+                .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
             - else
-              .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
+              .status-dot.status-dot-success
           - else
-            .status-dot.status-dot-success
+            .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
         - else
-          .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
+          .status-dot.status-dot-success
       - else
-        .status-dot.status-dot-success
+        .status-dot
     - else
       .status-dot
       

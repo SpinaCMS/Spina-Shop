@@ -64,6 +64,9 @@ nl:
         delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
         delete_restriction_error: <strong>%{name}</strong> kan niet verwijderd worden
         delete_restriction_error_explanation: Komt voor in bestelling of productbundel
+        archive: Archiveer product
+        unarchive: Heractiveer product
+        archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
         stock_history: Historie
         adjust_stock: Voorraad aanpassen
         send_in_stock_reminders: Voorraadmeldingen verzenden
@@ -71,6 +74,7 @@ nl:
         expired: Product is verlopen
         out_of_stock: Voorraad is op
         choose_customer_group: Kies klantgroep
+        archived_title: Archief
 
       tax:
         no_tax: Geen btw
