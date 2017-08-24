@@ -27,7 +27,7 @@ module Spina::Shop
       recipient()
       header()
       invoice_details()
-      # footer()
+      footer()
     end
 
     def header_logo()
@@ -112,6 +112,10 @@ module Spina::Shop
           page.column(4).align = :right
         end
       end
+    end
+
+    def footer
+      # Footer
     end
   end
 end
