@@ -8,6 +8,18 @@
     = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
     #header_actions
+      - if f.object.product_images.any?
+        %div{style: 'display: inline-block', data: {dropdown: true}}
+          = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#attachments'} do
+            Download
+            %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+          %ul#attachments.align-right
+            - f.object.product_images.each do |product_image|
+              %li
+                = link_to attachment_url(product_image, :file), target: :blank do
+                  Afbeelding
+                  
       %button.button.button-primary{type: 'submit'}
         = icon('check')
         =t 'spina.shop.products.save'
