@@ -9,5 +9,9 @@
 
     - sales_category.sales_category_codes.each do |sales_category_code|
       %tr
-        %td= sales_category_code.label
+        %td
+          = sales_category_code.label
+          - if sales_category_code.business
+            %span.text-muted
+              = "(#{Spina::Shop::SalesCategory.human_attribute_name :business})"
         %td.align-right= sales_category_code.code

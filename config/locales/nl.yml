@@ -343,6 +343,10 @@ nl:
         code: Code
         business: Zakelijk
 
+      spina/shop/sales_category:
+        code: Code
+        business: Zakelijk
+
   number:
     currency:
       format:
