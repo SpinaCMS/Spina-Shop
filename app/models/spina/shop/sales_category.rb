@@ -22,7 +22,7 @@ module Spina::Shop
     # 2. Get code by zone
     # 3. Default Spina config
     def code_for_order(order)
-      code_by_zone(order.delivery_country).code || Spina::Shop.config.default_sales_category_code
+      code_by_zone(order).code || Spina::Shop.config.default_sales_category_code
     end
 
     private
@@ -33,9 +33,9 @@ module Spina::Shop
       # 1. Match zone
       # 2. Match parent of zone
       # 3. Default zone
-      def code_by_zone(zone)
-        sales_category_codes.where(sales_categorizable: zone).first ||
-        sales_category_codes.where(sales_categorizable: zone.parent).first ||
+      def code_by_zone(o)
+        sales_category_codes.where(sales_categorizable: o.delivery_country, business: o.business).first ||
+        sales_category_codes.where(sales_categorizable: o.delivery_country.parent, business: o.business).first ||
         default_code
       end
 
