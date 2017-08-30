@@ -50,7 +50,7 @@ module Spina::Shop
 
       def show
         @order = Order.includes(order_items: :orderable).find(params[:id])
-        add_breadcrumb @order.number
+        add_breadcrumb @order.number || 'Concept'
       end
 
       def edit
