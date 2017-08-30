@@ -5,6 +5,7 @@ Spina::Engine.routes.draw do
       scope '/shop' do
         # Orders
         resources :orders do
+          resources :order_items, only: [:new, :create, :destroy]
           member do
             post :cancel
             post :order_picked_up

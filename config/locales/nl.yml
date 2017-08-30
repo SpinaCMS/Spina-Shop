@@ -120,6 +120,7 @@ nl:
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         history: Historie
         new: Nieuwe bestelling
+        add_product: Voeg product toe
 
         states:
           received: Bestelling

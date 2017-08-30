@@ -1,3 +1,37 @@
+window.Spina = {}
+
+class Spina.Products
+  @enhance: (element) ->
+    element.find('select.select-products:not(.select2-hidden-accessible)').each ->
+      $select = $(this)
+      $select.select2(
+        ajax:
+          url: '/admin/shop/products'
+          delay: 250
+          dataType: 'json'
+          data: (params) ->
+            q: {translations_name_start: params.term}, page: params.page
+          minimumInputLength: 1
+          processResults: (data, params) ->
+            params.page = params.page or 1
+            return {
+              results: data.results
+              pagination: { more: (params.page * 25) < data.total_count }
+            }
+          cache: true
+        escapeMarkup: (markup) ->
+          return markup
+        templateResult: (product) ->
+          return product.text if product.loading
+          "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price}</small></span></div>"
+        templateSelection: (product) ->
+          product.name || product.text
+        minimumInputLength: 1
+      )
+
+$.fn.enhanceProducts = ->
+  Spina.Products.enhance(this)
+
 ready = ->
   el = document.getElementById('productImageUploader')
   if el
@@ -7,12 +41,9 @@ ready = ->
           $(el).find(".sidebar-form-image[data-id='#{id}'] .product-image-position").val(index)
     }
 
-  selectProducts($(this))
-
+  $('body').enhanceProducts()
   $('select.select2').select2()
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
-
-  selectProducts($(document))
 
 $(document).on 'turbolinks:load', ready
 
@@ -34,10 +65,10 @@ $(document).on 'click', '.sidebar-form-image a', (e) ->
   e.preventDefault()
 
 $(document).on 'spina:structure_added', 'form', (e) ->
-  selectProducts($(this))
+  $(this).enhanceProducts()
 
 $(document).on 'spina:product_fields_added', 'form', (e) ->
-  selectProducts($(this))
+  $(this).enhanceProducts()
   $('select.select2').select2()
 
 # Dynamically add and remove fields in a nested form
@@ -55,31 +86,3 @@ $(document).on 'click', 'form .remove_price_exception', (event) ->
   $(this).closest('.form-control').slideUp 400, ->
     $(this).remove()
   event.preventDefault()
-
-selectProducts = (element) ->
-  element.find('select.select-products:not(.select2-hidden-accessible)').each ->
-    $select = $(this)
-    $select.select2(
-      ajax:
-        url: '/admin/shop/products'
-        delay: 250
-        dataType: 'json'
-        data: (params) ->
-          q: {translations_name_start: params.term}, page: params.page
-        minimumInputLength: 1
-        processResults: (data, params) ->
-          params.page = params.page or 1
-          return {
-            results: data.results
-            pagination: { more: (params.page * 25) < data.total_count }
-          }
-        cache: true
-      escapeMarkup: (markup) ->
-        return markup
-      templateResult: (product) ->
-        return product.text if product.loading
-        "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price}</small></span></div>"
-      templateSelection: (product) ->
-        product.name || product.text
-      minimumInputLength: 1
-    )

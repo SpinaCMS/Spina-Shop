@@ -8,6 +8,17 @@ module Spina::Shop
         add_breadcrumb t('spina.shop.orders.new')
       end
 
+      def create
+        @order = Order.new(order_params)
+        @order.validate_details = true
+        if @order.save
+          redirect_to spina.shop_admin_order_path(@order)
+        else
+          add_breadcrumb t('spina.shop.orders.new')
+          render :new
+        end
+      end
+
       def cancel
         @order = Order.find(params[:id])
         @order.transition_to!(:cancelled, user: current_spina_user.name, ip_address: request.remote_ip)

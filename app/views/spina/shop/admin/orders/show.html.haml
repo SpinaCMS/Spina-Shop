@@ -120,8 +120,10 @@
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:billing_name)
             %td
-              = link_to_if @order.customer.present?, @order.billing_name, spina.shop_admin_customer_path(@order.customer)
-
+              - if @order.customer
+                = link_to @order.billing_name, spina.shop_admin_customer_path(@order.customer)
+              - else
+                = @order.billing_name
         - if @order.email.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:email)
@@ -258,6 +260,8 @@
           %th= Spina::Shop::Product.model_name.human
           %th.text-right= Spina::Shop::OrderItem.human_attribute_name(:price)
           %th.text-right= Spina::Shop::OrderItem.human_attribute_name(:total)
+          - if @order.building?
+            %th
 
       %tbody
         - @order.order_items.includes(:orderable).each do |order_item|
@@ -271,21 +275,38 @@
                 .text-muted{style: 'text-decoration: line-through'}= number_to_currency order_item.total_without_discount
 
               = number_to_currency order_item.total
+            - if @order.building?
+              %td{style: 'width: 32px'}
+                = link_to spina.shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {method: :delete} do
+                  = icon('trash')
+
+        - if @order.building?
+          %tr
+            %td{colspan: 5}
+              = link_to spina.new_shop_admin_order_order_item_path(@order), class: 'button button-link button-block text-center button-mini table-link', data: {remote: true} do
+                = icon('plus')
+                =t 'spina.shop.orders.add_product'
 
         %tr
           %td.text-right{colspan: 4}
             %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:order_total)
             = number_to_currency @order.order_total
+          - if @order.building?
+            %td
 
         %tr
           %td.text-right{colspan: 4}
             %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:delivery_price)
             = number_to_currency @order.delivery_price
+          - if @order.building?
+            %td
 
         %tr
           %td.text-right{colspan: 4}
             %strong{style: 'margin-right: 12px'}= Spina::Shop::Order.human_attribute_name(:total)
             = number_to_currency @order.total
+          - if @order.building?
+            %td
 
 .tab-content#history
   .table-container

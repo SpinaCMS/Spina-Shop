@@ -1,4 +1,4 @@
-= form_for @order, url: spina.shop_admin_orders_path(@order) do |f|
+= form_for @order, url: @order.new_record? ? spina.shop_admin_orders_path : spina.shop_admin_order_path(@order) do |f|
   %header#header
     #header_actions
       = button_tag type: :submit, class: 'button button-primary' do
@@ -16,6 +16,20 @@
 
           .sidebar-form-control
             ~ f.text_area :note, placeholder: Spina::Shop::Order.human_attribute_name(:note)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name(:delivery_option)
+
+          .sidebar-form-control
+            ~ f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]})
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name(:payment_method)
+
+          .sidebar-form-control
+            ~ f.text_field :payment_method
 
       .well
         .sidebar-form-group
@@ -85,6 +99,12 @@
             = Spina::Shop::Order.human_attribute_name :billing_city
           .sidebar-form-control
             = f.text_field :billing_city
+        
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :billing_country
+          .sidebar-form-control
+            = f.select :billing_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}), {prompt: true}, class: 'select2', style: 'width: 100%'
 
       .well
         .sidebar-form-group
@@ -131,3 +151,9 @@
             = Spina::Shop::Order.human_attribute_name :delivery_city
           .sidebar-form-control
             = f.text_field :delivery_city
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :delivery_country
+          .sidebar-form-control
+            = f.select :delivery_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}), {prompt: true}, class: 'select2', style: 'width: 100%'

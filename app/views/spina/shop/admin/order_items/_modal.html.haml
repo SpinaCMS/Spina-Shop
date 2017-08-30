@@ -1,0 +1,18 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.orders.add_product'
+
+  = form_for @order_item, url: spina.shop_admin_order_order_items_path(@order) do |f|
+    = f.hidden_field :orderable_type, value: "Spina::Shop::Product"
+
+    %section
+      = f.select :quantity, options_for_select(1..100), {}, class: 'select2'
+      = f.select :orderable_id, options_for_select([[f.object.orderable.try(:name), f.object.orderable.try(:id)]], f.object.orderable_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
+    
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.products.new'
