@@ -24,7 +24,11 @@
       %table
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:name)
-          %td= @customer.name
+          %td= @customer.full_name
+
+        - if @customer.company.present?
+          %th= Spina::Shop::Customer.human_attribute_name(:company)
+          %td= @customer.company
 
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:number)
@@ -39,6 +43,12 @@
           %tr
             %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
             %td= @customer.customer_group.name
+
+        %tr
+          %th= Spina::Shop::Customer.human_attribute_name(:country)
+          %td
+            = @customer.country.try(:name)
+            = "(#{@customer.country.try(:code)})"
 
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:email)
