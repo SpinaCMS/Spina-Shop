@@ -44,6 +44,15 @@ module Spina::Shop
         end
       end
 
+      def validate_vat_id
+        @customer = Customer.find(params[:id])
+        if vat_details = Valvat.new(@customer.vat_id).exists?(detail: true)
+          render json: {valid: true, details: vat_details}
+        else
+          render json: {valid: false}
+        end
+      end
+
       private
 
         def customer_params

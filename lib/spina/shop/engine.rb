@@ -9,6 +9,7 @@ require "bourbon"
 require "prawn"
 require "prawn/table"
 require "ruby-measurement"
+require "valvat"
 
 module Spina
   module Shop

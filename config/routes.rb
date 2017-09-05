@@ -64,6 +64,9 @@ Spina::Engine.routes.draw do
 
         # Customers
         resources :customers do
+          member do
+            get :validate_vat_id
+          end
           resource :customer_account
         end
 

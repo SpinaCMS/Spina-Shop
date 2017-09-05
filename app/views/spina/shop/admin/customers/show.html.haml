@@ -26,18 +26,9 @@
           %th= Spina::Shop::Customer.human_attribute_name(:name)
           %td= @customer.full_name
 
-        - if @customer.company.present?
-          %th= Spina::Shop::Customer.human_attribute_name(:company)
-          %td= @customer.company
-
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:number)
           %td= @customer.number
-
-        - if @customer.vat_id.present?
-          %tr
-            %th= Spina::Shop::Customer.human_attribute_name(:vat_id)
-            %td= @customer.vat_id
 
         - if @customer.customer_group.present?
           %tr
@@ -92,6 +83,17 @@
               = [address.street1, address.street2].compact.join('<br />').html_safe
               %br/
               = [address.postal_code, address.city].join(', ')
+
+        - if @customer.company.present?
+          %th= Spina::Shop::Customer.human_attribute_name(:company)
+          %td= @customer.company
+
+        - if @customer.vat_id.present?
+          %tr
+            %th= Spina::Shop::Customer.human_attribute_name(:vat_id)
+            %td#validate_vat_id{data: {url: spina.validate_vat_id_shop_admin_customer_path(@customer)}}
+              = @customer.vat_id
+              %span.result
 
   .divider-container
     %hr.divider/
