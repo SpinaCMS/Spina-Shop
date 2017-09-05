@@ -23,19 +23,10 @@ module Spina::Shop
 
       @logo_path = Rails.root.join('app', 'assets', 'images', 'invoice_logo.jpg').to_s
 
-      header_logo()
       recipient()
       header()
       invoice_details()
       footer()
-    end
-
-    def header_logo()
-      repeat(:all, dynamic: true) do
-        unless page_number == 1
-          image @logo_path, fit: [bounds.width, 25.mm], at: [-6.mm, bounds.top + 6.mm]
-        end
-      end
     end
 
     def recipient
