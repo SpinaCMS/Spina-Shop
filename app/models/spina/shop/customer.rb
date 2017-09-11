@@ -18,7 +18,7 @@ module Spina::Shop
     # Destroy the customer account if the customer is also destroyed
     has_one :customer_account, dependent: :destroy
 
-    belongs_to :country
+    belongs_to :country, optional: true
 
     belongs_to :customer_group, optional: true
 
@@ -29,7 +29,7 @@ module Spina::Shop
 
     accepts_nested_attributes_for :addresses, allow_destroy: true
 
-    validates :last_name, :email, :country, presence: true#, format: { with: EMAIL_REGEX }
+    validates :last_name, :email, presence: true
 
     def name
       company.blank? ? full_name : "#{company} (#{full_name})"
