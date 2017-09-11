@@ -19,6 +19,10 @@
         = link_to spina.shop_admin_product_bundles_path do
           = Spina::Shop::ProductBundle.model_name.human count: 2
 
+      %li
+        = link_to spina.shop_admin_stock_forecast_path do
+          Voorraad
+
 = search_form_for @q, url: (action_name == "index" ? spina.shop_admin_products_path : spina.archived_shop_admin_products_path), html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input

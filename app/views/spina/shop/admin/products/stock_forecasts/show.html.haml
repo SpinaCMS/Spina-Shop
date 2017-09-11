@@ -1,0 +1,41 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+  %nav#secondary
+    %ul
+      %li{class: ("active" if action_name == "index")}
+        = link_to spina.shop_admin_products_path do
+          =t 'spina.shop.products.title'
+
+      %li{class: ("active" if action_name == "archived")}
+        = link_to spina.archived_shop_admin_products_path do
+          =t 'spina.shop.products.archived_title'
+
+      %li
+        = link_to spina.shop_admin_product_bundles_path do
+          = Spina::Shop::ProductBundle.model_name.human count: 2
+
+      %li.active
+        = link_to spina.shop_admin_stock_forecast_path do
+          Voorraad
+
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th
+        %th Naam
+        %th.text-right Voorraad
+        %th.text-right{style: 'white-space: nowrap'} Verkoop<br /><small>afgelopen 30 dagen</small>
+        %th
+        %th.text-right{style: 'white-space: nowrap'} Schatting verkoop<br /><small>komende 30 dagen</small>
+        %th.text-right Schatting inkoop<br /><small>minimale voorraad bereikt</small>
+        / %th.text-right
+        / %th.text-right
+        / %th
+
+    %tbody
+      = render partial: "product", collection: @products
+
+  .pagination= link_to_next_page @products, 'Next'

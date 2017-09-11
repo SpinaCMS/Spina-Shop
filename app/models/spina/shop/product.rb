@@ -117,7 +117,7 @@ module Spina::Shop
     def cache_stock_level
       update_columns(
         stock_level: stock_level_adjustments.sum(:adjustment), 
-        sales_count: stock_level_adjustments.where('adjustment < ?', 0).sum(:adjustment) * -1,
+        sales_count: stock_level_adjustments.sales.sum(:adjustment) * -1,
         expiration_date: can_expire? ? earliest_expiration_date : nil
       )
     end

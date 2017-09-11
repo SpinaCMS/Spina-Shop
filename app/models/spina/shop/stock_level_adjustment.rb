@@ -4,6 +4,7 @@ module Spina::Shop
     belongs_to :order_item, optional: true
 
     scope :additions, -> { where('adjustment > ?', 0) }
+    scope :sales, -> { joins(:order_item).where('adjustment < ?', 0) }
     scope :ordered, -> { order(created_at: :desc) }
 
     validates :adjustment, presence: true

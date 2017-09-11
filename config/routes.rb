@@ -52,6 +52,7 @@ Spina::Engine.routes.draw do
           end
         end
         scope module: :products do
+          resource :stock_forecast
           resources :product_bundles
         end
 
