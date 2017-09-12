@@ -4,7 +4,7 @@ namespace :spina_shop do
   end
 
   task calculate_trend: :environment do
-    products = Spina::Shop::Product.where(stock_enabled: true, id: 28925)
+    products = Spina::Shop::Product.where(stock_enabled: true)
     products.each do |product|
       adjustments = product.stock_level_adjustments.sales.where('spina_shop_stock_level_adjustments.created_at > ?', 90.days.ago).order(:created_at)
 
