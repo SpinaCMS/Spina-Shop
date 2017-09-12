@@ -17,18 +17,15 @@ namespace :spina_shop do
           [(adjustment.created_at.to_date - first_date).to_i, total]
         end
 
-        puts sum_array.inspect
-
         r = Spina::Shop::SimpleLinearRegression.new(sum_array.map(&:first), sum_array.map(&:last))
 
         unless r.slope.nan?
           product.update_column(:trend, r.slope)
-          puts r.slope
         else
-          product.update_column(:trend, 1)
+          product.update_column(:trend, 0)
         end
       else
-        product.update_column(:trend, 1)
+        product.update_column(:trend, 0)
       end
     end
   end
