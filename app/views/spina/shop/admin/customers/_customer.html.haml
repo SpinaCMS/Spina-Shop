@@ -3,11 +3,9 @@
   %td= customer.customer_group.try(:name)
   %td= mail_to customer.email, customer.email, class: 'table-link'
   %td=l customer.created_at, format: "%d-%m-%Y"
-  %td.text-right
-    = customer.orders.received.count
+  %td.text-right= customer.orders.received.count
   %td.text-right
     - if customer.customer_account.present?
       %label.label.label-primary= t('spina.shop.customer_accounts.registered').upcase
     - else
       %label.label.label-default= t('spina.shop.customer_accounts.guest').upcase
-    
