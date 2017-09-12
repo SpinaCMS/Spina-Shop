@@ -35,3 +35,27 @@
         1 dag
       - else
         = time_ago_in_words(product.restock_date)
+  %td.align-right
+    - if product.active?
+      - if !product.archived?
+        - if product.stock_enabled?
+          - if product.in_stock?
+            - if product.can_expire? && product.expiration_date.present? && product.expiration_date < 2.months.from_now
+              - if product.expiration_date < Date.today
+                .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.expired')}}
+              - else
+                .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.products.almost_expired')}}
+            - else
+              - if product.stock_level > 4
+                .status-dot.status-dot-success
+              - else
+                .status-dot.status-dot-warning{data: {tooltip: "Voorraad laag"}}
+          - else
+            .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
+        - else
+          .status-dot.status-dot-success
+      - else
+        .status-dot
+    - else
+      .status-dot
+      
