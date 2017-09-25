@@ -1,0 +1,4 @@
+$("<%=j render partial: 'gift_card', collection: @gift_cards %>").appendTo($(".infinite-table table tbody"));
+
+// Update pagination link
+$('.pagination').html("<%=j link_to_next_page @gift_cards, 'Next' %>").infiniteScroll();

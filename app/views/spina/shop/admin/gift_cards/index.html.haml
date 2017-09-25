@@ -5,6 +5,13 @@
         %i.icon.icon-plus{style: 'vertical-align: bottom'}
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
+  %nav#secondary
+    %ul
+      %li{class: ('active' if action_name == "index")}
+        = link_to t('spina.shop.gift_cards.all'), spina.shop_admin_gift_cards_path
+      %li{class: ('active' if action_name == "unused")}
+        = link_to t('spina.shop.gift_cards.unused'), spina.unused_shop_admin_gift_cards_path
+
 .table-container.infinite-table
   %table.table
     %thead
@@ -14,13 +21,9 @@
         %th= Spina::Shop::GiftCard.human_attribute_name :remaining_balance
         %th= Spina::Shop::GiftCard.human_attribute_name :created_at
         %th= Spina::Shop::GiftCard.human_attribute_name :expires_at
+        %th
 
     %tbody
-      - @gift_cards.each do |gift_card|
-        %tr
-          %td
-            = link_to gift_card.readable_code, spina.shop_admin_gift_card_path(gift_card), class: 'table-link'
-          %td= number_to_currency gift_card.value
-          %td= number_to_currency gift_card.remaining_balance
-          %td=l gift_card.created_at, format: :long
-          %td=l gift_card.expires_at, format: :long
+      = render partial: 'gift_card', collection: @gift_cards
+
+  .pagination= link_to_next_page @gift_cards, 'Next'

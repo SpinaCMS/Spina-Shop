@@ -28,8 +28,10 @@ module Spina::Shop
         'used'
       elsif expired?
         'expired'
-      else
+      elsif remaining_balance == value
         'unused'
+      else
+        'partially_used'
       end
     end
 

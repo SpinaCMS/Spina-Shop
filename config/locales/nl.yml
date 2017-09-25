@@ -41,6 +41,11 @@ nl:
         delete_confirmation: Weet je zeker dat je deze <strong>cadeaubon</strong> wilt verwijderen?
         delete_restriction_error: <strong>Cadeaubon</strong> kan niet verwijderd worden
         delete_restriction_error_explanation: Is al in gebruik bij een bestelling
+        all: Alle cadeaubonnen
+        unused: Ongebruikt
+        used: Gebruikt
+        partially_used: Gedeeltelijk gebruikt
+        expired: Verlopen
 
         status:
           used: Gebruikt

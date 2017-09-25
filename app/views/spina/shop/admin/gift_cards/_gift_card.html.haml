@@ -1,0 +1,17 @@
+%tr{class: ('text-muted' if gift_card.status.in? %w(used expired))}
+  %td
+    = link_to gift_card.readable_code, spina.shop_admin_gift_card_path(gift_card), class: 'table-link'
+  %td= number_to_currency gift_card.value
+  %td= number_to_currency gift_card.remaining_balance
+  %td=l gift_card.created_at, format: :long
+  %td=l gift_card.expires_at, format: :long
+  %td
+    - case gift_card.status
+    - when 'used'
+      .status-dot{data: {tooltip: t('spina.shop.gift_cards.used')}}
+    - when 'expired'
+      .status-dot{data: {tooltip: t('spina.shop.gift_cards.expired')}}
+    - when 'unused'
+      .status-dot.status-dot-success{data: {tooltip: t('spina.shop.gift_cards.unused')}}
+    - when 'partially_used'
+      .status-dot.status-dot-warning{data: {tooltip: t('spina.shop.gift_cards.partially_used')}}
