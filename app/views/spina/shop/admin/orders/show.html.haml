@@ -19,14 +19,10 @@
     = link_to t('spina.edit'), spina.edit_shop_admin_order_path(@order), class: 'button'
 
     - if @order.in_state?(:confirming, :received)
-      %div{style: 'display: inline-block', data: {dropdown: true}}
-        = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#actions'} do
-          =t 'spina.shop.orders.actions'
-          %i.icon.icon-caret-down{style: 'margin-right: 0'}
+      = link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, class: 'button', data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
-        %ul#actions.align-right
-          - if @order.in_state?(:confirming, :received)
-            %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+      - if @order.in_state?(:received)
+        = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
 
     - if @order.in_state?(:paid)
       = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'

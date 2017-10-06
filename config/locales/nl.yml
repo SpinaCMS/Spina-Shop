@@ -121,7 +121,9 @@ nl:
         download_packing_slip: Download pakbon
         download_invoice: Download factuur %{number}
         save_order: Bestelling opslaan
-        cancel_order_html: <strong>Cancel</strong> order
+        pay_order_html: Markeren als betaald
+        pay_order_confirmation_html: Weet je zeker dat je deze bestelling wilt markeren als <strong>betaald</strong>? <strong>Deze actie is niet terug te draaien.</strong>
+        cancel_order_html: Annuleren
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         history: Historie
         new: Nieuwe bestelling

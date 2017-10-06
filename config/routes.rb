@@ -8,6 +8,7 @@ Spina::Engine.routes.draw do
           resources :order_items, only: [:new, :create, :destroy]
           member do
             post :cancel
+            post :pay
             post :order_picked_up
           end
           collection do
