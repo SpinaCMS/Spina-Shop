@@ -21,6 +21,9 @@
     - if @order.in_state?(:confirming, :received)
       = link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, class: 'button', data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
+      - if @order.in_state?(:confirming)
+        = link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
+
       - if @order.in_state?(:received)
         = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
 

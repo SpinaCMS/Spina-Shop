@@ -9,6 +9,7 @@ Spina::Engine.routes.draw do
           member do
             post :cancel
             post :pay
+            post :receive
             post :order_picked_up
           end
           collection do
