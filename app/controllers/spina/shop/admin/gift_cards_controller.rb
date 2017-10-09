@@ -5,11 +5,13 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @gift_cards = GiftCard.order(created_at: :desc).page(params[:page]).per(25)
+        @q = GiftCard.order(created_at: :desc).ransack(params[:q])
+        @gift_cards = @q.result.page(params[:page]).per(25)
       end
 
       def unused
-        @gift_cards = GiftCard.order(created_at: :desc).where('value = remaining_balance').page(params[:page]).per(25)
+        @q = GiftCard.order(created_at: :desc).where('value = remaining_balance').ransack(params[:q])
+        @gift_cards = @q.result.page(params[:page]).per(25)
         render :index
       end
 
