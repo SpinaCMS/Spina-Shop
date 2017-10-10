@@ -22,7 +22,7 @@
             = Spina::Shop::Order.human_attribute_name(:delivery_option)
 
           .sidebar-form-control
-            ~ f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]})
+            ~ f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]}), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label
@@ -104,7 +104,7 @@
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name :billing_country
           .sidebar-form-control
-            = f.select :billing_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}), {prompt: true}, class: 'select2', style: 'width: 100%'
+            = f.select :billing_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}, f.object.billing_country_id), {prompt: true}, class: 'select2', style: 'width: 100%'
 
       .well
         .sidebar-form-group
@@ -156,4 +156,4 @@
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name :delivery_country
           .sidebar-form-control
-            = f.select :delivery_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}), {prompt: true}, class: 'select2', style: 'width: 100%'
+            = f.select :delivery_country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}, f.object.delivery_country_id), {prompt: true}, class: 'select2', style: 'width: 100%'

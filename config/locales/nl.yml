@@ -202,6 +202,7 @@ nl:
         billing_postal_code: Postcode
         billing_city: Plaats
         billing_name: Naam
+        billing_country: Land
         company: Bedrijf
         first_name: Voornaam
         last_name: Achternaam
@@ -215,6 +216,7 @@ nl:
         total: Totaal
         total_excluding_tax: Totaal excl. btw
         ip_address: IP-adres
+        delivery_option: Verzendmethode
         payment_method: Betaalmethode
         delivery_address: Verzendadres
         sub_total: Subtotaal
@@ -227,6 +229,7 @@ nl:
         delivery_postal_code: Postcode
         delivery_city: Plaats
         delivery_tracking_ids: Track & trace
+        delivery_country: Land
         note: Notitie
         order_attachments: Bijlagen
 
