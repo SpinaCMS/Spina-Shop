@@ -53,30 +53,8 @@
             = f.select :customer_group_id, options_for_select(Spina::Shop::CustomerGroup.all.map{|g| [g.name, g.id]}, f.object.customer_group_id), {include_blank: t('spina.shop.customers.no_customer_group')}, class: 'select2', style: 'width: 100%'
 
       = f.fields_for :addresses do |address_builder|
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Address.human_attribute_name :street1
-            .sidebar-form-control
-              = address_builder.text_field :street1, placeholder: Spina::Shop::Address.human_attribute_name(:street1), style: 'padding-bottom: 0px; height: 40px'
-              %br/
-              = address_builder.text_field :street2, placeholder: Spina::Shop::Address.human_attribute_name(:street2), style: 'padding-top: 0px; padding-bottom: 0px; height: 30px'
+        = render 'address_fields', f: address_builder
 
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Address.human_attribute_name :postal_code
-            .sidebar-form-control
-              = address_builder.text_field :postal_code
-
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Address.human_attribute_name :city
-            .sidebar-form-control
-              = address_builder.text_field :city
-          
-          .sidebar-form-group
-            .sidebar-form-label
-              =t 'spina.delete'
-            .sidebar-form-control
-              %div{style: 'margin: 12px 10px'}
-                = address_builder.check_box :_destroy, data: {switch: true}
+      = link_to_add_address f, :addresses do
+        = icon('plus')
+        =t 'spina.shop.addresses.add_address'
