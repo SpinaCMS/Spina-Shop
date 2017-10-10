@@ -45,6 +45,13 @@
           .sidebar-form-control
             = f.text_field :vat_id, placeholder: Spina::Shop::Customer.human_attribute_name(:vat_id)
 
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :country
+
+          .sidebar-form-control
+            = f.select :country_id, options_for_select(Spina::Shop::Country.order(:name).map{|c| [c.name, c.id]}, f.object.country_id), {include_blank: true}, class: 'select2', style: 'width: 100%'
+
       .well
         .sidebar-form-group
           .sidebar-form-label

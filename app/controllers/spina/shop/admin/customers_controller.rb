@@ -56,7 +56,7 @@ module Spina::Shop
       private
 
         def customer_params
-          params.require(:customer).permit(:first_name, :last_name, :email, :phone, :customer_group_id, :vat_id, addresses_attributes: [:id, :_destroy, :street1, :street2, :postal_code, :city, :country_id, :house_number, :house_number_addition, :address_type])
+          params.require(:customer).permit(:first_name, :last_name, :email, :phone, :customer_group_id, :country_id, :vat_id, addresses_attributes: [:id, :_destroy, :street1, :street2, :postal_code, :city, :country_id, :house_number, :house_number_addition, :address_type])
         end
 
         def set_breadcrumbs
