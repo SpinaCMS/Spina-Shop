@@ -330,6 +330,8 @@ nl:
         postal_code: Postcode
         city: Plaats
         country: Land
+        house_number: Huisnummer
+        house_number_addition: Toevoeging
         address_type: Soort adres
         billing_address: Factuuradres
         delivery_address: Leveradres

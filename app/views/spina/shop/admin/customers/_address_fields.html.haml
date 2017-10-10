@@ -15,6 +15,13 @@
 
   .sidebar-form-group
     .sidebar-form-label
+      = Spina::Shop::Address.human_attribute_name :house_number
+    .sidebar-form-control
+      = f.text_field :house_number, placeholder: Spina::Shop::Address.human_attribute_name(:house_number), style: 'padding-bottom: 0px; height: 40px'
+      = f.text_field :house_number_addition, placeholder: Spina::Shop::Address.human_attribute_name(:house_number_addition), style: 'padding-top: 0px; padding-bottom: 0px; height: 30px'
+
+  .sidebar-form-group
+    .sidebar-form-label
       = Spina::Shop::Address.human_attribute_name :postal_code
     .sidebar-form-control
       = f.text_field :postal_code
