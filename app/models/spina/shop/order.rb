@@ -207,7 +207,7 @@ module Spina::Shop
 
       def must_be_of_age_to_buy_products
         if order_items.any?{|item| item.orderable.must_be_of_age_to_buy?}
-          errors.add(:date_of_birth, "not of age") unless of_age?
+          errors.add(:date_of_birth, :not_of_age) unless of_age?
         end
       end
 
