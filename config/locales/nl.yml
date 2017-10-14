@@ -308,6 +308,7 @@ nl:
         country: Land
         vat_id: Btw-nummer
         company: Bedrijf
+        date_of_birth: Geboortedatum
 
       spina/shop/invoice:
         customer_number: Klantnummer
