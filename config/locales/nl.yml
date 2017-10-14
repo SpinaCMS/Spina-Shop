@@ -85,6 +85,9 @@ nl:
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
 
+      addresses:
+        add_address: Adres toevoegen
+
       product_bundles:
         new: Nieuwe productbundel
         add_bundled_product: Product toevoegen
@@ -199,6 +202,7 @@ nl:
         billing_postal_code: Postcode
         billing_city: Plaats
         billing_name: Naam
+        billing_country: Land
         company: Bedrijf
         first_name: Voornaam
         last_name: Achternaam
@@ -212,6 +216,7 @@ nl:
         total: Totaal
         total_excluding_tax: Totaal excl. btw
         ip_address: IP-adres
+        delivery_option: Verzendmethode
         payment_method: Betaalmethode
         delivery_address: Verzendadres
         sub_total: Subtotaal
@@ -224,6 +229,7 @@ nl:
         delivery_postal_code: Postcode
         delivery_city: Plaats
         delivery_tracking_ids: Track & trace
+        delivery_country: Land
         note: Notitie
         order_attachments: Bijlagen
 
@@ -327,6 +333,12 @@ nl:
         street2: Straat 2
         postal_code: Postcode
         city: Plaats
+        country: Land
+        house_number: Huisnummer
+        house_number_addition: Toevoeging
+        address_type: Soort adres
+        billing_address: Factuuradres
+        delivery_address: Leveradres
 
       spina/shop/discount:
         code: Kortingscode

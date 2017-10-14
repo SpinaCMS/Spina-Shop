@@ -12,6 +12,14 @@
       %li{class: ('active' if action_name == "unused")}
         = link_to t('spina.shop.gift_cards.unused'), spina.unused_shop_admin_gift_cards_path
 
+= search_form_for @q, url: spina.shop_admin_gift_cards_path, html: {class: 'filter-form'} do |f|
+  .filter-form-simple
+    .filter-form-input
+      = f.text_field :code_cont, style: 'box-sizing: border-box', placeholder: 'Filter op code'
+
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      = icon('search')
+
 .table-container.infinite-table
   %table.table
     %thead
