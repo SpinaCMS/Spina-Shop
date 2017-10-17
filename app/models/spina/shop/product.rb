@@ -54,6 +54,10 @@ module Spina::Shop
       read_attribute(:seo_title).presence || name
     end
 
+    def seo_description
+      read_attribute(:seo_description).presence || description
+    end
+
     def price_for_order(order)
       # Return the default price if we don't know anything about the order
       return price if order.nil? 
