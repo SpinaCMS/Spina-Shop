@@ -148,6 +148,13 @@ nl:
           picked_up: Opgehaald
 
   activerecord:
+    errors:
+      models:
+        spina/shop/order:
+          attributes:
+            date_of_birth:
+              not_of_age: moet minimaal 18 jaar geleden zijn
+
     models:
       spina/shop/order:
         one: Bestelling
@@ -232,6 +239,7 @@ nl:
         delivery_country: Land
         note: Notitie
         order_attachments: Bijlagen
+        date_of_birth: Geboortedatum
 
       spina/shop/product:
         name: Naam
@@ -314,6 +322,7 @@ nl:
         country: Land
         vat_id: Btw-nummer
         company: Bedrijf
+        date_of_birth: Geboortedatum
 
       spina/shop/invoice:
         customer_number: Klantnummer

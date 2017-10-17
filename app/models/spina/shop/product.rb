@@ -112,6 +112,10 @@ module Spina::Shop
           if filter[:value]["min"].present? && filter[:value]["max"].present?
             products = products.where_in_range(filter[:property], filter[:value]["min"].presence.try(:to_d) || 0, filter[:value]["max"].presence.try(:to_d) || 0)
           end
+        when "price"
+          min = filter[:value]["min"].presence.try(:to_d) || 0
+          max = filter[:value]["max"].presence.try(:to_d) || 0
+          products = products.where(price: min..max)
         end
       end
 
