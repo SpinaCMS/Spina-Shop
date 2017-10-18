@@ -18,5 +18,9 @@ module Spina::Shop
       view_context.number_to_currency(invoice.total)
     end
 
+    def payment_method
+      invoice.order.try(:payment_method)
+    end
+
   end
 end
