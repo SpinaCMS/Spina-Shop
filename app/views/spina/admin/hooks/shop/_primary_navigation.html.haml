@@ -17,6 +17,8 @@
       = link_to Spina::Shop::Discount.model_name.human(count: 2), spina.shop_admin_discounts_path
     %li{class: ('active' if controller_name == 'gift_cards')}
       = link_to Spina::Shop::GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
+    %li{class: ('active' if controller_name == 'reports')}
+      = link_to t('spina.shop.reports.title'), spina.shop_admin_reports_path
 
     - Spina::Plugin.all.each do |plugin|
       - if current_theme.plugins.include? plugin.name

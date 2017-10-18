@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency "prawn-table"
   s.add_dependency "ruby-measurement"
   s.add_dependency "valvat"
+  s.add_dependency "rubyzip"
 
   s.add_development_dependency 'factory_girl', '~> 4.0'
   s.add_development_dependency 'minitest-reporters'

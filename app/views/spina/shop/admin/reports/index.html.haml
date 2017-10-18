@@ -1,0 +1,24 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.well
+  = form_with url: spina.shop_admin_reports_path, method: :post do |f|
+    .form-group
+      .select-dropdown{style: 'width: 100%'}
+        %select
+          %option Facturen
+
+    .form-group
+      %label.form-label Begindatum
+      = f.text_field :start_date, placeholder: "Start date", value: f.object.try(:start_date) || l(Date.today.beginning_of_month, format: '%d-%m-%Y'), class: 'datepicker'
+
+    .form-group
+      %label.form-label Einddatum
+      = f.text_field :end_date, placeholder: "End date", value: f.object.try(:end_date) || l(Date.today.end_of_month, format: '%d-%m-%Y'), class: 'datepicker'
+
+    .form-group
+      %label.form-label Email naar:
+      = f.text_field :email, placeholder: "Email", value: f.object.try(:email) || current_account.email
+
+    = f.submit "Genereer rapportage", class: 'button button-primary'

@@ -8,6 +8,9 @@ nl:
       product_categories: Productcategorieën
       delete_selected: Verwijder geselecteerde regels
 
+      emails:
+        exported_title: Export staat klaar voor download
+
       customer_accounts:
         save: Account opslaan
         edit: Account bewerken
@@ -28,6 +31,9 @@ nl:
 
       customer_groups:
         title: Klantgroepen
+
+      reports: 
+        title: Rapportages
 
       discounts:
         save: Kortingscode opslaan

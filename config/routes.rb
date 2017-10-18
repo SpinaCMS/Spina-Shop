@@ -76,6 +76,9 @@ Spina::Engine.routes.draw do
         # Discounts
         resources :discounts
 
+        # Reports
+        resources :reports
+
         # Gift Cards
         resources :gift_cards do
           collection do

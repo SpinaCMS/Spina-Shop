@@ -6,6 +6,10 @@ module Spina::Shop
 
     has_many :invoice_lines, dependent: :destroy
 
+    def filename
+      "inv_#{invoice_number}.pdf"
+    end
+
     def sub_total
       if prices_include_tax
         invoice_lines.inject(BigDecimal(0)) { |t, i| t + (i.total / i.tax_modifier).round(2) }
