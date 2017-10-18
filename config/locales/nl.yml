@@ -34,6 +34,7 @@ nl:
 
       reports: 
         title: Rapportages
+        start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
 
       discounts:
         save: Kortingscode opslaan

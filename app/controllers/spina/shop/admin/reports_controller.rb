@@ -9,6 +9,9 @@ module Spina::Shop
       def create
         invoice_ids = Invoice.where(date: params[:start_date]..params[:end_date]).ids
         InvoiceReportJob.perform_later(invoice_ids, params[:email])
+
+        flash[:success] = t('spina.shop.reports.start_exporting_html')
+        redirect_to spina.shop_admin_reports_path
       end
 
       private
