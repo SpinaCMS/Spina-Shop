@@ -75,6 +75,12 @@ module Spina::Shop
       "#{delivery_street1} #{delivery_house_number}#{delivery_house_number_addition}".strip
     end
 
+    def assign_address(address, address_type:)
+      [:street1, :postal_code, :city, :house_number, :house_number_addition, :country].each do |f|
+        send("#{address_type}_#{f}=", address.send(f))
+      end
+    end
+
     def delivery_options
       DeliveryOption.all
     end
