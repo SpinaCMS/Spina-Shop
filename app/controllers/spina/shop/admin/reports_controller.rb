@@ -7,12 +7,14 @@ module Spina::Shop
       end
 
       def create
+        start_date = Date.parse(params[:start_date])
+        end_date = Date.parse(params[:end_date])
         case params[:report_type]
         when "invoices"
-          invoice_ids = Invoice.where(date: params[:start_date]..params[:end_date]).ids
+          invoice_ids = Invoice.where(date: start_date..end_date).ids
           InvoiceReportJob.perform_later(invoice_ids, params[:email])
         when "payments"
-          order_ids = Order.paid.where(paid_at: params[:start_date]..params[:end_date]).ids
+          order_ids = Order.paid.where(paid_at: start_date..end_date).ids
           PaymentsReportJob.perform_later(order_ids, params[:email])
         end
 
