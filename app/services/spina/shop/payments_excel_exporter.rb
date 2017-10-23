@@ -8,7 +8,7 @@ module Spina::Shop
       orders = Order.order(:order_number).where(id: order_ids).group_by(&:payment_method)
 
       # Create new tempfile
-      temp_file = Tempfile.new("payments")
+      temp_file = Tempfile.new(["payments", ".xlsx"])
       Zip::OutputStream.open(temp_file) { |zos| }
 
       # Generate .xlsx
