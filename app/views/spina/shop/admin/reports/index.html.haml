@@ -6,8 +6,7 @@
   = form_with url: spina.shop_admin_reports_path, method: :post do |f|
     .form-group
       .select-dropdown{style: 'width: 100%'}
-        %select
-          %option Facturen
+        = f.select :report_type, options_for_select([['Facturen', 'invoices'], ['Betalingen', 'payments']])
 
     .form-group
       %label.form-label Begindatum
