@@ -354,6 +354,10 @@ nl:
         address_type: Soort adres
         billing_address: Factuuradres
         delivery_address: Leveradres
+        company: Bedrijf
+        first_name: Voornaam
+        last_name: Achternaam
+        name: Naam
 
       spina/shop/discount:
         code: Kortingscode
