@@ -50,6 +50,10 @@ module Spina::Shop
 
     scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_shop_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
+    def to_s
+      name
+    end
+
     def seo_title
       read_attribute(:seo_title).presence || name
     end
