@@ -173,18 +173,18 @@
 
         .form-group
           .form-label
-            = Spina::Shop::Product.human_attribute_name :cost_price
-          
-          .form-control{data: {form_prepend: '€'}}
-            = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
-
-        .form-group
-          .form-label
             = Spina::Shop::Product.human_attribute_name :sales_category
 
           .form-control
             .select-dropdown{style: 'width: 100%'}
               = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id)
+
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :cost_price
+          
+          .form-control{data: {form_prepend: '€'}}
+            = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
 
         .form-group
           .form-label
