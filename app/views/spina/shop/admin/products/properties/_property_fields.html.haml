@@ -8,5 +8,21 @@
       = f.select property.name, options_for_select(property.property_options.map{|option| [option.label, option.name]}, (object.properties[property.name] if object.properties.present?)), {include_blank: ('–' unless property.multiple), include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
     - when 'product'
       = f.select property.name, [], {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
+    - when 'textarea'
+      / = f.text_area property.name, placeholder: property.label, value: 
+
+
+      %trix-toolbar.clearfix{ id: "#{property.name}_toolbar", data: { trix_editor_id: "#{property.name}_editor" }}
+        .button-groups
+          .button-group
+            %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+              .icon.icon-bold
+            %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+              .icon.icon-italic
+            %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+              .icon.icon-list-ul
+        %trix-editor.text-input{input: property.name, toolbar: "#{property.name}_toolbar", id: "#{property.name}_editor", placeholder: property.label}
+        = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
+
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)
