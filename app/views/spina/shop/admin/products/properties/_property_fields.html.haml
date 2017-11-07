@@ -9,9 +9,6 @@
     - when 'product'
       = f.select property.name, [], {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
     - when 'textarea'
-      / = f.text_area property.name, placeholder: property.label, value: 
-
-
       %trix-toolbar.clearfix{ id: "#{property.name}_toolbar", data: { trix_editor_id: "#{property.name}_editor" }}
         .button-groups
           .button-group
@@ -23,6 +20,18 @@
               .icon.icon-list-ul
         %trix-editor.text-input{input: property.name, toolbar: "#{property.name}_toolbar", id: "#{property.name}_editor", placeholder: property.label}
         = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
+    - when 'image'
+      - image = Spina::Photo.find_by(id: object.properties.try(property.name))
+      = link_to spina.photo_select_admin_photos_path(property.name, selected_photo_id: object.properties.try(property.name)), remote: true, class: 'media_picker clearfix' do
+        .placeholder
+          %span.button.button-small.button-round
+            %i.icon.icon-dots
+            =t 'spina.pages.photo_picker'
+
+        - if image.present?
+          .image= image_tag image.file.thumb
+
+        = f.hidden_field property.name, value: object.properties.try(property.name)
 
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)

@@ -7,7 +7,7 @@ module Spina::Shop
 
       mail(
         to: order.email, 
-        from: "#{current_acount.name} <#{current_account.email}>",
+        from: "#{current_account.name} <#{current_account.email}>",
         subject: t('spina.shop.emails.order_confirmation_title')
       )
     end
@@ -17,7 +17,7 @@ module Spina::Shop
 
       mail(
         to: order.email,
-        from: "#{current_acount.name} <#{current_account.email}>",
+        from: "#{current_account.name} <#{current_account.email}>",
         subject: t('spina.shop.emails.order_shipped_title')
       )
     end
