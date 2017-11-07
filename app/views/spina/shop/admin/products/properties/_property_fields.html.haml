@@ -22,7 +22,7 @@
         = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
     - when 'image'
       - image = Spina::Photo.find_by(id: object.properties.try(property.name))
-      = link_to spina.photo_select_admin_photos_path(property.name, selected_photo_id: object.properties.try(property.name)), remote: true, class: 'media_picker clearfix' do
+      = link_to spina.photo_select_admin_photos_path(property.name, selected_photo_id: object.properties.try(property.name), hidden_field_id: "#{property.name}_image_id"), remote: true, class: 'media_picker clearfix' do
         .placeholder
           %span.button.button-small.button-round
             %i.icon.icon-dots
@@ -31,7 +31,7 @@
         - if image.present?
           .image= image_tag image.file.thumb
 
-        = f.hidden_field property.name, value: object.properties.try(property.name)
+        = f.hidden_field property.name, value: object.properties.try(property.name), data: {hidden_field_id: "#{property.name}_image_id"}
 
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)
