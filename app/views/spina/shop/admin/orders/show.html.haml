@@ -215,8 +215,7 @@
           %td 
             = @order.delivery_name
             %br/
-            = [@order.delivery_street1.presence, @order.delivery_street2.presence].compact.join('<br />').html_safe
-            = "#{@order.delivery_house_number}#{@order.delivery_house_number_addition}"
+            = @order.delivery_address
             %br/
             = [@order.delivery_postal_code, @order.delivery_city].join(', ')
 

@@ -80,7 +80,7 @@
           %tr
             %th= Spina::Shop::Address.model_name.human
             %td
-              = [address.street1, address.street2].compact.join('<br />').html_safe
+              = address.address
               %br/
               = [address.postal_code, address.city].join(', ')
 

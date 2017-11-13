@@ -43,6 +43,9 @@ module Spina::Shop
 
       # Create customer if necessary
       CustomerGenerator.new(order).generate!
+
+      # Add address to customer if it doesn't have any addresses
+      StoreAddress.new(order).store! if order.customer.addresses.none?
     end
 
     before_transition(to: :cancelled) do |order, transition|
