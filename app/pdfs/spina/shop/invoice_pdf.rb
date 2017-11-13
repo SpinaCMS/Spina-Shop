@@ -65,6 +65,7 @@ module Spina::Shop
 
       text "#{Invoice.model_name.human} #{@presenter.invoice_number}", style: :semibold, size: 24
       text "#{Invoice.human_attribute_name(:customer_number)}: #{@presenter.customer_number}"
+      text "#{Order.human_attribute_name(:order_number)}: #{@presenter.order_number}"
 
       if @presenter.vat_id.present?
         text "#{Customer.human_attribute_name(:vat_id)}: #{@presenter.vat_id}"
