@@ -1,5 +1,8 @@
 module Spina::Shop
   class Product < ApplicationRecord
+    # Stores the old path when generating a new materialized_path
+    attr_accessor :old_path
+
     belongs_to :tax_group
     belongs_to :sales_category
     belongs_to :product_category, optional: true
@@ -23,6 +26,9 @@ module Spina::Shop
 
     # Generate materialized path
     before_validation :set_materialized_path
+
+    # Create a 301 redirect if materialized_path changed
+    after_save :rewrite_rule
 
     validates :name, :price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
@@ -157,6 +163,10 @@ module Spina::Shop
 
     private
 
+      def rewrite_rule
+        Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
+      end
+
       # Get price exception based on Customer / CustomerGroup if available
       def price_exception_for_customer(customer)
         price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
@@ -191,6 +201,7 @@ module Spina::Shop
       # Actually more like a slug than a path
       # TODO: rename materialized_path to slug
       def set_materialized_path
+        self.old_path = materialized_path
         self.materialized_path = localized_materialized_path
         self.materialized_path += "-#{self.class.where(materialized_path: materialized_path).count}" if self.class.where(materialized_path: materialized_path).where.not(id: id).count > 0
         materialized_path
