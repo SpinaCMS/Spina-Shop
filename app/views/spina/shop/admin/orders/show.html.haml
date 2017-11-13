@@ -247,8 +247,7 @@
         - if @order.delivered_at.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:delivered_at)
-            %td
-              .text-muted=l @order.delivered_at, format: "%d %B %Y"
+            %td=l @order.delivered_at, format: "%d %B %Y"
 
   .divider-container
     %hr.divider/
