@@ -247,6 +247,7 @@ nl:
         note: Notitie
         order_attachments: Bijlagen
         date_of_birth: Geboortedatum
+        discount: Korting
 
       spina/shop/product:
         name: Naam

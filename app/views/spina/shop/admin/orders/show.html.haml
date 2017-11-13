@@ -210,6 +210,15 @@
 
     .information-table
       %table
+        - if @order.discount.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:discount)
+            %td
+              = @order.discount.description
+          %tr
+            %th= Spina::Shop::Discount.human_attribute_name(:code)
+            %td= @order.discount.code
+
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:delivery_address)
           %td 
