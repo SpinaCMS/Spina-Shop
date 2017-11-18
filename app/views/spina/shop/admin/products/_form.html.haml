@@ -150,15 +150,22 @@
 
         .form-group
           .form-label
-            = Spina::Shop::Product.human_attribute_name :price
+            = Spina::Shop::Product.human_attribute_name :base_price
           
           .form-control{data: {form_prepend: t('number.currency.format.unit')}}
             .input-group
-              = f.text_field :price, value: number_with_precision(f.object.price, precision: 2)
+              = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
               .select-dropdown
                 = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
               .select-dropdown{style: "min-width: 120px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
+
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :promotional_price
+          
+          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+            = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
 
         - if Spina::Shop::CustomerGroup.any?
           .form-group{style: 'margin-bottom: 40px'}

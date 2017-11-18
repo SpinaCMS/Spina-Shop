@@ -264,7 +264,8 @@ nl:
         supplier_reference: Leverancier referentie
         sales_category: Omzetcategorie
         cost_price: Kostprijs
-        price: Prijs
+        base_price: Prijs
+        promotional_price: Actieprijs
         active: Beschikbaar in webshop
         related_products: Gerelateerde producten
         must_be_of_age_to_buy: Alleen voor 18+

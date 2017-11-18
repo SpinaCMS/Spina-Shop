@@ -111,7 +111,7 @@ module Spina::Shop
 
         def product_params
           I18n.with_locale I18n.default_locale do
-            product_params = params.require(:product).permit!.merge(locale: @locale).delocalize(price: :number, cost_price: :number, weight: :number)
+            product_params = params.require(:product).permit!.merge(locale: @locale).delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
             if product_params[:price_exceptions].present?
               product_params[:price_exceptions].try(:[], :customer_groups).try(:each) do |price_exception|
                 price_exception["price"] = Delocalize::Parsers::Number.new.parse(price_exception["price"])

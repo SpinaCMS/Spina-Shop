@@ -4,6 +4,8 @@
   %td
     = link_to product.name, spina.shop_admin_product_path(product), class: 'table-link'
   %td.align-right
+    - if product.promotion?
+      %small{style: 'text-decoration: line-through'}= number_to_currency product.base_price
     = number_to_currency product.price
   %td.align-right
     = product.location

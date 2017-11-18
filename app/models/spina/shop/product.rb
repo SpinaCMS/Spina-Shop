@@ -30,7 +30,7 @@ module Spina::Shop
     # Create a 301 redirect if materialized_path changed
     after_save :rewrite_rule
 
-    validates :name, :price, presence: true
+    validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
 
     # Globalize translates
@@ -66,6 +66,14 @@ module Spina::Shop
 
     def seo_description
       read_attribute(:seo_description).presence || description
+    end
+
+    def promotion?
+      promotional_price.present?
+    end
+
+    def price
+      promotional_price.presence || base_price
     end
 
     def price_for_order(order)
