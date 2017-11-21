@@ -4,6 +4,7 @@
     = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
   %td
     = link_to product.name, spina.shop_admin_product_path(product)
+  %td= product.supplier
   %td.text-right
     - if product.stock_level < 4
       .text-danger= product.stock_level
