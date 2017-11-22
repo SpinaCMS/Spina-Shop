@@ -36,6 +36,9 @@
       - else
         = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
 
+    - if @order.in_state?(:shipped)
+      = link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
   %nav#secondary.tabs

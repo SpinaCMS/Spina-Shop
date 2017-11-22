@@ -11,6 +11,7 @@ Spina::Engine.routes.draw do
             post :pay
             post :receive
             post :order_picked_up
+            post :delivered
           end
           collection do
             get :to_process
