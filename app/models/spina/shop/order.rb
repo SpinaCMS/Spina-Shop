@@ -123,7 +123,8 @@ module Spina::Shop
     end
 
     def billing_name
-      "#{first_name} #{last_name}".strip + (company.present? ? "(#{company})" : "")
+      full_name = "#{first_name} #{last_name}".strip
+      company.present? ? "#{company} (#{full_name})" : full_name
     end
 
     def total_items
