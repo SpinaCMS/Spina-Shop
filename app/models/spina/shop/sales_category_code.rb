@@ -8,7 +8,7 @@ module Spina
       scope :default_code, -> { where(sales_categorizable: nil) }
 
       validates :code, presence: true
-      validates :sales_categorizable_type, uniqueness: {scope: [:sales_category_id, :sales_categorizable_id]}
+      validates :sales_categorizable_type, uniqueness: {scope: [:sales_category_id, :sales_categorizable_id, :business]}
 
       # Label of the sales category code is based on the sales categorizable's name
       # Defaults to 'Default sales category code'
