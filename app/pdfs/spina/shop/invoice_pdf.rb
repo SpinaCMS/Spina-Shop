@@ -67,6 +67,10 @@ module Spina::Shop
       text "#{Invoice.human_attribute_name(:customer_number)}: #{@presenter.customer_number}"
       text "#{Order.human_attribute_name(:order_number)}: #{@presenter.order_number}"
 
+      if @presenter.reference.present?
+        text "#{Invoice.human_attribute_name(:reference)}: #{@presenter.reference}"        
+      end
+
       if @presenter.vat_id.present?
         text "#{Customer.human_attribute_name(:vat_id)}: #{@presenter.vat_id}"
       end

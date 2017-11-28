@@ -15,21 +15,28 @@
             = Spina::Shop::Order.human_attribute_name(:note)
 
           .sidebar-form-control
-            ~ f.text_area :note, placeholder: Spina::Shop::Order.human_attribute_name(:note)
+            = f.text_area :note, placeholder: Spina::Shop::Order.human_attribute_name(:note)
 
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name(:delivery_option)
 
           .sidebar-form-control
-            ~ f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]}), {}, class: 'select2', style: 'width: 100%'
+            = f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]}), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name(:payment_method)
 
           .sidebar-form-control
-            ~ f.text_field :payment_method
+            = f.text_field :payment_method
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name(:reference)
+
+          .sidebar-form-control
+            = f.text_field :reference, placeholder: Spina::Shop::Order.human_attribute_name(:reference)
 
       .well
         .sidebar-form-group

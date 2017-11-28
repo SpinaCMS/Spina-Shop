@@ -28,6 +28,7 @@ module Spina::Shop
         number: number,
         invoice_number: "#{number}",
         date: Date.today,
+        reference: @order.reference,
         identity_name: @account.name,
         identity_details: "#{@account.address}
         #{@account.postal_code}, #{@account.city}

@@ -193,6 +193,11 @@
                 =l @order.paid_at, format: "%H:%M"
                 %small.text-muted=l @order.paid_at, format: '%Z'
 
+        - if @order.reference.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:reference)
+            %td= @order.reference
+
         - if @order.cancelled_at.present?
           %tr
             %th=t 'spina.shop.orders.states.cancelled'
