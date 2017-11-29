@@ -7,6 +7,12 @@
 
   .sidebar-form-group
     .sidebar-form-label
+      = Spina::Shop::Address.human_attribute_name :name
+    .sidebar-form-control
+      = f.text_field :name
+
+  .sidebar-form-group
+    .sidebar-form-label
       = Spina::Shop::Address.human_attribute_name :street1
     .sidebar-form-control
       = f.text_field :street1, placeholder: Spina::Shop::Address.human_attribute_name(:street1), style: 'padding-bottom: 0px; height: 40px'
