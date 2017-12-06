@@ -7,6 +7,7 @@ module Spina::Shop
 
     def store!
       @order.customer.addresses.create(
+        address_type: 'billing',
         first_name: @order.first_name,
         last_name: @order.last_name,
         postal_code: @order.billing_postal_code,
