@@ -239,8 +239,10 @@
         - if @order.delivery_tracking_ids.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:delivery_tracking_ids)
-            %td= @order.delivery_tracking_ids.join("<br />").html_safe
-
+            %td
+              - @order.delivery_trackers.each do |tracker|
+                = link_to tracker[:code], tracker[:url], target: :blank
+                %br/
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:weight)
           %td
