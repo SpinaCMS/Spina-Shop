@@ -57,7 +57,7 @@ module Spina::Shop
         end
 
         def discount_params
-          params.require(:discount).permit(:code, :starts_at, :expires_at, :description, discount_action_attributes: [:type, :percent_off, :id], discount_rule_attributes: [:type, :collection_id, :id])
+          params.require(:discount).permit(:code, :starts_at, :expires_at, :description, :usage_limit, discount_action_attributes: [:type, :percent_off, :id], discount_rule_attributes: [:type, :collection_id, :id])
         end
 
     end
