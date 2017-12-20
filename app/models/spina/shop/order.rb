@@ -76,7 +76,7 @@ module Spina::Shop
     end
 
     def assign_address(address, address_type:)
-      [:street1, :postal_code, :city, :house_number, :house_number_addition, :country].each do |f|
+      [:name, :street1, :postal_code, :city, :house_number, :house_number_addition, :country].each do |f|
         send("#{address_type}_#{f}=", address.send(f))
       end
     end
