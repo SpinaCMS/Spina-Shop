@@ -33,12 +33,8 @@ module Spina::Shop
     validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
 
-    # Globalize translates
-    # Virtual attributes need to be defined because of Rails 5.1 Attributes API
-    [:name, :description, :seo_title, :seo_description, :materialized_path].each do |attr|
-      attribute attr
-      translates attr, fallbacks_for_empty_translations: true
-    end
+    # Mobility translates
+    translates :name, :description, :seo_title, :seo_description, :materialized_path
 
     # Active product
     scope :active, -> { where(active: true, archived: false) }

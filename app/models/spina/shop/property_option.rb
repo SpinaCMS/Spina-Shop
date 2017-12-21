@@ -6,8 +6,7 @@ module Spina::Shop
 
     validates :name, presence: true
 
-    attribute :label
-    translates :label, fallbacks_for_empty_translations: true
+    translates :label
 
     def label
       read_attribute(:label) || name
