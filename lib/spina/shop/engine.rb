@@ -1,5 +1,4 @@
 require 'spina'
-require 'mobility'
 require 'pg'
 require 'refile'
 require 'ransack'
