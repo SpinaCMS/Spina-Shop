@@ -26,6 +26,11 @@ module Spina::Shop
       header()
       order_title()
       order_details()
+
+      number_pages "<page> / <total>", 
+       {:at => [bounds.right - 50, 0],
+        :align => :right,
+        :size => 14}
     end
 
     def mr_hop
@@ -51,6 +56,7 @@ module Spina::Shop
 
     def order_title
       text "Bestelling ##{@order.number}", style: :semibold, size: 18
+      text "#{@order.order_items.sum(:quantity)} producten", size: 14
     end
 
     def order_details
