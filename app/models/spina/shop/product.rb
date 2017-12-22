@@ -34,7 +34,9 @@ module Spina::Shop
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
-    translates :name, :description, :seo_title, :seo_description, :materialized_path
+    translates :name, :description, :materialized_path
+    translates :seo_title, default: -> { name }
+    translates :seo_description, default: -> { description }
 
     # Active product
     scope :active, -> { where(active: true, archived: false) }
@@ -54,14 +56,6 @@ module Spina::Shop
 
     def to_s
       name
-    end
-
-    def seo_title
-      read_attribute(:seo_title).presence || name
-    end
-
-    def seo_description
-      read_attribute(:seo_description).presence || description
     end
 
     def promotion?
@@ -207,7 +201,7 @@ module Spina::Shop
       def set_materialized_path
         self.old_path = materialized_path
         self.materialized_path = localized_materialized_path
-        self.materialized_path += "-#{self.class.where(materialized_path: materialized_path).count}" if self.class.where(materialized_path: materialized_path).where.not(id: id).count > 0
+        self.materialized_path += "-#{self.class.i18n.where(materialized_path: materialized_path).count}" if self.class.i18n.where(materialized_path: materialized_path).where.not(id: id).count > 0
         materialized_path
       end
 
