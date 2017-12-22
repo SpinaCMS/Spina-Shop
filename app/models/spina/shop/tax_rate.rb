@@ -8,7 +8,7 @@ module Spina
       scope :default_rate, -> { where(tax_rateable: nil) }
 
       validates :rate, numericality: true, presence: true
-      validates :tax_rateable_type, uniqueness: {scope: [:tax_group_id, :tax_rateable_id]}
+      validates :tax_rateable_type, uniqueness: {scope: [:tax_group_id, :tax_rateable_id, :business]}
 
       # Label of the tax rate is based on the tax rateable's name
       # Defaults to 'Default tax rate'

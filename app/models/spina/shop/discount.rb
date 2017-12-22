@@ -2,8 +2,6 @@ module Spina::Shop
   class Discount < ApplicationRecord
     include Preferable
 
-    scope :active, -> { where('starts_at <= :today AND (expires_at IS NULL OR expires_at >= :today)', today: Date.today) }
-
     has_one :discount_rule, inverse_of: :discount
     has_one :discount_action, inverse_of: :discount
 
@@ -16,7 +14,12 @@ module Spina::Shop
     accepts_nested_attributes_for :discount_rule, :discount_action
 
     def active?
-      starts_at <= Date.today && (expires_at.blank? || expires_at >= Date.today)
+      starts_at <= Date.today && (expires_at.blank? || expires_at >= Date.today) && !usage_limit_reached?
+    end
+
+    def usage_limit_reached?
+      return false if usage_limit == 0
+      orders.confirmed.count >= usage_limit
     end
 
     def inactive?

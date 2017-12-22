@@ -39,6 +39,7 @@ nl:
       discounts:
         save: Kortingscode opslaan
         new: Nieuwe kortingscode
+        usage_limit_0: Stel 0 in voor onbeperkt
 
       gift_cards:
         save: Cadeaubon opslaan
@@ -248,6 +249,7 @@ nl:
         order_attachments: Bijlagen
         date_of_birth: Geboortedatum
         discount: Korting
+        reference: Referentie
 
       spina/shop/product:
         name: Naam
@@ -338,6 +340,7 @@ nl:
         sub_total: Subtotaal
         total: Totaal
         date: Factuurdatum
+        reference: Referentie
 
       spina/shop/invoice_line:
         description: Omschrijving
@@ -368,6 +371,7 @@ nl:
         starts_at: Begindatum
         expires_at: Einddatum
         optional: Optioneel
+        usage_limit: Aantal keer te gebruiken
 
       spina/shop/gift_card:
         code: Code

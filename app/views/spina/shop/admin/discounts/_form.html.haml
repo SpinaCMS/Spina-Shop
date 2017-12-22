@@ -58,3 +58,12 @@
         .form-control
           .input-group
             = f.date_field :expires_at
+
+      .form-group
+        .form-label
+          = Spina::Shop::Discount.human_attribute_name :usage_limit
+          %small.text-muted=t 'spina.shop.discounts.usage_limit_0'
+        
+        .form-control
+          .input-group
+            = f.number_field :usage_limit

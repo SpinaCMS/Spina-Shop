@@ -43,6 +43,12 @@ module Spina::Shop
         redirect_to spina.shop_admin_order_path(@order)
       end
 
+      def delivered
+        @order = Order.find(params[:id])
+        @order.transition_to!(:delivered, user: current_spina_user.name, ip_address: request.remote_ip)
+        redirect_to spina.shop_admin_order_path(@order)
+      end
+
       def index
         @q = Order.ransack(params[:q])
         @orders = @q.result.confirmed.sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)

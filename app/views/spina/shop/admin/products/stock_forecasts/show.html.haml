@@ -26,11 +26,17 @@
       %tr
         %th
         %th Naam
-        %th.text-right Voorraad
+        %th Leverancier
+        %th.text-right 
+          = link_to spina.shop_admin_stock_forecast_path(order: 'stock_level', direction: params[:direction] == 'asc' ? 'desc' : 'asc') do
+            Voorraad
         %th.text-right{style: 'white-space: nowrap'} Verkoop<br /><small>afgelopen 30 dagen</small>
-        %th
-        %th.text-right{style: 'white-space: nowrap'} Schatting verkoop<br /><small>komende 30 dagen</small>
-        %th.text-right Schatting inkoop<br /><small>minimale voorraad bereikt</small>
+        %th.text-right{style: 'white-space: nowrap'} 
+          = link_to spina.shop_admin_stock_forecast_path(order: 'coming_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc') do
+            Schatting verkoop<br /><small>komende 30 dagen</small>
+        %th.text-right 
+          = link_to spina.shop_admin_stock_forecast_path(order: 'restock_date', direction: params[:direction] == 'asc' ? 'desc' : 'asc') do
+            Schatting inkoop<br /><small>minimale voorraad bereikt</small>
         / %th.text-right
         / %th.text-right
         %th

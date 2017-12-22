@@ -36,6 +36,9 @@
       - else
         = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
 
+    - if @order.in_state?(:shipped)
+      = link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
   %nav#secondary.tabs
@@ -190,6 +193,11 @@
                 =l @order.paid_at, format: "%H:%M"
                 %small.text-muted=l @order.paid_at, format: '%Z'
 
+        - if @order.reference.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:reference)
+            %td= @order.reference
+
         - if @order.cancelled_at.present?
           %tr
             %th=t 'spina.shop.orders.states.cancelled'
@@ -231,8 +239,10 @@
         - if @order.delivery_tracking_ids.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:delivery_tracking_ids)
-            %td= @order.delivery_tracking_ids.join("<br />").html_safe
-
+            %td
+              - @order.delivery_trackers.each do |tracker|
+                = link_to tracker[:code], tracker[:url], target: :blank
+                %br/
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:weight)
           %td

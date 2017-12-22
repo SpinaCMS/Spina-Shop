@@ -43,8 +43,8 @@ module Spina::Shop
     validates :order_number, presence: true, uniqueness: true, unless: -> { in_state?(:building) }
 
     # Validate details
-    validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_house_number, :billing_country_id, presence: true, if: -> { validate_details }
-    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, :delivery_house_number, presence: true, if: -> { validate_details && separate_delivery_address? }
+    validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_country_id, presence: true, if: -> { validate_details }
+    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :email, email: true, if: -> { validate_details }
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
 
@@ -123,7 +123,8 @@ module Spina::Shop
     end
 
     def billing_name
-      "#{first_name} #{last_name}".strip + (company.present? ? "(#{company})" : "")
+      full_name = "#{first_name} #{last_name}".strip
+      company.present? ? "#{company} (#{full_name})" : full_name
     end
 
     def total_items

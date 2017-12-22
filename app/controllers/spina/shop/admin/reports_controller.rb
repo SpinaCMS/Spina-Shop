@@ -16,6 +16,9 @@ module Spina::Shop
         when "payments"
           order_ids = Order.paid.where(paid_at: start_date..end_date).ids
           PaymentsReportJob.perform_later(order_ids, params[:email])
+        when "customers"
+          customer_ids = Customer.all.ids
+          CustomersReportJob.perform_later(customer_ids, params[:email])
         end
 
         flash[:success] = t('spina.shop.reports.start_exporting_html')
