@@ -111,13 +111,13 @@
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :seo_title
             .sidebar-form-control
-              = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title)
+              = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
 
           .sidebar-form-group
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :seo_description
             .sidebar-form-control
-              = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description)
+              = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
 
           .sidebar-form-group
             .sidebar-form-label
