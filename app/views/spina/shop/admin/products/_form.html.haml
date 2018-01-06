@@ -222,6 +222,12 @@
 
         .form-group
           .form-label
+            = Spina::Shop::Product.human_attribute_name :limit_per_order
+          .form-control
+            = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
+
+        .form-group
+          .form-label
             = Spina::Shop::Product.human_attribute_name :location
           
           .form-control

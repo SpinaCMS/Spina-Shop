@@ -276,6 +276,7 @@ nl:
         expiration_date: Verloopdatum
         price_exceptions: Prijs per klantgroep
         product_collections: Collecties
+        limit_per_order: Limiet per bestelling
 
       spina/shop/product_bundle:
         price: Prijs

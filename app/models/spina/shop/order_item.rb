@@ -11,6 +11,8 @@ module Spina::Shop
     validate :item_must_be_in_stock, if: -> { validate_stock }
     validates :order_id, uniqueness: {scope: [:orderable_id, :orderable_type]}
 
+    before_validation :set_quantity_to_limit, if: -> { validate_stock }
+
     scope :ordered, -> { order(:created_at) }
 
     def unit_price
@@ -79,6 +81,11 @@ module Spina::Shop
       quantity * multiplier - allocated_stock(product_id)
     end
 
+    def below_limit?
+      limit = orderable.limit_per_order.to_i
+      limit == 0 || quantity <= limit
+    end
+
     private
 
       def product_in_stock?(product_id)
@@ -95,6 +102,10 @@ module Spina::Shop
 
       def item_must_be_in_stock
         errors.add(:stock_level, "not sufficient") unless in_stock?
+      end
+
+      def set_quantity_to_limit
+        self.quantity = orderable.limit_per_order unless below_limit?
       end
 
   end
