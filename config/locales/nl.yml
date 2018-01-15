@@ -1,456 +1,400 @@
+---
 nl:
-  spina:
-    shop:
-      title: Webshop
-      settings: Webshopvoorkeuren
-      tax_groups: Btw-groepen
-      sales_categories: Omzetcategorieën
-      product_categories: Productcategorieën
-      delete_selected: Verwijder geselecteerde regels
-
-      emails:
-        exported_title: Export staat klaar voor download
-
-      customer_accounts:
-        save: Account opslaan
-        edit: Account bewerken
-        registered: Geregistreerd
-        guest: Gast
-        forgot_password:
-          title: 
-
-      customers:
-        title: Alle klanten
-        save: Klant opslaan
-        edit: Klant bewerken
-        profile: Profiel
-        order_total: Totaal besteld
-        order_average: Gemiddelde bestelling
-        no_orders_yet: Deze klant heeft nog niks besteld.
-        new: Nieuwe klant
-
-      customer_groups:
-        title: Klantgroepen
-
-      reports: 
-        title: Rapportages
-        start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
-
-      discounts:
-        save: Kortingscode opslaan
-        new: Nieuwe kortingscode
-        usage_limit_0: Stel 0 in voor onbeperkt
-
-      gift_cards:
-        save: Cadeaubon opslaan
-        new: Nieuwe cadeaubon
-        no_orders_yet: Nog geen bestellingen
-        delete: Verwijder cadeaubon
-        delete_confirmation: Weet je zeker dat je deze <strong>cadeaubon</strong> wilt verwijderen?
-        delete_restriction_error: <strong>Cadeaubon</strong> kan niet verwijderd worden
-        delete_restriction_error_explanation: Is al in gebruik bij een bestelling
-        all: Alle cadeaubonnen
-        unused: Ongebruikt
-        used: Gebruikt
-        partially_used: Gedeeltelijk gebruikt
-        expired: Verlopen
-
-        status:
-          used: Gebruikt
-          unused: Ongebruikt
-          expired: Verlopen
-
-      products:
-        title: Catalogus
-        save: Product opslaan
-        new_by_category_title_html: Kies een <strong>categorie</strong>
-        new: Nieuw product
-        select_blank: Kies een product
-        delete: Verwijder product
-        delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
-        delete_restriction_error: <strong>%{name}</strong> kan niet verwijderd worden
-        delete_restriction_error_explanation: Komt voor in bestelling of productbundel
-        archive: Archiveer product
-        unarchive: Heractiveer product
-        archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
-        stock_history: Historie
-        adjust_stock: Voorraad aanpassen
-        send_in_stock_reminders: Voorraadmeldingen verzenden
-        almost_expired: Product is bijna verlopen
-        expired: Product is verlopen
-        out_of_stock: Voorraad is op
-        choose_customer_group: Kies klantgroep
-        archived_title: Archief
-
-      tax:
-        no_tax: Geen btw
-        rate: "%{rate}% btw"
-        vat_reverse_charge: Btw verlegd
-
-      tax_groups:
-        default_tax_rate: Standaard btw-tarief
-
-      sales_categories:
-        default_sales_category_code: Standaard omzetcategorie
-
-      addresses:
-        add_address: Adres toevoegen
-
-      product_bundles:
-        new: Nieuwe productbundel
-        add_bundled_product: Product toevoegen
-
-      properties:
-        new: Nieuwe eigenschap
-
-        field_types:
-          percentage: Percentage
-          number: Getal
-          decimal: Kommagetal
-          select: Opties
-          textfield: Tekst
-
-        options:
-          add: Toevoegen
-
-      product_reviews:
-        no_reviews: Er zijn nog geen beoordelingen gegeven
-
-      orders:
-        title: Alle bestellingen
-        to_process: Te verwerken
-        failed: Mislukt
-        actions: Acties
-        start_preparing_html: Begin <strong>voorbereiden</strong>
-        start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
-        ship_order_html: <strong>Zending</strong> aanmaken
-        ship_order_success_html: Bestellingen <strong>verzonden</strong>
-        start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
-        start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
-        ship_order_confirmation_html: Weet je zeker dat je de bestelling wilt <strong>verzenden</strong>? De klant krijgt hier <strong>automatisch</strong> een email van.
-        no_orders: Geen bestellingen
-        download_packing_slip: Download pakbon
-        download_invoice: Download factuur %{number}
-        save_order: Bestelling opslaan
-        receive_order_html: Definitief maken
-        receive_order_confirmation_html: Weet je zeker dat je deze bestelling <strong>definitief</strong> wilt maken? <strong>Deze actie is niet terug te draaien.</strong>
-        pay_order_html: Markeren als betaald
-        pay_order_confirmation_html: Weet je zeker dat je deze bestelling wilt markeren als <strong>betaald</strong>? <strong>Deze actie is niet terug te draaien.</strong>
-        cancel_order_html: Annuleren
-        cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
-        history: Historie
-        new: Nieuwe bestelling
-        add_product: Voeg product toe
-
-        states:
-          received: Bestelling
-          paid: Betaald
-          order_preparing: Voorbereiden
-          shipped: Zending aangemaakt
-          delivered: Afgeleverd
-          failed: Mislukt
-          refunded: Teruggegeven
-          cancelled: Geannuleerd
-          confirming: Afronden
-          building: Winkelmand
-          picked_up: Opgehaald
-
   activerecord:
+    attributes:
+      spina/shop/address:
+        address_type: Soort adres
+        billing_address: Factuuradres
+        city: Plaats
+        company: Bedrijf
+        country: Land
+        delivery_address: Leveradres
+        first_name: Voornaam
+        house_number: Huisnummer
+        house_number_addition: Toevoeging
+        last_name: Achternaam
+        name: Naam
+        postal_code: Postcode
+        street1: Straat
+        street2: Straat 2
+      spina/shop/customer:
+        company: Bedrijf
+        country: Land
+        created_at: Aangemaakt op
+        date_of_birth: Geboortedatum
+        email: Email
+        first_name: Voornaam
+        full_name: Volledige naam
+        ip_addresses: IP-adressen
+        last_name: Achternaam
+        name: Naam
+        number: Klantnummer
+        phone: Telefoon
+        vat_id: Btw-nummer
+      spina/shop/customer_account:
+        email: Email
+        password: Wachtwoord
+        password_confirmation: Wachtwoord bevestigen
+      spina/shop/discount:
+        code: Kortingscode
+        description: Omschrijving
+        discount_rule: Geldig voor
+        expires_at: Einddatum
+        optional: Optioneel
+        starts_at: Begindatum
+        usage_limit: Aantal keer te gebruiken
+      spina/shop/discounts/actions/percent_off:
+        percent_off: Korting
+      spina/shop/gift_card:
+        code: Code
+        created_at: Aangemaakt op
+        expires_at: Verloopt op
+        remaining_balance: Saldo
+        value: Waarde
+      spina/shop/in_stock_reminder:
+        email: Email
+      spina/shop/invoice:
+        customer_number: Klantnummer
+        date: Factuurdatum
+        reference: Referentie
+        sub_total: Subtotaal
+        total: Totaal
+      spina/shop/invoice_line:
+        description: Omschrijving
+        price: Prijs
+        tax: Btw
+        total: Totaal
+      spina/shop/order:
+        billing_address: Factuuradres
+        billing_city: Plaats
+        billing_country: Land
+        billing_house_number: Huisnummer
+        billing_house_number_addition: Toevoeging
+        billing_name: Naam
+        billing_postal_code: Postcode
+        billing_street1: Straat
+        billing_street2: Straat 2
+        company: Bedrijf
+        date_of_birth: Geboortedatum
+        delivered_at: Geleverd op
+        delivery_address: Verzendadres
+        delivery_city: Plaats
+        delivery_country: Land
+        delivery_house_number: Huisnummer
+        delivery_house_number_addition: Toevoeging
+        delivery_name: Naam
+        delivery_option: Verzendmethode
+        delivery_postal_code: Postcode
+        delivery_price: Verzendkosten
+        delivery_street1: Straat
+        delivery_street2: Straat 2
+        delivery_tracking_ids: Track & trace
+        discount: Korting
+        email: Email
+        first_name: Voornaam
+        ip_address: IP-adres
+        last_name: Achternaam
+        note: Notitie
+        order_attachments: Bijlagen
+        order_number: Ordernummer
+        payment_method: Betaalmethode
+        phone: Telefoon
+        received_at: Besteldatum
+        reference: Referentie
+        separate_delivery_address: Ander afleveradres
+        shipped_at: Verzonden op
+        sub_total: Subtotaal
+        total: Totaal
+        total_excluding_tax: Totaal excl. btw
+      spina/shop/order_item:
+        price: Prijs
+        total: Totaal
+      spina/shop/product:
+        active: Beschikbaar in webshop
+        base_price: Prijs
+        can_expire: Heeft een verloopdatum
+        cost_price: Kostprijs
+        description: Beschrijving
+        ean: EAN
+        expiration_date: Verloopdatum
+        location: Locatie
+        materialized_path: URL
+        must_be_of_age_to_buy: Alleen voor 18+
+        name: Naam
+        price_exceptions: Prijs per klantgroep
+        product_collections: Collecties
+        promotional_price: Actieprijs
+        related_products: Gerelateerde producten
+        sales_category: Omzetcategorie
+        seo_description: SEO omschrijving
+        seo_title: SEO titel
+        sku: SKU
+        stock_enabled: Voorraadbeheer
+        stock_level: Voorraad
+        supplier: Leverancier
+        supplier_reference: Leverancier referentie
+        weight: Gewicht
+      spina/shop/product_bundle:
+        name: Naam
+        price: Prijs
+        sales_category: Omzetcategorie
+      spina/shop/product_item:
+        active: Actief
+        can_expire: Heeft een verloopdatum
+        cost_price: Kostprijs
+        created_at: Toegevoegd
+        ean: EAN-code
+        expiration_date: Verloopdatum
+        location: Locatie
+        must_be_of_age_to_buy: Alleen voor 18+
+        name: Naam
+        price: Prijs
+        sales_category: Omzetcategorie
+        sku: SKU
+        stock_level: Voorraad
+        supplier_reference: Referentie leverancier
+        weight: Gewicht
+      spina/shop/product_review:
+        review: Beoordeling
+        review_summary: Eén krachtige zijn
+        score: Cijfer
+      spina/shop/sales_category:
+        business: Zakelijk
+        code: Code
+      spina/shop/shop_review:
+        review_cons: Verbeterpunten of tips
+        review_pros: Positieve punten
+        score: Cijfer
+        score_communication: Cijfer communicatie
+        score_speed: Cijfer snelheid / levertijd
+      spina/shop/tax_rate:
+        business: Zakelijk
+        code: Code
+        rate: Percentage
     errors:
       models:
         spina/shop/order:
           attributes:
             date_of_birth:
               not_of_age: moet minimaal 18 jaar geleden zijn
-
     models:
-      spina/shop/order:
-        one: Bestelling
-        other: Bestellingen
-      spina/shop/product: 
-        one: Product
-        other: Producten
-      spina/shop/product_item: 
-        one: Product item
-        other: Product items
-      spina/shop/sales_category: 
-        one: Omzetcategorie
-        other: Omzetcategorieën
-      spina/shop/tax_group: 
-        one: Btw-groep
-        other: Btw-groepen
-      spina/shop/customer_account: 
-        one: Account
-        other: Accounts
-      spina/shop/discount: 
-        one: Kortingscode
-        other: Kortingscodes
-      spina/shop/gift_card: 
-        one: Cadeaubon
-        other: Cadeaubonnen
-      spina/shop/invoice: 
-        one: Factuur
-        other: Facturen
-      spina/shop/product_category:
-        one: Productcategorie
-        other: Productcategorieën
-      spina/shop/product_bundle:
-        one: Productbundle
-        other: Productbundels
-      spina/shop/product_review:
-        one: Beoordeling
-        other: Beoordelingen
+      spina/shop/campaign:
+        one: Campaign
+        other: Campaigns
       spina/shop/customer:
         one: Klant
         other: Klanten
+      spina/shop/customer_account:
+        one: Account
+        other: Accounts
+      spina/shop/discount:
+        one: Kortingscode
+        other: Kortingscodes
       spina/shop/discounts/rules/all_orders: Alle bestellingen
       spina/shop/discounts/rules/collection: Producten uit collectie
       spina/shop/discounts/rules/order_total: Bestellingen boven een bedrag
-
-    attributes:
-      spina/shop/order:
-        billing_address: Factuuradres
-        billing_street1: Straat
-        billing_street2: Straat 2
-        billing_house_number: Huisnummer
-        billing_house_number_addition: Toevoeging
-        billing_postal_code: Postcode
-        billing_city: Plaats
-        billing_name: Naam
-        billing_country: Land
-        company: Bedrijf
-        first_name: Voornaam
-        last_name: Achternaam
-        email: Email
-        phone: Telefoon
-        separate_delivery_address: Ander afleveradres
-        order_number: Ordernummer
-        received_at: Besteldatum
-        shipped_at: Verzonden op
-        delivered_at: Geleverd op
-        total: Totaal
-        total_excluding_tax: Totaal excl. btw
-        ip_address: IP-adres
-        delivery_option: Verzendmethode
-        payment_method: Betaalmethode
-        delivery_address: Verzendadres
-        sub_total: Subtotaal
-        delivery_price: Verzendkosten
-        delivery_name: Naam
-        delivery_street1: Straat
-        delivery_street2: Straat 2
-        delivery_house_number: Huisnummer
-        delivery_house_number_addition: Toevoeging
-        delivery_postal_code: Postcode
-        delivery_city: Plaats
-        delivery_tracking_ids: Track & trace
-        delivery_country: Land
-        note: Notitie
-        order_attachments: Bijlagen
-        date_of_birth: Geboortedatum
-        discount: Korting
-        reference: Referentie
-
-      spina/shop/product:
-        name: Naam
-        sku: SKU
-        description: Beschrijving
-        seo_title: SEO titel
-        seo_description: SEO omschrijving
-        materialized_path: URL
-        supplier: Leverancier
-        stock_enabled: Voorraadbeheer
-        location: Locatie
-        weight: Gewicht
-        ean: EAN
-        supplier_reference: Leverancier referentie
-        sales_category: Omzetcategorie
-        cost_price: Kostprijs
-        base_price: Prijs
-        promotional_price: Actieprijs
-        active: Beschikbaar in webshop
-        related_products: Gerelateerde producten
-        must_be_of_age_to_buy: Alleen voor 18+
-        can_expire: Heeft een verloopdatum
-        stock_level: Voorraad
-        expiration_date: Verloopdatum
-        price_exceptions: Prijs per klantgroep
-        product_collections: Collecties
-
-      spina/shop/product_bundle:
-        price: Prijs
-        sales_category: Omzetcategorie
-        name: Naam
-
-      spina/shop/product_item:
-        price: Prijs
-        cost_price: Kostprijs
-        sales_category: Omzetcategorie
-        stock_level: Voorraad
-        location: Locatie
-        weight: Gewicht
-        ean: EAN-code
-        must_be_of_age_to_buy: Alleen voor 18+
-        sku: SKU
-        name: Naam
-        can_expire: Heeft een verloopdatum
-        expiration_date: Verloopdatum
-        active: Actief
-        created_at: Toegevoegd
-        supplier_reference: Referentie leverancier
-
-      spina/shop/shop_review:
-        review_pros: Positieve punten
-        review_cons: Verbeterpunten of tips
-        score: Cijfer
-        score_communication: Cijfer communicatie
-        score_speed: Cijfer snelheid / levertijd
-
-      spina/shop/product_review:
-        review: Beoordeling
-        review_summary: Eén krachtige zijn
-        score: Cijfer
-
-      spina/shop/order_item:
-        price: Prijs
-        total: Totaal
-
-      spina/shop/customer_account:
-        email: Email
-        password: Wachtwoord
-        password_confirmation: Wachtwoord bevestigen
-
-      spina/shop/customer:
-        first_name: Voornaam
-        last_name: Achternaam
-        name: Naam
-        number: Klantnummer
-        email: Email
-        phone: Telefoon
-        full_name: Volledige naam
-        ip_addresses: IP-adressen
-        created_at: Aangemaakt op
-        country: Land
-        vat_id: Btw-nummer
-        company: Bedrijf
-        date_of_birth: Geboortedatum
-
-      spina/shop/invoice:
-        customer_number: Klantnummer
-        sub_total: Subtotaal
-        total: Totaal
-        date: Factuurdatum
-        reference: Referentie
-
-      spina/shop/invoice_line:
-        description: Omschrijving
-        price: Prijs
-        total: Totaal
-        tax: Btw
-
-      spina/shop/address:
-        street1: Straat
-        street2: Straat 2
-        postal_code: Postcode
-        city: Plaats
-        country: Land
-        house_number: Huisnummer
-        house_number_addition: Toevoeging
-        address_type: Soort adres
-        billing_address: Factuuradres
-        delivery_address: Leveradres
-        company: Bedrijf
-        first_name: Voornaam
-        last_name: Achternaam
-        name: Naam
-
-      spina/shop/discount:
-        code: Kortingscode
-        description: Omschrijving
-        discount_rule: Geldig voor
-        starts_at: Begindatum
-        expires_at: Einddatum
-        optional: Optioneel
-        usage_limit: Aantal keer te gebruiken
-
       spina/shop/gift_card:
-        code: Code
-        value: Waarde
-        remaining_balance: Saldo
-        expires_at: Verloopt op
-        created_at: Aangemaakt op
-
-      spina/shop/discounts/actions/percent_off:
-        percent_off: Korting
-
-      spina/shop/in_stock_reminder:
-        email: Email
-
-      spina/shop/tax_rate:
-        rate: Percentage
-        code: Code
-        business: Zakelijk
-
+        one: Cadeaubon
+        other: Cadeaubonnen
+      spina/shop/invoice:
+        one: Factuur
+        other: Facturen
+      spina/shop/order:
+        one: Bestelling
+        other: Bestellingen
+      spina/shop/product:
+        one: Product
+        other: Producten
+      spina/shop/product_bundle:
+        one: Productbundle
+        other: Productbundels
+      spina/shop/product_category:
+        one: Productcategorie
+        other: Productcategorieën
+      spina/shop/product_item:
+        one: Product item
+        other: Product items
+      spina/shop/product_review:
+        one: Beoordeling
+        other: Beoordelingen
       spina/shop/sales_category:
-        code: Code
-        business: Zakelijk
-
-  number:
-    currency:
-      format:
-        delimiter: .
-        format: ! '%u%n'
-        precision: 2
-        separator: ! ','
-        significant: false
-        strip_insignificant_zeros: false
-        unit: €
-    format:
-      delimiter: .
-      precision: 2
-      separator: ! ','
-      significant: false
-      strip_insignificant_zeros: false
-    human:
-      decimal_units:
-        format: ! '%n %u'
-        units:
-          billion: miljard
-          million: miljoen
-          quadrillion: biljard
-          thousand: duizend
-          trillion: biljoen
-          unit: ''
-      format:
-        delimiter: ''
-        precision: 3
-        significant: true
-        strip_insignificant_zeros: true
-      storage_units:
-        format: ! '%n %u'
-        units:
-          byte:
-            one: Byte
-            other: Bytes
-          gb: GB
-          kb: KB
-          mb: MB
-          tb: TB
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
-  support:
-    array:
-      last_word_connector: ! ' en '
-      two_words_connector: ! ' en '
-      words_connector: ! ', '
-  time:
-    am: ! '''s ochtends'
-    formats:
-      default: ! '%a %d %b %Y %H:%M:%S %Z'
-      long: ! '%d %B %Y %H:%M'
-      short: ! '%d %b %H:%M'
-    pm: ! '''s middags'
+        one: Omzetcategorie
+        other: Omzetcategorieën
+      spina/shop/tax_group:
+        one: Btw-groep
+        other: Btw-groepen
+  spina:
+    cancel: Cancel
+    commerce:
+      product_categories:
+        no_categories: No categories
+    delete: Delete
+    edit: Edit
+    main_menu: Main menu
+    pages:
+      photo_picker: Photo picker
+    save: Save
+    search: Search
+    shop:
+      addresses:
+        add_address: Adres toevoegen
+      customer_accounts:
+        edit: Account bewerken
+        forgot_password:
+          title: Title
+        guest: Gast
+        registered: Geregistreerd
+        save: Account opslaan
+      customer_groups:
+        title: Klantgroepen
+      customers:
+        edit: Klant bewerken
+        new: Nieuwe klant
+        no_customer_group: No customer group
+        no_orders_yet: Deze klant heeft nog niks besteld.
+        order_average: Gemiddelde bestelling
+        order_total: Totaal besteld
+        profile: Profiel
+        save: Klant opslaan
+        title: Alle klanten
+      delete_selected: Verwijder geselecteerde regels
+      discounts:
+        new: Nieuwe kortingscode
+        save: Kortingscode opslaan
+        usage_limit_0: Stel 0 in voor onbeperkt
+      emails:
+        exported_title: Export staat klaar voor download
+        forgot_password_title: Forgot password title
+        in_stock_reminder_title: In stock reminder title
+        order_confirmation_title: Your order was confirmed
+        order_shipped_title: Your order was shipped
+        welcome_email_title: Welcome email title
+      gift_cards:
+        all: Alle cadeaubonnen
+        delete: Verwijder cadeaubon
+        delete_confirmation: Weet je zeker dat je deze <strong>cadeaubon</strong>
+          wilt verwijderen?
+        delete_restriction_error: "<strong>Cadeaubon</strong> kan niet verwijderd
+          worden"
+        delete_restriction_error_explanation: Is al in gebruik bij een bestelling
+        expired: Verlopen
+        new: Nieuwe cadeaubon
+        no_orders_yet: Nog geen bestellingen
+        partially_used: Gedeeltelijk gebruikt
+        save: Cadeaubon opslaan
+        status:
+          expired: Verlopen
+          unused: Ongebruikt
+          used: Gebruikt
+        unused: Ongebruikt
+        used: Gebruikt
+      orders:
+        actions: Acties
+        add_product: Voeg product toe
+        cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt
+          <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
+        cancel_order_html: Annuleren
+        download_invoice: Download factuur %{number}
+        download_packing_slip: Download pakbon
+        failed: Mislukt
+        history: Historie
+        new: Nieuwe bestelling
+        no_orders: Geen bestellingen
+        order_picked_up: Order picked up
+        pay_order_confirmation_html: Weet je zeker dat je deze bestelling wilt markeren
+          als <strong>betaald</strong>? <strong>Deze actie is niet terug te draaien.</strong>
+        pay_order_html: Markeren als betaald
+        receive_order_confirmation_html: Weet je zeker dat je deze bestelling <strong>definitief</strong>
+          wilt maken? <strong>Deze actie is niet terug te draaien.</strong>
+        receive_order_html: Definitief maken
+        save: Save order
+        save_order: Bestelling opslaan
+        ship_order_confirmation_html: Weet je zeker dat je de bestelling wilt <strong>verzenden</strong>?
+          De klant krijgt hier <strong>automatisch</strong> een email van.
+        ship_order_html: "<strong>Zending</strong> aanmaken"
+        ship_order_success_html: Bestellingen <strong>verzonden</strong>
+        start_order_picking_html: Start order picking
+        start_order_picking_success_html: Started picking orders
+        start_picking_and_ship_html: Start order picking and ship order
+        start_picking_and_ship_success_html: Start picking orders and shipping orders
+        start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling
+          <strong>verzenden</strong>
+        start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong>
+          en bestelling <strong>verzonden</strong>
+        start_preparing_html: Begin <strong>voorbereiden</strong>
+        start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
+        states:
+          building: Winkelmand
+          cancelled: Geannuleerd
+          confirming: Afronden
+          delivered: Afgeleverd
+          failed: Mislukt
+          order_picking: Order picking
+          order_preparing: Voorbereiden
+          paid: Betaald
+          picked_up: Opgehaald
+          received: Bestelling
+          refunded: Teruggegeven
+          shipped: Zending aangemaakt
+        title: Alle bestellingen
+        to_process: Te verwerken
+      product_bundles:
+        add_bundled_product: Product toevoegen
+        new: Nieuwe productbundel
+      product_categories: Productcategorieën
+      product_items:
+        adjust_stock: Adjust stock
+        almost_expired: Almost expired
+        nameless: Nameless
+        new: New variant
+        out_of_stock: Out of stock
+        save: Save variant
+        stock_history: History
+      product_reviews:
+        no_reviews: Er zijn nog geen beoordelingen gegeven
+      products:
+        adjust_stock: Voorraad aanpassen
+        almost_expired: Product is bijna verlopen
+        archive: Archiveer product
+        archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
+        archived_title: Archief
+        choose_customer_group: Kies klantgroep
+        delete: Verwijder product
+        delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
+        delete_restriction_error: "<strong>%{name}</strong> kan niet verwijderd worden"
+        delete_restriction_error_explanation: Komt voor in bestelling of productbundel
+        expired: Product is verlopen
+        new: Nieuw product
+        new_by_category_title_html: Kies een <strong>categorie</strong>
+        out_of_stock: Voorraad is op
+        save: Product opslaan
+        select_blank: Kies een product
+        send_in_stock_reminders: Voorraadmeldingen verzenden
+        stock_history: Historie
+        title: Catalogus
+        unarchive: Heractiveer product
+      properties:
+        field_types:
+          decimal: Kommagetal
+          number: Getal
+          percentage: Percentage
+          select: Opties
+          textfield: Tekst
+        new: Nieuwe eigenschap
+        options:
+          add: Toevoegen
+      reports:
+        start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
+          ontvangt automatisch een email.
+        title: Rapportages
+      sales_categories:
+        default_sales_category_code: Standaard omzetcategorie
+      settings: Webshopvoorkeuren
+      tax:
+        no_tax: Geen btw
+        rate: "%{rate}% btw"
+        vat_reverse_charge: Btw verlegd
+      tax_groups:
+        default_tax_rate: Standaard btw-tarief
+        new: New tax group
+      title: Webshop
