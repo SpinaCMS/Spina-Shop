@@ -117,6 +117,7 @@ en:
         description: Description
         ean: EAN
         expiration_date: Expiration date
+        limit_per_order: Limit per order
         location: Location
         materialized_path: Materialized path
         must_be_of_age_to_buy: Only for 18+
@@ -223,6 +224,10 @@ en:
       spina/shop/tax_group:
         one: Tax group
         other: Tax groups
+  number:
+    currency:
+      format:
+        unit: Unit
   spina:
     cancel: Cancel
     commerce:
@@ -299,10 +304,11 @@ en:
         new: New order
         no_orders: No orders
         order_picked_up: Order picked up
-        pay_order_confirmation_html: Are you sure you want to mark this order as
-           <strong>paid</strong>? <strong>This action is irreversable.</strong>
+        pay_order_confirmation_html: Are you sure you want to mark this order as <strong>paid</strong>?
+          <strong>This action is irreversable.</strong>
         pay_order_html: Mark as paid
-        receive_order_confirmation_html: Are you sure you want to mark this invoice as <strong>final</strong>?<strong>This action is irreversable.</strong>
+        receive_order_confirmation_html: Are you sure you want to mark this invoice
+          as <strong>final</strong>?<strong>This action is irreversable.</strong>
         receive_order_html: Mark as final
         save: Save order
         save_order: Save order

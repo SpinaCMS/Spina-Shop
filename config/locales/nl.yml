@@ -117,6 +117,7 @@ nl:
         description: Beschrijving
         ean: EAN
         expiration_date: Verloopdatum
+        limit_per_order: Limiet per bestelling
         location: Locatie
         materialized_path: URL
         must_be_of_age_to_buy: Alleen voor 18+
@@ -223,6 +224,10 @@ nl:
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen
+  number:
+    currency:
+      format:
+        unit: Unit
   spina:
     cancel: Cancel
     commerce:

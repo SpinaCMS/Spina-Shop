@@ -57,6 +57,7 @@ module Spina::Shop
     # Validate Stock
     validate :items_must_be_in_stock, if: -> { validate_stock }
     validate :must_have_at_least_one_item, if: -> { validate_stock }
+    before_validation :validate_stock_for_order_items, if: -> { validate_stock }
 
     accepts_nested_attributes_for :order_items
 
@@ -206,10 +207,12 @@ module Spina::Shop
         errors.add(:stock_level, "not sufficient") unless order_items.all?(&:in_stock?)
       end
 
+      def validate_stock_for_order_items
+        order_items.each{ |i| i.validate_stock = true }
+      end
+
       def must_have_at_least_one_item
-        if order_items.none?
-          errors.add(:shopping_cart, "empty")
-        end
+        errors.add(:shopping_cart, "empty") if order_items.none?
       end
 
       def must_be_of_age_to_buy_products
