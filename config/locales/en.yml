@@ -320,12 +320,12 @@ en:
         start_order_picking_success_html: Started picking orders
         start_picking_and_ship_html: Start order picking and ship order
         start_picking_and_ship_success_html: Start picking orders and shipping orders
-        start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling
-          <strong>verzenden</strong>
-        start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong>
-          en bestelling <strong>verzonden</strong>
-        start_preparing_html: Begin <strong>voorbereiden</strong>
-        start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
+        start_preparing_and_ship_html: "<strong>Generate</strong> packing slip and
+          <strong>send</strong> order"
+        start_preparing_and_ship_success_html: Packing slip <strong>generated</strong>
+          and order <strong>shipped</strong>
+        start_preparing_html: Start <strong>preparing</strong>
+        start_preparing_success_html: Packing slip is <strong>generated</strong>
         states:
           building: Shopping cart
           cancelled: Cancelled
@@ -356,26 +356,27 @@ en:
       product_reviews:
         no_reviews: No reviews yet
       products:
-        adjust_stock: Voorraad aanpassen
-        almost_expired: Product is bijna verlopen
-        archive: Archiveer product
-        archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
-        archived_title: Archief
-        choose_customer_group: Kies klantgroep
-        delete: Verwijder product
-        delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
-        delete_restriction_error: "<strong>%{name}</strong> kan niet verwijderd worden"
-        delete_restriction_error_explanation: Komt voor in bestelling of productbundel
-        expired: Product is verlopen
+        adjust_stock: Adjust stock
+        almost_expired: Product has almost expired
+        archive: Archive product
+        archive_confirmation: Are you sure you want to archive <strong> %{name} </
+          strong>?
+        archived_title: Archive
+        choose_customer_group: Choose customer group
+        delete: Remove product
+        delete_confirmation: Are you sure you want to delete <strong> %{name} </ strong>?
+        delete_restriction_error: "<strong> %{name} </ strong> can not be deleted"
+        delete_restriction_error_explanation: Occurs in order or product bundle
+        expired: Product has expired
         new: New product
         new_by_category_title_html: Choose a <strong>category</strong>
-        out_of_stock: Voorraad is op
+        out_of_stock: Stock is up
         save: Save product
         select_blank: Choose a product
-        send_in_stock_reminders: Voorraadmeldingen verzenden
-        stock_history: Historie
+        send_in_stock_reminders: Send inventory notifications
+        stock_history: History
         title: Catalog
-        unarchive: Heractiveer product
+        unarchive: Reactivate product
       properties:
         field_types:
           decimal: Decimal
@@ -387,16 +388,16 @@ en:
         options:
           add: Add
       reports:
-        start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
-          ontvangt automatisch een email.
-        title: Rapportages
+        start_exporting_html: The <strong>report</strong> is generated. You will automatically
+          receive an email.
+        title: Reports
       sales_categories:
-        default_sales_category_code: Standaard omzetcategorie
+        default_sales_category_code: Standard turnover category
       settings: Shop settings
       tax:
         no_tax: No tax
         rate: "%{rate}% btw"
-        vat_reverse_charge: Btw verlegd
+        vat_reverse_charge: VAT shifted
       tax_groups:
         default_tax_rate: Default tax rate
         new: New tax group
