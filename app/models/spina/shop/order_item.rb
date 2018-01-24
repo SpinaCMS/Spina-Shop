@@ -23,6 +23,10 @@ module Spina::Shop
       read_attribute(:unit_cost_price) || orderable.cost_price || BigDecimal(0)
     end
 
+    def total_cost_price
+      unit_cost_price * quantity
+    end
+
     def tax_rate
       read_attribute(:tax_rate) || orderable.tax_group.tax_rate_for_order(order) || BigDecimal(0)
     end
