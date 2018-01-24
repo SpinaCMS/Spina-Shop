@@ -19,8 +19,13 @@
               %li
                 = link_to attachment_url(product_image, :file), target: :blank do
                   Afbeelding
+
+      - if @product.persisted?
+        = link_to spina.duplicate_shop_admin_product_path(@product), class: 'button' do
+          = icon('pages')
+          = t('spina.shop.products.duplicate')
                   
-      %button.button.button-primary{type: 'submit'}
+      %button.button.button-primary{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
         =t 'spina.shop.products.save'
 

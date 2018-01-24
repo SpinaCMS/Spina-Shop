@@ -97,6 +97,21 @@ module Spina::Shop
         redirect_to spina.shop_admin_product_path(@product)
       end
 
+      def duplicate
+        product = Product.find(params[:id])
+        @product = product.dup
+        @product_category = product.product_category
+
+        # Duplicate relations
+        @product.product_collections = product.product_collections
+        @product.related_products = product.related_products
+
+        add_breadcrumb product.name, spina.shop_admin_product_path(product)
+        add_breadcrumb t('spina.shop.products.new_copy')
+
+        render :new
+      end
+
       private
 
         def filters

@@ -368,8 +368,10 @@ nl:
         delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
         delete_restriction_error: "<strong>%{name}</strong> kan niet verwijderd worden"
         delete_restriction_error_explanation: Komt voor in bestelling of productbundel
+        duplicate: Dupliceren
         expired: Product is verlopen
         new: Nieuw product
+        new_copy: Nieuwe kopie
         new_by_category_title_html: Kies een <strong>categorie</strong>
         out_of_stock: Voorraad is op
         save: Product opslaan

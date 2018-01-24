@@ -46,6 +46,7 @@ Spina::Engine.routes.draw do
             get :archived
           end
           member do
+            get :duplicate
             post :archive
             post :unarchive
           end
