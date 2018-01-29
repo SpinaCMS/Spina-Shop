@@ -69,11 +69,11 @@ module Spina::Shop
     end
 
     def billing_address
-      "#{billing_street1} #{billing_house_number}#{billing_house_number_addition}".strip
+      "#{billing_street1} #{billing_house_number} #{billing_house_number_addition}".strip
     end
 
     def delivery_address
-      "#{delivery_street1} #{delivery_house_number}#{delivery_house_number_addition}".strip
+      "#{delivery_street1} #{delivery_house_number} #{delivery_house_number_addition}".strip
     end
 
     def assign_address(address, address_type:)
