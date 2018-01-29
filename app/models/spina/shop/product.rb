@@ -127,7 +127,7 @@ module Spina::Shop
         when "price"
           min = filter[:value]["min"].presence.try(:to_d) || 0
           max = filter[:value]["max"].presence.try(:to_d) || 0
-          products = products.where(price: min..max)
+          products = products.where("CASE WHEN promotional_price IS NOT NULL THEN promotional_price BETWEEN :min AND :max ELSE base_price BETWEEN :min AND :max END", min: min, max: max)
         end
       end
 
