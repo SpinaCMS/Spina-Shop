@@ -44,11 +44,13 @@ module Spina::Shop
     # Postgres-specific queries for the jsonb column
     scope :where_any_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)
+      value = value.map{|v| Product.connection.quote_string(v)}
       where("spina_shop_products.properties->'#{key}' ?| array['#{value.join('\',\'')}']")
     end
 
     scope :where_all_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)
+      value = value.map{|v| Product.connection.quote_string(v)}
       where("spina_shop_products.properties->'#{key}' ?& array['#{value.join('\',\'')}']")
     end
 
