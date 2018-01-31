@@ -204,7 +204,7 @@ module Spina::Shop
     private
 
       def items_must_be_in_stock
-        errors.add(:stock_level, "not sufficient") unless order_items.all?(&:in_stock?)
+        errors.add(:base, :stock_level_not_sufficient) unless order_items.all?(&:in_stock?)
       end
 
       def validate_stock_for_order_items
@@ -212,7 +212,7 @@ module Spina::Shop
       end
 
       def must_have_at_least_one_item
-        errors.add(:shopping_cart, "empty") if order_items.none?
+        errors.add(:base, :shopping_cart_empty) if order_items.none?
       end
 
       def must_be_of_age_to_buy_products

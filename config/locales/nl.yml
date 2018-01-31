@@ -178,6 +178,9 @@ nl:
           attributes:
             date_of_birth:
               not_of_age: moet minimaal 18 jaar geleden zijn
+            base:
+              stock_level_not_sufficient: Niet alle producten zijn op voorraad
+              shopping_cart_empty: Winkelmand is leeg
     models:
       spina/shop/campaign:
         one: Campaign
