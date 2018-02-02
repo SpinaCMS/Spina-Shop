@@ -22,7 +22,7 @@
             = Spina::Shop::Order.human_attribute_name(:delivery_option)
 
           .sidebar-form-control
-            = f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]}), {}, class: 'select2', style: 'width: 100%'
+            = f.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.all.map{|o| [o.name, o.id]}, f.object.delivery_option_id), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label

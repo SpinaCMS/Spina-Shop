@@ -19,8 +19,13 @@
               %li
                 = link_to attachment_url(product_image, :file), target: :blank do
                   Afbeelding
+
+      - if @product.persisted?
+        = link_to spina.duplicate_shop_admin_product_path(@product), class: 'button' do
+          = icon('pages')
+          = t('spina.shop.products.duplicate')
                   
-      %button.button.button-primary{type: 'submit'}
+      %button.button.button-primary{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
         =t 'spina.shop.products.save'
 
@@ -219,6 +224,12 @@
                 .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
                   = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
                 = text_field_tag :stock_level, f.object.stock_level, disabled: true
+
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :limit_per_order
+          .form-control
+            = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
 
         .form-group
           .form-label

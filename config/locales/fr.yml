@@ -1,0 +1,406 @@
+---
+fr:
+  activerecord:
+    attributes:
+      spina/shop/address:
+        address_type: Adresse Type
+        billing_address: adresse de facturation
+        city: Endroit
+        company: affaires
+        country: pays
+        delivery_address: adresse de livraison
+        first_name: prénom
+        house_number: adresse
+        house_number_addition: addition
+        last_name: nom de famille
+        name: nom
+        postal_code: Code postal
+        street1: Rue
+        street2: rue 2
+      spina/shop/customer:
+        company: affaires
+        country: pays
+        created_at: créé sur
+        date_of_birth: date de naissance
+        email: émail
+        first_name: prénom
+        full_name: nom et prénom
+        ip_addresses: adresses IP
+        last_name: nom de famille
+        name: nom
+        number: numéro de client
+        phone: téléphone
+        vat_id: N ° de TVA
+      spina/shop/customer_account:
+        email: émail
+        password: mot de passe
+        password_confirmation: confirmer le mot de passe
+      spina/shop/discount:
+        code: code de réduction
+        description: description
+        discount_rule: valable pour
+        expires_at: fini
+        optional: en option
+        starts_at: date de début
+        usage_limit: en Times
+      spina/shop/discounts/actions/percent_off:
+        percent_off: Réduction
+      spina/shop/gift_card:
+        code: code
+        created_at: créé sur
+        expires_at: arrive à expiration
+        remaining_balance: équilibre
+        value: valeur
+      spina/shop/in_stock_reminder:
+        email: émail
+      spina/shop/invoice:
+        customer_number: numéro de client
+        date: date de la facture
+        reference: référence
+        sub_total: total
+        total: total
+      spina/shop/invoice_line:
+        description: description
+        price: prix
+        tax: BTW
+        total: total
+      spina/shop/order:
+        billing_address: adresse de facturation
+        billing_city: Endroit
+        billing_country: pays
+        billing_house_number: adresse
+        billing_house_number_addition: addition
+        billing_name: nom
+        billing_postal_code: Code postal
+        billing_street1: Rue
+        billing_street2: rue 2
+        company: affaires
+        date_of_birth: date de naissance
+        delivered_at: rendu le
+        delivery_address: Adresse de livraison
+        delivery_city: Endroit
+        delivery_country: pays
+        delivery_house_number: adresse
+        delivery_house_number_addition: addition
+        delivery_name: nom
+        delivery_option: Mode de livraison
+        delivery_postal_code: Code postal
+        delivery_price: Frais d'expédition
+        delivery_street1: Rue
+        delivery_street2: rue 2
+        delivery_tracking_ids: Track & Trace
+        discount: Réduction
+        email: émail
+        first_name: prénom
+        ip_address: adresse IP
+        last_name: nom de famille
+        note: note
+        order_attachments: pièces jointes
+        order_number: numéro de commande
+        payment_method: paiement
+        phone: téléphone
+        received_at: Date de commande
+        reference: référence
+        separate_delivery_address: autre adresse
+        shipped_at: envoyé sur
+        sub_total: total
+        total: total
+        total_excluding_tax: Total hors. TVA
+      spina/shop/order_item:
+        price: prix
+        total: total
+      spina/shop/product:
+        active: Disponible en magasin
+        base_price: prix
+        can_expire: A une date d'expiration
+        cost_price: prix de revient
+        description: description
+        ean: EAN
+        expiration_date: expiration
+        limit_per_order: Limite par commande
+        location: lieu
+        materialized_path: URL
+        must_be_of_age_to_buy: Seulement pour les 18+
+        name: nom
+        price_exceptions: Prix ​​par groupe de clients
+        product_collections: collections
+        promotional_price: Prix ​​d'action
+        related_products: produits associés
+        sales_category: Catégorie de revenu
+        seo_description: Description SEO
+        seo_title: titre SEO
+        sku: SKU
+        stock_enabled: inventaire
+        stock_level: stock
+        supplier: fournisseur
+        supplier_reference: Référence fournisseur
+        weight: poids
+      spina/shop/product_bundle:
+        name: nom
+        price: prix
+        sales_category: Catégorie de revenu
+      spina/shop/product_item:
+        active: actif
+        can_expire: A une date d'expiration
+        cost_price: prix de revient
+        created_at: ajouté
+        ean: Code EAN
+        expiration_date: expiration
+        location: lieu
+        must_be_of_age_to_buy: Seulement pour les 18+
+        name: nom
+        price: prix
+        sales_category: Catégorie de revenu
+        sku: SKU
+        stock_level: stock
+        supplier_reference: fournisseur de référence
+        weight: poids
+      spina/shop/product_review:
+        review: examen
+        review_summary: L'un est puissant
+        score: figure
+      spina/shop/sales_category:
+        business: affaires
+        code: code
+      spina/shop/shop_review:
+        review_cons: Amélioration ou conseils
+        review_pros: positifs
+        score: figure
+        score_communication: Évaluation de la communication
+        score_speed: débit numérique / Livraison
+      spina/shop/tax_rate:
+        business: affaires
+        code: code
+        rate: pourcentage
+    errors:
+      models:
+        spina/shop/order:
+          attributes:
+            date_of_birth:
+              not_of_age: doit être il y a au moins 18 ans
+    models:
+      spina/shop/campaign:
+        one: campagne
+        other: campagnes
+      spina/shop/customer:
+        one: client
+        other: clientèle
+      spina/shop/customer_account:
+        one: compte
+        other: comptes
+      spina/shop/discount:
+        one: code de réduction
+        other: Codes de réduction
+      spina/shop/discounts/rules/all_orders: toutes les commandes
+      spina/shop/discounts/rules/collection: Produits de la collection
+      spina/shop/discounts/rules/order_total: Les commandes sur le montant
+      spina/shop/gift_card:
+        one: Carte-cadeau
+        other: Chèques-cadeaux
+      spina/shop/invoice:
+        one: facture
+        other: factures
+      spina/shop/order:
+        one: ordre
+        other: ordres
+      spina/shop/product:
+        one: produit
+        other: produits
+      spina/shop/product_bundle:
+        one: Productbundle
+        other: Bundles
+      spina/shop/product_category:
+        one: produit
+        other: Catégories de produits
+      spina/shop/product_item:
+        one: élément de produit
+        other: articles de ce produit
+      spina/shop/product_review:
+        one: examen
+        other: commentaires
+      spina/shop/sales_category:
+        one: Catégorie de revenu
+        other: Catégories de revenus
+      spina/shop/tax_group:
+        one: Groupe TVA
+        other: groupes de TVA
+  number:
+    currency:
+      format:
+        unit: unité
+  spina:
+    cancel: annuler
+    commerce:
+      product_categories:
+        no_categories: pas de catégories
+    delete: effacer
+    edit: éditer
+    main_menu: Menu principal
+    pages:
+      photo_picker: sélecteur de photo
+    save: Enregistrer
+    search: recherche
+    shop:
+      addresses:
+        add_address: Ajouter une adresse
+      customer_accounts:
+        edit: Modifier le compte
+        forgot_password:
+          title: titre
+        guest: invité
+        registered: inscrit
+        save: compte d'épargne
+      customer_groups:
+        title: Groupes de clients
+      customers:
+        edit: Modifier le client
+        new: nouveau client
+        no_customer_group: Aucun groupe de clients
+        no_orders_yet: Ce client n'a rien commandé.
+        order_average: commande moyenne
+        order_total: total de la commande
+        profile: profil
+        save: client magasin
+        title: tous les clients
+      delete_selected: Supprimer les lignes sélectionnées
+      discounts:
+        new: nouveau code
+        save: coupon Économisez
+        usage_limit_0: Mettre à 0 pour un nombre illimité
+      emails:
+        exported_title: Export prêt pour le téléchargement
+        forgot_password_title: Titre de mot de passe oublié
+        in_stock_reminder_title: En titre de rappel stock
+        order_confirmation_title: Votre commande a été confirmée
+        order_shipped_title: Votre commande a été expédiée
+        welcome_email_title: Titre Bienvenue email
+      gift_cards:
+        all: tous les certificats-cadeaux
+        delete: supprimer cadeau
+        delete_confirmation: Êtes-vous sûr de vouloir supprimer le don <strong> </
+          strong>?
+        delete_restriction_error: "<Strong> Cadeau </ strong> ne peut pas être enlevé"
+        delete_restriction_error_explanation: Est déjà utilisé pour
+        expired: expiré
+        new: nouveau cadeau
+        no_orders_yet: Aucune commande
+        partially_used: partiellement utilisée
+        save: sauver carte cadeau
+        status:
+          expired: expiré
+          unused: inutilisé
+          used: d'occasion
+        unused: inutilisé
+        used: d'occasion
+      orders:
+        actions: actes
+        add_product: Ajouter le produit
+        cancel_order_confirmation_html: Etes - vous sûr de vouloir <strong>annuler</strong>
+          cette commande? <strong>Cette action est irréversible.</strong>
+        cancel_order_html: annuler
+        download_invoice: Télécharger facture %{number}
+        download_packing_slip: télécharger la liste d'emballage
+        failed: manqué
+        history: histoire
+        new: nouvel ordre
+        no_orders: aucune commande
+        order_picked_up: Les commandes ramassées
+        pay_order_confirmation_html: Etes - vous sûr que vous voulez marquer cet ordre
+          comme <strong>payé?</strong> <strong>Cette action est irréversible.</strong>
+        pay_order_html: Marquer comme payé
+        receive_order_confirmation_html: Etes - vous sûr de vouloir <strong>finaliser</strong>
+          cet ordre? <strong>Cette action est irréversible.</strong>
+        receive_order_html: finaliser
+        save: pour sauver
+        save_order: ordre de sauvegarde
+        ship_order_confirmation_html: Etes - vous sûr de vouloir <strong>envoyer</strong>
+          l'ordre? Le client reçoit <strong>automatiquement</strong> un e - mail d'ici.
+        ship_order_html: Créer <strong>expédition</strong>
+        ship_order_success_html: commandes <strong>envoyées</strong>
+        start_order_picking_html: Commencez la préparation des commandes
+        start_order_picking_success_html: Commencé commandes cueillette
+        start_picking_and_ship_html: Commencez la préparation des commandes et l'ordre
+          du navire
+        start_picking_and_ship_success_html: Commencez les commandes et la cueillette
+          des commandes d'expédition
+        start_preparing_and_ship_html: "<strong>Générer</strong> bordereau d'expédition
+          et de l' ordre <strong>du navire</strong>"
+        start_preparing_and_ship_success_html: bordereau d' expédition <strong>généré</strong>
+          et <strong>envoyé</strong> commande
+        start_preparing_html: commencer à <strong>préparer</strong>
+        start_preparing_success_html: Note de livraison a été <strong>générée</strong>
+        states:
+          building: chariot
+          cancelled: annulé
+          confirming: l'arrondissement
+          delivered: publié
+          failed: manqué
+          order_picking: la préparation des commandes
+          order_preparing: préparer
+          paid: payé
+          picked_up: récupéré
+          received: ordre
+          refunded: rendu
+          shipped: mission créée
+        title: toutes les commandes
+        to_process: processus
+      product_bundles:
+        add_bundled_product: Ajouter le produit
+        new: Nouveau groupe de produits
+      product_categories: Catégories de produits
+      product_items:
+        adjust_stock: ajuster stock
+        almost_expired: presque expiré
+        nameless: sans nom
+        new: nouvelle variante
+        out_of_stock: En rupture de stock
+        save: variante Enregistrer
+        stock_history: histoire
+      product_reviews:
+        no_reviews: Aucun commentaire n'a été fourni
+      products:
+        adjust_stock: stock réglage
+        almost_expired: Le produit est sur le point d'expirer
+        archive: produit Archive
+        archive_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour archiver?
+        archived_title: archives
+        choose_customer_group: Sélectionner un groupe de clients
+        delete: Retirer le produit
+        delete_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour supprimer?
+        delete_restriction_error: "<Strong> %{name} </ strong> ne peut pas être enlevé"
+        delete_restriction_error_explanation: Survient sur commande ou groupe de produits
+        expired: Le Produit a expiré
+        new: nouveau produit
+        new_by_category_title_html: Choisissez une <strong>catégorie</strong>
+        out_of_stock: Stock sur
+        save: produit d'économie
+        select_blank: Sélectionnez un produit
+        send_in_stock_reminders: L'envoi de messages stock
+        stock_history: histoire
+        title: catalogue
+        unarchive: réactiver le produit
+      properties:
+        field_types:
+          decimal: nombre décimal
+          number: nombre
+          percentage: pourcentage
+          select: options
+          textfield: texte
+        new: nouvelle propriété
+        options:
+          add: ajouter
+      reports:
+        start_exporting_html: Le <strong>rapport</strong> est généré. Vous recevrez
+          automatiquement un e-mail.
+        title: rapports
+      sales_categories:
+        default_sales_category_code: catégorie standard chiffre d'affaires
+      settings: Préférences webshop
+      tax:
+        no_tax: pas de TVA
+        rate: "%{rate}% TVA"
+        vat_reverse_charge: TVA décalée
+      tax_groups:
+        default_tax_rate: taux normal de TVA
+        new: groupe fiscal Nouveau
+      title: boutique en ligne

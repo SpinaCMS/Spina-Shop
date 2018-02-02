@@ -44,11 +44,13 @@ module Spina::Shop
     # Postgres-specific queries for the jsonb column
     scope :where_any_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)
+      value = value.map{|v| Product.connection.quote_string(v)}
       where("spina_shop_products.properties->'#{key}' ?| array['#{value.join('\',\'')}']")
     end
 
     scope :where_all_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)
+      value = value.map{|v| Product.connection.quote_string(v)}
       where("spina_shop_products.properties->'#{key}' ?& array['#{value.join('\',\'')}']")
     end
 
@@ -127,7 +129,7 @@ module Spina::Shop
         when "price"
           min = filter[:value]["min"].presence.try(:to_d) || 0
           max = filter[:value]["max"].presence.try(:to_d) || 0
-          products = products.where(price: min..max)
+          products = products.where("CASE WHEN promotional_price IS NOT NULL THEN promotional_price BETWEEN :min AND :max ELSE base_price BETWEEN :min AND :max END", min: min, max: max)
         end
       end
 

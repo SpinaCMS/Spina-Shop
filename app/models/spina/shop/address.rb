@@ -13,7 +13,7 @@ module Spina::Shop
     end
 
     def address
-      "#{street1} #{house_number}#{house_number_addition}".strip
+      "#{street1} #{house_number} #{house_number_addition}".strip
     end
   end
 end

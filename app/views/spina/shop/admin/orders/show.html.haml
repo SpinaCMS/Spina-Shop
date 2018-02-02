@@ -167,7 +167,7 @@
             = @order.billing_name
             %br/
             = [@order.billing_street1.presence, @order.billing_street2.presence].compact.join('<br />').html_safe
-            = "#{@order.billing_house_number}#{@order.billing_house_number_addition}"
+            = "#{@order.billing_house_number} #{@order.billing_house_number_addition}"
             %br/
             = [@order.billing_postal_code, @order.billing_city].join(', ')
             %br/
