@@ -112,7 +112,7 @@
 
       %tbody
         - if @customer.orders.received.any?
-          = render partial: 'spina/shop/admin/orders/order', collection: @customer.orders.sorted.received
+          = render partial: 'spina/shop/admin/orders/order', collection: @customer.orders.sorted.received.limit(10)
 
         - else
           %tr
