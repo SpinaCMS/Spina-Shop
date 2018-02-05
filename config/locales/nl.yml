@@ -139,6 +139,11 @@ nl:
         name: Naam
         price: Prijs
         sales_category: Omzetcategorie
+        active: Beschikbaar in webshop
+        materialized_path: URL
+        description: Beschrijving
+        seo_description: SEO omschrijving
+        seo_title: SEO titel
       spina/shop/product_item:
         active: Actief
         can_expire: Heeft een verloopdatum
