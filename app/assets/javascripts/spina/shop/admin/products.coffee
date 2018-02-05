@@ -23,9 +23,12 @@ class Spina.Products
           return markup
         templateResult: (product) ->
           return product.text if product.loading
-          "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price}</small></span></div>"
+          "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price} - voorraad: #{product.stock_level}</small></span></div>"
         templateSelection: (product) ->
-          product.name || product.text
+          if product.name
+            product.name + " (#{product.stock_level})"
+          else
+            product.text 
         minimumInputLength: 1
       )
 

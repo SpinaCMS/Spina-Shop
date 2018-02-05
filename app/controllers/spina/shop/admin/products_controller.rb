@@ -15,7 +15,8 @@ module Spina::Shop
           format.json do
             results = @products.includes(:product_images).map do |product|
               { id: product.id, 
-                name: product.name, 
+                name: product.name,
+                stock_level: (product.stock_level if product.stock_enabled?),
                 image_url: view_context.attachment_url(product.product_images.first, :file, :fit, 30, 30), 
                 price: view_context.number_to_currency(product.price) }
             end
