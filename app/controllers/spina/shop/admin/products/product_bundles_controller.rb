@@ -29,7 +29,7 @@ module Spina::Shop
         end
 
         def index
-          @product_bundles = ProductBundle.all
+          @product_bundles = ProductBundle.order(id: :desc)
         end
 
         def update
@@ -54,7 +54,7 @@ module Spina::Shop
           end
 
           def product_bundle_params
-            params.require(:product_bundle).permit(:name, :price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number})
+            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number})
           end
       end
     end

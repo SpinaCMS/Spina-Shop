@@ -18,12 +18,46 @@
             = f.text_field :name, placeholder: Spina::Shop::ProductBundle.human_attribute_name(:name)
 
       .well
+        .sidebar-form-group
+          .sidebar-form-control
+            %trix-toolbar.clearfix{ id: "product_bundle_description_toolbar", data: { trix_editor_id: "product_bundle_description_editor" }}
+              .button-groups
+                .button-group
+                  %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                    .icon.icon-bold
+                  %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                    .icon.icon-italic
+                  %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                    .icon.icon-list-ul
+              %trix-editor.text-input{input: "product_bundle_description", toolbar: "product_bundle_description_toolbar", id: "product_bundle_description_editor", placeholder: Spina::Shop::ProductBundle.human_attribute_name(:description)}
+              = f.hidden_field :description, id: 'product_bundle_description'
+
+      .well
         = f.fields_for :bundled_products do |ff|
           = render 'bundled_products_fields', f: ff
 
         = link_to_add_product_fields f, :bundled_products do
           = icon('plus')
           =t 'spina.shop.product_bundles.add_bundled_product'
+
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ProductBundle.human_attribute_name :seo_title
+          .sidebar-form-control
+            = f.text_field :seo_title, placeholder: Spina::Shop::ProductBundle.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ProductBundle.human_attribute_name :seo_description
+          .sidebar-form-control
+            = f.text_field :seo_description, placeholder: Spina::Shop::ProductBundle.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ProductBundle.human_attribute_name :materialized_path
+          .sidebar-form-control
+            = f.text_field :materialized_path, disabled: true
 
     .sidebar-form-sidebar
       #productImageUploader.sidebar-form-images
