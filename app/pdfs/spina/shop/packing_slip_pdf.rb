@@ -63,7 +63,14 @@ module Spina::Shop
       lines = [["Aantal", "Omschrijving", "Locatie", "Controle"]]
 
       @order.order_items.includes(:orderable).sort_by{|o| (o.orderable.try(:location).present? ? "0" : "1") + o.orderable.try(:location).to_s}.each do |order_item|
-        lines << ["#{order_item.quantity} x", order_item.description, order_item.orderable.try(:location).to_s, ""]
+
+        if order_item.is_product_bundle?
+          order_item.orderable.bundled_products.each do |bundled_product|
+            lines << ["#{bundled_product.quantity * order_item.quantity} x", bundled_product.product.name, bundled_product.product.location, ""]
+          end
+        else
+          lines << ["#{order_item.quantity} x", order_item.description, order_item.orderable.location, ""]
+        end
       end
 
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 10.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 10} do |t|
