@@ -62,7 +62,7 @@ module Spina::Shop
     def order_details
       lines = [["Aantal", "Omschrijving", "Locatie", "Controle"]]
 
-      @order.order_items.includes(:orderable).sort_by{|o| (o.orderable.location.try(:present?) ? "0" : "1") + o.orderable.try(:location)}.each do |order_item|
+      @order.order_items.includes(:orderable).sort_by{|o| (o.orderable.try(:location).present? ? "0" : "1") + o.orderable.try(:location)}.each do |order_item|
         lines << ["#{order_item.quantity} x", order_item.description, order_item.orderable.try(:location), ""]
       end
 
