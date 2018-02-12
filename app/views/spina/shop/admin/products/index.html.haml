@@ -61,13 +61,15 @@
       %tr
         %th
         %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
+        %th Winkels
         %th{style: 'text-align: right'}= sort_link [:spina, @q], :price, Spina::Shop::Product.human_attribute_name(:price), {}, class: 'table-sort'
         %th{style: 'text-align: right'}= sort_link [:spina, @q], :location, Spina::Shop::Product.human_attribute_name(:location), {}, class: 'table-sort'
         %th{style: 'text-align: right'}= sort_link [:spina, @q], :stock_level, ['stock_enabled desc', :stock_level], Spina::Shop::Product.human_attribute_name(:stock_level), {}, class: 'table-sort'
-        %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
+        - if Spina::Shop::Product.where(can_expire: true).any?
+          %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
         %th
 
     %tbody
-      = render partial: "product", collection: @products
+      = render partial: "single_product", collection: @products
 
   .pagination= link_to_next_page @products, 'Next'

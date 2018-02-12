@@ -15,6 +15,9 @@ module Spina::Shop
     has_many :collectables, dependent: :destroy
     has_many :product_collections, through: :collectables
 
+    belongs_to :parent, class_name: "Product", optional: true
+    has_many :variants, class_name: "Product", foreign_key: :parent_id
+
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
     has_many :in_stock_reminders, as: :orderable, dependent: :destroy
@@ -114,7 +117,7 @@ module Spina::Shop
 
     # Get products by filtering their properties
     # Based on querying the jsonb column using Postgres
-    def self.filtered(filters)
+    def self.filtered(filters, hide_variants: true)
       products = all
 
       filters ||= []
@@ -133,7 +136,7 @@ module Spina::Shop
         end
       end
 
-      return products
+      return hide_variants ? all.where(parent_id: nil, id: products.pluck("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
     end
 
     def cache_stock_level

@@ -1,9 +1,21 @@
-%tr{class: ('text-muted' if !product.active? || product.archived?)}
+%tr{class: ('text-muted' if !product.active? || product.archived?), style: ("border-bottom: none" if defined?(no_border) && no_border)}
   %td.align-center{style: 'width: 30px'}
     = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
-  %td
+  %td{style: ('text-indent: 20px' if defined?(variant) && variant)}
     = link_to product.name, spina.shop_admin_product_path(product), class: 'table-link'
     %small= product.product_collections.pluck(:name).join(", ").html_safe
+  %td{style: "padding: 6px 12px"}
+    %small{style: "opacity: .75"}
+      %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #e18130; color: white"} S
+      - if product.id % 6 == 0 || product.id % 5 == 0
+        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #ddd; color: white"} DF
+      - else
+        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #60b1d4; color: white"} DF
+      
+      - if product.id % 21 == 0 || product.id % 20 == 0
+        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #d6726f; color: white"} E
+      - else
+        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #ddd; color: white"} E
   %td.align-right
     - if product.promotion?
       %small{style: 'text-decoration: line-through'}= number_to_currency product.base_price
@@ -12,8 +24,10 @@
     = product.location
   %td.align-right
     = product.stock_level if product.stock_enabled?
-  %td.align-right
-    =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
+  - if Spina::Shop::Product.where(can_expire: true).any?
+    %td.align-right
+      =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
+
   %td.align-right
     - if product.active?
       - if !product.archived?
@@ -34,4 +48,3 @@
         .status-dot
     - else
       .status-dot
-      
