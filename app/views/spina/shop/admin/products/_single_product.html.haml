@@ -1,5 +1,9 @@
 - if single_product.variants.any?
-  = render partial: 'product', object: single_product, locals: {no_border: true}
+  %tr{style: "border: none"}
+    %td
+    %td{colspan: 6}
+      = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
+  = render partial: 'product', object: single_product, locals: {variant: true, no_border: true}
   - single_product.variants.each_with_index do |product, i|
     = render partial: 'product', object: product, locals: {variant: true, no_border: (i + 1) != single_product.variants.count}
 - else
