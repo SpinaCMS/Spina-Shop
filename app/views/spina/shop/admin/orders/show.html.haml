@@ -284,7 +284,10 @@
           %tr
             %td.text-right= "#{order_item.quantity} &times;".html_safe
             %td
-              = link_to order_item.description, spina.shop_admin_product_path(order_item.orderable), class: 'table-link'
+              - if order_item.is_product_bundle?
+                = order_item.description
+              - else
+                = link_to order_item.description, spina.shop_admin_product_path(order_item.orderable), class: 'table-link'
             %td.text-right= number_to_currency order_item.unit_price
             %td.text-right
               - if order_item.discount_amount > 0
