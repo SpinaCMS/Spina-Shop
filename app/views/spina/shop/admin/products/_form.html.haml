@@ -9,23 +9,30 @@
       - if @product.persisted?
         .divider
 
-        %span
+        - if @product.has_variants?
           = link_to spina.edit_shop_admin_product_path(@product.parent || @product) do
             = @product.name
-        .divider
+
+          .divider
+
         %div{style: 'display: inline-block', data: {dropdown: true}}
           = link_to '#', style: "color: #333", data: {trigger: 'dropdown', target: '#variants'} do
-            = @product.variant_name
+            - if @product.has_variants?
+              = @product.variant_name
+            - else
+              = @product.name
             %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-          %ul#variants
-            - @product.variants.each_with_index do |variant, index|
-              %li= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
+          %ul#variants.align-right
+            - if @product.has_variants?
+              - @product.variants.each_with_index do |variant, index|
+                %li= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
             - if @product.persisted?
               %li
-                = link_to spina.variant_shop_admin_product_path(@product), style: 'text-align: center' do
-                  = icon('plus')
+                = link_to spina.variant_shop_admin_product_path(@product) do
+                  .pull-right= icon('dots')
+                  Nieuwe variant
 
       = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
@@ -41,15 +48,10 @@
               %li
                 = link_to attachment_url(product_image, :file), target: :blank do
                   Afbeelding
-
-      - if @product.persisted?
-        = link_to spina.duplicate_shop_admin_product_path(@product), class: 'button' do
-          = icon('pages')
-          = t('spina.shop.products.duplicate')
                   
       %button.button.button-primary{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
-        =t 'spina.shop.products.save'
+        =t 'spina.shop.save'
 
   - if @product.errors.any?
     - content_for :notifications do
@@ -134,24 +136,25 @@
             .sidebar-form-control
               = f.select :related_product_ids, options_for_select(f.object.related_products.map{|p| [p.name, p.id]}, f.object.related_product_ids), {}, class: 'select-products', multiple: true, style: 'width: 100%'
 
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :seo_title
-            .sidebar-form-control
-              = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
+        - unless @product.variant?
+          .well
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :seo_title
+              .sidebar-form-control
+                = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
 
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :seo_description
-            .sidebar-form-control
-              = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :seo_description
+              .sidebar-form-control
+                = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
 
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :materialized_path
-            .sidebar-form-control
-              = f.text_field :materialized_path, disabled: true
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :materialized_path
+              .sidebar-form-control
+                = f.text_field :materialized_path, disabled: true
 
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images

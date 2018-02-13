@@ -405,6 +405,7 @@ nl:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
           ontvangt automatisch een email.
         title: Rapportages
+      save: Opslaan
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
       settings: Webshopvoorkeuren

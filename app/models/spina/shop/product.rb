@@ -164,7 +164,7 @@ module Spina::Shop
         end
       end
 
-      return hide_variants ? all.where(parent_id: nil, id: products.pluck("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
+      return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
     end
 
     def cache_stock_level
@@ -199,6 +199,7 @@ module Spina::Shop
       end
 
       def set_variant_name
+        return if properties.blank?
         self.variant_name = properties.map do |property, value|
           properties.send(property).try(:label)
         end.try(:join, ' - ')

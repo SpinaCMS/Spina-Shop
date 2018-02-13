@@ -62,13 +62,6 @@ module Spina::Shop
 
       def edit
         @product = Product.find(params[:id])
-        # add_breadcrumb @product.parent.name, spina.edit_shop_admin_product_path(@product.parent) if @product.variant?
-        if @product.variant?
-          # add_breadcrumb @product.variant_name
-        else
-          # add_breadcrumb @product.name
-        end
-
         @product_category = @product.product_category
       end
 
