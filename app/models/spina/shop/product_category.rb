@@ -7,8 +7,8 @@ module Spina::Shop
 
     accepts_nested_attributes_for :properties
 
-    def item_properties
-      properties.item_type
+    def variant_properties
+      properties.variant_type
     end
 
     def product_properties

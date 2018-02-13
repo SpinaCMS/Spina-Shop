@@ -4,7 +4,7 @@ module Spina::Shop
     has_many :property_options, dependent: :destroy
 
     scope :product_type, -> { where(property_type: 'product') }
-    scope :item_type, -> { where(property_type: 'item') }
+    scope :variant_type, -> { where(property_type: 'variant') }
 
     validates :name, :label, :property_type, :field_type, presence: true
     validates :name, uniqueness: {scope: :product_category_id}

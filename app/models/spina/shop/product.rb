@@ -88,7 +88,7 @@ module Spina::Shop
     end
 
     def can_have_variants?
-      !variant?
+      product_category.variant_properties.any? if product_category.present?
     end
 
     def promotion?
@@ -200,8 +200,8 @@ module Spina::Shop
 
       def set_variant_name
         return if properties.blank?
-        self.variant_name = properties.map do |property, value|
-          properties.send(property).try(:label)
+        self.variant_name = product_category.variant_properties.map do |property|
+          properties.send(property.name).try(:label)
         end.try(:join, ' - ')
       end
 

@@ -15,24 +15,27 @@
 
           .divider
 
-        %div{style: 'display: inline-block', data: {dropdown: true}}
-          = link_to '#', style: "color: #333", data: {trigger: 'dropdown', target: '#variants'} do
-            - if @product.has_variants?
-              = @product.variant_name
-            - else
-              = @product.name
-            %i.icon.icon-caret-down{style: 'margin-right: 0'}
+        - if @product.can_have_variants?
+          %div{style: 'display: inline-block', data: {dropdown: true}}
+            = link_to '#', style: "color: #333", data: {trigger: 'dropdown', target: '#variants'} do
+              - if @product.has_variants?
+                = @product.variant_name
+              - else
+                = @product.name
+              %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-          %ul#variants.align-right
-            - if @product.has_variants?
-              - @product.variants.each_with_index do |variant, index|
-                %li= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
+            %ul#variants.align-right
+              - if @product.has_variants?
+                - @product.variants.each_with_index do |variant, index|
+                  %li= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
-            - if @product.persisted?
-              %li
-                = link_to spina.variant_shop_admin_product_path(@product) do
-                  .pull-right= icon('dots')
-                  Nieuwe variant
+              - if @product.persisted?
+                %li
+                  = link_to spina.variant_shop_admin_product_path(@product) do
+                    .pull-right= icon('dots')
+                    Nieuwe variant
+        - else
+          = @product.name
 
       = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
@@ -111,7 +114,11 @@
         .well
           - if @product_category.present?
             = f.fields_for :properties do |property_builder|
-              - @product_category.product_properties.includes(property_options: :translations).each do |property|
+              - if @product.variant?
+                - properties = @product_category.variant_properties
+              - else
+                - properties = @product_category.properties
+              - properties.includes(property_options: :translations).each do |property|
                 = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
           .sidebar-form-group
