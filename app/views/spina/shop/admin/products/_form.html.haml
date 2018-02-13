@@ -20,7 +20,7 @@
 
           %ul#variants
             - @product.variants.each_with_index do |variant, index|
-              %li= link_to (index == 0 ? variant.full_name : variant.variant_name), spina.edit_shop_admin_product_path(variant)
+              %li= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
             - if @product.persisted?
               %li
