@@ -47,6 +47,7 @@ Spina::Engine.routes.draw do
           end
           member do
             get :duplicate
+            get :variant
             post :archive
             post :unarchive
           end

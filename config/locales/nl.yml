@@ -122,7 +122,9 @@ nl:
         materialized_path: URL
         must_be_of_age_to_buy: Alleen voor 18+
         name: Naam
+        price: Prijs
         price_exceptions: Prijs per klantgroep
+        product_category: Productcategorie
         product_collections: Collecties
         promotional_price: Actieprijs
         related_products: Gerelateerde producten
@@ -381,6 +383,7 @@ nl:
         new: Nieuw product
         new_copy: Nieuwe kopie
         new_by_category_title_html: Kies een <strong>categorie</strong>
+        new_variant: Nieuwe variant
         out_of_stock: Voorraad is op
         save: Product opslaan
         select_blank: Kies een product

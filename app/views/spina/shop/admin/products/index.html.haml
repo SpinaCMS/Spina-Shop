@@ -1,10 +1,9 @@
 %header#header
   .breadcrumbs
-    .pull-right{style: "height: 0px"}
-      = link_to spina.new_by_category_shop_admin_products_path, class: 'button button-mini icon-only', data: {remote: true} do
-        %i.icon.icon-plus{style: 'vertical-align: bottom'}
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
+    = link_to spina.new_by_category_shop_admin_products_path, class: 'button button-mini icon-only', data: {remote: true} do
+      %i.icon.icon-plus{style: 'vertical-align: bottom'}
   %nav#secondary
     %ul
       %li{class: ("active" if action_name == "index")}
@@ -59,6 +58,7 @@
   %table.table.table-clickable
     %thead
       %tr
+        %th
         %th
         %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
         %th Winkels

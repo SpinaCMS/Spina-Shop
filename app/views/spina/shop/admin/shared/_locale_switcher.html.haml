@@ -1,5 +1,5 @@
-%div{style: 'display: inline-block; margin-left: 12px; margin-top: -4px; position: absolute', data: {dropdown: true}}
-  = link_to '#', class: 'button button-link button-small', data: {trigger: 'dropdown', target: '#locales'} do
+%div{style: "height: 26px", data: {dropdown: true}}
+  = link_to '#', class: 'button button-link button-small', style: "padding-top: 0; padding-bottom: 0", data: {trigger: 'dropdown', target: '#locales'} do
     = icon('comment')
     = @locale.upcase
 

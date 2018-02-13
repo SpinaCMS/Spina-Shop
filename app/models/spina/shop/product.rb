@@ -16,7 +16,7 @@ module Spina::Shop
     has_many :product_collections, through: :collectables
 
     belongs_to :parent, class_name: "Product", optional: true
-    has_many :variants, class_name: "Product", foreign_key: :parent_id
+    has_many :children, class_name: "Product", foreign_key: :parent_id, dependent: :nullify
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
@@ -28,16 +28,20 @@ module Spina::Shop
     accepts_attachments_for :product_images, append: true
 
     # Generate materialized path
+    before_validation :set_name, if: :variant?
+    before_validation :set_variant_name
     before_validation :set_materialized_path
+    before_validation :set_parent_product_properties, if: :variant?
 
     # Create a 301 redirect if materialized_path changed
     after_save :rewrite_rule
+    after_save :save_children, if: :has_children?
 
     validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
-    translates :name, :description, :materialized_path
+    translates :name, :variant_name, :description, :materialized_path
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 
@@ -61,6 +65,30 @@ module Spina::Shop
 
     def to_s
       name
+    end
+
+    def full_name
+      [name, variant_name].compact.join(' / ')
+    end
+
+    def variant?
+      parent_id.present?
+    end
+
+    def has_children?
+      children.any?
+    end
+
+    def has_variants?
+      variant? || children.any?
+    end
+
+    def variants
+      (parent || self).children.to_a.unshift(parent || self)
+    end
+
+    def can_have_variants?
+      !variant?
     end
 
     def promotion?
@@ -166,6 +194,24 @@ module Spina::Shop
 
     private
 
+      def set_name
+        self.name = parent.name
+      end
+
+      def set_variant_name
+        self.variant_name = properties.map do |property, value|
+          properties.send(property).try(:label)
+        end.try(:join, ' - ')
+      end
+
+      def save_children
+        children.each(&:save)
+      end
+
+      def set_parent_product_properties
+        assign_attributes(name: parent.name, product_category: parent.product_category)
+      end
+
       def rewrite_rule
         Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
       end
@@ -212,9 +258,9 @@ module Spina::Shop
 
       def localized_materialized_path
         if I18n.locale == I18n.default_locale
-          name.try(:parameterize).prepend('/products/')
+          full_name.try(:parameterize).prepend('/products/')
         else
-          name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+          full_name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
         end
       end
 

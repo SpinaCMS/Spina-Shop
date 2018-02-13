@@ -62,7 +62,12 @@ module Spina::Shop
 
       def edit
         @product = Product.find(params[:id])
-        add_breadcrumb @product.name
+        # add_breadcrumb @product.parent.name, spina.edit_shop_admin_product_path(@product.parent) if @product.variant?
+        if @product.variant?
+          # add_breadcrumb @product.variant_name
+        else
+          # add_breadcrumb @product.name
+        end
 
         @product_category = @product.product_category
       end
@@ -109,6 +114,22 @@ module Spina::Shop
 
         add_breadcrumb product.name, spina.shop_admin_product_path(product)
         add_breadcrumb t('spina.shop.products.new_copy')
+
+        render :new
+      end
+
+      def variant
+        product = Product.find(params[:id])
+        parent_product = product.parent || product
+
+        @product = parent_product.dup
+        @product.assign_attributes(parent_id: parent_product.id, sku: nil, properties: nil)
+        @product_category = parent_product.product_category
+
+        @product.product_collections = product.product_collections
+
+        add_breadcrumb parent_product.name, spina.shop_admin_product_path(parent_product)
+        add_breadcrumb t('spina.shop.products.new_variant')
 
         render :new
       end

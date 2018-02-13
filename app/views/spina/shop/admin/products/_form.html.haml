@@ -1,11 +1,33 @@
 = form_for @product, url: @product.new_record? ? spina.shop_admin_products_path : spina.shop_admin_product_path(@product) do |f|
   = hidden_field_tag :locale, @locale
+  = f.hidden_field :parent_id
   = f.hidden_field :product_category_id
 
   %header#header
-    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+      - if @product.persisted?
+        .divider
 
-    = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
+        %span
+          = link_to spina.edit_shop_admin_product_path(@product.parent || @product) do
+            = @product.name
+        .divider
+        %div{style: 'display: inline-block', data: {dropdown: true}}
+          = link_to '#', style: "color: #333", data: {trigger: 'dropdown', target: '#variants'} do
+            = @product.variant_name
+            %i.icon.icon-caret-down{style: 'margin-right: 0'}
+
+          %ul#variants
+            - @product.variants.each_with_index do |variant, index|
+              %li= link_to (index == 0 ? variant.full_name : variant.variant_name), spina.edit_shop_admin_product_path(variant)
+
+            - if @product.persisted?
+              %li
+                = link_to spina.variant_shop_admin_product_path(@product), style: 'text-align: center' do
+                  = icon('plus')
+
+      = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
     #header_actions
       - if f.object.product_images.any?
@@ -45,55 +67,56 @@
   .sidebar-form
     - Mobility.with_locale(@locale) do
       .sidebar-form-content
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :name
-
-            .sidebar-form-control
-              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name
-
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :sku
-
-            .sidebar-form-control            
-              = f.text_field :sku, placeholder: Spina::Shop::Product.human_attribute_name(:sku), disabled: !@product.editable_sku
-
-        .well
-          .sidebar-form-group
-            .sidebar-form-control
-              %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
-                .button-groups
-                  .button-group
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
-                      .icon.icon-bold
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
-                      .icon.icon-italic
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
-                      .icon.icon-list-ul
-                %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
-                = f.hidden_field :description, id: 'product_description'
-        
-        - if @product_category.present?
+        - unless @product.variant? 
           .well
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :name
+
+              .sidebar-form-control
+                = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name
+
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :sku
+
+              .sidebar-form-control            
+                = f.text_field :sku, placeholder: Spina::Shop::Product.human_attribute_name(:sku), disabled: !@product.editable_sku
+
+            - if @product.persisted?
+              .sidebar-form-group
+                .sidebar-form-label
+                  = Spina::Shop::Product.human_attribute_name :product_category
+                .sidebar-form-control
+                  = f.select :product_category_id, options_for_select(Spina::Shop::ProductCategory.all.map{|c| [c.name, c.id]}, f.object.product_category_id), {include_blank: t('spina.commerce.product_categories.no_categories')}, class: 'select2', style: 'width: 100%'
+
+        - unless @product.variant?
+          .well
+            .sidebar-form-group
+              .sidebar-form-control
+                %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
+                  .button-groups
+                    .button-group
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                        .icon.icon-bold
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                        .icon.icon-italic
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                        .icon.icon-list-ul
+                  %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
+                  = f.hidden_field :description, id: 'product_description'
+        
+        .well
+          - if @product_category.present?
             = f.fields_for :properties do |property_builder|
               - @product_category.product_properties.includes(property_options: :translations).each do |property|
                 = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
-        .well
           .sidebar-form-group
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :must_be_of_age_to_buy
             .sidebar-form-control
               = f.check_box :must_be_of_age_to_buy, data: {switch: true}
-
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :supplier
-            .sidebar-form-control
-              = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
         .well
           - if Spina::Shop::ProductCollection.any?
@@ -254,8 +277,11 @@
 
         .form-group
           .form-label
-            = Spina::Shop::Product.human_attribute_name :supplier_reference
+            = Spina::Shop::Product.human_attribute_name :supplier
+          .form-control
+            = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
+        .form-group
           .form-control
             = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
 
