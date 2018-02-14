@@ -123,7 +123,7 @@ nl:
         must_be_of_age_to_buy: Alleen voor 18+
         name: Naam
         price: Prijs
-        price_exceptions: Prijs per klantgroep
+        price_exceptions: Prijsuitzonderingen
         product_category: Productcategorie
         product_collections: Collecties
         promotional_price: Actieprijs
