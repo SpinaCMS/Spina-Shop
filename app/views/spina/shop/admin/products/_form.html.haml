@@ -198,18 +198,19 @@
                     %th{style: 'padding-left: 0'}
                       .pull-right
                         .store-badge{class: ('inactive' unless b.object.in? f.object.stores), style: "background: #{b.object.color}"}= b.object.initials
-                      = b.text
+                      %span{style: ('opacity: .25' unless b.object.in? f.object.stores)}= b.text
 
         .form-group
           .form-label
             = Spina::Shop::Product.human_attribute_name :base_price
           
-          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+          .form-control
             .input-group
-              = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
-              .select-dropdown{style: "border-left: 0; max-width: 70px"}
-                = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
-              .select-dropdown{style: "min-width: 120px"}
+              .input-group.form-control{style: 'position: relative', data: {form_prepend: t('number.currency.format.unit')}}
+                = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
+                .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; max-width: 62px; position: absolute; right: 0px"}
+                  = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
+              .select-dropdown{style: "min-width: 120px; max-width: 140px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
 
         / .form-group
