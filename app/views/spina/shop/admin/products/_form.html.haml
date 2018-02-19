@@ -232,18 +232,9 @@
               - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
                 = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "customer_group"}
 
-              %div{style: "margin-top: 10px", data: {dropdown: true}}
-                = link_to '#', class: 'button button-block', data: {trigger: 'dropdown', target: '#add_price_exceptions'} do
-                  = icon('plus')
-                  Prijs toevoegen
-
-                %ul#add_price_exceptions.align-right
-                  %li
-                    = link_to_add_price_exception f, "store" do
-                      = t 'spina.shop.products.add_store_price_exception'
-                  %li
-                    = link_to_add_price_exception f, "customer_group" do
-                      = t 'spina.shop.products.add_customer_group_price_exception'
+            = link_to_add_price_exception f, "store" do
+              = icon('plus')
+              Prijs toevoegen
 
         .form-group
           .form-label
@@ -261,19 +252,19 @@
             = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
 
         .form-group
+          .form-control.pull-right
+            = f.check_box :stock_enabled, data: {switch: true}
           .form-label
             = Spina::Shop::Product.human_attribute_name :stock_enabled
 
-          .form-control
-            = f.check_box :stock_enabled, data: {switch: true}
-
         .form-group
-          .form-label
-            .pull-right.text-muted{style: 'font-weight: 400'}=l(f.object.expiration_date, format: '%B \'%y') if f.object.expiration_date
-            = Spina::Shop::Product.human_attribute_name :can_expire
-
-          .form-control
+          .form-control.pull-right
             = f.check_box :can_expire, data: {switch: true}
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :can_expire
+            - if f.object.can_expire && f.object.expiration_date 
+              .text-muted{style: 'font-weight: 400; margin-top: -10px'}
+                =l(f.object.expiration_date, format: '%B \'%y')
 
         - if f.object.stock_enabled?
           - unless f.object.new_record?

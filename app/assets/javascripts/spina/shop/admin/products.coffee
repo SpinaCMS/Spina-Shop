@@ -78,7 +78,7 @@ $(document).on 'spina:product_fields_added', 'form', (e) ->
 $(document).on 'click', 'form .add_price_exception', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $(this).closest('.price-exceptions').before($(this).data('fields').replace(regexp, time))
+  $(this).parents().find('.price-exceptions').append($(this).data('fields').replace(regexp, time))
 
   # Fire event
   $(this).closest('form').trigger('spina:price_exception_added')
