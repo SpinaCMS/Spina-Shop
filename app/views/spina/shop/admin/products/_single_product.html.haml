@@ -1,4 +1,4 @@
-- if single_product.has_variants?
+- if params[:filters].blank? && params[:q].blank? && single_product.has_variants?
   %tr{style: "border: none"}
     %td{style: 'width: 70px'}
       .form-checkbox{style: 'width: 20px'}
@@ -8,6 +8,6 @@
     %td{colspan: 6}
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
   - single_product.variants.each_with_index do |product, i|
-    = render partial: 'product', object: product, locals: {variant: true, no_border: (i + 1) != single_product.variants.count}
+    = render partial: 'product', object: product, locals: {variant: true, no_border: (i + 1) != single_product.variants.count, name: product.variant_name}
 - else
-  = render partial: 'product', locals: {product: single_product}
+  = render partial: 'product', locals: {product: single_product, name: single_product.full_name}
