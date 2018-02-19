@@ -180,11 +180,25 @@
         = f.attachment_field :product_images_files, direct: true, multiple: true, presigned: true, class: "sidebar-form-image-dropzone"
 
         .form-group
+          .form-control.pull-right
+            = f.check_box :active, data: {switch: true}
           .form-label
             = Spina::Shop::Product.human_attribute_name :active
-          
-          .form-control
-            = f.check_box :active, data: {switch: true}
+
+        - if stores.any?
+          .form-group
+            .table-collection-check-boxes-container
+              %table.table.table-collection-check-boxes.table-clickable
+                = collection_check_boxes(:product, :store_ids, stores, :id, :name) do |b|
+                  %tr
+                    %td{style: 'width: 10px'}
+                      .form-checkbox{style: 'width: 20px'}
+                        = b.check_box
+                        %label
+                    %th{style: 'padding-left: 0'}
+                      .pull-right
+                        .store-badge{class: ('inactive' unless b.object.in? f.object.stores), style: "background: #{b.object.color}"}= b.object.initials
+                      = b.text
 
         .form-group
           .form-label
@@ -193,20 +207,20 @@
           .form-control{data: {form_prepend: t('number.currency.format.unit')}}
             .input-group
               = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
-              .select-dropdown
+              .select-dropdown{style: "border-left: 0; max-width: 70px"}
                 = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
               .select-dropdown{style: "min-width: 120px"}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :promotional_price
+        / .form-group
+        /   .form-label
+        /     = Spina::Shop::Product.human_attribute_name :promotional_price
           
-          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
-            = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
+        /   .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+        /     = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
 
         - if Spina::Shop::CustomerGroup.any? || Spina::Shop::Store.any?
-          .form-group.price-exceptions{style: 'margin-bottom: 40px'}
+          .form-group
             .form-label
               = Spina::Shop::Product.human_attribute_name :price_exceptions
             
@@ -217,17 +231,18 @@
               - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
                 = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "customer_group"}
 
-            .pull-right{data: {dropdown: true}}
-              = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#add_price_exceptions'} do
-                = icon('plus')
+              %div{style: "margin-top: 10px", data: {dropdown: true}}
+                = link_to '#', class: 'button button-block', data: {trigger: 'dropdown', target: '#add_price_exceptions'} do
+                  = icon('plus')
+                  Prijs toevoegen
 
-              %ul#add_price_exceptions.align-right
-                %li
-                  = link_to_add_price_exception f, "store" do
-                    = t 'spina.shop.products.add_store_price_exception'
-                %li
-                  = link_to_add_price_exception f, "customer_group" do
-                    = t 'spina.shop.products.add_customer_group_price_exception'
+                %ul#add_price_exceptions.align-right
+                  %li
+                    = link_to_add_price_exception f, "store" do
+                      = t 'spina.shop.products.add_store_price_exception'
+                  %li
+                    = link_to_add_price_exception f, "customer_group" do
+                      = t 'spina.shop.products.add_customer_group_price_exception'
 
         .form-group
           .form-label

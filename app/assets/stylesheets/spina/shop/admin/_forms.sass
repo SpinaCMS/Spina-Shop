@@ -198,3 +198,34 @@
 
       .select2-selection__choice
         background: tint($primary-color, 75%) !important
+
+// Collection check boxes table
+.table-collection-check-boxes-container
+  background: white
+  border: 1px solid #c3c3c3
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .16)
+  border-radius: 3px
+
+input[data-form-prepend]
+  padding-left: 28px
+  position: relative
+
+  &:before
+    content: "b"
+    display: block
+    left: 0px
+    top: 0px
+    position: absolute
+
+table.table-collection-check-boxes
+  color: #333
+  font-size: 14px
+  margin: 0
+
+  th
+    font-weight: 600
+
+  tr
+    td, th
+      padding-bottom: 10px
+      padding-top: 10px

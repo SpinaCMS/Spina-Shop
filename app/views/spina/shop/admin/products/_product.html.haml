@@ -8,18 +8,11 @@
   %td{style: ('text-indent: 20px' if defined?(variant) && variant)}
     = link_to (defined?(variant) && variant ? product.variant_name : product.name), spina.shop_admin_product_path(product), class: 'table-link'
     %small= product.product_collections.pluck(:name).join(", ").html_safe
-  %td{style: "padding: 6px 12px"}
-    %small{style: "opacity: .75"}
-      %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #e18130; color: white"} S
-      - if product.id % 6 == 0 || product.id % 5 == 0
-        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #ddd; color: white"} DF
-      - else
-        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #60b1d4; color: white"} DF
-      
-      - if product.id % 21 == 0 || product.id % 20 == 0
-        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #d6726f; color: white"} E
-      - else
-        %span{style: "background: #e6e6e6; border-radius: 50px; height: 20px; width: auto; display: inline-block; text-align: center; line-height: 20px; font-weight: bold; padding: 0 5px; min-width: 20px; font-size: 10px; background: #ddd; color: white"} E
+  - if stores.any?
+    %td{style: "padding: 6px 12px"}
+      - stores.each do |store|
+        .store-badge{class: ('inactive' unless store.in? product.stores), style: "background: #{store.color}"}= store.initials
+
   %td.align-right
     - if product.promotion?
       %small{style: 'text-decoration: line-through'}= number_to_currency product.base_price
