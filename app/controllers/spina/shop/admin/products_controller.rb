@@ -7,8 +7,10 @@ module Spina::Shop
       def index
         @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations, :stores).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
 
-        if @q.conditions.none? && @q.sorts.none?
-          @products = Product.includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
+        @unfiltered = @q.conditions.none? && @q.sorts.none?
+
+        if @unfiltered
+          @products = Product.order(created_at: :desc).includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
         else
           @products = @q.result.page(params[:page]).per(25)
         end
