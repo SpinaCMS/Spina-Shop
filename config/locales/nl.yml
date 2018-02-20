@@ -111,7 +111,7 @@ nl:
         total: Totaal
       spina/shop/product:
         active: Beschikbaar in webshop
-        base_price: Standaard prijs
+        base_price: Prijs
         can_expire: Heeft een verloopdatum
         cost_price: Kostprijs
         description: Beschrijving
@@ -219,15 +219,21 @@ nl:
       spina/shop/product_bundle:
         one: Productbundle
         other: Productbundels
+      spina/shop/product_collection:
+        one: Collectie
+        other: Collecties
       spina/shop/product_category:
-        one: Productcategorie
-        other: Productcategorieën
+        one: Categorie
+        other: Categorieën
       spina/shop/product_item:
         one: Product item
         other: Product items
       spina/shop/product_review:
         one: Beoordeling
         other: Beoordelingen
+      spina/shop/store:
+        one: Winkel
+        other: Winkels
       spina/shop/sales_category:
         one: Omzetcategorie
         other: Omzetcategorieën

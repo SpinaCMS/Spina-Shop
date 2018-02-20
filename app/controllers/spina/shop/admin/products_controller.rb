@@ -5,9 +5,13 @@ module Spina::Shop
       before_action :set_locale
 
       def index
-        @q = Product.where(archived: false).filtered(filters, hide_variants: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
-        @products = @q.result.page(params[:page]).per(25)
-        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
+        @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations, :stores).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+
+        if @q.conditions.none? && @q.sorts.none?
+          @products = Product.includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
+        else
+          @products = @q.result.page(params[:page]).per(25)
+        end
 
         respond_to do |format|
           format.html
@@ -26,9 +30,8 @@ module Spina::Shop
       end
 
       def archived
-        @q = Product.where(archived: true).filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @q = Product.where(archived: true).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
         @products = @q.result.page(params[:page]).per(25)
-        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
         render :index
       end
 

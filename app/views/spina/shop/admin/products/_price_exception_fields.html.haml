@@ -12,4 +12,3 @@
         = f.text_field "price_exceptions[#{scope.pluralize}][][price]", value: number_with_precision(price_exception["price"], precision: 2), placeholder: Spina::Shop::Product.human_attribute_name(:price), style: 'border-right: 1px solid #c3c3c3; border-top-right-radius: 3px; border-bottom-right-radius: 3px'
 
       .select-dropdown{style: "background: none; box-shadow: none; border: none; position: absolute; right: 0px; min-width: 62px; max-width: 62px; border-left: 0"}= select_tag "product[price_exceptions[#{scope.pluralize}][][price_includes_tax]]", options_for_select([['incl.', true], ['excl.', false]], price_exception["price_includes_tax"])
-

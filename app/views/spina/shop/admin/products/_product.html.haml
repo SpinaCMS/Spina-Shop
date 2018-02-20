@@ -5,13 +5,15 @@
       %label
   %td.align-center{style: 'width: 30px'}
     = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
-  %td{style: ('text-indent: 20px' if defined?(variant) && variant)}
-    = link_to name, spina.shop_admin_product_path(product), class: 'table-link'
+  %td{style: ('text-indent: 20px' if product.variant?)}
+    = link_to product.full_name, spina.shop_admin_product_path(product), class: 'table-link'
     %small= product.product_collections.pluck(:name).join(", ").html_safe
+
   - if stores.any?
     %td{style: "padding: 6px 12px"}
+      - store_ids = product.store_ids
       - stores.each do |store|
-        .store-badge{class: ('inactive' unless store.in? product.stores), style: "background: #{store.color}"}= store.initials
+        .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
 
   %td.align-right
     - if product.promotion?
