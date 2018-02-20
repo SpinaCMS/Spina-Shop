@@ -15,7 +15,7 @@
 
           .divider
 
-        - if @product.can_have_variants?
+        - if @product.has_variants?
           %div{style: 'display: inline-block', data: {dropdown: true}}
             = link_to '#', style: "color: #333", data: {trigger: 'dropdown', target: '#variants'} do
               - if @product.has_variants?
