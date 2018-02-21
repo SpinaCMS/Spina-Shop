@@ -380,7 +380,7 @@ nl:
         archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
         archived_title: Archief
         batches:
-          updating_html: De producten worden op de achtergrond bijgewerkt
+          updating_html: De <strong>producten</strong> worden op de achtergrond bijgewerkt
         choose_customer_group: Kies klantgroep
         delete: Verwijder product
         delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
