@@ -15,7 +15,11 @@ module Spina::Shop
     has_many :collectables, dependent: :destroy
     has_many :product_collections, through: :collectables
     has_many :available_products, dependent: :destroy
-    has_many :stores, through: :available_products
+    has_many :stores, through: :available_products do
+      def cache_key
+        [count(:updated_at), maximum(:updated_at)].map(&:to_i).join('-')
+      end
+    end
 
     belongs_to :parent, class_name: "Product", optional: true
     has_many :children, class_name: "Product", foreign_key: :parent_id, dependent: :nullify

@@ -89,3 +89,24 @@ $(document).on 'click', 'form .remove_price_exception', (event) ->
   $(this).closest('.form-control').slideUp 400, ->
     $(this).remove()
   event.preventDefault()
+
+$(document).on 'checked', 'table.products-table thead .form-checkbox input', (event) ->
+  if $(this).prop('checked')
+    $(this).closest('table').find('tbody tr td .form-checkbox input[type="checkbox"]').prop('checked', true)
+    count = $(this).attr('data-count')
+    if count > 0
+      $('.products-batch-action span.selected').text("(#{count})")
+    else
+      $('.products-batch-action span.selected').text("")
+  else
+    $(this).closest('table').find('tbody tr td .form-checkbox input[type="checkbox"]').prop('checked', false)
+    $('.products-batch-action span.selected').text("")
+
+$(document).on 'checked', 'table.products-table tbody .form-checkbox input', (event) ->
+  $('table.products-table thead .form-checkbox input').prop('checked', false)
+  
+  count = $('table.products-table tbody .form-checkbox input:checked').length
+  if count > 0
+    $('.products-batch-action span.selected').text("(#{count})")
+  else
+    $('.products-batch-action span.selected').text("")

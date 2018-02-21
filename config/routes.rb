@@ -41,6 +41,10 @@ Spina::Engine.routes.draw do
         resources :invoices, only: [:show]
 
         # Products
+        namespace :products do
+          resource :batch, only: [:edit, :update]
+        end
+
         resources :products do
           collection do
             get :archived

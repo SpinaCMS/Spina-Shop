@@ -1,9 +1,6 @@
 - if @unfiltered && single_product.has_variants?
   %tr{style: "border: none"}
-    %td{style: 'width: 70px'}
-      .form-checkbox{style: 'width: 20px'}
-        = check_box_tag 'product_ids[]', single_product.id
-        %label
+    %td
     %td
     %td{colspan: 6}
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
@@ -11,7 +8,6 @@
   %tr
     %td{colspan: 8, style: 'padding: 0'}
       %table{style: 'width: 100%'}
-        %tbody= render partial: 'product', collection: single_product.variants, cached: true
+        %tbody= render partial: 'product', collection: single_product.variants
 - else
-  - cache single_product do
-    = render partial: 'product', object: single_product
+  = render partial: 'product', object: single_product

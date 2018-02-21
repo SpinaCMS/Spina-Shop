@@ -4,6 +4,8 @@ module Spina::Shop
       before_action :set_breadcrumbs
       before_action :set_locale
 
+      before_action :set_batch_products, only: [:edit_batch, :update_batch]
+
       def index
         @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations, :stores).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
 

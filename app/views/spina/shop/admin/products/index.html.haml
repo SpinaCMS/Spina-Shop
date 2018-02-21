@@ -26,7 +26,9 @@
   .filter-form-simple
     .filter-form-input
       = f.text_field :sku_or_location_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam, SKU of locatie'
-      = link_to "filters #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''} instellen", '#', class: 'filter-form-advanced-link'
+      = link_to '#', class: 'filter-form-advanced-link' do
+        = icon('filter')
+        = "filteren #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -50,23 +52,42 @@
         - options = Spina::Shop::Store.pluck(:name, :id)
         = f.select :stores_id_in, options, {}, class: 'select2', style: 'width: 100%', multiple: true
 
-.table-container.infinite-table
-  %table.table.table-clickable
-    %thead
-      %tr
-        %th
-        %th
-        %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
-        - if stores.any?
-          %th= Spina::Shop::Store.model_name.human(count: 2)
-        %th{style: 'text-align: right'}= sort_link [:spina, @q], :base_price, Spina::Shop::Product.human_attribute_name(:base_price), {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= sort_link [:spina, @q], :location, Spina::Shop::Product.human_attribute_name(:location), {}, class: 'table-sort'
-        %th{style: 'text-align: right'}= sort_link [:spina, @q], :stock_level, ['stock_enabled desc', :stock_level], Spina::Shop::Product.human_attribute_name(:stock_level), {}, class: 'table-sort'
-        - if Spina::Shop::Product.where(can_expire: true).any?
-          %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
-        %th
+= form_with url: spina.edit_shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :get do
+  .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
+    = link_to '#', class: 'button button-link products-batch-action', style: 'text-transform: uppercase; font-size: 12px; font-weight: bold', data: {trigger: 'dropdown', target: '#actions'} do
+      geselecteerde producten
+      %span.selected
+      %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-    %tbody{class: ('unfiltered-products-index' if @unfiltered)}
-      = render partial: "single_product", collection: @products
+    %ul#actions.align-right{style: 'width: 240px'}
+      %li= button_tag "<span style='width: 14px; font-weight: 600; display: inline-block; text-align: center'>€</span> <strong>Prijs</strong> in batch aanpassen...".html_safe, type: :submit, name: 'modal', value: 'pricing'
+      %li= button_tag "<span style='width: 14px; font-weight: 600; display: inline-block; text-align: center'>€</span> <strong>Kostprijs</strong> in batch aanpassen...".html_safe, type: :submit, name: 'modal', value: 'cost_price'
+      %li.divider
+      %li= button_tag "<i class='icon icon-shop'></i> Toevoegen aan <strong>collecties...</strong>".html_safe, type: :submit, name: 'modal', value: 'collections'
+      %li= button_tag "<i class='icon icon-shop'></i> Toevoegen aan <strong>winkels...</strong>".html_safe, type: :submit, name: 'modal', value: 'stores'
+      %li.divider
+      %li= button_tag "<i class='icon icon-refresh'></i> <strong>Beschikbaarheid</strong> instellen...".html_safe, type: :submit, name: 'modal', value: 'active'
 
-  .pagination= link_to_next_page @products, 'Next'
+  .table-container.infinite-table
+    %table.table.table-clickable.products-table
+      %thead
+        %tr
+          %th
+            .form-checkbox{style: 'width: 20px'}
+              = check_box_tag 'select_all', nil, false, data: {count: @q.result.count}
+              %label
+          %th
+          %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
+          - if stores.any?
+            %th= Spina::Shop::Store.model_name.human(count: 2)
+          %th{style: 'text-align: right'}= sort_link [:spina, @q], :base_price, Spina::Shop::Product.human_attribute_name(:base_price), {}, class: 'table-sort'
+          %th{style: 'text-align: right'}= sort_link [:spina, @q], :location, Spina::Shop::Product.human_attribute_name(:location), {}, class: 'table-sort'
+          %th{style: 'text-align: right'}= sort_link [:spina, @q], :stock_level, ['stock_enabled desc', :stock_level], Spina::Shop::Product.human_attribute_name(:stock_level), {}, class: 'table-sort'
+          - if Spina::Shop::Product.where(can_expire: true).any?
+            %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
+          %th
+
+      %tbody{class: ('unfiltered-products-index' if @unfiltered)}
+        = render partial: "single_product", collection: @products
+
+    .pagination= link_to_next_page @products, 'Next'
