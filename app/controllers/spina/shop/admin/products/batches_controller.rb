@@ -11,8 +11,8 @@ module Spina::Shop
         end
 
         def update
-          # Let's do this in a job!
-          @products.update(product_params)
+          UpdateProductsInBatchJob.perform_later(@products.ids, product_params)
+          flash[:success] = t('spina.shop.products.batches.updating_html')
           redirect_back fallback_location: spina.shop_admin_products_path
         end
 
