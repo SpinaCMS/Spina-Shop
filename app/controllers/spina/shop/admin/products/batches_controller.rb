@@ -27,7 +27,7 @@ module Spina::Shop
           end
 
           def product_params
-            params.permit(:base_price, :cost_price, :price_includes_tax, :active, store_ids: []).delocalize(base_price: :number, cost_price: :number)
+            params.permit(:base_price, :cost_price, :price_includes_tax, :active, product_collection_ids: [], store_ids: []).delocalize(base_price: :number, cost_price: :number)
           end
 
       end

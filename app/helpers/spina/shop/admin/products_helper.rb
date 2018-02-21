@@ -6,6 +6,10 @@ module Spina::Shop
         @stores ||= Spina::Shop::Store.all
       end
 
+      def product_collections
+        @product_collections ||= Spina::Shop::ProductCollection.all
+      end
+
     end
   end
 end
