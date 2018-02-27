@@ -29,14 +29,14 @@ module Spina::Shop
         end
 
         def index
-          @q = ProductBundle.order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale}).ransack(params[:q])
-          @product_bundles = @q.result.page(params[:page]).per(25)
+          @q = ProductBundle.includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale}).ransack(params[:q])
+          @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
 
           respond_to do |format|
             format.html
             format.js
             format.json do
-              results = @product_bundles.includes(:product_images).map do |product_bundle|
+              results = @product_bundles.map do |product_bundle|
               { id: product_bundle.id, 
                 name: product_bundle.name,
                 stock_level: product_bundle.stock_level,
@@ -70,7 +70,7 @@ module Spina::Shop
           end
 
           def product_bundle_params
-            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number})
+            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :original_price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number})
           end
       end
     end

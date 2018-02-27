@@ -43,10 +43,6 @@ module Spina::Shop
       description
     end
 
-    def original_price
-      bundled_products.joins(:product).pluck("SUM(quantity * (CASE WHEN promotional_price IS NOT NULL THEN promotional_price ELSE base_price END))")[0]
-    end
-
     def stock_level
       bundled_products.joins(:product).pluck("MIN(stock_level / quantity)")[0].to_i
     end

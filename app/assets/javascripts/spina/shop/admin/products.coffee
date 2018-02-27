@@ -15,7 +15,6 @@ class Spina.Products
           dataType: 'json'
           data: (params) ->
             q: {translations_name_start: params.term}, page: params.page
-          minimumInputLength: 1
           processResults: (data, params) ->
             params.page = params.page or 1
             return {
@@ -33,7 +32,6 @@ class Spina.Products
             product.name + " (#{product.stock_level})"
           else
             product.text 
-        minimumInputLength: 1
       )
 
 $.fn.enhanceProducts = ->
