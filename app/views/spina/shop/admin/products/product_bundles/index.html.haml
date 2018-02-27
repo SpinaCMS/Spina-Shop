@@ -19,7 +19,7 @@
         = link_to spina.shop_admin_product_bundles_path do
           Productbundels
 
-.table-container
+.table-container.infinite-table
   %table.table.table-clickable
     %thead
       %tr
@@ -28,25 +28,6 @@
         %th.text-right Prijs
         %th{style: 'width: 50px'}
 
-    %tbody
-      - @product_bundles.each do |product_bundle|
-        %tr{class: ('text-muted' unless product_bundle.active?)}
-          %td
-            = link_to product_bundle.name, spina.shop_admin_product_bundle_path(product_bundle), class: 'table-link'
-          %td
-            = product_bundle.bundled_products.sum(:quantity)
-            producten
-          %td.text-right
-            %em.text-muted{style: 'text-decoration: line-through'}
-              = number_to_currency product_bundle.original_price
-            &nbsp;
-            = number_to_currency product_bundle.price
-          %td.align-right
-            - if product_bundle.active?
-              - if product_bundle.in_stock?
-                .status-dot.status-dot-success
-              - else
-                .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
-            - else
-              .status-dot
+    %tbody= render partial: 'product_bundle', collection: @product_bundles
               
+  .pagination= link_to_next_page @product_bundles, 'Next'

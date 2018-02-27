@@ -29,7 +29,23 @@ module Spina::Shop
         end
 
         def index
-          @product_bundles = ProductBundle.order(id: :desc)
+          @q = ProductBundle.order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale}).ransack(params[:q])
+          @product_bundles = @q.result.page(params[:page]).per(25)
+
+          respond_to do |format|
+            format.html
+            format.js
+            format.json do
+              results = @product_bundles.includes(:product_images).map do |product_bundle|
+              { id: product_bundle.id, 
+                name: product_bundle.name,
+                stock_level: product_bundle.stock_level,
+                image_url: view_context.attachment_url(product_bundle.product_images.first, :file, :fit, 30, 30), 
+                price: view_context.number_to_currency(product_bundle.price) }
+            end
+            render inline: {results: results, total_count: @q.result.count}.to_json
+            end
+          end
         end
 
         def update
