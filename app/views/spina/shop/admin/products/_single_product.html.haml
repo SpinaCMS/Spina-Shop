@@ -1,12 +1,13 @@
 - if @unfiltered && single_product.has_variants?
   %tr{style: "border: none"}
     %td
-    %td
-    %td{colspan: 6}
+    %td.align-center{style: 'width: 30px'}
+      = image_tag attachment_url(single_product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
+    %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 7 : 6}
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
       
   %tr
-    %td{colspan: 8, style: 'padding: 0'}
+    %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 9 : 8, style: 'padding: 0'}
       %table{style: 'width: 100%'}
         %tbody= render partial: 'product', collection: single_product.variants
 - else

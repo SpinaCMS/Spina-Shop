@@ -7,7 +7,7 @@ module Spina::Shop
       before_action :set_batch_products, only: [:edit_batch, :update_batch]
 
       def index
-        @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations, :stores).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
 
         @unfiltered = @q.conditions.none? && @q.sorts.none?
 
@@ -60,10 +60,7 @@ module Spina::Shop
         @product = Product.new
         add_breadcrumb t('spina.shop.products.new'), spina.new_shop_admin_product_path
 
-        @product_category = ProductCategory.where(id: params[:product_category_id]).first
-
-        # Always build at least one product item
-        @product.product_category = @product_category
+        @product.product_category = ProductCategory.where(id: params[:product_category_id]).first
       end
 
       def create
@@ -77,13 +74,16 @@ module Spina::Shop
 
       def edit
         @product = Product.find(params[:id])
-        @product_category = @product.product_category
+      end
+
+      def edit_parent
+        @product = Product.find(params[:id])
       end
 
       def update
         @product = Product.find(params[:id])
         if Mobility.with_locale(@locale) { @product.update_attributes(product_params) }
-          redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
+          redirect_back fallback_location: spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :edit
         end

@@ -50,6 +50,7 @@ Spina::Engine.routes.draw do
             get :archived
           end
           member do
+            get :edit_parent
             get :duplicate
             get :variant
             post :archive

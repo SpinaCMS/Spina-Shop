@@ -117,6 +117,7 @@ nl:
         description: Beschrijving
         ean: EAN
         expiration_date: Verloopdatum
+        limit: Limiet
         limit_per_order: Limiet per bestelling
         location: Locatie
         materialized_path: URL
@@ -127,6 +128,7 @@ nl:
         product_category: Productcategorie
         product_collections: Collecties
         promotional_price: Actieprijs
+        reference: Referentie
         related_products: Gerelateerde producten
         sales_category: Omzetcategorie
         seo_description: SEO omschrijving
@@ -374,7 +376,7 @@ nl:
       product_reviews:
         no_reviews: Er zijn nog geen beoordelingen gegeven
       products:
-        adjust_stock: Voorraad aanpassen
+        adjust_stock: Aanpassen
         almost_expired: Product is bijna verlopen
         archive: Archiveer product
         archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?

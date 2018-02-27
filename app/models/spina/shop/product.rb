@@ -33,6 +33,7 @@ module Spina::Shop
     before_validation :set_name, if: :variant?
     before_validation :set_variant_name
     before_validation :set_materialized_path
+    before_validation :set_price_exceptions
     before_validation :set_parent_product_properties, if: :variant?
 
     # Create a 301 redirect if materialized_path changed
@@ -43,7 +44,8 @@ module Spina::Shop
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
-    translates :name, :variant_name, :description, :materialized_path
+    translates :name, :description, :materialized_path
+    translates :variant_name, default: -> { "–" }
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 
@@ -82,11 +84,11 @@ module Spina::Shop
     end
 
     def has_variants?
-      variant? || children.any?
+      variant? || has_children?
     end
 
     def variants
-      (parent || self).children.to_a.unshift(parent || self)
+      (parent || self).children.to_a
     end
 
     def can_have_variants?
@@ -201,10 +203,18 @@ module Spina::Shop
       end
 
       def set_variant_name
+        self.variant_name = nil
         return if properties.blank?
         self.variant_name = product_category.variant_properties.map do |property|
           properties.send(property.name).try(:label)
         end.try(:join, ' - ')
+      end
+
+      def set_price_exceptions
+        self[:price_exceptions] = {
+          'stores' => (price_exceptions['stores'].keep_if{|e| e['price'].present?} if price_exceptions['stores'].try(:any?)),
+          'customer_groups' => (price_exceptions['customer_group'].keep_if{|e| e['price'].present?} if price_exceptions['customer_group'].try(:any?))
+        }
       end
 
       def save_children

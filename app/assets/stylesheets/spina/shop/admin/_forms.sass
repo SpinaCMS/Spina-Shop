@@ -258,3 +258,30 @@ table.table-collection-check-boxes
     td, th
       padding-bottom: 10px
       padding-top: 10px
+
+// Form labels in input groups
+
+.input-group > .form-label
+  background: rgba(0, 0, 0, .025)
+  border: 1px solid #ccc
+  border-right: none
+  border-radius: 3px 0 0 3px
+  padding: 0 10px
+  line-height: 38px
+  white-space: nowrap
+
+.grouped-form-groups
+  .form-group:not(:last-child)
+    margin-bottom: 0px
+
+    .input-group
+      .form-label, .form-control input, .form-control .select-dropdown
+        border-bottom: 0
+        border-bottom-left-radius: 0px
+        border-bottom-right-radius: 0px
+
+  .form-group:not(:first-child)
+    .input-group
+      .form-label, .form-control input, .form-control .select-dropdown
+        border-top-left-radius: 0px
+        border-top-right-radius: 0px
