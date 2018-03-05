@@ -8,15 +8,15 @@ module Spina::Shop
 
       before_validation(if: :variant?) do
         set_name
-        set_variant_name
         set_parent_product_properties
         set_parent_relations
       end
 
-      before_save :set_sellable
+      before_create :first_variant, if: :variant?
+      before_save :set_variant_name
+      before_save :set_abstract
+      before_save :set_parent, if: :variant?
       after_save :save_children, if: :has_children?
-
-      scope :sellable, -> { where(sellable: true) }
 
       translates :variant_name, default: -> { "–" }
     end
@@ -59,8 +59,22 @@ module Spina::Shop
 
     private
 
-      def set_sellable
-        self[:sellable] = !(parent? && has_children?)
+      def first_variant
+        return if parent.has_children?
+        new_parent = parent.dup
+        new_parent.parent_id = nil
+        new_parent.sku = nil
+        new_parent.stores = parent.stores
+        new_parent.product_collections = parent.product_collections
+        new_parent.related_products = parent.related_products
+        new_parent.save
+
+        parent.update_columns(parent_id: new_parent.id)
+        self[:parent_id] = new_parent.id
+      end
+
+      def set_abstract
+        self[:abstract] = parent? && has_children?
       end
 
       def set_variant_name
@@ -73,6 +87,10 @@ module Spina::Shop
 
       def save_children
         children.each(&:save)
+      end
+
+      def set_parent
+        self.parent_id = parent.parent_id || parent.id
       end
 
       def set_parent_product_properties

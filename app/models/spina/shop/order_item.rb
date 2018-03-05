@@ -8,6 +8,7 @@ module Spina::Shop
     has_many :stock_level_adjustments, dependent: :nullify # Don't destroy the stock level adjustments automatically if an order is destroyed
 
     validates :unit_price, :unit_cost_price, :tax_rate, :weight, presence: true, if: -> { order.try(:received?) }
+    validate :no_abstract_product
     validate :item_must_be_in_stock, if: -> { validate_stock }
     validates :order_id, uniqueness: {scope: [:orderable_id, :orderable_type]}
 
@@ -68,6 +69,10 @@ module Spina::Shop
       end
     end
 
+    def is_product?
+      orderable_type == "Spina::Shop::Product"
+    end
+
     def is_product_bundle?
       orderable_type == "Spina::Shop::ProductBundle"
     end
@@ -102,6 +107,10 @@ module Spina::Shop
           order_item.quantity = quantity if order_item == self
           total + order_item.unallocated_stock(product_id)
         end
+      end
+
+      def no_abstract_product
+        errors.add(:orderable, "abstract product") if is_product? && orderable.abstract?
       end
 
       def item_must_be_in_stock

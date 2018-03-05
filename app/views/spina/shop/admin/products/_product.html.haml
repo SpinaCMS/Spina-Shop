@@ -25,13 +25,13 @@
         %small{style: 'text-decoration: line-through'}= number_to_currency product.base_price
       = number_to_currency product.price
     %td.align-right{style: "width: 90px"}
-      - if product.sellable
+      - unless product.abstract
         = product.location
     %td.align-right{style: "width: 90px"}
-      = product.stock_level if product.stock_enabled? && product.sellable?
+      = product.stock_level if product.stock_enabled? && !product.abstract?
     - if Spina::Shop::Product.where(can_expire: true).any?
       %td.align-right{style: "width: 120px"}
-        - if product.sellable
+        - unless product.abstract
           =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
 
     %td.align-right{style: "width: 90px"}
