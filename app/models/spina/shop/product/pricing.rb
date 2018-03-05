@@ -1,0 +1,67 @@
+module Spina::Shop
+  module Product::Pricing
+    extend ActiveSupport::Concern
+
+    included do
+      before_validation :set_price_exceptions
+    end
+
+    def promotion?
+      promotional_price.present?
+    end
+
+    def price
+      promotional_price.presence || base_price
+    end
+
+    def price_for_order(order)
+      # Return the default price if we don't know anything about the order
+      return price if order.nil? 
+
+      # If no conversion is needed, simply return price
+      price = price_for_customer(order.customer)
+      price_includes_tax = price_includes_tax_for_customer(order.customer)
+      return price if price_includes_tax == order.prices_include_tax
+
+      # Price modifier for unit price
+      price_modifier = tax_group.price_modifier_for_order(order)
+
+      # Calculate unit price based on price modifier
+      unit_price = price_includes_tax ? price / price_modifier : price * price_modifier
+
+      # Round to two decimals using bankers' rounding
+      return unit_price.round(2, :half_even)
+    end
+
+    def price_for_customer(customer)
+      return price if customer.nil?
+      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price
+    end
+
+    def price_includes_tax_for_customer(customer)
+      return price_includes_tax if customer.nil?
+      price_exception = price_exception_for_customer(customer)
+      if price_exception.present?
+        ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
+      else
+        price_includes_tax
+      end
+    end
+
+    private
+
+      def set_price_exceptions
+        self[:price_exceptions] = {
+          'stores' => (price_exceptions['stores'].keep_if{|e| e['price'].present?} if price_exceptions['stores'].try(:any?)),
+          'customer_groups' => (price_exceptions['customer_group'].keep_if{|e| e['price'].present?} if price_exceptions['customer_group'].try(:any?))
+        }
+      end
+
+      # Get price exception based on Customer / CustomerGroup if available
+      def price_exception_for_customer(customer)
+        price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
+          h["customer_group_id"].to_i == customer.customer_group_id
+        end
+      end
+  end
+end

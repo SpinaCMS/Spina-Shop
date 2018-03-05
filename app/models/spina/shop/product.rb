@@ -1,7 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
+    include Variants, Pricing
+
     # Stores the old path when generating a new materialized_path
-    attr_accessor :old_path
+    attr_accessor :old_path, :initial_stock_level
 
     belongs_to :tax_group
     belongs_to :sales_category
@@ -17,9 +19,6 @@ module Spina::Shop
     has_many :available_products
     has_many :stores, through: :available_products, dependent: :destroy
 
-    belongs_to :parent, class_name: "Product", optional: true
-    has_many :children, class_name: "Product", foreign_key: :parent_id, dependent: :nullify
-
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
     has_many :in_stock_reminders, as: :orderable, dependent: :destroy
@@ -30,22 +29,18 @@ module Spina::Shop
     accepts_attachments_for :product_images, append: true
 
     # Generate materialized path
-    before_validation :set_name, if: :variant?
-    before_validation :set_variant_name
     before_validation :set_materialized_path
-    before_validation :set_price_exceptions
-    before_validation :set_parent_product_properties, if: :variant?
 
     # Create a 301 redirect if materialized_path changed
     after_save :rewrite_rule
-    after_save :save_children, if: :has_children?
+
+    after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
 
     validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
     translates :name, :description, :materialized_path
-    translates :variant_name, default: -> { "–" }
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 
@@ -69,72 +64,6 @@ module Spina::Shop
 
     def to_s
       name
-    end
-
-    def full_name
-      [name, variant_name].compact.join(' / ')
-    end
-
-    def variant?
-      parent_id.present?
-    end
-
-    def has_children?
-      children.any?
-    end
-
-    def has_variants?
-      variant? || has_children?
-    end
-
-    def variants
-      (parent || self).children.to_a
-    end
-
-    def can_have_variants?
-      product_category.variant_properties.any? if product_category.present?
-    end
-
-    def promotion?
-      promotional_price.present?
-    end
-
-    def price
-      promotional_price.presence || base_price
-    end
-
-    def price_for_order(order)
-      # Return the default price if we don't know anything about the order
-      return price if order.nil? 
-
-      # If no conversion is needed, simply return price
-      price = price_for_customer(order.customer)
-      price_includes_tax = price_includes_tax_for_customer(order.customer)
-      return price if price_includes_tax == order.prices_include_tax
-
-      # Price modifier for unit price
-      price_modifier = tax_group.price_modifier_for_order(order)
-
-      # Calculate unit price based on price modifier
-      unit_price = price_includes_tax ? price / price_modifier : price * price_modifier
-
-      # Round to two decimals using bankers' rounding
-      return unit_price.round(2, :half_even)
-    end
-
-    def price_for_customer(customer)
-      return price if customer.nil?
-      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price
-    end
-
-    def price_includes_tax_for_customer(customer)
-      return price_includes_tax if customer.nil?
-      price_exception = price_exception_for_customer(customer)
-      if price_exception.present?
-        ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
-      else
-        price_includes_tax
-      end
     end
 
     def in_stock?
@@ -202,38 +131,12 @@ module Spina::Shop
         self.name = parent.name
       end
 
-      def set_variant_name
-        self.variant_name = nil
-        return if properties.blank?
-        self.variant_name = product_category.variant_properties.map do |property|
-          properties.send(property.name).try(:label)
-        end.try(:join, ' - ')
-      end
-
-      def set_price_exceptions
-        self[:price_exceptions] = {
-          'stores' => (price_exceptions['stores'].keep_if{|e| e['price'].present?} if price_exceptions['stores'].try(:any?)),
-          'customer_groups' => (price_exceptions['customer_group'].keep_if{|e| e['price'].present?} if price_exceptions['customer_group'].try(:any?))
-        }
-      end
-
-      def save_children
-        children.each(&:save)
-      end
-
-      def set_parent_product_properties
-        assign_attributes(name: parent.name, product_category: parent.product_category)
-      end
-
       def rewrite_rule
         Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
       end
 
-      # Get price exception based on Customer / CustomerGroup if available
-      def price_exception_for_customer(customer)
-        price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
-          h["customer_group_id"].to_i == customer.customer_group_id
-        end
+      def create_initial_stock_level_adjustment
+        ChangeStockLevel.new(self, adjustment: initial_stock_level).save
       end
 
       # Get all values for properties defined on the ProductCategory.

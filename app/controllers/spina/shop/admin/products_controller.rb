@@ -57,7 +57,7 @@ module Spina::Shop
       end
 
       def new
-        @product = Product.new
+        @product = Product.new(stock_enabled: true)
         add_breadcrumb t('spina.shop.products.new'), spina.new_shop_admin_product_path
 
         @product.product_category = ProductCategory.where(id: params[:product_category_id]).first

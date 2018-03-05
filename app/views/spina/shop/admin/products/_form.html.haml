@@ -12,6 +12,14 @@
 
       = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
+    - if f.object.persisted? && f.object.has_variants?
+      %nav#secondary.tabs
+        %ul
+          %li{class: ('active' if @product.parent?)}= link_to 'Productinstellingen', spina.edit_shop_admin_product_path(@product.parent || @product)
+
+          - @product.variants.each do |variant|
+            %li{class: ('active' if @product == variant)}= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
+
     #header_actions
       - if f.object.product_images.any?
         %div{style: 'display: inline-block', data: {dropdown: true}}
@@ -24,10 +32,14 @@
               %li
                 = link_to attachment_url(product_image, :file), target: :blank do
                   Afbeelding
+
+      - if @product.persisted? && @product.can_have_variants?
+        = link_to spina.variant_shop_admin_product_path(@product.parent || @product), class: 'button' do
+          = icon('plus')
+          Variant
                   
-      %button.button.button-primary{type: 'submit', style: "margin-left: 3px"}
+      %button.button.button-primary.icon-only{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
-        =t 'spina.shop.save'
 
   - if @product.errors.any?
     - content_for :notifications do
@@ -161,7 +173,7 @@
           .form-label
             = Spina::Shop::Product.human_attribute_name :active
 
-        - if stores.any?
+        - if f.object.parent? && stores.any?
           .form-group
             .table-collection-check-boxes-container
               %table.table.table-collection-check-boxes.table-clickable
@@ -176,7 +188,7 @@
                         .store-badge{class: ('inactive' unless b.object.in? f.object.stores), style: "background: #{b.object.color}"}= b.object.initials
                       %span{style: ('opacity: .25' unless b.object.in? f.object.stores)}= b.text
 
-        %div{style: "height: 1px; background: #ccc; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+        %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
           %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"}= Spina::Shop::Product.human_attribute_name :sales_category
 
         .form-group
@@ -184,7 +196,7 @@
             .select-dropdown{style: 'width: 100%'}
               = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id)
 
-        %div{style: "height: 1px; background: #ccc; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+        %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
           %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Prijs
 
         .form-group
@@ -218,9 +230,9 @@
               Prijs toevoegen
 
         - unless f.object.has_children?
-          %div{style: "height: 1px; background: #ccc; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start; position: relative"}
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start; position: relative"}
             %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
-              - if f.object.stock_enabled?
+              - if f.object.persisted? && f.object.stock_enabled?
                 %small{style: 'position: absolute; right: 0px; top: 0px; transform: translateY(-50%); background: rgb(245, 245, 250); padding: 10px; padding-right: 0'}= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
 
               .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
@@ -236,9 +248,12 @@
                     = Spina::Shop::Product.human_attribute_name :stock_level
 
                   .form-control{style: "flex: 1.5"}
-                    .pull-right{style: 'position: absolute; right: 10px;top: 13px; font-size: 14px'}
-                      = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
-                    = text_field_tag :stock_level, f.object.stock_level, disabled: true
+                    - if f.object.persisted?
+                      .pull-right{style: 'position: absolute; right: 10px;top: 13px; font-size: 14px'}
+                        = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
+                      = text_field_tag :stock_level, f.object.stock_level, disabled: true
+                    - else
+                      = f.text_field :initial_stock_level, placeholder: Spina::Shop::Product.human_attribute_name(:stock_level)
 
               .form-group
                 .input-group
@@ -247,8 +262,8 @@
                   .form-control{style: 'flex: 1.5'}
                     = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
 
-        - if f.object.stock_enabled?
-          %div{style: "height: 1px; background: #ccc; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+        - if f.object.stock_enabled? && f.object.childless?
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
             %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Magazijn
 
           .grouped-form-groups
