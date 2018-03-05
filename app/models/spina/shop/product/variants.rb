@@ -50,6 +50,10 @@ module Spina::Shop
       product_category.variant_properties.any? if product_category.present?
     end
 
+    def variant_override?(attribute)
+      variant_overrides.try(:[], attribute.to_s).present?
+    end
+
     private
 
       def set_variant_name
@@ -65,11 +69,19 @@ module Spina::Shop
       end
 
       def set_parent_product_properties
-        assign_attributes(
-          name: parent.name, 
-          product_category: parent.product_category,
-          must_be_of_age_to_buy: parent.must_be_of_age_to_buy
-        )
+        attributes = %w(name product_category must_be_of_age_to_buy)
+
+        unless variant_override?(:pricing)
+          attributes += %w(base_price tax_group_id price_includes_tax price_exceptions)
+        end
+
+        unless variant_override?(:sales_category)
+          attributes << :sales_category_id
+        end
+
+        assign_attributes(attributes.map do |property|
+          {property => parent.send(property)}
+        end.reduce({}, :merge))
       end
 
       def set_parent_relations

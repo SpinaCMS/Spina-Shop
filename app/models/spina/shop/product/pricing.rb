@@ -52,8 +52,8 @@ module Spina::Shop
 
       def set_price_exceptions
         self[:price_exceptions] = {
-          'stores' => (price_exceptions['stores'].keep_if{|e| e['price'].present?} if price_exceptions['stores'].try(:any?)),
-          'customer_groups' => (price_exceptions['customer_group'].keep_if{|e| e['price'].present?} if price_exceptions['customer_group'].try(:any?))
+          'stores' => (price_exceptions['stores'].keep_if{|e| e['price'].present? && e['store_id'].present?} if price_exceptions['stores'].try(:any?)),
+          'customer_groups' => (price_exceptions['customer_groups'].keep_if{|e| e['price'].present? && e['customer_group_id'].present?} if price_exceptions['customer_groups'].try(:any?))
         }
       end
 

@@ -203,6 +203,17 @@
       .select2-selection__choice
         background: tint($primary-color, 75%) !important
 
+// Disabled dropdowns
+.select-dropdown[data-disabled]
+  background: rgb(237, 237, 242)
+
+  &:hover
+    border-color: rgb(195, 195, 195)
+
+  select
+    cursor: default
+    opacity: .5
+
 // Price exceptions
 
 .price-exceptions

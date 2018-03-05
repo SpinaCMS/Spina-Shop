@@ -134,8 +134,6 @@ module Spina::Shop
         @product.assign_attributes(parent_id: parent_product.id, sku: nil, properties: nil)
         @product_category = parent_product.product_category
 
-        @product.product_collections = product.product_collections
-
         add_breadcrumb parent_product.name, spina.shop_admin_product_path(parent_product)
         add_breadcrumb t('spina.shop.products.new_variant')
 
@@ -156,15 +154,7 @@ module Spina::Shop
 
         def product_params
           I18n.with_locale I18n.default_locale do
-            product_params = params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
-            if product_params[:price_exceptions].present?
-              product_params[:price_exceptions].try(:[], :customer_groups).try(:each) do |price_exception|
-                price_exception["price"] = Delocalize::Parsers::Number.new.parse(price_exception["price"])
-              end
-            else
-              product_params[:price_exceptions] = "{}"
-            end
-            product_params
+            params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
           end
         end
 

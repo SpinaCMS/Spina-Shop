@@ -189,25 +189,41 @@
                       %span{style: ('opacity: .25' unless b.object.in? f.object.stores)}= b.text
 
         %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
-          %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"}= Spina::Shop::Product.human_attribute_name :sales_category
+          %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+            - if f.object.variant?
+              .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                = hidden_field_tag 'product[variant_overrides[sales_category]]', nil
+                = check_box_tag 'product[variant_overrides[sales_category]]', true, f.object.variant_override?(:sales_category)
+                %label{style: 'margin-right: 0'}
+              Omzetcategorie overschrijven
+            - else
+              = Spina::Shop::Product.human_attribute_name :sales_category
 
         .form-group
           .form-control
-            .select-dropdown{style: 'width: 100%'}
-              = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id)
+            .select-dropdown{style: 'width: 100%', data: {disabled: f.object.variant? && !f.object.variant_override?(:sales_category)}}
+              = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id), {}, disabled: f.object.variant? && !f.object.variant_override?(:sales_category)
 
         %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
-          %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Prijs
+          %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+            - if f.object.variant?
+              .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                = hidden_field_tag 'product[variant_overrides[pricing]]', nil
+                = check_box_tag 'product[variant_overrides[pricing]]', true, f.object.variant_overrides.try(:[], "pricing").present?
+                %label{style: 'margin-right: 0'}
+              Prijs overschrijven
+            - else
+              Prijs
 
         .form-group
           .form-control
             .input-group
               .input-group.form-control{style: 'position: relative', data: {form_prepend: t('number.currency.format.unit')}}
-                = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
-                .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; max-width: 62px; position: absolute; right: 0px"}
-                  = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
-              .select-dropdown{style: "min-width: 120px; max-width: 140px"}
-                = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
+                = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+                .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; max-width: 62px; position: absolute; right: 0px", data: {disabled: f.object.variant? && !f.object.variant_override?(:pricing)}}
+                  = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+              .select-dropdown{style: "min-width: 120px; max-width: 140px", data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
+                = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id), {}, disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
 
         / .form-group
         /   .form-label
@@ -222,12 +238,20 @@
               - @product.price_exceptions['stores'].try(:each) do |price_exception|
                 = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "store"}
 
+            - if f.object.parent? || f.object.variant_override?(:pricing)
+              = link_to_add_price_exception f, "store" do
+                = icon('plus')
+                Uitzondering winkel toevoegen
+
+          .form-group
+            .price-exceptions
               - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
                 = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "customer_group"}
 
-            = link_to_add_price_exception f, "store" do
-              = icon('plus')
-              Prijs toevoegen
+            - if f.object.parent? || f.object.variant_override?(:pricing)
+              = link_to_add_price_exception f, "customer_group" do
+                = icon('plus')
+                Uitzondering klantgroep toevoegen
 
         - unless f.object.has_children?
           %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start; position: relative"}
