@@ -26,12 +26,10 @@
   .filter-form-advanced
     .filter-form-advanced-group
       .filter-form-label
-        ID
+        = Spina::Shop::Order.human_attribute_name(:order_number)
 
       .filter-form-control
-        .input-group
-          = f.text_field :id_gteq, placeholder: 'min'
-          = f.text_field :id_lteq, placeholder: 'max'
+        = f.text_field :order_number_eq, placeholder: Spina::Shop::Order.human_attribute_name(:order_number)
 
     .filter-form-advanced-group
       .filter-form-label

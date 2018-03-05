@@ -4,14 +4,17 @@ class Spina.Products
   @enhance: (element) ->
     element.find('select.select-products:not(.select2-hidden-accessible)').each ->
       $select = $(this)
+      if $(this).hasClass('select-product-bundles')
+        url = '/admin/shop/product_bundles'
+      else
+        url = '/admin/shop/products'
       $select.select2(
         ajax:
-          url: '/admin/shop/products'
+          url: url
           delay: 250
           dataType: 'json'
           data: (params) ->
             q: {translations_name_start: params.term}, page: params.page
-          minimumInputLength: 1
           processResults: (data, params) ->
             params.page = params.page or 1
             return {
@@ -29,7 +32,6 @@ class Spina.Products
             product.name + " (#{product.stock_level})"
           else
             product.text 
-        minimumInputLength: 1
       )
 
 $.fn.enhanceProducts = ->

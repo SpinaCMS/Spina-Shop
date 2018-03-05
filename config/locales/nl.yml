@@ -146,6 +146,7 @@ nl:
         active: Beschikbaar in webshop
         materialized_path: URL
         description: Beschrijving
+        original_price: Oorspronkelijke prijs
         seo_description: SEO omschrijving
         seo_title: SEO titel
       spina/shop/product_item:

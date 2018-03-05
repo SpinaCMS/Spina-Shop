@@ -94,6 +94,13 @@
 
       .form-group
         .form-label
+          = Spina::Shop::ProductBundle.human_attribute_name :original_price
+
+        .form-control{data: {form_prepend: '€'}}
+          = f.text_field :original_price, value: number_with_precision(f.object.original_price, precision: 2)
+
+      .form-group
+        .form-label
           = Spina::Shop::ProductBundle.human_attribute_name :sales_category
 
         .form-control
