@@ -35,6 +35,15 @@
 
     .filter-form-advanced-group
       .filter-form-label
+        = Spina::Shop::Order.human_attribute_name(:order_number)
+
+      .filter-form-control
+        .input-group
+          = f.text_field :order_number_gteq, placeholder: 'min'
+          = f.text_field :order_number_lteq, placeholder: 'max'
+
+    .filter-form-advanced-group
+      .filter-form-label
         = Spina::Shop::Order.human_attribute_name(:received_at)
 
       .filter-form-control
