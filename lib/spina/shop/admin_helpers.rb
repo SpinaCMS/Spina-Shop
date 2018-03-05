@@ -6,7 +6,7 @@ module Spina
         new_object = OpenStruct.new({price: "", "#{scope}_id".to_sym => ""})
         id = new_object.object_id
         fields = render(partial: 'price_exception_fields', locals: {f: f, scope: scope, price_exception: new_object})
-        link_to '#', class: "add_price_exception button button-block button-hollow", style: 'margin-right: 0', data: {id: id, fields: fields.gsub("\n", "")} do
+        link_to '#', class: "add_price_exception", data: {id: id, fields: fields.gsub("\n", "")} do
           block.yield
         end
       end

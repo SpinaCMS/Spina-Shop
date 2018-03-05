@@ -9,25 +9,30 @@
     %td
       = link_to spina.shop_admin_product_path(product), class: 'table-link' do
         %span.product-name= product.name
-        - if product.has_variants?
+        - if product.variant?
           %span.product-variant-name= product.variant_name || "–"
       %small= product.product_collections.pluck(:name).join(", ").html_safe
 
     - if stores.any?
       %td{style: "padding: 6px 12px; width: 120px"}
-        - store_ids = product.store_ids
-        - stores.each do |store|
-          .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
+        - unless product.variant?
+          - store_ids = product.store_ids
+          - stores.each do |store|
+            .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
 
-    %td.align-right{style: "width: 90px"}
+    %td.align-right{style: "width: 90px", class: ('text-muted' unless product.parent? || product.variant_override?(:pricing))}
       - if product.promotion?
         %small{style: 'text-decoration: line-through'}= number_to_currency product.base_price
       = number_to_currency product.price
-    %td.align-right{style: "width: 90px"}= product.location
-    %td.align-right{style: "width: 90px"}= product.stock_level if product.stock_enabled?
+    %td.align-right{style: "width: 90px"}
+      - if product.sellable
+        = product.location
+    %td.align-right{style: "width: 90px"}
+      = product.stock_level if product.stock_enabled? && product.sellable?
     - if Spina::Shop::Product.where(can_expire: true).any?
       %td.align-right{style: "width: 120px"}
-        =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
+        - if product.sellable
+          =l product.expiration_date, format: '%B \'%y' if product.can_expire? && product.expiration_date.present?
 
     %td.align-right{style: "width: 90px"}
       - if product.active?

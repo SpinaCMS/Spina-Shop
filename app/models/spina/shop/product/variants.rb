@@ -13,7 +13,10 @@ module Spina::Shop
         set_parent_relations
       end
 
+      before_save :set_sellable
       after_save :save_children, if: :has_children?
+
+      scope :sellable, -> { where(sellable: true) }
 
       translates :variant_name, default: -> { "–" }
     end
@@ -43,7 +46,7 @@ module Spina::Shop
     end
 
     def variants
-      (parent || self).children.to_a
+      (parent || self).children.order(:created_at).to_a
     end
 
     def can_have_variants?
@@ -55,6 +58,10 @@ module Spina::Shop
     end
 
     private
+
+      def set_sellable
+        self[:sellable] = !(parent? && has_children?)
+      end
 
       def set_variant_name
         self.variant_name = nil
@@ -70,6 +77,7 @@ module Spina::Shop
 
       def set_parent_product_properties
         attributes = %w(name product_category must_be_of_age_to_buy)
+        attributes << :active unless parent.active
 
         unless variant_override?(:pricing)
           attributes += %w(base_price tax_group_id price_includes_tax price_exceptions)

@@ -1,10 +1,28 @@
 - if @unfiltered && single_product.has_variants?
   %tr{style: "border: none"}
-    %td
+    %td{style: 'width: 70px'}
+      .form-checkbox{style: 'width: 20px'}
+        = check_box_tag 'product_ids[]', single_product.id
+        %label
     %td.align-center{style: 'width: 30px'}
       = image_tag attachment_url(single_product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
-    %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 7 : 6}
+    %td
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
+    - if stores.any?
+      %td{style: "padding: 6px 12px; width: 120px"}
+        - store_ids = single_product.store_ids
+        - stores.each do |store|
+          .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
+    %td.text-right
+      - if single_product.promotion?
+        %small{style: 'text-decoration: line-through'}= number_to_currency single_product.base_price
+      = number_to_currency single_product.price
+    %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 3 : 2}
+    %td.text-right
+      - if single_product.active?
+        .status-dot.status-dot-success
+      - else
+        .status-dot
       
   %tr
     %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 9 : 8, style: 'padding: 0'}
