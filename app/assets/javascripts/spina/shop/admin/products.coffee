@@ -112,3 +112,18 @@ $(document).on 'checked', 'table.products-table tbody .form-checkbox input', (ev
     $('.products-batch-action span.selected').text("(#{count})")
   else
     $('.products-batch-action span.selected').text("")
+
+$(document).on 'change', '.form-checkbox input[type="checkbox"][data-disabled-toggle]', (e) ->
+  checked = $(this).prop('checked')
+  console.log(checked)
+
+  $target = $($(this).attr('data-disabled-toggle'))
+
+  if checked
+    $target.find('.select-dropdown').removeAttr('data-disabled')
+    $target.find('.select-dropdown select, input[type="text"]').removeAttr('disabled')
+    $target.find('.add-pricing-dropdown').show()
+  else
+    $target.find('.select-dropdown').attr('data-disabled', true)
+    $target.find('.select-dropdown select, input[type="text"]').attr('disabled', 'disabled')
+    $target.find('.add-pricing-dropdown').hide()
