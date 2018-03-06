@@ -3,11 +3,19 @@ module Spina::Shop
     module ProductsHelper
 
       def stores
-        @stores ||= Spina::Shop::Store.all
+        @stores ||= Store.all
       end
 
       def product_collections
-        @product_collections ||= Spina::Shop::ProductCollection.all
+        @product_collections ||= ProductCollection.all
+      end
+
+      def customer_groups_for_select
+        CustomerGroup.where(parent_id: nil).order(:name).map do |group|
+          [[group.name, group.id]] + group.children.order(:name).map do |child_group|
+            ["– #{child_group.name}", child_group.id]
+          end
+        end.flatten(1)
       end
 
     end

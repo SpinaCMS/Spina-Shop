@@ -7,7 +7,7 @@
 
     - when "customer_group"
       .select-dropdown{style: 'width: 100%', data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
-        = select_tag "product[price_exceptions[#{scope.pluralize}][][#{scope}_id]]", options_for_select(Spina::Shop::CustomerGroup.all.map{|g|[g.name, g.id]}, price_exception["#{scope}_id"]), prompt: t('spina.shop.products.choose_customer_group'), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+        = select_tag "product[price_exceptions[#{scope.pluralize}][][#{scope}_id]]", options_for_select(customer_groups_for_select, price_exception["#{scope}_id"]), prompt: t('spina.shop.products.choose_customer_group'), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
   
     .input-group{style: 'max-width: 140px'}
       .form-control{data: {form_prepend: t('number.currency.format.unit')}}
