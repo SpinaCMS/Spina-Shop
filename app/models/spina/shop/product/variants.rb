@@ -3,7 +3,7 @@ module Spina::Shop
     extend ActiveSupport::Concern
 
     included do
-      belongs_to :parent, class_name: "Product", optional: true
+      belongs_to :parent, class_name: "Product", optional: true, counter_cache: :children_count
       has_many :children, class_name: "Product", foreign_key: :parent_id, dependent: :nullify
 
       before_validation(if: :variant?) do
@@ -12,11 +12,19 @@ module Spina::Shop
         set_parent_relations
       end
 
-      before_create :first_variant, if: :variant?
+      # When you create your first variant, make sure to create a new parent
+      # This way it won't interfere with existing orders
+      before_create :create_first_variant, if: :variant?
+
       before_save :set_variant_name
-      before_save :set_abstract
       before_save :set_parent, if: :variant?
       after_save :save_children, if: :has_children?
+
+      scope :variants, -> { where.not(parent_id: nil) }
+      scope :not_variants, -> { where(parent_id: nil) }
+
+      # Products which are solely used as a parent config object aren't for sale
+      scope :sellables, -> { where('(parent_id IS NULL AND children_count = 0) OR parent_id IS NOT NULL')}
 
       translates :variant_name, default: -> { "–" }
     end
@@ -34,7 +42,7 @@ module Spina::Shop
     end
 
     def has_children?
-      children.any?
+      children_count > 0
     end
 
     def childless?
@@ -57,24 +65,25 @@ module Spina::Shop
       variant_overrides.try(:[], attribute.to_s).present?
     end
 
+    def not_for_sale?
+      parent? && has_children?
+    end
+
     private
 
-      def first_variant
+      def create_first_variant
         return if parent.has_children?
         new_parent = parent.dup
         new_parent.parent_id = nil
         new_parent.sku = nil
+        new_parent.stock_enabled = false
         new_parent.stores = parent.stores
         new_parent.product_collections = parent.product_collections
         new_parent.related_products = parent.related_products
         new_parent.save
 
-        parent.update_columns(parent_id: new_parent.id)
+        new_parent.children << parent
         self[:parent_id] = new_parent.id
-      end
-
-      def set_abstract
-        self[:abstract] = parent? && has_children?
       end
 
       def set_variant_name
@@ -94,20 +103,20 @@ module Spina::Shop
       end
 
       def set_parent_product_properties
-        attributes = %w(name product_category must_be_of_age_to_buy)
-        attributes << :active unless parent.active
-
-        unless variant_override?(:pricing)
-          attributes += %w(base_price tax_group_id price_includes_tax price_exceptions)
-        end
-
-        unless variant_override?(:sales_category)
-          attributes << :sales_category_id
-        end
-
-        assign_attributes(attributes.map do |property|
+        assign_attributes(parent_attributes.map do |property|
           {property => parent.send(property)}
         end.reduce({}, :merge))
+      end
+
+      def parent_attributes
+        attributes = %w(name product_category must_be_of_age_to_buy)
+        attributes << :active unless parent.active
+        attributes << :sales_category_id unless variant_override?(:sales_category)
+        attributes += pricing_attributes unless variant_override?(:pricing)
+      end
+
+      def pricing_attributes
+        %w(base_price tax_group_id price_includes_tax price_exceptions)
       end
 
       def set_parent_relations
