@@ -77,6 +77,7 @@ module Spina::Shop
         new_parent.parent_id = nil
         new_parent.sku = nil
         new_parent.stock_enabled = false
+        new_parent.location = ""
         new_parent.stores = parent.stores
         new_parent.product_collections = parent.product_collections
         new_parent.related_products = parent.related_products
