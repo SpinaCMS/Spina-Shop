@@ -3,7 +3,7 @@ module Spina::Shop
     module ProductsHelper
 
       def stores
-        @stores ||= Store.all
+        @stores ||= Store.order(:name)
       end
 
       def product_collections

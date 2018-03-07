@@ -122,9 +122,7 @@ module Spina::Shop
       end
 
       def set_parent_relations
-        self.stores = parent.stores
-        self.product_collections = parent.product_collections
-        self.related_products = parent.related_products
+        self.stores = parent.stores unless variant_override?(:stores)
       end
 
   end

@@ -123,7 +123,11 @@ $(document).on 'change', '.form-checkbox input[type="checkbox"][data-disabled-to
     $target.find('.select-dropdown').removeAttr('data-disabled')
     $target.find('.select-dropdown select, input[type="text"]').removeAttr('disabled')
     $target.find('.add-pricing-dropdown').show()
+    if $target.hasClass('disabled-toggle-stores')
+      $target.show()
   else
     $target.find('.select-dropdown').attr('data-disabled', true)
     $target.find('.select-dropdown select, input[type="text"]').attr('disabled', 'disabled')
     $target.find('.add-pricing-dropdown').hide()
+    if $target.hasClass('disabled-toggle-stores')
+      $target.hide()

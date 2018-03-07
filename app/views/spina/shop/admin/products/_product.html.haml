@@ -14,11 +14,10 @@
       %small= product.product_collections.pluck(:name).join(", ").html_safe
 
     - if stores.any?
-      %td{style: "padding: 6px 12px; width: 120px"}
-        - unless product.variant?
-          - store_ids = product.store_ids
-          - stores.each do |store|
-            .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
+      %td.nowrap{style: "padding: 6px 12px; width: 120px" + ("; opacity: .5" unless product.parent? || product.variant_override?(:stores)).to_s}
+        - store_ids = product.store_ids
+        - stores.each do |store|
+          .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
 
     %td.align-right{style: "width: 90px", class: ('text-muted' unless product.parent? || product.variant_override?(:pricing))}
       - if product.promotion?

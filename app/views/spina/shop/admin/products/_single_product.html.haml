@@ -9,7 +9,7 @@
     %td
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
     - if stores.any?
-      %td{style: "padding: 6px 12px; width: 120px"}
+      %td.nowrap{style: "padding: 6px 12px; width: 120px"}
         - store_ids = single_product.store_ids
         - stores.each do |store|
           .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
