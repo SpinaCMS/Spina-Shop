@@ -70,7 +70,7 @@ module Spina::Shop
           end
 
           def product_bundle_params
-            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :original_price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number})
+            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :original_price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number, original_price: :number})
           end
       end
     end
