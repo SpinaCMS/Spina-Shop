@@ -69,7 +69,7 @@ module Spina::Shop
 
       def update
         @product = Product.find(params[:id])
-        if Mobility.with_locale(@locale) { @product.update_attributes(product_params) }
+        if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :edit
