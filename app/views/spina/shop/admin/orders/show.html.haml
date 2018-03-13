@@ -130,7 +130,7 @@
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:email)
             %td
-              = link_to @order.email, @order.email
+              = mail_to @order.email, @order.email
 
         - if @order.phone.present?
           %tr
