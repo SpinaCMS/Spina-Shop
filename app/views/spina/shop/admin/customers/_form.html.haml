@@ -12,6 +12,13 @@
       .well
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :company
+
+          .sidebar-form-control
+            = f.text_field :company, placeholder: Spina::Shop::Customer.human_attribute_name(:company)
+
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Shop::Customer.human_attribute_name :first_name
 
           .sidebar-form-control
