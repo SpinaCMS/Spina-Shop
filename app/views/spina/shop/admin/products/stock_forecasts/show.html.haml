@@ -41,11 +41,11 @@
           = link_to spina.shop_admin_stock_forecast_path({order: 'supplier', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
             Leverancier<br /><small>&nbsp;</small>
         %th.text-right{style: 'white-space: nowrap; min-width: 60px'} 
-          = link_to spina.shop_admin_stock_forecast_path({order: 'past_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-            Verkoop<br /><small>90 dagen</small>
-        %th.text-right{style: 'white-space: nowrap; min-width: 60px'} 
           = link_to spina.shop_admin_stock_forecast_path({order: 'past_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
             Verkoop<br /><small>30 dagen</small>
+        %th.text-right{style: 'white-space: nowrap; min-width: 60px'} 
+          = link_to spina.shop_admin_stock_forecast_path({order: 'past_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+            Verkoop<br /><small>90 dagen</small>
         %th.text-right{style: 'min-width: 100px; white-space: nowrap'}
           = link_to spina.shop_admin_stock_forecast_path({order: 'stock_level', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
             Voorraad<br/><small>nu / optimaal</small>
@@ -55,9 +55,12 @@
         %th.text-right{style: 'min-width: 60px'}
           = link_to spina.shop_admin_stock_forecast_path({order: 'to_order', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
             Inkoop<br /><small>voorraadverschil</small>
-        %th.text-right{style: 'min-width: 130px'}
-          = link_to spina.shop_admin_stock_forecast_path({order: 'restock_date', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-            Inkoop<br /><small>minimale voorraad</small>
+        %th.text-right.nowrap
+          = link_to spina.shop_admin_stock_forecast_path({order: 'cost_price', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+            Kostprijs<br /><small>per product</small>
+        %th.text-right 
+          = link_to spina.shop_admin_stock_forecast_path({order: 'stock_value', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+            Voorraad<br /><small>waarde</small>
 
     %tbody
       = render partial: "product", collection: @products

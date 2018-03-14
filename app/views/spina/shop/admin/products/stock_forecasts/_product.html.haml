@@ -9,9 +9,9 @@
   %td
     = product.supplier
   %td.text-right
-    = product.past_90_days
-  %td.text-right
     = product.past_30_days
+  %td.text-right
+    = product.past_90_days
   %td.text-right
     - if product.stock_level < 4
       %span.text-danger= product.stock_level
@@ -28,11 +28,6 @@
     - else
       %span.text-success= "+#{product.to_order}"
   %td.text-right
-    - if product.restock_date <= Date.today
-      Vandaag
-    - else
-      over
-      - if product.restock_date == Date.tomorrow
-        1 dag
-      - else
-        = time_ago_in_words(product.restock_date)
+    %small= number_to_currency product.cost_price
+  %td.text-right
+    %small= number_to_currency product.stock_value
