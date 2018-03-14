@@ -6,7 +6,8 @@
   %td
     = link_to spina.shop_admin_product_path(product) do
       = product.name
-      %small= product.supplier
+  %td
+    = product.supplier
   %td.text-right
     = product.past_90_days
   %td.text-right
@@ -20,6 +21,13 @@
   %td.text-right
     = product.coming_30_days
   %td.text-right
+    - if product.to_order < 0
+      %span.text-danger= product.to_order
+    - elsif product.to_order == 0
+      %span.text-success 0
+    - else
+      %span.text-success= "+#{product.to_order}"
+  %td.text-right
     - if product.restock_date <= Date.today
       Vandaag
     - else
@@ -28,6 +36,7 @@
         1 dag
       - else
         = time_ago_in_words(product.restock_date)
+
   %td.align-right
     - if product.active?
       - if !product.archived?
