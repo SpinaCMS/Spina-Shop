@@ -1,17 +1,22 @@
-- afgelopen_30_days = product.stock_level_adjustments.sales.where('spina_shop_stock_level_adjustments.created_at > ?', 30.days.ago).sum(:adjustment) * -1
 %tr
-  %td.align-center{style: 'width: 30px'}
-    = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
+  %td.align-center{style: 'width: 20px'}
+    .form-checkbox{style: 'width: 20px'}
+      = check_box_tag ''
+      %label
   %td
-    = link_to product.name, spina.shop_admin_product_path(product)
-  %td= product.supplier
+    = link_to spina.shop_admin_product_path(product) do
+      = product.name
+      %small= product.supplier
+  %td.text-right
+    = product.past_90_days
+  %td.text-right
+    = product.past_30_days
   %td.text-right
     - if product.stock_level < 4
-      .text-danger= product.stock_level
+      %span.text-danger= product.stock_level
     - else
-      .text-success= product.stock_level
-  %td.text-right
-    = afgelopen_30_days
+      %span.text-success= product.stock_level
+    %small{style: 'display: inline'} / #{product.optimal_stock}
   %td.text-right
     = product.coming_30_days
   %td.text-right
