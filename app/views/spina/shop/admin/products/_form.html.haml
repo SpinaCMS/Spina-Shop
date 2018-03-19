@@ -319,6 +319,19 @@
                   = f.text_field :weight, value: number_with_precision(f.object.weight, precision: 3, strip_insignificant_zeros: true)
 
             .form-group
+              .form-label
+                = Spina::Shop::Product.human_attribute_name :available_at_supplier
+
+              .form-control
+                = f.check_box :available_at_supplier, data: {switch: true}
+
+            .form-group
+              .form-label
+                = Spina::Shop::Product.human_attribute_name :limit_per_order
+              .form-control
+                = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
+
+            .form-group
               .input-group
                 .form-label
                   = Spina::Shop::Product.human_attribute_name :cost_price
