@@ -9,16 +9,19 @@
     %td
       = link_to single_product.name, spina.shop_admin_product_path(single_product), class: 'table-link'
     - if stores.any?
-      %td.nowrap{style: "padding: 6px 12px; width: 120px"}
+      %td.nowrap{style: "padding: 6px 12px; width: 150px"}
         - store_ids = single_product.store_ids
         - stores.each do |store|
           .store-badge{class: ('inactive' unless store.id.in? store_ids), style: "background: #{store.color}"}= store.initials
-    %td.text-right
+    %td.text-right{style: "width: 90px"}
       - if single_product.promotion?
         %small{style: 'text-decoration: line-through'}= number_to_currency single_product.base_price
       = number_to_currency single_product.price
-    %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 3 : 2}
-    %td.text-right
+    %td{style: 'width: 90px'}
+    %td{style: 'width: 90px'}
+    - if Spina::Shop::Product.where(can_expire: true).any?
+      %td{style: 'width: 120px'}
+    %td.text-right{style: "width: 90px"}
       - if single_product.active?
         .status-dot.status-dot-success
       - else
