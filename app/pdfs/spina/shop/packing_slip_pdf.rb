@@ -56,21 +56,29 @@ module Spina::Shop
 
     def order_title
       text "Bestelling ##{@order.number}", style: :semibold, size: 18
-      text "#{@order.order_items.sum(:quantity)} producten", size: 14
+      text "#{@order.order_items.products.sum(:quantity)} producten", size: 14
+      text "#{@order.order_items.product_bundles.sum(:quantity)} productbundels", size: 14
     end
 
     def order_details
       lines = [["Aantal", "Omschrijving", "Locatie", "Controle"]]
 
-      @order.order_items.includes(:orderable).sort_by{|o| (o.orderable.try(:location).present? ? "0" : "1") + o.orderable.try(:location).to_s}.each do |order_item|
+      # Get all products
+      products = @order.order_items.products.includes(:orderable).map do |order_item|
+        { location: order_item.orderable.location, quantity: order_item.quantity, description: order_item.description }
+      end
 
-        if order_item.is_product_bundle?
-          order_item.orderable.bundled_products.each do |bundled_product|
-            lines << ["#{bundled_product.quantity * order_item.quantity} x", bundled_product.product.name, bundled_product.product.location, ""]
-          end
-        else
-          lines << ["#{order_item.quantity} x", order_item.description, order_item.orderable.location, ""]
+      # Get all products in product bundles
+      products = products + @order.order_items.product_bundles.includes(:orderable).map do |order_item|
+        order_item.orderable.bundled_products.map do |bundled_product|
+          { location: bundled_product.product.location, quantity: bundled_product.quantity * order_item.quantity, description: bundled_product.product.name }
         end
+      end.flatten
+
+      Rails.logger.info products.inspect
+
+      products.sort_by{|p| (p[:location].present? ? "0" : "1") + p[:location].to_s}.each do |product|
+        lines << ["#{product[:quantity]} x", product[:description], product[:location], ""]
       end
 
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 10.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 10} do |t|
