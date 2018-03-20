@@ -59,6 +59,10 @@ module Spina::Shop
       bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.cost_price || BigDecimal.new(0)) * i.quantity}
     end
 
+    def total_of_individual_products
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.price || BigDecimal.new(0)) * i.quantity}
+    end
+
     private
 
       def rewrite_rule

@@ -94,6 +94,9 @@
 
       .form-group
         .form-label
+          %small.pull-right.text-muted
+            = number_to_currency f.object.total_of_individual_products
+            volgens calculatie
           = Spina::Shop::ProductBundle.human_attribute_name :original_price
 
         .form-control{data: {form_prepend: '€'}}

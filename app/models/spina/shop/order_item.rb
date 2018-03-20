@@ -15,6 +15,8 @@ module Spina::Shop
     before_validation :set_quantity_to_limit, if: -> { validate_stock }
 
     scope :ordered, -> { order(:created_at) }
+    scope :products, -> { where(orderable_type: "Spina::Shop::Product") }
+    scope :product_bundles, -> { where(orderable_type: "Spina::Shop::ProductBundle") }
 
     def unit_price
       read_attribute(:unit_price) || orderable.price_for_order(order) || BigDecimal(0)

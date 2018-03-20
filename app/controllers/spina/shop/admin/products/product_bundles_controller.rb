@@ -50,7 +50,7 @@ module Spina::Shop
 
         def update
           @product_bundle = ProductBundle.find(params[:id])
-          if @product_bundle.update_attributes(product_bundle_params)
+          if I18n.with_locale(@locale) { @product_bundle.update_attributes(product_bundle_params) }
             redirect_to spina.shop_admin_product_bundles_path
           else
             render :edit
