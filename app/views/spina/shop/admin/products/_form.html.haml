@@ -107,13 +107,6 @@
                 - @product.product_category.variant_properties.includes(property_options: :translations).each do |property|
                   = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
-          - unless @product.variant?
-            .sidebar-form-group
-              .sidebar-form-label
-                = Spina::Shop::Product.human_attribute_name :must_be_of_age_to_buy
-              .sidebar-form-control
-                = f.check_box :must_be_of_age_to_buy, data: {switch: true}
-
         - unless @product.variant?
           .well
             - if Spina::Shop::ProductCollection.any?
