@@ -11,7 +11,7 @@ module Spina::Shop
         end
 
         def update
-          if property_params.present?
+          if params[:properties].present?
             UpdatePropertiesInBatchJob.perform_later(@products.ids, property_params.to_hash)
           else
             UpdateProductsInBatchJob.perform_later(@products.ids, product_params)

@@ -11,7 +11,7 @@ module Spina::Shop
       end
 
       def customer_groups_for_select
-        CustomerGroup.where(parent_id: nil).order(:name).map do |group|
+        @customer_groups ||= CustomerGroup.where(parent_id: nil).order(:name).map do |group|
           [[group.name, group.id]] + group.children.order(:name).map do |child_group|
             ["– #{child_group.name}", child_group.id]
           end
