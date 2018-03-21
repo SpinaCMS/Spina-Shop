@@ -63,7 +63,7 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name, disabled: @product.variant?
+              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name(fallback: false, default: nil), disabled: @product.variant?
 
           .sidebar-form-group
             .sidebar-form-label
@@ -93,7 +93,7 @@
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
                         .icon.icon-list-ul
                   %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
-                  = f.hidden_field :description, id: 'product_description'
+                  = f.hidden_field :description, id: 'product_description', value: f.object.description(fallback: false, default: nil)
         
         .well
           - if @product.product_category.present?
@@ -142,7 +142,7 @@
               .sidebar-form-label
                 = Spina::Shop::Product.human_attribute_name :materialized_path
               .sidebar-form-control
-                = f.text_field :materialized_path, disabled: true
+                = f.text_field :materialized_path, disabled: true, value: f.object.materialized_path(fallback: false, default: nil), placeholder: Spina::Shop::Product.human_attribute_name(:materialized_path)
 
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images
