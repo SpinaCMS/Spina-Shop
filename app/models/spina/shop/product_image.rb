@@ -1,11 +1,11 @@
 module Spina::Shop
   class ProductImage < ApplicationRecord
-    belongs_to :product_bundle, optional: true
-    belongs_to :product, optional: true
+    belongs_to :product_bundle, optional: true, touch: true
+    belongs_to :product, optional: true, touch: true
 
     scope :ordered, -> { order(:position) }
 
-    attachment :file
+    attachment :file, raise_errors: true
 
     def description
       product.try(:name)
