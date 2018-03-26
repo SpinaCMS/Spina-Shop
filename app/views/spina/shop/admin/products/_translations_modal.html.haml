@@ -1,0 +1,18 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.products.translations'
+
+  = form_with model: @product, url: spina.shop_admin_product_path(@product) do |f|
+    - Spina.config.locales.each do |locale|
+      .form-group 
+        .form-label= locale
+        .form-control
+          = f.text_field "name_#{locale}"
+
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.products.save'

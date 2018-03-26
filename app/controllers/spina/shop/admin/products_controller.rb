@@ -47,6 +47,10 @@ module Spina::Shop
         render :index
       end
 
+      def translations
+        @product = Product.find(params[:id])
+      end
+
       def show
         @product = Product.find(params[:id])
         redirect_to spina.edit_shop_admin_product_path(@product)
