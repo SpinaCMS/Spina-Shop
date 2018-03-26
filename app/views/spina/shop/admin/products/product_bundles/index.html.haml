@@ -1,9 +1,9 @@
 %header#header
   .breadcrumbs
-    .pull-right{style: "height: 0px"}
-      = link_to spina.new_shop_admin_product_bundle_path, class: 'button button-mini icon-only' do
-        %i.icon.icon-plus{style: 'vertical-align: bottom'}
     = render_breadcrumbs separator: '<div class="divider"></div>'
+
+    = link_to spina.new_shop_admin_product_bundle_path, class: 'button button-mini icon-only' do
+      %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
   %nav#secondary
     %ul
