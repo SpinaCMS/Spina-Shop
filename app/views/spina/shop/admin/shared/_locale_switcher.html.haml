@@ -1,9 +1,11 @@
 %div{style: "height: 26px", data: {dropdown: true}}
   = link_to '#', class: 'button button-link button-small', style: "padding-top: 0; padding-bottom: 0", data: {trigger: 'dropdown', target: '#locales'} do
     = icon('comment')
-    = @locale.upcase
+    = t("languages.#{@locale}")
 
-  %ul#locales
-    - Spina.config.locales.each do |locale|
+  %ul#locales{style: "width: 250px"}
+    - Spina.config.locales.each_with_index do |locale, index|
       %li
-        = link_to t("languages.#{locale}"), "?locale=#{locale}", style: ('font-weight: 600' if @locale.to_s == locale.to_s)
+        = link_to "?locale=#{locale}", style: ("#{'font-weight: 600;' if @locale.to_s == locale.to_s}") do
+          %span.status-dot.status-dot-small{style: 'margin-right: 4px', class: ("status-dot-success" if index < 3)}
+          = t("languages.#{locale}")

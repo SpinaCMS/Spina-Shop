@@ -63,7 +63,7 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              - if Spina.config.locales.many?
+              - if Spina.config.locales.many? && !@product.variant?
                 .pull-right
                   = link_to spina.translations_shop_admin_product_path(@product, :name), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
                     %i.icon.icon-comment
