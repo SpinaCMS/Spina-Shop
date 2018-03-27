@@ -7,9 +7,14 @@ module Spina::Shop
     
     belongs_to :customer
 
-    validates :email, presence: true, uniqueness: true
+    validates :email, email: true, presence: true, uniqueness: true
     validates :password, length: {minimum: 6, maximum: 40}, if: :validate_password
 
     accepts_nested_attributes_for :customer
+
+    def email=(email)
+      email = email.strip if email
+      super
+    end
   end
 end
