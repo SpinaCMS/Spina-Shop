@@ -109,7 +109,7 @@ module Spina::Shop
     end
 
     def first_order_for_email?
-      self.class.where(email: email).paid.order(:paid_at).first.id == id
+      self.class.where(email: email).paid.order(:paid_at).first.try(:id) == id
     end
 
     # By default this method returns false, but you can override it and add your own logic
