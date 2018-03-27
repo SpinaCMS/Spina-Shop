@@ -131,3 +131,7 @@ $(document).on 'change', '.form-checkbox input[type="checkbox"][data-disabled-to
     $target.find('.add-pricing-dropdown').hide()
     if $target.hasClass('disabled-toggle-stores')
       $target.hide()
+
+$(document).on 'change', '#translations_modal_select select', (e) ->
+  $('.modal .tab-content').removeClass('active')
+  $(".modal .tab-content#translations_#{$(this).val()}").addClass('active')

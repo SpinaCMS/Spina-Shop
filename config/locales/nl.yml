@@ -402,6 +402,7 @@ nl:
         send_in_stock_reminders: Voorraadmeldingen verzenden
         stock_history: Historie
         title: Catalogus
+        translations: Vertalingen
         unarchive: Heractiveer product
       properties:
         field_types:

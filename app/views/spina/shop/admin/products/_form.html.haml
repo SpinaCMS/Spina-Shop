@@ -63,9 +63,10 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              .pull-right
-                = link_to spina.translations_shop_admin_product_path(@product), class: "button button-mini icon-only", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
-                  %i.icon.icon-comment
+              - if Spina.config.locales.many?
+                .pull-right
+                  = link_to spina.translations_shop_admin_product_path(@product, :name), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                    %i.icon.icon-comment
               = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name(fallback: false, default: nil), disabled: @product.variant?
 
           .sidebar-form-group
@@ -86,6 +87,10 @@
           .well
             .sidebar-form-group
               .sidebar-form-control
+                - if Spina.config.locales.many?
+                  .pull-right
+                    = link_to spina.translations_shop_admin_product_path(@product, :description), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                      %i.icon.icon-comment
                 %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
                   .button-groups
                     .button-group

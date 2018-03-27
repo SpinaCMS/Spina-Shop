@@ -50,7 +50,7 @@ Spina::Engine.routes.draw do
             get :archived
           end
           member do
-            get :translations
+            get 'translations/:field', to: 'products#translations', as: :translations
             get :edit_parent
             get :duplicate
             get :variant
