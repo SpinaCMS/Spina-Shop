@@ -29,7 +29,7 @@ class Spina.Products
           "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price} - voorraad: #{product.stock_level}</small></span></div>"
         templateSelection: (product) ->
           if product.name
-            product.name + " (#{product.stock_level})"
+            product.name + " – #{product.price} (voorraad: #{product.stock_level})"
           else
             product.text 
       )

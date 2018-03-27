@@ -3,7 +3,7 @@
     = f.select :quantity, options_for_select((1..50).map{|i| ["#{i} x", i]}, f.object.quantity), {}, class: 'select2', style: 'width: 70px'
 
   .sidebar-form-control
-    = f.select :product_id, options_for_select([[f.object.product.try(:name).to_s + " (#{f.object.product.try(:stock_level)})", f.object.product.try(:id)]], f.object.product_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
+    = f.select :product_id, options_for_select([[f.object.product.try(:name).to_s + " – #{number_to_currency f.object.product.try(:price)} (voorraad: #{f.object.product.try(:stock_level)})", f.object.product.try(:id)]], f.object.product_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
 
   .sidebar-form-delete
     = f.hidden_field :_destroy
