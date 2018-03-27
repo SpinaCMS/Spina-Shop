@@ -180,6 +180,10 @@ module Spina::Shop
       end
     end
 
+    def remove_discount!
+      update_attributes!(discount: nil)
+    end
+
     def duplicate!
       # Duplicate order
       transaction do

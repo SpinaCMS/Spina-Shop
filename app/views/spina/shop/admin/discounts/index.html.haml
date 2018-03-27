@@ -5,6 +5,10 @@
         %i.icon.icon-plus{style: 'vertical-align: bottom'}
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
+  %nav#secondary
+    %ul 
+      %li{class: ('active' if @scope == "multiple_use")}= link_to t('spina.shop.discounts.multiple_use'), spina.shop_admin_discounts_path(scope: 'multiple_use')
+      %li{class: ('active' if @scope == "one_off")}= link_to t('spina.shop.discounts.one_off'), spina.shop_admin_discounts_path(scope: 'one_off')
 .table-container.infinite-table
   %table.table
     %thead

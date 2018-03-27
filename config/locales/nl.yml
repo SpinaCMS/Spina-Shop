@@ -277,6 +277,8 @@ nl:
         new: Nieuwe kortingscode
         save: Kortingscode opslaan
         usage_limit_0: Stel 0 in voor onbeperkt
+        multiple_use: Meermalig gebruik
+        one_off: Eenmalige codes
       emails:
         exported_title: Export staat klaar voor download
         forgot_password_title: Forgot password title

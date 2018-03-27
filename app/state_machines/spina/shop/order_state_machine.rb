@@ -29,9 +29,6 @@ module Spina::Shop
     end
 
     before_transition(to: :confirming) do |order, transition|
-      # Generate that number
-      order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
-      
       # Allocate stock baby!
       AllocateStock.new(order).allocate
 
@@ -46,6 +43,9 @@ module Spina::Shop
 
       # Add address to customer if it doesn't have any addresses
       StoreAddress.new(order).store! if order.customer.addresses.none?
+
+      # Generate that number
+      order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
     end
 
     before_transition(to: :cancelled) do |order, transition|
@@ -56,6 +56,9 @@ module Spina::Shop
 
       # Remove gift card
       order.remove_gift_card! if order.gift_card.present?
+
+      # Remove discount
+      order.remove_discount! if order.discount.present?
     end
 
     after_transition(to: :cancelled) do |order, transition|
@@ -76,6 +79,9 @@ module Spina::Shop
 
       # Remove gift card
       order.remove_gift_card! if order.gift_card.present?
+
+      # Remove discount
+      order.remove_discount! if order.discount.present?
     end
 
     after_transition(to: :failed) do |order, transition|
