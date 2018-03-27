@@ -8,7 +8,7 @@
     = order.billing_name
     - if order.first_order_for_email?
       %label.label.label-primary{style: "padding: 4px; font-size: 10px; margin-left: 4px"} 
-        =t 'spina.shop.orders.first_order_for_customer'
+        =t 'spina.shop.orders.first_order_for_email'
   %td
     - if order.received_at.present?
       =l order.received_at, format: "%d %B %Y"

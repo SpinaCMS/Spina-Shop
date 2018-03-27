@@ -314,7 +314,7 @@ nl:
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
         failed: Mislukt
-        first_order_for_customer: NIEUW
+        first_order_for_email: NIEUW
         history: Historie
         new: Nieuwe bestelling
         no_orders: Geen bestellingen
