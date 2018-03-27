@@ -10,7 +10,7 @@
         .divider
         = @product.name
 
-      = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
+      = render partial: 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
 
     - if f.object.persisted? && f.object.has_variants?
       %nav#secondary.tabs
@@ -63,7 +63,7 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              - if Spina.config.locales.many? && !@product.variant?
+              - if f.object.persisted? && Spina.config.locales.many? && !f.object.variant?
                 .pull-right
                   = link_to spina.translations_shop_admin_product_path(@product, :name), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
                     %i.icon.icon-comment
@@ -87,7 +87,7 @@
           .well
             .sidebar-form-group
               .sidebar-form-control
-                - if Spina.config.locales.many?
+                - if f.object.persisted? && Spina.config.locales.many?
                   .pull-right
                     = link_to spina.translations_shop_admin_product_path(@product, :description), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
                       %i.icon.icon-comment

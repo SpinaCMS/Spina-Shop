@@ -70,6 +70,9 @@ module Spina::Shop
       def create
         @product = Product.new(product_params)
         if @product.save
+          # Save each locale for materialized_path
+          Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
+          
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :new
@@ -87,6 +90,9 @@ module Spina::Shop
       def update
         @product = Product.find(params[:id])
         if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
+          # Save each locale for materialized_path
+          Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
+
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :edit

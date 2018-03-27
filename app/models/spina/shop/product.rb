@@ -173,10 +173,14 @@ module Spina::Shop
       end
 
       def localized_materialized_path
-        if I18n.locale == I18n.default_locale
-          full_name.try(:parameterize).prepend('/products/')
+        if Spina.config.locale_paths.present?
+          full_name.try(:parameterize).prepend("#{Spina.config.locale_paths[I18n.locale.to_sym]}/products/").gsub(/\/\z/, "")
         else
-          full_name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+          if I18n.locale == I18n.default_locale
+            full_name.try(:parameterize).prepend('/products/')
+          else
+            full_name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+          end
         end
       end
 
