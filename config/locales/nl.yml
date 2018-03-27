@@ -287,6 +287,8 @@ nl:
         new: Nieuwe kortingscode
         save: Kortingscode opslaan
         usage_limit_0: Stel 0 in voor onbeperkt
+        multiple_use: Meermalig gebruik
+        one_off: Eenmalige codes
       emails:
         exported_title: Export staat klaar voor download
         forgot_password_title: Forgot password title
@@ -322,6 +324,7 @@ nl:
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
         failed: Mislukt
+        first_order_for_email: NIEUW
         history: Historie
         new: Nieuwe bestelling
         no_orders: Geen bestellingen

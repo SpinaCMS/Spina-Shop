@@ -17,7 +17,7 @@ module Spina::Shop
         def create
           @product_bundle = ProductBundle.new(product_bundle_params)
           if @product_bundle.save
-            redirect_to spina.shop_admin_product_bundles_path
+            redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle)
           else
             render :new
           end
@@ -51,7 +51,7 @@ module Spina::Shop
         def update
           @product_bundle = ProductBundle.find(params[:id])
           if I18n.with_locale(@locale) { @product_bundle.update_attributes(product_bundle_params) }
-            redirect_to spina.shop_admin_product_bundles_path
+            redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle)
           else
             render :edit
           end

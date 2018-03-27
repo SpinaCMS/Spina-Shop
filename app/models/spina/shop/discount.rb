@@ -1,6 +1,6 @@
 module Spina::Shop
   class Discount < ApplicationRecord
-    include Preferable
+    include Preferable, Codable
 
     has_one :discount_rule, inverse_of: :discount
     has_one :discount_action, inverse_of: :discount
@@ -10,6 +10,9 @@ module Spina::Shop
 
     validates :code, :description, :starts_at, :discount_rule, :discount_action, presence: true
     validates :code, uniqueness: true
+
+    scope :multiple_use, -> { where.not(usage_limit: 1) }
+    scope :one_off, -> { where(usage_limit: 1) }
 
     accepts_nested_attributes_for :discount_rule, :discount_action
 

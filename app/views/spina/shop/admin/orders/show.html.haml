@@ -1,5 +1,8 @@
 %header#header
   .pull-right
+    / Available hook for custom actions
+    = render 'custom_actions'
+    
     - if @order.order_attachments.any?
       %div{style: 'display: inline-block', data: {dropdown: true}}
         = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#attachments'} do
@@ -126,6 +129,11 @@
                 = link_to @order.billing_name, spina.shop_admin_customer_path(@order.customer)
               - else
                 = @order.billing_name
+
+              - if @order.first_order_for_email?
+                %label.label.label-primary{style: "padding: 4px; font-size: 10px; margin-left: 4px"} 
+                  =t 'spina.shop.orders.first_order_for_email'
+
         - if @order.email.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:email)

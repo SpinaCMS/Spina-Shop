@@ -5,7 +5,13 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @discounts = Discount.all
+        if params[:scope] == "one_off"
+          @scope = "one_off"
+          @discounts = Discount.one_off
+        else
+          @scope = "multiple_use"
+          @discounts = Discount.multiple_use
+        end
       end
 
       def new

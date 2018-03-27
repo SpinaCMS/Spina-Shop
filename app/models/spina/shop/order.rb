@@ -108,6 +108,10 @@ module Spina::Shop
       end.flatten.uniq
     end
 
+    def first_order_for_email?
+      self.class.where(email: email).paid.order(:paid_at).first.try(:id) == id
+    end
+
     # By default this method returns false, but you can override it and add your own logic
     def vat_reverse_charge?
       false
@@ -178,6 +182,10 @@ module Spina::Shop
         gift_card.update_attributes!(remaining_balance: gift_card.remaining_balance + gift_card_amount)
         update_attributes!(gift_card_amount: nil)
       end
+    end
+
+    def remove_discount!
+      update_attributes!(discount: nil)
     end
 
     def duplicate!
