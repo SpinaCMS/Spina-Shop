@@ -108,6 +108,10 @@ module Spina::Shop
       end.flatten.uniq
     end
 
+    def first_order_for_email?
+      self.class.where(email: email).paid.order(:paid_at).first.id == id
+    end
+
     # By default this method returns false, but you can override it and add your own logic
     def vat_reverse_charge?
       false
