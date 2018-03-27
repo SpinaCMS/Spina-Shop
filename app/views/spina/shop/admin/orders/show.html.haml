@@ -1,5 +1,8 @@
 %header#header
   .pull-right
+    / Available hook for custom actions
+    = render 'custom_actions'
+    
     - if @order.order_attachments.any?
       %div{style: 'display: inline-block', data: {dropdown: true}}
         = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#attachments'} do
