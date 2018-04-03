@@ -136,6 +136,14 @@ module Spina::Shop
       return products
     end
 
+    def expiration_month
+      expiration_date.try(:month)
+    end
+
+    def expiration_year
+      expiration_date.try(:year)
+    end
+
     def cache_stock_level
       update_columns(
         stock_level: stock_level_adjustments.sum(:adjustment), 

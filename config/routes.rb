@@ -1,6 +1,8 @@
 Spina::Engine.routes.draw do
   # Admin routes
   namespace :shop, path: '' do
+
+    # Admin panel
     namespace :admin, path: Spina.config.backend_path do
       scope '/shop' do
         # Orders
@@ -87,6 +89,17 @@ Spina::Engine.routes.draw do
             get :unused
           end
         end
+      end
+    end
+
+    # Stock Management
+    namespace :stock_management do
+      get :login, to: 'sessions#new'
+      post :login, to: 'sessions#create', as: 'post_login'
+      get :logout, to: 'sessions#destroy'
+
+      resources :products do
+        resource :recount, only: [:new, :create]
       end
     end
   end

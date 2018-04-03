@@ -1,0 +1,36 @@
+.container
+  = link_to "⇤ Terug naar begin", spina.shop_stock_management_products_path, class: 'button button-link'
+  .page-title
+    %small
+      Locatie: 
+      %strong
+        = select_tag :location, options_for_select(Spina::Shop::Product.pluck('location').uniq.sort, @product.location)
+    = @product.name
+
+  = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
+
+    .grid
+      .grid-item
+        Voorraad:
+        = f.select :stock_level, options_for_select(0..1000, f.object.stock_level)
+
+        %br/
+        %br/
+        .input-group
+          .select-dropdown
+            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%b"), m]}, f.object.expiration_month), prompt: "Kies een maand"
+            = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), prompt: "Kies een jaar"
+
+      - if @product.product_images.any?
+        .grid-item
+          = image_tag attachment_url(@product.product_images.first, :file, :fit, 200, 200), style: "margin: 0 auto; display: block"
+          
+    = button_tag type: :submit, class: 'button button-primary button-block' do
+      💾 Opslaan en volgende
+
+    .button-group
+      = link_to '#', class: 'button' do
+        ◀︎ Vorige
+
+      = link_to '#', class: 'button' do
+        Volgende ▶︎

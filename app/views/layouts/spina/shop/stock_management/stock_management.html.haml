@@ -1,0 +1,18 @@
+!!!
+%html{lang: I18n.locale}
+  %head
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'initial-scale=1.0, user-scalable=no, width=device-width'}
+    / %meta{name: 'turbolinks-cache-control', content: 'no-cache'}
+    = csrf_meta_tags
+
+    %title= content_for?(:title) ? yield(:title) : "Spina CMS"
+
+    / Stylesheet
+    = stylesheet_link_tag 'spina/mobile/application', data: {turbolinks_track: true}
+
+    / JavaScript
+    = javascript_include_tag 'spina/mobile/application', data: {turbolinks_track: true}
+
+  %body{data: {controller_name: controller_name, action_name: action_name}}
+    = yield
