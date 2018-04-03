@@ -118,14 +118,18 @@ nl:
         description: Beschrijving
         ean: EAN
         expiration_date: Verloopdatum
+        limit: Limiet
         limit_per_order: Limiet per bestelling
         location: Locatie
         materialized_path: URL
         must_be_of_age_to_buy: Alleen voor 18+
         name: Naam
-        price_exceptions: Prijs per klantgroep
+        price: Prijs
+        price_exceptions: Prijs voor webshop of klantgroep
+        product_category: Productcategorie
         product_collections: Collecties
         promotional_price: Actieprijs
+        reference: Referentie
         related_products: Gerelateerde producten
         sales_category: Omzetcategorie
         seo_description: SEO omschrijving
@@ -219,15 +223,21 @@ nl:
       spina/shop/product_bundle:
         one: Productbundle
         other: Productbundels
+      spina/shop/product_collection:
+        one: Collectie
+        other: Collecties
       spina/shop/product_category:
-        one: Productcategorie
-        other: Productcategorieën
+        one: Categorie
+        other: Categorieën
       spina/shop/product_item:
         one: Product item
         other: Product items
       spina/shop/product_review:
         one: Beoordeling
         other: Beoordelingen
+      spina/shop/store:
+        one: Winkel
+        other: Winkels
       spina/shop/sales_category:
         one: Omzetcategorie
         other: Omzetcategorieën
@@ -371,11 +381,13 @@ nl:
       product_reviews:
         no_reviews: Er zijn nog geen beoordelingen gegeven
       products:
-        adjust_stock: Voorraad aanpassen
+        adjust_stock: Aanpassen
         almost_expired: Product is bijna verlopen
         archive: Archiveer product
         archive_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt archiveren?
         archived_title: Archief
+        batches:
+          updating_html: De <strong>producten</strong> worden op de achtergrond bijgewerkt
         choose_customer_group: Kies klantgroep
         delete: Verwijder product
         delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
@@ -386,12 +398,14 @@ nl:
         new: Nieuw product
         new_copy: Nieuwe kopie
         new_by_category_title_html: Kies een <strong>categorie</strong>
+        new_variant: Nieuwe variant
         out_of_stock: Voorraad is op
         save: Product opslaan
         select_blank: Kies een product
         send_in_stock_reminders: Voorraadmeldingen verzenden
         stock_history: Historie
         title: Catalogus
+        translations: Vertalingen
         unarchive: Heractiveer product
       properties:
         field_types:
@@ -407,6 +421,7 @@ nl:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
           ontvangt automatisch een email.
         title: Rapportages
+      save: Opslaan
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
       settings: Webshopvoorkeuren

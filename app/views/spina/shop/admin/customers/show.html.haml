@@ -35,6 +35,11 @@
             %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
             %td= @customer.customer_group.name
 
+        - if @customer.customer_account.try(:store).present?
+          %tr
+            %th= Spina::Shop::CustomerAccount.human_attribute_name(:store)
+            %td= @customer.customer_account.store.name
+
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:country)
           %td

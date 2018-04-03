@@ -1,11 +1,24 @@
 = form_for @product, url: @product.new_record? ? spina.shop_admin_products_path : spina.shop_admin_product_path(@product) do |f|
   = hidden_field_tag :locale, @locale
+  = f.hidden_field :parent_id
   = f.hidden_field :product_category_id
 
   %header#header
-    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+      - if @product.persisted?
+        .divider
+        = @product.name
 
-    = render 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
+      = render partial: 'spina/shop/admin/shared/locale_switcher' unless @product.new_record?
+
+    - if f.object.persisted? && f.object.has_variants?
+      %nav#secondary.tabs
+        %ul
+          %li{class: ('active' if @product.parent?)}= link_to 'Productinstellingen', spina.edit_shop_admin_product_path(@product.parent || @product)
+
+          - @product.variants.each do |variant|
+            %li{class: ('active' if @product == variant)}= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
     #header_actions
       - if f.object.product_images.any?
@@ -20,14 +33,13 @@
                 = link_to attachment_url(product_image, :file), target: :blank do
                   Afbeelding
 
-      - if @product.persisted?
-        = link_to spina.duplicate_shop_admin_product_path(@product), class: 'button' do
-          = icon('pages')
-          = t('spina.shop.products.duplicate')
+      - if @product.persisted? && @product.can_have_variants?
+        = link_to spina.variant_shop_admin_product_path(@product.parent || @product), class: 'button' do
+          = icon('plus')
+          Variant
                   
-      %button.button.button-primary{type: 'submit', style: "margin-left: 3px"}
+      %button.button.button-primary.icon-only{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
-        =t 'spina.shop.products.save'
 
   - if @product.errors.any?
     - content_for :notifications do
@@ -51,84 +63,94 @@
               = Spina::Shop::Product.human_attribute_name :name
 
             .sidebar-form-control
-              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name
+              - if f.object.persisted? && Spina.config.locales.many? && !f.object.variant?
+                .pull-right
+                  = link_to spina.translations_shop_admin_product_path(@product, :name), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                    %i.icon.icon-comment
+              = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name(fallback: false, default: nil), disabled: @product.variant?
 
           .sidebar-form-group
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :sku
 
-            .sidebar-form-control            
+            .sidebar-form-control
               = f.text_field :sku, placeholder: Spina::Shop::Product.human_attribute_name(:sku), disabled: !@product.editable_sku
 
-        .well
-          .sidebar-form-group
-            .sidebar-form-control
-              %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
-                .button-groups
-                  .button-group
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
-                      .icon.icon-bold
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
-                      .icon.icon-italic
-                    %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
-                      .icon.icon-list-ul
-                %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
-                = f.hidden_field :description, id: 'product_description'
-        
-        - if @product_category.present?
-          .well
-            = f.fields_for :properties do |property_builder|
-              - @product_category.product_properties.includes(property_options: :translations).each do |property|
-                = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
-
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :must_be_of_age_to_buy
-            .sidebar-form-control
-              = f.check_box :must_be_of_age_to_buy, data: {switch: true}
-
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :supplier
-            .sidebar-form-control
-              = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
-
-        .well
-          - if Spina::Shop::ProductCollection.any?
+          - if @product.persisted? && !@product.variant?
             .sidebar-form-group
               .sidebar-form-label
-                = Spina::Shop::Product.human_attribute_name :product_collections
+                = Spina::Shop::Product.human_attribute_name :product_category
+              .sidebar-form-control
+                = f.select :product_category_id, options_for_select(Spina::Shop::ProductCategory.all.map{|c| [c.name, c.id]}, f.object.product_category_id), {include_blank: t('spina.commerce.product_categories.no_categories')}, class: 'select2', style: 'width: 100%'
+
+        - unless @product.variant?
+          .well
+            .sidebar-form-group
+              .sidebar-form-control
+                - if f.object.persisted? && Spina.config.locales.many?
+                  .pull-right
+                    = link_to spina.translations_shop_admin_product_path(@product, :description), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                      %i.icon.icon-comment
+                %trix-toolbar.clearfix{ id: "product_description_toolbar", data: { trix_editor_id: "product_description_editor" }}
+                  .button-groups
+                    .button-group
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                        .icon.icon-bold
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                        .icon.icon-italic
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                        .icon.icon-list-ul
+                  %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
+                  = f.hidden_field :description, id: 'product_description', value: f.object.description(fallback: false, default: nil)
+        
+        .well
+          - if @product.product_category.present?
+            - unless @product.variant?
+              = f.fields_for :properties do |property_builder|
+                - @product.product_category.product_properties.includes(property_options: :translations).each do |property|
+                  = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
+
+            - if !@product.has_children? || @product.variant?
+              = f.fields_for :properties do |property_builder|
+                - @product.product_category.variant_properties.includes(property_options: :translations).each do |property|
+                  = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
+
+        - unless @product.variant?
+          .well
+            - if Spina::Shop::ProductCollection.any?
+              .sidebar-form-group
+                .sidebar-form-label
+                  = Spina::Shop::Product.human_attribute_name :product_collections
+
+                .sidebar-form-control
+                  = f.select :product_collection_ids, options_for_select(Spina::Shop::ProductCollection.pluck(:name, :id), f.object.product_collection_ids), {}, class: 'select2', multiple: true, style: 'width: 100%'
+
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :related_products
 
               .sidebar-form-control
-                = f.select :product_collection_ids, options_for_select(Spina::Shop::ProductCollection.pluck(:name, :id), f.object.product_collection_ids), {}, class: 'select2', multiple: true, style: 'width: 100%'
+                = f.select :related_product_ids, options_for_select(f.object.related_products.map{|p| [p.name, p.id]}, f.object.related_product_ids), {}, class: 'select-products', multiple: true, style: 'width: 100%'
 
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :related_products
+        - unless @product.variant?
+          .well
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :seo_title
+              .sidebar-form-control
+                = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
 
-            .sidebar-form-control
-              = f.select :related_product_ids, options_for_select(f.object.related_products.map{|p| [p.name, p.id]}, f.object.related_product_ids), {}, class: 'select-products', multiple: true, style: 'width: 100%'
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :seo_description
+              .sidebar-form-control
+                = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
 
-        .well
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :seo_title
-            .sidebar-form-control
-              = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
-
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :seo_description
-            .sidebar-form-control
-              = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
-
-          .sidebar-form-group
-            .sidebar-form-label
-              = Spina::Shop::Product.human_attribute_name :materialized_path
-            .sidebar-form-control
-              = f.text_field :materialized_path, disabled: true
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :materialized_path
+              .sidebar-form-control
+                = f.text_field :materialized_path, disabled: true, value: f.object.materialized_path(fallback: false, default: nil), placeholder: Spina::Shop::Product.human_attribute_name(:materialized_path)
 
       .sidebar-form-sidebar
         #productImageUploader.sidebar-form-images
@@ -147,131 +169,200 @@
         = f.attachment_field :product_images_files, direct: true, multiple: true, presigned: true, class: "sidebar-form-image-dropzone"
 
         .form-group
+          .form-control.pull-right
+            = f.check_box :active, data: {switch: true}
           .form-label
             = Spina::Shop::Product.human_attribute_name :active
-          
-          .form-control
-            = f.check_box :active, data: {switch: true}
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :base_price
-          
-          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+        - if stores.any?
+          - if f.object.variant?
+            %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+              %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+                .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                  = hidden_field_tag 'product[variant_overrides[stores]]', nil
+                  = check_box_tag 'product[variant_overrides[stores]]', true, f.object.variant_overrides.try(:[], "stores").present?, data: {disabled_toggle: '.disabled-toggle-stores'}
+                  %label{style: 'margin-right: 0'}
+                Winkels overschrijven
+
+          .form-group.disabled-toggle-stores{style: ("display: none" if f.object.variant? && !f.object.variant_override?(:stores))}
+            .table-collection-check-boxes-container
+              %table.table.table-collection-check-boxes.table-clickable
+                = collection_check_boxes(:product, :store_ids, stores, :id, :name) do |b|
+                  %tr
+                    %td{style: 'width: 10px'}
+                      .form-checkbox{style: 'width: 20px'}
+                        = b.check_box
+                        %label
+                    %th{style: 'padding-left: 0'}
+                      .pull-right
+                        .store-badge{class: ('inactive' unless b.object.in? f.object.stores), style: "background: #{b.object.color}"}= b.object.initials
+                      %span{style: ('opacity: .25' unless b.object.in? f.object.stores)}= b.text
+
+        %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+          %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+            - if f.object.variant?
+              .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                = hidden_field_tag 'product[variant_overrides[pricing]]', nil
+                = check_box_tag 'product[variant_overrides[pricing]]', true, f.object.variant_overrides.try(:[], "pricing").present?, data: {disabled_toggle: '.disabled-toggle-pricing'}
+                %label{style: 'margin-right: 0'}
+              Prijs overschrijven
+            - else
+              Prijs
+
+        .form-group.disabled-toggle-pricing
+          .form-control
             .input-group
-              = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2)
-              .select-dropdown
-                = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax)
-              .select-dropdown{style: "min-width: 120px"}
-                = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id)
+              .input-group.form-control{style: 'position: relative', data: {form_prepend: t('number.currency.format.unit')}}
+                = f.text_field :base_price, value: number_with_precision(f.object.base_price, precision: 2), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+                .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; max-width: 62px; position: absolute; right: 0px", data: {disabled: f.object.variant? && !f.object.variant_override?(:pricing)}}
+                  = f.select :price_includes_tax, options_for_select([['incl.', true], ['excl.', false]], f.object.price_includes_tax), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+              .select-dropdown{style: "min-width: 120px; max-width: 140px", data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
+                = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id), {}, disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :promotional_price
+        / .form-group
+        /   .form-label
+        /     = Spina::Shop::Product.human_attribute_name :promotional_price
           
-          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
-            = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
+        /   .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+        /     = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
 
-        - if Spina::Shop::CustomerGroup.any?
-          .form-group{style: 'margin-bottom: 40px'}
-            .form-label
-              = Spina::Shop::Product.human_attribute_name :price_exceptions
-            
-            - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
-              = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception}
+        - if Spina::Shop::CustomerGroup.any? || Spina::Shop::Store.any?
+          .form-group.disabled-toggle-pricing
+            .price-exceptions
+              - @product.price_exceptions['stores'].try(:each) do |price_exception|
+                = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "store"}
 
-            = link_to_add_price_exception f do
-              = icon('plus')
+              - @product.price_exceptions['customer_groups'].try(:each) do |price_exception|
+                = render partial: 'price_exception_fields', locals: {f: f, price_exception: price_exception, scope: "customer_group"}
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :sales_category
+            %div.add-pricing-dropdown{style: ('display: none' if f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?), data: {dropdown: true}}
+              = link_to '#', class: 'button button-block button-hollow', style: 'margin-right: 0', data: {trigger: 'dropdown', target: '#add_price_exceptions'} do
+                = icon('plus')
+                Prijs toevoegen
+                %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
+              %ul#add_price_exceptions.align-right{style: 'width: 100%'}
+                %li
+                  = link_to_add_price_exception f, "store" do
+                    Prijs voor <strong>winkel</strong>...
+                %li
+                  = link_to_add_price_exception f, "customer_group" do
+                    Prijs voor <strong>klantgroep</strong>...
+
+        %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+          %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+            - if f.object.variant?
+              .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                = hidden_field_tag 'product[variant_overrides[sales_category]]', nil
+                = check_box_tag 'product[variant_overrides[sales_category]]', true, f.object.variant_override?(:sales_category), data: {disabled_toggle: '.disabled-toggle-sales-category'}
+                %label{style: 'margin-right: 0'}
+              Omzetcategorie overschrijven
+            - else
+              = Spina::Shop::Product.human_attribute_name :sales_category
+
+        .form-group.disabled-toggle-sales-category
           .form-control
-            .select-dropdown{style: 'width: 100%'}
-              = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id)
+            .select-dropdown{style: 'width: 100%', data: {disabled: f.object.variant? && !f.object.variant_override?(:sales_category)}}
+              = f.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.all.map{|c| [c.name, c.id]}, f.object.sales_category_id), {}, disabled: f.object.variant? && !f.object.variant_override?(:sales_category)
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :cost_price
-          
-          .form-control{data: {form_prepend: '€'}}
-            = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
+        - unless f.object.has_children?
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start; position: relative"}
+            %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"}
+              - if f.object.persisted? && f.object.stock_enabled?
+                %small{style: 'position: absolute; right: 0px; top: 0px; transform: translateY(-50%); background: rgb(245, 245, 250); padding: 10px; padding-right: 0'}= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :stock_enabled
+              .form-checkbox{style: 'display: inline-block; width: 20px; margin-right: 4px'}
+                = f.check_box :stock_enabled
+                %label{style: 'margin-right: 0'}
+              = Spina::Shop::Product.human_attribute_name :stock_enabled
 
-          .form-control
-            = f.check_box :stock_enabled, data: {switch: true}
+          - if f.object.stock_enabled?
+            .grouped-form-groups
+              .form-group
+                .input-group
+                  .form-label
+                    = Spina::Shop::Product.human_attribute_name :stock_level
 
-        .form-group
-          .form-label
-            .pull-right.text-muted{style: 'font-weight: 400'}=l(f.object.expiration_date, format: '%B \'%y') if f.object.expiration_date
-            = Spina::Shop::Product.human_attribute_name :can_expire
+                  .form-control{style: "flex: 1.5"}
+                    - if f.object.persisted?
+                      .pull-right{style: 'position: absolute; right: 10px;top: 13px; font-size: 14px'}
+                        = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
+                      = text_field_tag :stock_level, f.object.stock_level, disabled: true
+                    - else
+                      = f.text_field :initial_stock_level, placeholder: Spina::Shop::Product.human_attribute_name(:stock_level)
 
-          .form-control
-            = f.check_box :can_expire, data: {switch: true}
+              .form-group
+                .input-group
+                  .form-label
+                    = Spina::Shop::Product.human_attribute_name :limit
+                  .form-control{style: 'flex: 1.5'}
+                    = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
 
-        - if f.object.stock_enabled?
-          - unless f.object.new_record?
+        - if f.object.stock_enabled? && f.object.childless?
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+            %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Magazijn
+
+          .grouped-form-groups
             .form-group
-              .form-label
-                %small= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
-                = Spina::Shop::Product.human_attribute_name :stock_level
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :location
+                
+                .form-control{style: 'flex: 1.5'}
+                  = f.text_field :location, placeholder: Spina::Shop::Product.human_attribute_name(:location)
 
-              .form-control
-                .pull-right{style: 'position: absolute; right: 10px;top: 11px; font-size: 14px'}
-                  = link_to t('spina.shop.products.adjust_stock'), spina.new_shop_admin_product_stock_level_adjustment_path(f.object), data: {remote: true}
-                = text_field_tag :stock_level, f.object.stock_level, disabled: true
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :weight
+                
+                .form-control{style: "flex: 1.5", data: {form_append: 'gr'}}
+                  = f.text_field :weight, value: number_with_precision(f.object.weight, precision: 3, strip_insignificant_zeros: true)
 
-          .form-group
-            .form-label
-              = Spina::Shop::Product.human_attribute_name :available_at_supplier
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :cost_price
+                .form-control{style: "flex: 1.5", data: {form_prepend: '€'}}
+                  = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
 
-            .form-control
-              = f.check_box :available_at_supplier, data: {switch: true}
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :ean
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :limit_per_order
-          .form-control
-            = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
+                .form-control{style: "flex: 1.5"}
+                  = f.text_field :ean, placeholder: Spina::Shop::Product.human_attribute_name(:ean)
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :location
-          
-          .form-control
-            = f.text_field :location, placeholder: Spina::Shop::Product.human_attribute_name(:location)
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :supplier
+                .form-control{style: "flex: 1.5"}
+                  = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :weight
-          
-          .form-control{data: {form_append: 'gr'}}
-            = f.text_field :weight, value: number_with_precision(f.object.weight, precision: 3, strip_insignificant_zeros: true)
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :reference
+                .form-control{style: "flex: 1.5"}
+                  = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :ean
+            .form-group
+              .input-group
+                %label.form-label{style: 'display: block; width: 100%; margin-right: 0; border-right: 1px solid rgb(204, 204, 204); cursor: pointer'}
+                  .form-checkbox{style: 'display: inline-block; width: 24px'}
+                    = f.check_box :available_at_supplier
+                    %label{style: 'margin-right: 0'}
+                  = Spina::Shop::Product.human_attribute_name :available_at_supplier
 
-          .form-control
-            = f.text_field :ean, placeholder: Spina::Shop::Product.human_attribute_name(:ean)
+        - if @product.persisted?
 
-        .form-group
-          .form-label
-            = Spina::Shop::Product.human_attribute_name :supplier_reference
-
-          .form-control
-            = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
-
-        - unless @product.new_record?
-          .pull-right
+          .text-center
             - if @product.archived?
               = link_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), method: :post, class: 'button button-link'
             - else
               = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), method: :post, class: 'button button-link', data: {confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
 
             - if @product.deletable
-              = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}, style: 'padding-right: 0'
+              = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}

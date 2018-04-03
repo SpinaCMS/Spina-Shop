@@ -4,10 +4,18 @@ module Spina::Shop
       before_action :set_breadcrumbs
       before_action :set_locale
 
+      before_action :set_batch_products, only: [:edit_batch, :update_batch]
+
       def index
-        @q = Product.where(archived: false).filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
-        @products = @q.result.page(params[:page]).per(25)
-        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
+        @q = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+
+        @unfiltered = @q.conditions.none? && @q.sorts.none?
+
+        if @unfiltered
+          @products = Product.order(created_at: :desc).includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
+        else
+          @products = @q.result.page(params[:page]).per(25)
+        end
 
         respond_to do |format|
           format.html
@@ -26,10 +34,21 @@ module Spina::Shop
       end
 
       def archived
-        @q = Product.where(archived: true).filtered(filters).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
-        @products = @q.result.page(params[:page]).per(25)
-        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
+        @q = Product.where(archived: true).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
+        
+        @unfiltered = @q.conditions.none? && @q.sorts.none?
+
+        if @unfiltered
+          @products = Product.order(created_at: :desc).includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
+        else
+          @products = @q.result.page(params[:page]).per(25)
+        end
+
         render :index
+      end
+
+      def translations
+        @product = Product.find(params[:id])
       end
 
       def show
@@ -42,18 +61,18 @@ module Spina::Shop
       end
 
       def new
-        @product = Product.new
+        @product = Product.new(stock_enabled: true)
         add_breadcrumb t('spina.shop.products.new'), spina.new_shop_admin_product_path
 
-        @product_category = ProductCategory.where(id: params[:product_category_id]).first
-
-        # Always build at least one product item
-        @product.product_category = @product_category
+        @product.product_category = ProductCategory.where(id: params[:product_category_id]).first
       end
 
       def create
         @product = Product.new(product_params)
         if @product.save
+          # Save each locale for materialized_path
+          Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
+          
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :new
@@ -62,14 +81,18 @@ module Spina::Shop
 
       def edit
         @product = Product.find(params[:id])
-        add_breadcrumb @product.name
+      end
 
-        @product_category = @product.product_category
+      def edit_parent
+        @product = Product.find(params[:id])
       end
 
       def update
         @product = Product.find(params[:id])
         if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
+          # Save each locale for materialized_path
+          Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
+
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :edit
@@ -113,6 +136,20 @@ module Spina::Shop
         render :new
       end
 
+      def variant
+        product = Product.find(params[:id])
+        parent_product = product.parent || product
+
+        @product = parent_product.dup
+        @product.assign_attributes(parent_id: parent_product.id, sku: nil, properties: nil)
+        @product_category = parent_product.product_category
+
+        add_breadcrumb parent_product.name, spina.shop_admin_product_path(parent_product)
+        add_breadcrumb t('spina.shop.products.new_variant')
+
+        render :new
+      end
+
       private
 
         def filters
@@ -127,15 +164,7 @@ module Spina::Shop
 
         def product_params
           I18n.with_locale I18n.default_locale do
-            product_params = params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
-            if product_params[:price_exceptions].present?
-              product_params[:price_exceptions].try(:[], :customer_groups).try(:each) do |price_exception|
-                price_exception["price"] = Delocalize::Parsers::Number.new.parse(price_exception["price"])
-              end
-            else
-              product_params[:price_exceptions] = "{}"
-            end
-            product_params
+            params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
           end
         end
 

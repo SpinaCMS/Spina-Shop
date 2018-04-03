@@ -1,6 +1,6 @@
 module Spina::Shop
   class StockLevelAdjustment < ApplicationRecord
-    belongs_to :product
+    belongs_to :product, touch: true
     belongs_to :order_item, optional: true
 
     scope :additions, -> { where('adjustment > ?', 0) }

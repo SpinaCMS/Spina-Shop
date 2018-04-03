@@ -1,7 +1,19 @@
+// Breadcrumbs
+
+.breadcrumbs
+  align-items: center
+  display: flex
+
+  .button
+    margin-bottom: 0
+
 // Select2
 .select2-container
   font-size: 14px
-  z-index: 999
+  z-index: 5
+
+  &.select2-container--open
+    z-index: 9999
 
   .select2-dropdown
     border: 1px solid #bbb !important
@@ -131,6 +143,9 @@
         right: 0px
         top: 0px
 
+        &:hover
+          opacity: .5
+
     button
       height: 40px
       line-height: 40px
@@ -157,9 +172,10 @@
   .filter-form-label
     color: #333
     font-size: 14px
-    font-weight: 500
+    font-weight: 600
     line-height: 40px
     padding: 0 14px
+    text-align: right
     width: 250px
 
   .filter-form-control
@@ -189,3 +205,97 @@
 
       .select2-selection__choice
         background: tint($primary-color, 75%) !important
+
+// Disabled dropdowns
+.select-dropdown[data-disabled]
+  background: rgb(237, 237, 242)
+
+  &:hover
+    border-color: rgb(195, 195, 195)
+
+  select
+    cursor: default
+    opacity: .5
+
+// Price exceptions
+
+.price-exceptions
+  background: white
+  border-radius: 3px
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .16)
+  margin-bottom: 10px
+
+  & > .form-control
+    .select-dropdown, input
+      background: none
+      box-shadow: none
+
+    &:not(:last-child)
+      .select-dropdown, input
+        border-bottom: 0
+        border-bottom-left-radius: 0
+        border-bottom-right-radius: 0 !important
+
+    &:not(:first-child)
+      .select-dropdown, input
+        border-top-color: #e5e5e5
+        border-top-left-radius: 0
+        border-top-right-radius: 0 !important
+
+// Collection check boxes table
+.table-collection-check-boxes-container
+  background: white
+  border: 1px solid #c3c3c3
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .16)
+  border-radius: 3px
+
+input[data-form-prepend]
+  padding-left: 28px
+  position: relative
+
+  &:before
+    content: "b"
+    display: block
+    left: 0px
+    top: 0px
+    position: absolute
+
+table.table-collection-check-boxes
+  color: #333
+  font-size: 14px
+  margin: 0
+
+  th
+    font-weight: 600
+
+  tr
+    td, th
+      padding-bottom: 10px
+      padding-top: 10px
+
+// Form labels in input groups
+
+.input-group > .form-label
+  background: rgba(0, 0, 0, .025)
+  border: 1px solid #ccc
+  border-right: none
+  border-radius: 3px 0 0 3px
+  padding: 0 10px
+  line-height: 38px
+  white-space: nowrap
+
+.grouped-form-groups
+  .form-group:not(:last-child)
+    margin-bottom: 0px
+
+    .input-group
+      .form-label, .form-control input, .form-control .select-dropdown
+        border-bottom: 0
+        border-bottom-left-radius: 0px
+        border-bottom-right-radius: 0px
+
+  .form-group:not(:first-child)
+    .input-group
+      .form-label, .form-control input, .form-control .select-dropdown
+        border-top-left-radius: 0px
+        border-top-right-radius: 0px

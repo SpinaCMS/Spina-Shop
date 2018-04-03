@@ -1,7 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
+    include Variants, Pricing
+
     # Stores the old path when generating a new materialized_path
-    attr_accessor :old_path
+    attr_accessor :old_path, :initial_stock_level
 
     belongs_to :tax_group
     belongs_to :sales_category
@@ -12,8 +14,10 @@ module Spina::Shop
     has_many :product_relations, dependent: :destroy
     has_many :related_products, through: :product_relations
     has_many :favorites, dependent: :destroy
-    has_many :collectables, dependent: :destroy
-    has_many :product_collections, through: :collectables
+    has_many :collectables
+    has_many :product_collections, through: :collectables, dependent: :destroy
+    has_many :available_products
+    has_many :stores, through: :available_products, dependent: :destroy
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
@@ -29,6 +33,8 @@ module Spina::Shop
 
     # Create a 301 redirect if materialized_path changed
     after_save :rewrite_rule
+
+    after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
 
     validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
@@ -60,48 +66,6 @@ module Spina::Shop
       name
     end
 
-    def promotion?
-      promotional_price.present?
-    end
-
-    def price
-      promotional_price.presence || base_price
-    end
-
-    def price_for_order(order)
-      # Return the default price if we don't know anything about the order
-      return price if order.nil? 
-
-      # If no conversion is needed, simply return price
-      price = price_for_customer(order.customer)
-      price_includes_tax = price_includes_tax_for_customer(order.customer)
-      return price if price_includes_tax == order.prices_include_tax
-
-      # Price modifier for unit price
-      price_modifier = tax_group.price_modifier_for_order(order)
-
-      # Calculate unit price based on price modifier
-      unit_price = price_includes_tax ? price / price_modifier : price * price_modifier
-
-      # Round to two decimals using bankers' rounding
-      return unit_price.round(2, :half_even)
-    end
-
-    def price_for_customer(customer)
-      return price if customer.nil?
-      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price
-    end
-
-    def price_includes_tax_for_customer(customer)
-      return price_includes_tax if customer.nil?
-      price_exception = price_exception_for_customer(customer)
-      if price_exception.present?
-        ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
-      else
-        price_includes_tax
-      end
-    end
-
     def in_stock?
       return true unless stock_enabled?
       stock_level > 0
@@ -114,7 +78,7 @@ module Spina::Shop
 
     # Get products by filtering their properties
     # Based on querying the jsonb column using Postgres
-    def self.filtered(filters)
+    def self.filtered(filters, hide_variants: true)
       products = all
 
       filters ||= []
@@ -133,7 +97,7 @@ module Spina::Shop
         end
       end
 
-      return products
+      return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
     end
 
     def cache_stock_level
@@ -163,15 +127,16 @@ module Spina::Shop
 
     private
 
+      def set_name
+        self.name = parent.name
+      end
+
       def rewrite_rule
         Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
       end
 
-      # Get price exception based on Customer / CustomerGroup if available
-      def price_exception_for_customer(customer)
-        price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
-          h["customer_group_id"].to_i == customer.customer_group_id
-        end
+      def create_initial_stock_level_adjustment
+        ChangeStockLevel.new(self, adjustment: initial_stock_level).save
       end
 
       # Get all values for properties defined on the ProductCategory.
@@ -208,10 +173,14 @@ module Spina::Shop
       end
 
       def localized_materialized_path
-        if I18n.locale == I18n.default_locale
-          name.try(:parameterize).prepend('/products/')
+        if Spina.config.locale_paths.present?
+          full_name.try(:parameterize).prepend("#{Spina.config.locale_paths[I18n.locale.to_sym]}/products/").gsub(/\/\z/, "")
         else
-          name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+          if I18n.locale == I18n.default_locale
+            full_name.try(:parameterize).prepend('/products/')
+          else
+            full_name.try(:parameterize).prepend("/#{I18n.locale}/products/").gsub(/\/\z/, "")
+          end
         end
       end
 

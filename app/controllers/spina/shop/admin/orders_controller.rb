@@ -106,7 +106,7 @@ module Spina::Shop
         else
           flash[:success] = t('spina.shop.orders.start_preparing_and_ship_success_html')
         end
-        redirect_to :back
+        redirect_back
       end
 
       private

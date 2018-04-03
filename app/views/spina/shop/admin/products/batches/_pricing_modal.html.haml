@@ -1,0 +1,33 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3.text-center
+      %strong= @products.count
+      %strong= Spina::Shop::Product.model_name.human(count: @products.count).downcase 
+      aanpassen
+
+  = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :put do |f|
+    - if params[:select_all]
+      = f.hidden_field :select_all, value: params[:select_all]
+    - else
+      - @products.each do |product|
+        = f.hidden_field :product_ids, multiple: true, value: product.id
+
+    %section
+      .form-control
+        .input-group
+          .select-dropdown
+            = f.select :price_for, grouped_options_for_select([['Winkels', [['SmokeSmarter', false], ['Diamond Flavours', false], ['EliquidMania', false]]], ['Klantgroepen', [['Exclusief', 1], ['Superexclusief', 2]]]]), include_blank: 'Standaard prijs'
+
+          .input-group
+            .form-control{data: {form_prepend: '€'}}
+              = f.text_field :base_price, placeholder: "Prijs", style: 'border-right: 1px solid #c3c3c3; border-top-right-radius: 3px; border-bottom-right-radius: 3px'
+            .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; position: absolute; right: 0px; top: 0px; max-width: 90px"}
+              = f.select :price_includes_tax, options_for_select([['incl. btw', true], ['excl. btw', false]], @products.first.try(:price_includes_tax))
+      
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-check{style: 'margin-right: 4px'}
+        =t 'spina.shop.save'

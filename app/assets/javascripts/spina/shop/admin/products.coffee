@@ -80,7 +80,7 @@ $(document).on 'spina:product_fields_added', 'form', (e) ->
 $(document).on 'click', 'form .add_price_exception', (event) ->
   time = new Date().getTime()
   regexp = new RegExp($(this).data('id'), 'g')
-  $(this).before($(this).data('fields').replace(regexp, time))
+  $(this).parents().find('.price-exceptions').append($(this).data('fields').replace(regexp, time))
 
   # Fire event
   $(this).closest('form').trigger('spina:price_exception_added')
@@ -91,3 +91,47 @@ $(document).on 'click', 'form .remove_price_exception', (event) ->
   $(this).closest('.form-control').slideUp 400, ->
     $(this).remove()
   event.preventDefault()
+
+$(document).on 'checked', 'table.products-table thead .form-checkbox input', (event) ->
+  if $(this).prop('checked')
+    $(this).closest('table').find('tbody tr td .form-checkbox input[type="checkbox"]').prop('checked', true)
+    count = $(this).attr('data-count')
+    if count > 0
+      $('.products-batch-action span.selected').text("(#{count})")
+    else
+      $('.products-batch-action span.selected').text("")
+  else
+    $(this).closest('table').find('tbody tr td .form-checkbox input[type="checkbox"]').prop('checked', false)
+    $('.products-batch-action span.selected').text("")
+
+$(document).on 'checked', 'table.products-table tbody .form-checkbox input', (event) ->
+  $('table.products-table thead .form-checkbox input').prop('checked', false)
+  
+  count = $('table.products-table tbody .form-checkbox input:checked').length
+  if count > 0
+    $('.products-batch-action span.selected').text("(#{count})")
+  else
+    $('.products-batch-action span.selected').text("")
+
+$(document).on 'change', '.form-checkbox input[type="checkbox"][data-disabled-toggle]', (e) ->
+  checked = $(this).prop('checked')
+  console.log(checked)
+
+  $target = $($(this).attr('data-disabled-toggle'))
+
+  if checked
+    $target.find('.select-dropdown').removeAttr('data-disabled')
+    $target.find('.select-dropdown select, input[type="text"]').removeAttr('disabled')
+    $target.find('.add-pricing-dropdown').show()
+    if $target.hasClass('disabled-toggle-stores')
+      $target.show()
+  else
+    $target.find('.select-dropdown').attr('data-disabled', true)
+    $target.find('.select-dropdown select, input[type="text"]').attr('disabled', 'disabled')
+    $target.find('.add-pricing-dropdown').hide()
+    if $target.hasClass('disabled-toggle-stores')
+      $target.hide()
+
+$(document).on 'change', '#translations_modal_select select', (e) ->
+  $('.modal .tab-content').removeClass('active')
+  $(".modal .tab-content#translations_#{$(this).val()}").addClass('active')

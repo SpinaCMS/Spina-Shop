@@ -41,12 +41,19 @@ Spina::Engine.routes.draw do
         resources :invoices, only: [:show]
 
         # Products
+        namespace :products do
+          resource :batch, only: [:edit, :update]
+        end
+
         resources :products do
           collection do
             get :archived
           end
           member do
+            get 'translations/:field', to: 'products#translations', as: :translations
+            get :edit_parent
             get :duplicate
+            get :variant
             post :archive
             post :unarchive
           end

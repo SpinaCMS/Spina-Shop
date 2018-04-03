@@ -1,11 +1,17 @@
-.form-control{style: 'margin-bottom: 20px', data: {form_prepend: t('number.currency.format.unit')}}
+.form-control
   .input-group
-    = f.text_field 'price_exceptions[customer_groups][][price]', value: number_with_precision(price_exception["price"], precision: 2), placeholder: Spina::Shop::Product.human_attribute_name(:price)
+    - case scope
+    - when "store"
+      .select-dropdown{style: 'width: 100%;', data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
+        = select_tag "product[price_exceptions[#{scope.pluralize}][][#{scope}_id]]", options_for_select(Spina::Shop::Store.all.map{|g|[g.name, g.id]}, price_exception["#{scope}_id"]), prompt: t('spina.shop.products.choose_store'), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
 
-    .select-dropdown{style: "min-width: 100px"}= select_tag 'product[price_exceptions[customer_groups][][price_includes_tax]]', options_for_select([['incl. btw', true], ['excl. btw', false]], price_exception["price_includes_tax"])
+    - when "customer_group"
+      .select-dropdown{style: 'width: 100%', data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
+        = select_tag "product[price_exceptions[#{scope.pluralize}][][#{scope}_id]]", options_for_select(customer_groups_for_select, price_exception["#{scope}_id"]), prompt: t('spina.shop.products.choose_customer_group'), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
+  
+    .input-group{style: 'max-width: 140px'}
+      .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+        = f.text_field "price_exceptions[#{scope.pluralize}][][price]", value: number_with_precision(price_exception["price"], precision: 2), placeholder: Spina::Shop::Product.human_attribute_name(:price), style: 'border-right: 1px solid #c3c3c3; border-top-right-radius: 3px; border-bottom-right-radius: 3px', disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
 
-  .select-dropdown{style: 'width: 100%'}= select_tag 'product[price_exceptions[customer_groups][][customer_group_id]]', options_for_select(Spina::Shop::CustomerGroup.all.map{|g|[g.name, g.id]}, price_exception["customer_group_id"]), prompt: t('spina.shop.products.choose_customer_group')
-
-  = link_to '#', class: 'button button-link remove_price_exception', style: "margin: 0; padding-right: 0" do
-    = icon('trash')
-    =t 'spina.delete'
+      .select-dropdown{style: "background: none; box-shadow: none; border: none; position: absolute; right: 0px; min-width: 62px; max-width: 62px; border-left: 0", data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
+        = select_tag "product[price_exceptions[#{scope.pluralize}][][price_includes_tax]]", options_for_select([['incl.', true], ['excl.', false]], price_exception["price_includes_tax"]), disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
