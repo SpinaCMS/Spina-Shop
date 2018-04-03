@@ -2,6 +2,8 @@ module Spina::Shop
   module Admin
     module Settings
       class ShopController < AdminController
+        include ProductImagesHelper
+
         before_action -> { add_breadcrumb t('spina.shop.settings') }, only: [:index]
       end
     end

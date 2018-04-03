@@ -5,7 +5,8 @@
         = check_box_tag 'product_ids[]', product.id
         %label
     %td.align-center{style: 'width: 30px'}
-      = image_tag attachment_url(product.product_images.first, :file, :fit, 30, 30, fallback: ''), style: 'vertical-align: middle; margin: -10px 0'
+      - if product.product_images.any?
+        = image_tag variant(product.product_images.first, resize: '60x60'), style: 'vertical-align: middle; margin: -10px 0; max-width: 30px; max-height: 30px'
     %td
       = link_to spina.shop_admin_product_path(product), class: 'table-link' do
         %span.product-name= product.name

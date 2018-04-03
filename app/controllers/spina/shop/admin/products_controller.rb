@@ -69,7 +69,10 @@ module Spina::Shop
 
       def create
         @product = Product.new(product_params)
+
         if @product.save
+          attach_product_images
+          
           # Save each locale for materialized_path
           Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
           
@@ -89,6 +92,8 @@ module Spina::Shop
 
       def update
         @product = Product.find(params[:id])
+        attach_product_images
+
         if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
           # Save each locale for materialized_path
           Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
@@ -151,6 +156,16 @@ module Spina::Shop
       end
 
       private
+
+        def attach_product_images
+          if params[:product][:files].present?
+            @images = params[:product][:files].map do |file|
+              image = @product.product_images.create
+              image.file.attach(file)
+              image
+            end
+          end
+        end
 
         def filters
           filter_params.to_h.map do |property, value|

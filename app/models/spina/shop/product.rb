@@ -3,7 +3,7 @@ module Spina::Shop
     include Variants, Pricing
 
     # Stores the old path when generating a new materialized_path
-    attr_accessor :old_path, :initial_stock_level
+    attr_accessor :old_path, :initial_stock_level, :files
 
     belongs_to :tax_group
     belongs_to :sales_category

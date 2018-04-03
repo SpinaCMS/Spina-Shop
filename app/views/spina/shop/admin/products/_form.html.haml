@@ -21,18 +21,6 @@
             %li{class: ('active' if @product == variant)}= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
     #header_actions
-      - if f.object.product_images.any?
-        %div{style: 'display: inline-block', data: {dropdown: true}}
-          = link_to '#', class: 'button', data: {trigger: 'dropdown', target: '#attachments'} do
-            Download
-            %i.icon.icon-caret-down{style: 'margin-right: 0'}
-
-          %ul#attachments.align-right
-            - f.object.product_images.each do |product_image|
-              %li
-                = link_to attachment_url(product_image, :file), target: :blank do
-                  Afbeelding
-
       - if @product.persisted? && @product.can_have_variants?
         = link_to spina.variant_shop_admin_product_path(@product.parent || @product), class: 'button' do
           = icon('plus')
@@ -157,7 +145,7 @@
           = f.fields_for :product_images, f.object.product_images.ordered do |image_builder|
             - if image_builder.object.file.present?
               .sidebar-form-image{data: {id: image_builder.object.id}}>
-                = image_tag attachment_url(image_builder.object, :file, :fit, 320, 240)
+                = image_tag variant(image_builder.object, resize: '640x480')
                 = image_builder.hidden_field :id
                 = image_builder.hidden_field :position, class: 'product-image-position'
                 = image_builder.check_box :_destroy, style: 'display: none'
@@ -166,7 +154,7 @@
                   = image_tag 'spina/shop/delete-big-confirm.png'
                 .sidebar-form-image-overlay
 
-        = f.attachment_field :product_images_files, direct: true, multiple: true, presigned: true, class: "sidebar-form-image-dropzone"
+        = f.file_field :files, multiple: true, class: "sidebar-form-image-dropzone", data: {direct_upload_url: main_app.rails_direct_uploads_url}
 
         .form-group
           .form-control.pull-right
