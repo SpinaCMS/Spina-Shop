@@ -9,7 +9,7 @@ module Spina::Shop
       def create
         user = Spina::User.where(email: params[:email]).first
         if user && user.authenticate(params[:password])
-          cookies.signed.permanent[:stock_management_spina_user_id] = user.id
+          cookies.signed.permanent[:spina_user_id] = user.id
           user.update_last_logged_in!
           redirect_to spina.shop_stock_management_root_path
         else
@@ -19,7 +19,7 @@ module Spina::Shop
       end
 
       def destroy
-        cookies.delete(:stock_management_spina_user_id)
+        cookies.delete(:spina_user_id)
         redirect_to spina.shop_stock_management_login_path
       end
 

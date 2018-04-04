@@ -8,7 +8,7 @@ module Spina::Shop
       private
 
         def current_spina_user
-          @current_spina_user ||= Spina::User.where(id: cookies.signed[:stock_management_spina_user_id]).first if cookies.signed[:stock_management_spina_user_id]
+          @current_spina_user ||= Spina::User.where(id: cookies.signed[:spina_user_id]).first if cookies.signed[:spina_user_id]
         end
         helper_method :current_spina_user
 
