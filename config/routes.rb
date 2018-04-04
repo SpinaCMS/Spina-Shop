@@ -93,7 +93,7 @@ Spina::Engine.routes.draw do
     end
 
     # Stock Management
-    namespace :stock_management do
+    namespace :stock_management, path: '/admin/stockapp' do
       root 'dashboard#show'
 
       get :login, to: 'sessions#new'
