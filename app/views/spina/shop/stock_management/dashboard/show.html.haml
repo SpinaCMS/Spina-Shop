@@ -1,0 +1,17 @@
+.container
+  %div{style: 'float: right'}= link_to 'uitloggen', spina.shop_stock_management_logout_path, class: 'button button-link'
+  .page-title.page-title-large
+    %div
+      %small Ingelogd als #{current_spina_user.try(:name)}
+      Dashboard
+
+  = link_to "📦 Voorraad opnieuw tellen", spina.shop_stock_management_locations_path, class: 'button button-block'
+
+  %br/
+
+  = link_to '🚚 Nieuwe voorraad', '#', class: 'button button-block', style: 'opacity: .5'
+
+  %br/
+
+  = link_to '✍️ Correctie', '#', class: 'button button-block', style: 'opacity: .5'
+  

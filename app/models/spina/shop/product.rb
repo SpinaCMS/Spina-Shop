@@ -14,6 +14,7 @@ module Spina::Shop
     has_many :favorites, dependent: :destroy
     has_many :collectables, dependent: :destroy
     has_many :product_collections, through: :collectables
+    has_many :recounts, dependent: :destroy
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy

@@ -94,9 +94,13 @@ Spina::Engine.routes.draw do
 
     # Stock Management
     namespace :stock_management do
+      root 'dashboard#show'
+
       get :login, to: 'sessions#new'
       post :login, to: 'sessions#create', as: 'post_login'
       get :logout, to: 'sessions#destroy'
+
+      resources :locations
 
       resources :products do
         resource :recount, only: [:new, :create]

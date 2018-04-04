@@ -1,0 +1,7 @@
+.container
+  = link_to "⇤ Dashboard", spina.shop_stock_management_root_path, class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title.page-title-large 📦 Locaties
+
+  .grid.button-grid
+    - primary_stock_locations.each do |location|
+      = link_to location, spina.shop_stock_management_location_path(location), class: 'button grid-item'

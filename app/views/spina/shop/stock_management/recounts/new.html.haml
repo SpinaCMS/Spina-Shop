@@ -1,36 +1,44 @@
 .container
-  = link_to "⇤ Terug naar begin", spina.shop_stock_management_products_path, class: 'button button-link'
+  - primary_location = @product.location.match(/(\A\D*)/).try(:[], 0)
+  = link_to "⇤ Locatie #{primary_location}", spina.shop_stock_management_location_path(primary_location), class: 'button button-link', style: 'margin-bottom: 10px'
+
   .page-title
-    %small
-      Locatie: 
-      %strong
-        = select_tag :location, options_for_select(Spina::Shop::Product.pluck('location').uniq.sort, @product.location)
-    = @product.name
+    - if @product.product_images.any?
+      .page-title-image= image_tag attachment_url(@product.product_images.first, :file, :fit, 60, 120), style: "margin: 0 auto; display: block"
+    %div
+      %small
+        Locatie:
+        %strong= @product.location
+      = @product.name
 
-  = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
+  - if @product.stock_enabled?
+    = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
 
-    .grid
-      .grid-item
-        Voorraad:
+      .select-dropdown
+        %label Voorraad
         = f.select :stock_level, options_for_select(0..1000, f.object.stock_level)
 
-        %br/
-        %br/
+      - if @product.can_expire?    
         .input-group
           .select-dropdown
-            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%b"), m]}, f.object.expiration_month), prompt: "Kies een maand"
-            = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), prompt: "Kies een jaar"
+            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%b"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
+          .select-dropdown
+            = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), include_blank: "Kies een jaar"
+            
+      = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 40px', data: {disable_with: "Opslaan..."} do
+        💾 Opslaan en volgende
 
-      - if @product.product_images.any?
-        .grid-item
-          = image_tag attachment_url(@product.product_images.first, :file, :fit, 200, 200), style: "margin: 0 auto; display: block"
-          
-    = button_tag type: :submit, class: 'button button-primary button-block' do
-      💾 Opslaan en volgende
-
-    .button-group
-      = link_to '#', class: 'button' do
+  .button-group
+    - if @previous_product.present?
+      = link_to spina.new_shop_stock_management_product_recount_path(@previous_product), class: 'button' do
         ◀︎ Vorige
 
-      = link_to '#', class: 'button' do
+    - if @next_product.present?
+      = link_to spina.new_shop_stock_management_product_recount_path(@next_product), class: 'button' do
         Volgende ▶︎
+
+  - if @last_recount.present?
+    .text-center.text-muted{style: 'margin-top: 20px'}
+      👌 Laatst geteld door #{@last_recount.actor} (#{@last_recount.difference > 0 ? '+' : ''}#{@last_recount.difference})
+      %br/
+      %small=l @last_recount.created_at, format: '%e %B %Y - %H:%M'

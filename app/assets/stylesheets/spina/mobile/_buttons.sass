@@ -2,6 +2,7 @@
   background: #dddde5
   border: none
   border-radius: 3px
+  box-sizing: border-box
   color: #444
   display: inline-block
   font-size: 16px
@@ -40,10 +41,12 @@
 .button-group
   display: flex
   margin: 10px 0
+  flex-wrap: wrap
 
   .button
     flex: 1
     margin: 0 5px
+    white-space: nowrap
 
     &:first-child
       margin-left: 0

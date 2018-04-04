@@ -1,0 +1,13 @@
+.container
+  = form_with url: spina.shop_stock_management_post_login_path, local: true do
+    - if flash[:alert].present?
+      %div= flash[:alert]
+
+    .form-control
+      = text_field_tag :email, params[:email], placeholder: Spina::User.human_attribute_name(:email), autofocus: true
+
+    .form-control
+      = password_field_tag :password, nil, placeholder: Spina::User.human_attribute_name(:password)
+
+    = button_tag class: 'button button-primary button-block' do
+      = t('spina.login')
