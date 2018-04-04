@@ -10,35 +10,35 @@ module Spina::Shop
       def create
         original_stock_level = @product.stock_level.to_i
         recount_difference = recount_params[:stock_level].to_i - original_stock_level.to_i
+        something_changed = (recount_difference != 0) || (recount_params[:expiration_year].to_i != @product.expiration_year.to_i) || (recount_params[:expiration_month].to_i != @product.expiration_month.to_i)
+        difference_params = {difference: recount_difference, actor: current_spina_user.try(:name) || "onbekend"}
 
-        if original_stock_level != recount_params[:stock_level].to_i || recount_params[:expiration_year].to_i != @product.expiration_year.to_i || recount_params[:expiration_month].to_i != @product.expiration_month.to_i
+        if something_changed
+          Product.transaction do
+            # Reset stock first
+            ChangeStockLevel.new(@product, {
+              adjustment: @product.stock_level * -1,
+              description: "Stock Management Reset",
+              actor: current_spina_user.try(:name)
+            }).save
 
-          # Reset stock first
-          reset = ChangeStockLevel.new(@product, {
-            adjustment: @product.stock_level * -1,
-            description: "Stock Management Reset",
-            actor: current_spina_user.try(:name)
-          })
+            # Create new stock entry
+            ChangeStockLevel.new(@product, {
+              adjustment: recount_params[:stock_level],
+              description: "Stock Management Recount (#{recount_difference} difference)",
+              expiration_year: recount_params[:expiration_year],
+              expiration_month: recount_params[:expiration_month],
+              actor: current_spina_user.try(:name)
+            }).save
 
-          # Create new stock entry
-          entry = ChangeStockLevel.new(@product, {
-            adjustment: recount_params[:stock_level],
-            description: "Stock Magenement Recount (#{recount_difference} difference)",
-            expiration_year: recount_params[:expiration_year],
-            expiration_month: recount_params[:expiration_month],
-            actor: current_spina_user.try(:name)
-          })
-
-          if reset.save && entry.save
-            @product.recounts.create({difference: recount_difference, actor: current_spina_user.try(:name) || "onbekend"})
-            redirect_to spina.new_shop_stock_management_product_recount_path(@next_product)
-          else
-            render :new
+            # Save the actual recount
+            @product.recounts.create(difference_params)
           end
         else
-          @product.recounts.create({difference: recount_difference, actor: current_spina_user.try(:name) || "onbekend"})
-          redirect_to spina.new_shop_stock_management_product_recount_path(@next_product)
+          # Save an empty recount
+          @product.recounts.create(difference_params)
         end
+        redirect_to spina.new_shop_stock_management_product_recount_path(@next_product)
       end
 
       private

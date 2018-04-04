@@ -21,7 +21,7 @@
       - if @product.can_expire?    
         .input-group
           .select-dropdown
-            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%b"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
+            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
           .select-dropdown
             = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), include_blank: "Kies een jaar"
             
