@@ -1,0 +1,12 @@
+.container
+  = link_to "⇤ Alle locaties", spina.shop_stock_management_locations_path, class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title.page-title-large 📦 Locatie #{@location}
+
+  .grid.button-grid
+    - @products.each do |product|
+      = link_to spina.new_shop_stock_management_product_recount_path(product), class: 'button grid-item', style: 'overflow: hidden; position: relative; text-align: left; padding-left: 4px;' do
+        %small{style: 'position: absolute; opacity: .35; left: 4px; width: 100%; text-align: left;white-space: nowrap; font-size: 12px; display: block; font-weight: 400; height: 12px; bottom: 4px; line-height: 12px'}= product.name
+        %span{style: 'position: relative; margin-top: -6px; display: block'}
+          - if product.recounts.where('created_at > ?', 1.month.ago).any?
+            👌
+          = product.location

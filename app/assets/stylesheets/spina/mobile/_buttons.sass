@@ -1,0 +1,55 @@
+.button
+  background: #dddde5
+  border: none
+  border-radius: 3px
+  box-sizing: border-box
+  color: #444
+  display: inline-block
+  font-size: 16px
+  font-weight: 500
+  height: 44px
+  line-height: 44px
+  padding: 0 20px
+  text-align: center
+  text-decoration: none
+
+  &.button-primary
+    background: $primary-color
+    color: white
+
+  &.button-link
+    background: none
+    color: $primary-color
+    margin: -20px -20px 0 -20px
+    position: relative
+
+    &:after
+      background: $primary-color
+      bottom: 8px
+      content: " "
+      height: 2px
+      left: 20px
+      position: absolute
+      width: calc(100% - 40px)
+  
+  &.button-block
+    display: block
+    width: 100%
+
+// Button groups
+
+.button-group
+  display: flex
+  margin: 10px 0
+  flex-wrap: wrap
+
+  .button
+    flex: 1
+    margin: 0 5px
+    white-space: nowrap
+
+    &:first-child
+      margin-left: 0
+
+    &:last-child
+      margin-right: 0

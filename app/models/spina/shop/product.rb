@@ -18,6 +18,7 @@ module Spina::Shop
     has_many :product_collections, through: :collectables, dependent: :destroy
     has_many :available_products
     has_many :stores, through: :available_products, dependent: :destroy
+    has_many :recounts, dependent: :destroy
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :stock_level_adjustments, dependent: :destroy
@@ -97,6 +98,14 @@ module Spina::Shop
       end
 
       return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
+    end
+
+    def expiration_month
+      expiration_date.try(:month)
+    end
+
+    def expiration_year
+      expiration_date.try(:year)
     end
 
     def cache_stock_level
