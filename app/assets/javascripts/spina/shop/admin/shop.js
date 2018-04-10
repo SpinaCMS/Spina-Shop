@@ -1,4 +1,3 @@
-//= require refile
 //= require ./app.infinitescroll
 //= require ./products
 //= require ./product_bundles

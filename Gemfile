@@ -7,8 +7,6 @@ gemspec
 
 group :development, :test do
   gem 'pg', '~> 0.18'
-  #gem 'globalize', git: 'git@github.com:Bramjetten/globalize.git', branch: :master
-  #gem 'refile', git: 'git@github.com:Bramjetten/refile.git', branch: :master, require: 'refile/rails'
   #gem 'spina', git: 'git@github.com:denkGroot/Spina.git', branch: :master
 end
 # Declare any dependencies that are still in development here instead of in

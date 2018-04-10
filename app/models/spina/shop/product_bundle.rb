@@ -16,7 +16,6 @@ module Spina::Shop
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
 
     accepts_nested_attributes_for :bundled_products, :product_images, allow_destroy: true
-    accepts_attachments_for :product_images, append: true
 
     # Generate materialized path
     before_validation :set_materialized_path
