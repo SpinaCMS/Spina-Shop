@@ -4,7 +4,7 @@
       .form-checkbox{style: 'width: 20px'}
         = check_box_tag 'product_ids[]', product.id
         %label
-    %td.align-center{style: 'width: 30px'}
+    %td.align-center{style: 'width: 54px'}
       - if product.product_images.any?
         = image_tag variant(product.product_images.first, resize: '60x60'), style: 'vertical-align: middle; margin: -10px 0; max-width: 30px; max-height: 30px'
     %td

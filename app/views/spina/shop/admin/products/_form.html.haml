@@ -57,6 +57,14 @@
                     %i.icon.icon-comment
               = f.text_field :name, placeholder: Spina::Shop::Product.human_attribute_name(:name), value: f.object.name(fallback: false, default: nil), disabled: @product.variant?
 
+          - if f.object.variant?
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :variant_name
+
+              .sidebar-form-control
+                = f.text_field :variant_name, placeholder: Spina::Shop::Product.human_attribute_name(:variant_name)            
+
           .sidebar-form-group
             .sidebar-form-label
               = Spina::Shop::Product.human_attribute_name :sku
