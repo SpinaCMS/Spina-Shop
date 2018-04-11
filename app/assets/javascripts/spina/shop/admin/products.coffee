@@ -4,6 +4,7 @@ class Spina.Products
   @enhance: (element) ->
     element.find('select.select-products:not(.select2-hidden-accessible)').each ->
       $select = $(this)
+      scope = $select.attr('data-products-scope')
       if $(this).hasClass('select-product-bundles')
         url = '/admin/shop/product_bundles'
       else
@@ -14,7 +15,7 @@ class Spina.Products
           delay: 250
           dataType: 'json'
           data: (params) ->
-            q: {translations_name_start: params.term}, page: params.page
+            q: {translations_name_start: params.term}, page: params.page, scope: scope
           processResults: (data, params) ->
             params.page = params.page or 1
             return {
@@ -26,7 +27,7 @@ class Spina.Products
           return markup
         templateResult: (product) ->
           return product.text if product.loading
-          "<div class='select-products-result'><div class='select-products-result-image'><img src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price} - voorraad: #{product.stock_level}</small></span></div>"
+          "<div class='select-products-result'><div class='select-products-result-image'><img style='max-width: 30px; max-height: 30px' src='#{product.image_url}' /></div><span>#{product.name} <small>#{product.price} - voorraad: #{product.stock_level}</small></span></div>"
         templateSelection: (product) ->
           if product.name
             product.name + " – #{product.price} (voorraad: #{product.stock_level})"

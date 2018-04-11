@@ -17,6 +17,7 @@ module Spina::Shop
         def create
           @product_bundle = ProductBundle.new(product_bundle_params)
           if @product_bundle.save
+            attach_product_images
             redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle)
           else
             render :new
@@ -50,6 +51,7 @@ module Spina::Shop
 
         def update
           @product_bundle = ProductBundle.find(params[:id])
+          attach_product_images
           if I18n.with_locale(@locale) { @product_bundle.update_attributes(product_bundle_params) }
             redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle)
           else
@@ -64,6 +66,16 @@ module Spina::Shop
         end
 
         private
+
+          def attach_product_images
+            if params[:product_bundle][:files].present?
+              @images = params[:product_bundle][:files].map do |file|
+                image = @product_bundle.product_images.create
+                image.file.attach(file)
+                image
+              end
+            end
+          end
 
           def set_breadcrumbs
             add_breadcrumb ProductBundle.model_name.human(count: 2), spina.shop_admin_product_bundles_path
