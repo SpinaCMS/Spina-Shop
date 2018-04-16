@@ -99,16 +99,17 @@
                   %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
                   = f.hidden_field :description, id: 'product_description', value: f.object.description(fallback: false, default: nil)
         
-        .well
-          - if @product.product_category.present?
-            - unless @product.variant?
+        - if @product.product_category.present?
+          - if !@product.has_children? || @product.variant?
+            .well
               = f.fields_for :properties do |property_builder|
-                - @product.product_category.product_properties.includes(property_options: :translations).each do |property|
+                - @product.product_category.variant_properties.order(:label).includes(property_options: :translations).each do |property|
                   = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
-
-            - if !@product.has_children? || @product.variant?
+                  
+          - unless @product.variant?
+            .well
               = f.fields_for :properties do |property_builder|
-                - @product.product_category.variant_properties.includes(property_options: :translations).each do |property|
+                - @product.product_category.product_properties.order(:label).includes(property_options: :translations).each do |property|
                   = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: property_builder, property: property, object: @product}
 
         - unless @product.variant?

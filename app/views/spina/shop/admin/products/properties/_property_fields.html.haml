@@ -10,6 +10,8 @@
     - case property.field_type
     - when 'select'
       = f.select property.name, options_for_select(property.property_options.map{|option| [option.label, option.name]}, (object.properties[property.name] if object.properties.present?)), {include_blank: ('–' unless property.multiple), include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
+    - when 'checkbox'
+      = f.check_box property.name, data: {switch: true}
     - when 'product'
       = f.select property.name, [], {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
     - when 'textarea'

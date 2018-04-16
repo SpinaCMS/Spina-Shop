@@ -10,6 +10,9 @@
     %td
       = link_to spina.shop_admin_product_path(product), class: 'table-link' do
         %span.product-name= product.name
+        - if !product.variant?
+          - if product.product_category.present? 
+            %small= product.product_category.name
         - if product.variant?
           %span.product-variant-name= product.variant_name || "–"
       %small= product.product_collections.pluck(:name).join(", ").html_safe
