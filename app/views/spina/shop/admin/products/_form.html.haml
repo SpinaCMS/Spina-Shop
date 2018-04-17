@@ -266,6 +266,13 @@
           .form-control
             = f.text_field :supplier_reference, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_reference)
 
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :created_at
+
+          .form-control
+            = f.datetime_select :created_at
+
         - unless @product.new_record?
           .pull-right
             - if @product.archived?
