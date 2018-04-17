@@ -271,7 +271,7 @@
             = Spina::Shop::Product.human_attribute_name :created_at
 
           .form-control
-            = f.datetime_select :created_at
+            = f.datetime_field :created_at
 
         - unless @product.new_record?
           .pull-right
