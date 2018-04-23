@@ -5,16 +5,21 @@ module Spina::Shop
       # Create zipfile
       excel_file = CustomersExcelExporter.export(customer_ids)
 
-      # Upload zipfile
-      uploader = ExportsUploader.new
-      uploader.store!(excel_file)
+      blob = ActiveStorage::Blob.create_after_upload!(
+        io: excel_file,
+        filename: "exact_export.zip",
+        content_type: "application/zip"
+      )
 
       # Send URL in email
-      ExportMailer.exported(uploader.url, email).deliver_later
+      ExportMailer.exported(url_for(blob), email).deliver_later
     end
 
-    private
+    protected
 
+      def default_url_options
+        Rails.application.config.action_mailer.default_url_options
+      end
 
   end
 end

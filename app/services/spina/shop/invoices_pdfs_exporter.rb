@@ -14,7 +14,6 @@ module Spina::Shop
           zipstream.write InvoicePdf.new(presenter).render
         end
       end
-      zipfile.close
       zipfile
     end
 
