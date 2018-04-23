@@ -61,6 +61,7 @@ Spina::Engine.routes.draw do
           end
           get :new_by_category, on: :collection
           scope module: :products do
+            resources :in_stock_reminders
             resources :stock_level_adjustments
           end
         end

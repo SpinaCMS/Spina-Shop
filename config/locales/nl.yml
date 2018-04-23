@@ -115,6 +115,7 @@ nl:
         base_price: Prijs
         can_expire: Heeft een verloopdatum
         cost_price: Kostprijs ex btw
+        created_at: Aangemaakt op
         description: Beschrijving
         ean: EAN
         expiration_date: Verloopdatum
@@ -404,6 +405,7 @@ nl:
         select_blank: Kies een product
         send_in_stock_reminders: Voorraadmeldingen verzenden
         stock_history: Historie
+        in_stock_reminders: Herinneren
         title: Catalogus
         translations: Vertalingen
         unarchive: Heractiveer product

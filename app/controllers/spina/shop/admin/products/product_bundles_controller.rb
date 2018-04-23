@@ -3,6 +3,7 @@ module Spina::Shop
     module Products
       class ProductBundlesController < AdminController
         before_action :set_breadcrumbs
+        before_action :set_locale
 
         def show
           @product_bundle = ProductBundle.find(params[:id])
@@ -53,7 +54,7 @@ module Spina::Shop
           @product_bundle = ProductBundle.find(params[:id])
           attach_product_images
           if I18n.with_locale(@locale) { @product_bundle.update_attributes(product_bundle_params) }
-            redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle)
+            redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle, params: {locale: @locale})
           else
             render :edit
           end
@@ -79,6 +80,10 @@ module Spina::Shop
 
           def set_breadcrumbs
             add_breadcrumb ProductBundle.model_name.human(count: 2), spina.shop_admin_product_bundles_path
+          end
+
+          def set_locale
+            @locale = params[:locale] || I18n.default_locale
           end
 
           def product_bundle_params
