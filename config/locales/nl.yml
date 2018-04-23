@@ -392,6 +392,7 @@ nl:
         select_blank: Kies een product
         send_in_stock_reminders: Voorraadmeldingen verzenden
         stock_history: Historie
+        in_stock_reminders: Herinneren
         title: Catalogus
         unarchive: Heractiveer product
       properties:

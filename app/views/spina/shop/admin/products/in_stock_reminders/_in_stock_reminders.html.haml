@@ -1,0 +1,21 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Voorraad herinneren
+
+  %section{style: 'padding-top: 0; padding-bottom: 0'}
+    .table-container
+      %table.table{style: 'margin: 0'}
+        %thead
+          %tr
+            %th Email
+            %th Added on
+
+        - @in_stock_reminders.each do |reminder|
+          %tr
+            %td= mail_to reminder.email, reminder.email
+            %td=l reminder.created_at, format: "%d-%m-%Y"
+  
+  %footer
+    = link_to 'Sluiten', '#', data: {dismiss: 'modal'}, style: 'width: 100%'

@@ -217,7 +217,13 @@
           - unless f.object.new_record?
             .form-group
               .form-label
-                %small= link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
+                %small
+                  = link_to t('spina.shop.products.stock_history'), spina.shop_admin_product_stock_level_adjustments_path(f.object), class: 'text-muted pull-right', data: {remote: true}
+
+                  - if @product.in_stock_reminders.any?
+                    = link_to spina.shop_admin_product_in_stock_reminders_path(f.object), class: 'text-muted pull-right', style: 'margin-right: 20px', data: {remote: true} do
+                      = t('spina.shop.products.in_stock_reminders')
+                      (#{@product.in_stock_reminders.count})
                 = Spina::Shop::Product.human_attribute_name :stock_level
 
               .form-control
