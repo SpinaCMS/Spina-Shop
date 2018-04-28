@@ -28,16 +28,27 @@
         = link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
 
       - if @order.in_state?(:received)
+        = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+
         = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
 
     - if @order.in_state?(:paid)
-      = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+      - if @order.order_prepared?
+        - if @order.requires_shipping?
+          = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+        - else
+          = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+      - else
+        = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
     - if @order.in_state?(:preparing)
-      - if @order.requires_shipping?
-        = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+      - unless @order.paid?
+        = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
       - else
-        = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+        - if @order.requires_shipping?
+          = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+        - else
+          = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
 
     - if @order.in_state?(:shipped)
       = link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
@@ -54,65 +65,24 @@
           =t 'spina.shop.orders.history'
 
 .tab-content.active#order
-
   .wizard-steps
-    - if @order.cancelled?
+    - @order.admin_transitions_done.each do |transition|
+      .wizard-step.done
+        .wizard-step-circle
+          .wizard-step-label{style: "white-space: nowrap"}=t "spina.shop.orders.states.#{transition}"
+        .wizard-step-connector
+
+    - @order.admin_transitions_ended.each do |transition|
       .wizard-step.error
         .wizard-step-circle
-          .wizard-step-label=t 'spina.shop.orders.states.cancelled'
+          .wizard-step-label=t "spina.shop.orders.states.#{transition}"
         .wizard-step-connector
 
-    - elsif @order.failed?
-      .wizard-step.error
+    - @order.admin_next_transitions.each do |transition|
+      .wizard-step
         .wizard-step-circle
-          .wizard-step-label=t 'spina.shop.orders.states.failed'
-        .wizard-step-connector
-
-    - else
-      .wizard-step{class: ('done' if @order.received?)}
-        .wizard-step-circle
-          = icon("shop")
-          .wizard-step-label=t 'spina.shop.orders.states.received'
-        .wizard-step-connector
-
-    - if @order.received? && @order.failed?
-      .wizard-step.error
-        .wizard-step-circle
-          .wizard-step-label=t 'spina.shop.orders.states.failed'
-        .wizard-step-connector
-
-    - else
-      .wizard-step{class: ('done' if @order.paid?)}
-        .wizard-step-circle
-          = icon("mail")
-          .wizard-step-label=t 'spina.shop.orders.states.paid'
-        .wizard-step-connector
-
-    - unless @order.pos?
-      .wizard-step{class: ('done' if @order.order_prepared_at.present?)}
-        .wizard-step-circle
-          = icon("dots")
-          .wizard-step-label=t 'spina.shop.orders.states.order_preparing'
-        .wizard-step-connector
-
-    - if @order.requires_shipping?
-      .wizard-step{class: ('done' if @order.shipped_at.present?)}
-        .wizard-step-circle
-          = icon("mail")
-          .wizard-step-label{style: 'white-space: nowrap'}=t 'spina.shop.orders.states.shipped'
-        .wizard-step-connector
-
-      .wizard-step{class: ('done' if @order.delivered_at.present?)}
-        .wizard-step-circle
-          = icon("home")
-          .wizard-step-label=t 'spina.shop.orders.states.delivered'
-        .wizard-step-connector
-
-    - else
-      .wizard-step{class: ('done' if @order.picked_up_at.present?)}
-        .wizard-step-circle
-          = icon("shop")
-          .wizard-step-label=t 'spina.shop.orders.states.picked_up'
+          %i.icon{class: "icon-#{t('spina.shop.orders.state_icons.' + transition)}"}
+          .wizard-step-label{style: "white-space: nowrap"}=t "spina.shop.orders.states.#{transition}"
         .wizard-step-connector
 
   .divider-container

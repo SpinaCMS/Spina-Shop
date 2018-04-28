@@ -360,11 +360,19 @@ nl:
           failed: Mislukt
           order_picking: Order picking
           order_preparing: Voorbereiden
+          preparing: Voorbereiden
           paid: Betaald
           picked_up: Opgehaald
           received: Bestelling
           refunded: Teruggegeven
           shipped: Zending aangemaakt
+        state_icons:
+          received: shop
+          paid: dots
+          preparing: dots
+          shipped: mail
+          picked_up: shop
+          delivered: home
         title: Alle bestellingen
         to_process: Te verwerken
       product_bundles:

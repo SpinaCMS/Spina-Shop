@@ -85,6 +85,31 @@ module Spina::Shop
       end
     end
 
+    def admin_transitions_done
+      order_transitions.pluck(:to_state) - ["confirming", "failed", "cancelled", "refunded"]
+    end
+
+    def admin_next_transitions
+      transitions = admin_transition_order - admin_transitions_done
+      transitions.drop(admin_transitions_ended.size)
+    end
+
+    def admin_transitions_ended
+      ["failed", "cancelled", "refunded"] & order_transitions.pluck(:to_state)
+    end
+
+    def admin_transition_order
+      if requires_shipping?
+        ["received", "paid", "preparing", "shipped", "delivered"]
+      else
+        if pos?
+          ["received", "paid", "picked_up"]
+        else
+          ["received", "paid", "preparing", "picked_up"]
+        end
+      end
+    end
+
     def state_machine
       @state_machine ||= OrderStateMachine.new(self, transition_class: OrderTransition, association_name: :order_transitions)
     end
