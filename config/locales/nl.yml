@@ -265,6 +265,7 @@ nl:
       addresses:
         add_address: Adres toevoegen
       customer_accounts:
+        new: Account aanmaken
         edit: Account bewerken
         forgot_password:
           title: Title

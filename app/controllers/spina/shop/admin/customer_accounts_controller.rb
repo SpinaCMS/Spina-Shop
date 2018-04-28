@@ -4,6 +4,21 @@ module Spina::Shop
       before_action :set_customer
       before_action :set_breadcrumbs
 
+      def new
+        @customer_account = @customer.build_customer_account
+        add_breadcrumb CustomerAccount.model_name.human
+      end
+
+      def create
+        @customer_account = @customer.build_customer_account(customer_account_params)
+        if @customer_account.save
+          redirect_to spina.shop_admin_customer_path(@customer)
+        else
+          add_breadcrumb CustomerAccount.model_name.human
+          render :new
+        end
+      end
+
       def edit
         @customer_account = @customer.customer_account
         add_breadcrumb CustomerAccount.model_name.human

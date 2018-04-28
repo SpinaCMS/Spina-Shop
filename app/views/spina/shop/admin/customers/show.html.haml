@@ -4,6 +4,10 @@
       = link_to spina.edit_shop_admin_customer_customer_account_path(@customer), class: 'button' do
         = icon('pencil')
         =t 'spina.shop.customer_accounts.edit'
+    - else
+      = link_to spina.new_shop_admin_customer_customer_account_path(@customer), class: 'button' do
+        = icon('pencil')
+        =t 'spina.shop.customer_accounts.new'
 
     = link_to spina.edit_shop_admin_customer_path(@customer), class: 'button' do
       = icon('pencil')
