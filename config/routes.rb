@@ -41,7 +41,7 @@ Spina::Engine.routes.draw do
         end
 
         # Invoices
-        resources :invoices, only: [:show]
+        resources :invoices
 
         # Products
         namespace :products do

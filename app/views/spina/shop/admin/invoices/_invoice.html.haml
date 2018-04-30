@@ -1,0 +1,14 @@
+%tr
+  %td= link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf), class:  'table-link'
+  %td=l invoice.date, format: '%d-%m-%Y'
+  %td
+    = invoice.receiver
+    - if invoice.order.present?
+      %small
+        = Spina::Shop::Order.model_name.human
+        = link_to invoice.order.number, spina.shop_admin_order_path(invoice.order)
+  %td.text-right= number_to_currency invoice.total
+  %td.text-right
+    = link_to spina.shop_admin_invoice_path(invoice, format: :pdf), class: 'button button-mini' do
+      = icon('pages')
+      PDF

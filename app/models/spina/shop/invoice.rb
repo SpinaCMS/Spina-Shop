@@ -10,6 +10,10 @@ module Spina::Shop
       "inv_#{invoice_number}.pdf"
     end
 
+    def receiver
+      company_name.presence || customer_name
+    end
+
     def sub_total
       if prices_include_tax
         invoice_lines.inject(BigDecimal(0)) { |t, i| t + (i.total / i.tax_modifier).round(2) }

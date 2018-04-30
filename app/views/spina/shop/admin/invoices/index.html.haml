@@ -1,0 +1,18 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th= Spina::Shop::Invoice.model_name.human
+        %th= Spina::Shop::Invoice.human_attribute_name(:date)
+        %th= Spina::Shop::Invoice.human_attribute_name(:customer)
+        %th.text-right= Spina::Shop::Invoice.human_attribute_name(:total)
+        %th
+
+    %tbody
+      = render partial: 'invoice', collection: @invoices
+
+  .pagination= link_to_next_page @invoices, 'Next'

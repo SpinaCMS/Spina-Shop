@@ -55,6 +55,7 @@ nl:
         email: Email
       spina/shop/invoice:
         customer_number: Klantnummer
+        customer: Klant
         date: Factuurdatum
         reference: Referentie
         sub_total: Subtotaal
