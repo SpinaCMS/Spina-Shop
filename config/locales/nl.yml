@@ -318,6 +318,8 @@ nl:
           used: Gebruikt
         unused: Ongebruikt
         used: Gebruikt
+      invoices:
+        no_invoices: Geen facturen beschikbaar
       orders:
         actions: Acties
         add_product: Voeg product toe

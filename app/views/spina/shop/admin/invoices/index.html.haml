@@ -13,6 +13,12 @@
         %th
 
     %tbody
-      = render partial: 'invoice', collection: @invoices
+      - if @invoices.any?
+        = render partial: 'invoice', collection: @invoices
+      - else
+        %tr
+          %td{colspan: 5}
+            %em.text-center.text-muted{style: 'display: block'}
+              =t 'spina.shop.invoices.no_invoices'
 
   .pagination= link_to_next_page @invoices, 'Next'
