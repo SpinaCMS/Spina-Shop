@@ -30,6 +30,7 @@ Spina::Engine.routes.draw do
         namespace :settings do
           resources :tax_groups
           resources :sales_categories
+          resources :shared_properties
           resources :product_categories do
             resources :product_category_properties do
               member do

@@ -1,6 +1,6 @@
 module Spina::Shop
   class PropertyOption < ApplicationRecord
-    belongs_to :product_category_property
+    belongs_to :property, polymorphic: true
 
     default_scope -> { order(:name) }
 

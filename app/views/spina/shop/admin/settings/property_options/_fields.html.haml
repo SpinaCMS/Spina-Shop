@@ -1,6 +1,6 @@
 .sidebar-form-group{style: 'padding-right: 0'}
   .sidebar-form-control
-    = f.text_field :name, placeholder: Spina::Shop::PropertyOption.human_attribute_name(:name), disabled: f.object.persisted?
+    = f.text_field :name, placeholder: Spina::Shop::PropertyOption.human_attribute_name(:name), disabled: f.object&.persisted?
 
   .sidebar-form-control
     = f.text_field :label, placeholder: Spina::Shop::PropertyOption.human_attribute_name(:label)

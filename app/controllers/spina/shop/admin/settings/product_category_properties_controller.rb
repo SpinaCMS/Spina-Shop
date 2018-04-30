@@ -2,7 +2,7 @@ module Spina::Shop
   module Admin
     module Settings
       class ProductCategoryPropertiesController < ShopController
-        layout 'spina/admin/admin'
+        layout 'spina/admin/admin', except: [:index]
 
         before_action :set_product_category
         before_action :set_breadcrumbs, except: [:index]

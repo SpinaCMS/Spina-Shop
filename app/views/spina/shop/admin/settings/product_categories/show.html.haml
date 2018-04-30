@@ -20,5 +20,7 @@
           - if property.editable?
             = link_to 'Bewerken', '#'
 
-          - if property.field_type == 'select' && property.editable_options?
+          - if property.shared_property.present?
+            = link_to 'Bewerk opties (gedeeld)', spina.edit_shop_admin_settings_shared_property_path(property.shared_property), class: 'button button-mini'
+          - elsif property.field_type == 'select' && property.editable_options?
             = link_to 'Bewerk opties', spina.edit_options_shop_admin_settings_product_category_product_category_property_path(@product_category, property), class: 'button button-mini'
