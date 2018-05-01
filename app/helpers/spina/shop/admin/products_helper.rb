@@ -18,6 +18,18 @@ module Spina::Shop
         end.flatten(1)
       end
 
+      def stores_for_select
+        Spina::Shop::Store.all.map{|g|[g.name, g.id]}
+      end
+
+      def grouped_options_for_pricing_select
+        stores = stores_for_select.map{|store| [store.first, "store[#{store.last}]"]}
+        customer_groups = customer_groups_for_select.map{|group| [group.first, "customer_group[#{group.last}]"]}
+
+        [[Spina::Shop::Store.model_name.human(count: 2), stores], 
+        [Spina::Shop::CustomerGroup.model_name.human(count: 2), customer_groups]]
+      end
+
     end
   end
 end

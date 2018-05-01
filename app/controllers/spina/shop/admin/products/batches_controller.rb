@@ -11,9 +11,15 @@ module Spina::Shop
         end
 
         def update
-          if params[:properties].present?
+          case params[:batch_edit]
+          when "pricing"
+            # Pricing batch job
+            UpdatePricingInBatchJob.perform_later(@products.ids, pricing_params)
+          when "properties"
+            # Update properties in batch
             UpdatePropertiesInBatchJob.perform_later(@products.ids, property_params.to_hash)
           else
+            # Update all other attributes in batch
             UpdateProductsInBatchJob.perform_later(@products.ids, product_params)
           end
 
@@ -31,8 +37,12 @@ module Spina::Shop
             end
           end
 
+          def pricing_params
+            params.permit(:price_for, :price, :price_includes_tax).delocalize(price: :number)
+          end
+
           def product_params
-            params.permit(:base_price, :cost_price, :price_includes_tax, :active, product_collection_ids: [], store_ids: []).delocalize(base_price: :number, cost_price: :number)
+            params.permit(:price, :price_for, :cost_price, :price_includes_tax, :product_category_id, :active, product_collection_ids: [], store_ids: []).delocalize(price: :number, cost_price: :number)
           end
 
           def property_params

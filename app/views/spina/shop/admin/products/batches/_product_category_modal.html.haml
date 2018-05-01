@@ -8,7 +8,6 @@
       aanpassen
 
   = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :put do |f|
-    = f.hidden_field :batch_edit, value: params[:modal]
     - if params[:select_all]
       = f.hidden_field :select_all, value: params[:select_all]
     - else
@@ -19,13 +18,7 @@
       .form-control
         .input-group
           .select-dropdown
-            = f.select :price_for, grouped_options_for_select(grouped_options_for_pricing_select), include_blank: 'Standaard prijs'
-
-          .input-group
-            .form-control{data: {form_prepend: '€'}}
-              = f.text_field :price, placeholder: "Prijs", style: 'border-right: 1px solid #c3c3c3; border-top-right-radius: 3px; border-bottom-right-radius: 3px'
-            .select-dropdown{style: "box-shadow: none; background: none; border: none; border-left: 0; position: absolute; right: 0px; top: 0px; max-width: 90px"}
-              = f.select :price_includes_tax, options_for_select([['incl. btw', true], ['excl. btw', false]], @products.first.try(:price_includes_tax))
+            = f.select :product_category_id, options_for_select(Spina::Shop::ProductCategory.all.map{|c| [c.name, c.id]}, @products.first.product_category_id), include_blank: "Geen categorie"
       
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
