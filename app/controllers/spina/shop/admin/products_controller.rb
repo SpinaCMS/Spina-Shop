@@ -19,12 +19,15 @@ module Spina::Shop
         @q = @products.ransack(params[:q])
 
         @unfiltered = @q.conditions.none? && @q.sorts.none?
+        @unfiltered = true
 
         if @unfiltered
           @products = @products.page(params[:page]).per(25)
         else
           @products = @q.result.page(params[:page]).per(25)
         end
+
+        @products = @q.result.page(params[:page]).per(25)
 
         respond_to do |format|
           format.html

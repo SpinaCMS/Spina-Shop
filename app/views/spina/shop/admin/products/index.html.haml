@@ -26,7 +26,7 @@
   .filter-form-simple
     .filter-form-input
       = f.text_field :sku_or_location_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam, SKU of locatie'
-      = link_to '#', class: 'filter-form-advanced-link' do
+      = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
         = icon('filter')
         = "filteren #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
 
