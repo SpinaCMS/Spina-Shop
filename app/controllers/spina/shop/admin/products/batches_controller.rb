@@ -15,9 +15,9 @@ module Spina::Shop
           when "pricing"
             # Pricing batch job
             UpdatePricingInBatchJob.perform_later(@products.ids, pricing_params)
-          when "properties"
+          when "property"
             # Update properties in batch
-            UpdatePropertiesInBatchJob.perform_later(@products.ids, property_params.to_hash)
+            UpdatePropertiesInBatchJob.perform_later(@products.ids, property_params)
           else
             # Update all other attributes in batch
             UpdateProductsInBatchJob.perform_later(@products.ids, product_params)
@@ -46,7 +46,7 @@ module Spina::Shop
           end
 
           def property_params
-            params.require(:properties).permit(params[:permitted_properties])
+            params.require(:properties).permit!.to_hash
           end
 
       end

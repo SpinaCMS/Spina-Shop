@@ -7,22 +7,32 @@
       %strong= Spina::Shop::Product.model_name.human(count: @products.count).downcase 
       aanpassen
 
-  = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :put do |f|
+  = form_with url: spina.edit_shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :get do |f|
+    = f.hidden_field :modal, value: 'property'
     - if params[:select_all]
       = f.hidden_field :select_all, value: params[:select_all]
     - else
       - @products.each do |product|
         = f.hidden_field :product_ids, multiple: true, value: product.id
 
-    %section{style: 'padding-top: 0; padding-bottom: 0'}
-      / Hier gebeurt het
-      = f.fields_for :properties do |ff|
-        - Spina::Shop::ProductCategoryProperty.product_type.includes(property_options: :translations).each do |property|
-          - if @products.any?
-            = render partial: 'spina/shop/admin/products/properties/property_fields', locals: {f: ff, property: property, object: @products.first, batch_edit: true}
-    
+    %section{style: 'padding-top: 0'}
+      - category_ids = @products.group(:product_category_id).pluck(:product_category_id)
+      - if category_ids.count > 1
+        - options = Spina::Shop::ProductCategoryProperty.product_type.where(product_category_id: category_ids).order(:label).map do |p| 
+          - if p.shared_property_id.present?
+            - ["#{p.label}", p.id]
+          - else
+            - ["#{p.label} (#{p.product_category.name})", p.id]
+      - else
+        - options = Spina::Shop::ProductCategoryProperty.product_type.where(product_category_id: category_ids).order(:label).pluck(:label, :id)
+
+      .form-control
+        .input-group
+          .select-dropdown
+            = f.select :property_id, options_for_select(options), include_blank: 'Kies eigenschap'
+
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
       = button_tag type: :submit, class: 'primary' do
-        %i.icon.icon-check{style: 'margin-right: 4px'}
-        =t 'spina.shop.save'
+        =t 'spina.shop.next'
+        %i.icon.icon-chevron-right{style: 'margin-left: 4px'}

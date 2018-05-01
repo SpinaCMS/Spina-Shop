@@ -320,6 +320,7 @@ nl:
         used: Gebruikt
       invoices:
         no_invoices: Geen facturen beschikbaar
+      next: Volgende
       orders:
         actions: Acties
         add_product: Voeg product toe
