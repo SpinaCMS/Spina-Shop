@@ -8,7 +8,7 @@ module Spina::Shop
         before_action :set_locale
 
         def index
-          @shared_properties = SharedProperty.all
+          @shared_properties = SharedProperty.order(:name)
         end
 
         def edit

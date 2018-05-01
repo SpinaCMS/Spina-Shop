@@ -18,6 +18,20 @@ module Spina::Shop
           when "property"
             # Update properties in batch
             UpdatePropertiesInBatchJob.perform_later(@products.ids, property_params)
+          when "product_collections"
+            id = params[:product_collection_id]
+            if params[:add_or_remove] == "add"
+              AddToProductCollectionInBatchJob.perform_later(@products.ids, id)
+            elsif params[:add_or_remove] == "remove"
+              RemoveFromProductCollectionInBatchJob.perform_later(@products.ids, id)
+            end
+          when "stores"
+            id = params[:store_id]
+            if params[:add_or_remove] == "add"
+              AddToStoreInBatchJob.perform_later(@products.ids, id)
+            elsif params[:add_or_remove] == "remove"
+              RemoveFromStoreInBatchJob.perform_later(@products.ids, id)
+            end
           else
             # Update all other attributes in batch
             UpdateProductsInBatchJob.perform_later(@products.ids, product_params)
@@ -42,7 +56,7 @@ module Spina::Shop
           end
 
           def product_params
-            params.permit(:price, :price_for, :cost_price, :price_includes_tax, :product_category_id, :active, product_collection_ids: [], store_ids: []).delocalize(price: :number, cost_price: :number)
+            params.permit(:price, :price_for, :cost_price, :price_includes_tax, :product_category_id, :active).delocalize(price: :number, cost_price: :number)
           end
 
           def property_params

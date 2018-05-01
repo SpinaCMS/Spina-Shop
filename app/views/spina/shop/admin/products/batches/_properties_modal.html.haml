@@ -23,6 +23,7 @@
             - ["#{p.label}", p.id]
           - else
             - ["#{p.label} (#{p.product_category.name})", p.id]
+        - options = options.uniq{|o| o.first}
       - else
         - options = Spina::Shop::ProductCategoryProperty.product_type.where(product_category_id: category_ids).order(:label).pluck(:label, :id)
 

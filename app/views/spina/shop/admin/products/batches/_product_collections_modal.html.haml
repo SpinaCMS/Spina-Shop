@@ -8,21 +8,21 @@
       aanpassen
 
   = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :put do |f|
+    = f.hidden_field :batch_edit, value: params[:modal]
     - if params[:select_all]
       = f.hidden_field :select_all, value: params[:select_all]
     - else
       - @products.each do |product|
         = f.hidden_field :product_ids, multiple: true, value: product.id
 
-    %table.table.table-collection-check-boxes.table-clickable
-      = f.collection_check_boxes(:product_collection_ids, product_collections, :id, :name) do |b|
-        %tr
-          %td{style: 'width: 10px'}
-            .form-checkbox{style: 'width: 20px'}
-              = b.check_box checked: b.object.id.in?(@products.first.try(:product_collection_ids) || [])
-              %label
-          %th{style: 'padding-left: 0'}
-            %span= b.text
+    %section
+      .form-control
+        .input-group
+          .select-dropdown
+            = f.select :add_or_remove, options_for_select([['Toevoegen', 'add'], ['Verwijderen', 'remove']])
+
+          .select-dropdown
+            = f.select :product_collection_id, options_for_select(product_collections.pluck(:name, :id)), include_blank: "Kies een collectie"
     
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
