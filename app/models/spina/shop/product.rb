@@ -97,7 +97,7 @@ module Spina::Shop
         end
       end
 
-      return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN id ELSE parent_id END")) : products
+      return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")) : products
     end
 
     def expiration_month
