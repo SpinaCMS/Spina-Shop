@@ -32,7 +32,12 @@ module Spina::Shop
         end
       else
         # Update base price
-        Product.where(id: product_ids).update({base_price: pricing_params["price"]})
+        Product.where(id: product_ids).each do |product|
+          product.update_attributes({
+            base_price: pricing_params["price"],
+            price_includes_tax: pricing_params["price_includes_tax"]
+          })
+        end
       end
     end
 
