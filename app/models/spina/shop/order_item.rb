@@ -111,8 +111,8 @@ module Spina::Shop
         end
       end
 
-      def product_for_sale
-        errors.add(:orderable, "product is not for sale") if is_product? && orderable.not_for_sale?
+      def product_not_purchasable
+        errors.add(:orderable, "product is not purchasable") if is_product? && orderable.not_purchasable?
       end
 
       def item_must_be_in_stock

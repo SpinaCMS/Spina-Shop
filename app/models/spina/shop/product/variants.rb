@@ -18,19 +18,32 @@ module Spina::Shop
 
       before_save :set_variant_name
       before_save :set_parent, if: :variant?
-      after_save :save_children, if: :has_children?
+      after_save { children.each(&:save) }
 
       scope :variants, -> { where.not(parent_id: nil) }
-      scope :not_variants, -> { where(parent_id: nil) }
+      scope :roots, -> { where(parent_id: nil) }
 
-      # Products which are solely used as a parent config object aren't for sale
-      scope :sellables, -> { where('(parent_id IS NULL AND children_count = 0) OR parent_id IS NOT NULL')}
+      # Only products with no children are purchasable (else they're container products)
+      scope :purchasable, -> { where(chilren_count: 0) }
 
       translates :variant_name, default: -> { "–" }
     end
 
+    # Root product
+    def root
+      parent || self
+    end
+
     def full_name
       [name, variant_name].compact.join(' / ')
+    end
+
+    def purchasable?
+      children_count.zero?
+    end
+
+    def not_purchasable?
+      !purchasable?
     end
 
     def variant?
@@ -45,16 +58,12 @@ module Spina::Shop
       children_count > 0
     end
 
-    def childless?
-      !has_children?
-    end
-
     def has_variants?
       variant? || has_children?
     end
 
     def variants
-      (parent || self).children.order(:created_at).to_a
+      root.children.order(:created_at).to_a
     end
 
     def can_have_variants?
@@ -63,10 +72,6 @@ module Spina::Shop
 
     def variant_override?(attribute)
       variant_overrides.try(:[], attribute.to_s).present?
-    end
-
-    def not_for_sale?
-      parent? && has_children?
     end
 
     private
@@ -93,10 +98,6 @@ module Spina::Shop
         self.variant_name = product_category.variant_properties.map do |property|
           properties.send(property.name).try(:label)
         end.try(:join, ' - ')
-      end
-
-      def save_children
-        children.each(&:save)
       end
 
       def set_parent

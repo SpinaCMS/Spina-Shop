@@ -9,25 +9,22 @@ module Spina::Shop
       def index
         @products = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
 
-        if params[:scope] == "sellables"
-          @products = @products.sellables 
-        else
-          @products = @products.not_variants
-        end
+        # Scope to purchasable only
+        @products = params[:scope] == "purchasable" ? @products.purchasable : @products.roots
 
 
         @q = @products.ransack(params[:q])
 
         @unfiltered = @q.conditions.none? && @q.sorts.none?
-        @unfiltered = true
+        # @unfiltered = true
 
-        if @unfiltered
-          @products = @products.page(params[:page]).per(25)
-        else
-          @products = @q.result.page(params[:page]).per(25)
-        end
+        # if @unfiltered
+        #   @products = @products.page(params[:page]).per(25)
+        # else
+        @products = @q.result(distinct: true).page(params[:page]).per(25)
+        # end
 
-        @products = @q.result.page(params[:page]).per(25)
+        # @products = @q.results.page(params[:page]).per(25)
 
         respond_to do |format|
           format.html
@@ -35,7 +32,7 @@ module Spina::Shop
           format.json do
             results = @products.includes(:product_images).map do |product|
               { id: product.id, 
-                name: params[:scope] == "sellables" ? product.full_name : product.name,
+                name: params[:scope] == "purchasable" ? product.full_name : product.name,
                 stock_level: (product.stock_level if product.stock_enabled?),
                 image_url: (main_app.url_for(product.product_images.first&.file&.variant(resize: '60x60')) if product.product_images.any?),
                 price: view_context.number_to_currency(product.price) }
