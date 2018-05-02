@@ -1,6 +1,8 @@
 module Spina::Shop
   module Admin
     class ProductsController < AdminController
+      layout 'spina/admin/admin'
+
       before_action :set_breadcrumbs
       before_action :set_locale
       before_action :split_search_params
@@ -17,7 +19,7 @@ module Spina::Shop
         @products = @q.result(distinct: true).page(params[:page]).per(25)
 
         respond_to do |format|
-          format.html
+          format.html { render layout: 'spina/shop/admin/products' }
           format.js
           format.json do
             results = @products.map do |product|
@@ -36,7 +38,7 @@ module Spina::Shop
         @q = products.where(archived: true).roots.ransack(params[:q])
         @products = @q.result(distinct: true).page(params[:page]).per(25)
 
-        render :index
+        render :index, layout: 'spina/shop/admin/products'
       end
 
       def translations
