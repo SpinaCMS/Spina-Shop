@@ -23,7 +23,7 @@ module Spina::Shop
       scope :variants, -> { where.not(parent_id: nil) }
       scope :roots, -> { where(parent_id: nil) }
 
-      # Only products with no children are purchasable (else they're container products)
+      # Only products with no children are purchasable
       scope :purchasable, -> { where(chilren_count: 0) }
 
       translates :variant_name, default: -> { "–" }
