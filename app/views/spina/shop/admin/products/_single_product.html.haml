@@ -34,6 +34,7 @@
   %tr
     %td{colspan: Spina::Shop::Product.where(can_expire: true).any? ? 9 : 8, style: 'padding: 0'}
       %table{style: 'width: 100%'}
-        %tbody= render partial: 'product', collection: single_product.variants
+        %tbody
+          = render partial: 'product', collection: single_product.variants
 - else
   = render partial: 'product', object: single_product

@@ -16,7 +16,7 @@ module Spina::Shop
 
         # Search for products
         @q = pr.ransack(params[:q])
-        @products = @q.result(distinct: true).page(params[:page]).per(25)
+        @products = @q.result(distinct: true).page(params[:page]).per(10)
 
         respond_to do |format|
           format.html { render layout: 'spina/shop/admin/products' }
@@ -36,7 +36,7 @@ module Spina::Shop
 
       def archived
         @q = products.where(archived: true).roots.ransack(params[:q])
-        @products = @q.result(distinct: true).page(params[:page]).per(25)
+        @products = @q.result(distinct: true).page(params[:page]).per(10)
 
         render :index, layout: 'spina/shop/admin/products'
       end
@@ -148,7 +148,7 @@ module Spina::Shop
       private
 
         def products
-          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
+          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:children, :translations).where(spina_shop_product_translations: {locale: I18n.locale})
         end
 
         def split_search_params
