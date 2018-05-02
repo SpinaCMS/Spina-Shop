@@ -148,7 +148,7 @@ module Spina::Shop
       private
 
         def products
-          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:children, :translations).where(spina_shop_product_translations: {locale: I18n.locale})
+          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
         end
 
         def split_search_params
