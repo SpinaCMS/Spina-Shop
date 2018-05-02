@@ -1,4 +1,4 @@
-- if @unfiltered && single_product.has_variants?
+- if @q.sorts.none? && single_product.has_variants?
   %tr{style: "border: none"}
     %td{style: 'width: 70px'}
       .form-checkbox{style: 'width: 20px'}

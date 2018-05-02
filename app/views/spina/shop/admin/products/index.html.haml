@@ -25,7 +25,7 @@
 = search_form_for @q, url: (action_name == "index" ? spina.shop_admin_products_path : spina.archived_shop_admin_products_path), html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :sku_or_location_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam, SKU of locatie'
+      = f.text_field :sku_or_location_or_translations_name_cont_all, style: 'box-sizing: border-box', placeholder: 'Zoek op naam, SKU of locatie'
       = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
         = icon('filter')
         = "filteren #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
@@ -80,7 +80,7 @@
               = check_box_tag 'select_all', nil, false, data: {count: @q.result.count}
               %label
           %th
-          %th= sort_link [:spina, @q], :translations_name, Spina::Shop::Product.human_attribute_name(:name), {}, class: 'table-sort'
+          %th= Spina::Shop::Product.human_attribute_name(:name)
           - if stores.any?
             %th= Spina::Shop::Store.model_name.human(count: 2)
           %th{style: 'text-align: right'}= sort_link [:spina, @q], :base_price, Spina::Shop::Product.human_attribute_name(:base_price), {}, class: 'table-sort'
@@ -90,7 +90,7 @@
             %th.align-right= sort_link [:spina, @q], :expiration_date, Spina::Shop::Product.human_attribute_name(:expiration_date), {}, class: 'table-sort'
           %th
 
-      %tbody{class: ('unfiltered-products-index' if @unfiltered)}
+      %tbody{class: ('unfiltered-products-index' if @q.sorts.none?)}
         = render partial: "single_product", collection: @products
 
     .pagination= link_to_next_page @products, 'Next'

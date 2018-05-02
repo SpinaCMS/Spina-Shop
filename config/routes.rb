@@ -54,7 +54,6 @@ Spina::Engine.routes.draw do
           end
           member do
             get 'translations/:field', to: 'products#translations', as: :translations
-            get :edit_parent
             get :duplicate
             get :variant
             post :archive

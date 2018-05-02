@@ -15,7 +15,7 @@ class Spina.Products
           delay: 250
           dataType: 'json'
           data: (params) ->
-            q: {translations_name_start: params.term}, page: params.page, scope: scope
+            q: {sku_or_location_or_translations_name_cont_all: params.term}, page: params.page, scope: scope
           processResults: (data, params) ->
             params.page = params.page or 1
             return {

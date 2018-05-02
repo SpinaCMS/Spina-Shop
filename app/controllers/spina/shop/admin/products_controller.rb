@@ -3,39 +3,29 @@ module Spina::Shop
     class ProductsController < AdminController
       before_action :set_breadcrumbs
       before_action :set_locale
-
-      before_action :set_batch_products, only: [:edit_batch, :update_batch]
+      before_action :split_search_params
 
       def index
-        @products = Product.where(archived: false).order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
+        pr = if params[:scope] == "purchasable"
+          products.where(archived: false).purchasable
+        else 
+          products.where(archived: false).roots
+        end
 
-        # Scope to purchasable only
-        @products = params[:scope] == "purchasable" ? @products.purchasable : @products.roots
-
-
-        @q = @products.ransack(params[:q])
-
-        @unfiltered = @q.conditions.none? && @q.sorts.none?
-        # @unfiltered = true
-
-        # if @unfiltered
-        #   @products = @products.page(params[:page]).per(25)
-        # else
+        # Search for products
+        @q = pr.ransack(params[:q])
         @products = @q.result(distinct: true).page(params[:page]).per(25)
-        # end
-
-        # @products = @q.results.page(params[:page]).per(25)
 
         respond_to do |format|
           format.html
           format.js
           format.json do
-            results = @products.includes(:product_images).map do |product|
-              { id: product.id, 
-                name: params[:scope] == "purchasable" ? product.full_name : product.name,
-                stock_level: (product.stock_level if product.stock_enabled?),
-                image_url: (main_app.url_for(product.product_images.first&.file&.variant(resize: '60x60')) if product.product_images.any?),
-                price: view_context.number_to_currency(product.price) }
+            results = @products.map do |product|
+              { id:           product.id, 
+                name:         params[:scope] == "purchasable" ? product.full_name : product.name,
+                stock_level:  (product.stock_level if product.stock_enabled?),
+                image_url:    (main_app.url_for(product.product_images.first.file&.variant(resize: '60x60')) if product.product_images.any?),
+                price:        view_context.number_to_currency(product.price) }
             end
             render inline: {results: results, total_count: @q.result.count}.to_json
           end
@@ -43,15 +33,8 @@ module Spina::Shop
       end
 
       def archived
-        @q = Product.where(archived: true).order(created_at: :desc).includes(:product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale}).ransack(params[:q])
-        
-        @unfiltered = @q.conditions.none? && @q.sorts.none?
-
-        if @unfiltered
-          @products = Product.order(created_at: :desc).includes(:stores, :product_images).where(parent_id: nil, id: @q.result.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")).page(params[:page]).per(25)
-        else
-          @products = @q.result.page(params[:page]).per(25)
-        end
+        @q = products.where(archived: true).roots.ransack(params[:q])
+        @products = @q.result(distinct: true).page(params[:page]).per(25)
 
         render :index
       end
@@ -92,10 +75,6 @@ module Spina::Shop
       end
 
       def edit
-        @product = Product.find(params[:id])
-      end
-
-      def edit_parent
         @product = Product.find(params[:id])
       end
 
@@ -166,6 +145,17 @@ module Spina::Shop
 
       private
 
+        def products
+          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
+        end
+
+        def split_search_params
+          search = :sku_or_location_or_translations_name_cont_all
+          if params[:q].try(:[], search).present?
+            params[:q][search] = params[:q][search].split(' ')
+          end
+        end
+
         def attach_product_images
           if params[:product][:files].present?
             @images = params[:product][:files].map do |file|
@@ -174,16 +164,6 @@ module Spina::Shop
               image
             end
           end
-        end
-
-        def filters
-          filter_params.to_h.map do |property, value|
-            value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
-          end
-        end
-
-        def filter_params
-          params.require(:filters).permit! if params[:filters]
         end
 
         def product_params
