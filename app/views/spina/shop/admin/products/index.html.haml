@@ -1,26 +1,6 @@
-%header#header
-  .breadcrumbs
-    = render_breadcrumbs separator: '<div class="divider"></div>'
-
-    = link_to spina.new_by_category_shop_admin_products_path, class: 'button button-mini icon-only', data: {remote: true} do
-      %i.icon.icon-plus{style: 'vertical-align: bottom'}
-  %nav#secondary
-    %ul
-      %li{class: ("active" if action_name == "index")}
-        = link_to spina.shop_admin_products_path do
-          =t 'spina.shop.products.title'
-
-      %li{class: ("active" if action_name == "archived")}
-        = link_to spina.archived_shop_admin_products_path do
-          =t 'spina.shop.products.archived_title'
-
-      %li
-        = link_to spina.shop_admin_product_bundles_path do
-          = Spina::Shop::ProductBundle.model_name.human count: 2
-
-      %li
-        = link_to spina.shop_admin_stock_forecast_path do
-          Voorraad
+- content_for(:header_actions) do
+  = link_to spina.new_by_category_shop_admin_products_path, class: 'button button-mini icon-only', data: {remote: true} do
+    %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
 = search_form_for @q, url: (action_name == "index" ? spina.shop_admin_products_path : spina.archived_shop_admin_products_path), html: {class: 'filter-form'} do |f|
   .filter-form-simple
@@ -56,7 +36,7 @@
       .filter-form-label= Spina::Shop::Product.human_attribute_name(:active)
       .filter-form-control
         - options = [['Alleen beschikbaar', 1], ['Alleen niet beschikbaar', 0]]
-        = f.select :active_eq, options_for_select(options, params[:q][:active_eq]), {include_blank: 'Beschikbaar én niet beschikbaar'}, class: 'select2', style: 'width: 100%'
+        = f.select :active_eq, options_for_select(options, params[:q].try(:[], :active_eq)), {include_blank: 'Beschikbaar én niet beschikbaar'}, class: 'select2', style: 'width: 100%'
 
 = form_with url: spina.edit_shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :get do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}

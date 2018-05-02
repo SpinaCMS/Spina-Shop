@@ -1,24 +1,7 @@
-%header#header
-  .breadcrumbs
-    = render_breadcrumbs separator: '<div class="divider"></div>'
-
-    = link_to spina.new_shop_admin_product_bundle_path, class: 'button button-mini icon-only' do
-      %i.icon.icon-plus{style: 'vertical-align: bottom'}
-
-  %nav#secondary
-    %ul
-      %li
-        = link_to spina.shop_admin_products_path do
-          =t 'spina.shop.products.title'
-
-      %li
-        = link_to spina.archived_shop_admin_products_path do
-          =t 'spina.shop.products.archived_title'
-
-      %li.active
-        = link_to spina.shop_admin_product_bundles_path do
-          Productbundels
-
+- content_for :header_actions do
+  = link_to spina.new_shop_admin_product_bundle_path, class: 'button button-mini icon-only' do
+    %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    
 .table-container.infinite-table
   %table.table.table-clickable
     %thead

@@ -2,6 +2,7 @@ module Spina::Shop
   module Admin
     module Products
       class StockForecastsController < AdminController
+        layout 'spina/shop/admin/products'
 
         def show
           add_breadcrumb "Producten"

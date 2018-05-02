@@ -1,25 +1,3 @@
-%header#header
-  .breadcrumbs
-    = render_breadcrumbs separator: '<div class="divider"></div>'
-
-  %nav#secondary
-    %ul
-      %li{class: ("active" if action_name == "index")}
-        = link_to spina.shop_admin_products_path do
-          =t 'spina.shop.products.title'
-
-      %li{class: ("active" if action_name == "archived")}
-        = link_to spina.archived_shop_admin_products_path do
-          =t 'spina.shop.products.archived_title'
-
-      %li
-        = link_to spina.shop_admin_product_bundles_path do
-          = Spina::Shop::ProductBundle.model_name.human count: 2
-
-      %li.active
-        = link_to spina.shop_admin_stock_forecast_path do
-          Voorraad
-
 = search_form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input

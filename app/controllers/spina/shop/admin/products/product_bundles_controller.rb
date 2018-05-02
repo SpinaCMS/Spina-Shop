@@ -35,7 +35,7 @@ module Spina::Shop
           @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
 
           respond_to do |format|
-            format.html
+            format.html { render layout: 'spina/shop/admin/products' }
             format.js
             format.json do
               results = @product_bundles.map do |product_bundle|
