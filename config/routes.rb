@@ -73,6 +73,9 @@ Spina::Engine.routes.draw do
           resource :stock_forecast
           resources :suppliers
           resources :supply_orders do
+            member do
+              post :place_order
+            end
             resources :ordered_supply, only: [:destroy]
           end
           resource :supply_order_products, only: [:new, :create]

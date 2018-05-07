@@ -1,6 +1,11 @@
 - content_for(:header_actions) do
-  = link_to spina.edit_shop_admin_supply_order_path(@supply_order), class: 'button' do
-    =t 'spina.edit'
+  - if @supply_order.concept?
+    = link_to spina.edit_shop_admin_supply_order_path(@supply_order), class: 'button' do
+      =t 'spina.edit'
+
+    = link_to spina.place_order_shop_admin_supply_order_path(@supply_order), class: 'button button-primary', method: :post do
+      = icon('check')
+      =t 'spina.shop.supply_orders.place_order'
 
 .wizard-steps
   .wizard-step.done

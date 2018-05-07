@@ -7,12 +7,21 @@ module Spina::Shop
     scope :concept, -> { where(ordered_at: nil) }
     scope :incoming, -> { where(received_at: nil) }
 
+    def concept?
+      ordered_at.blank?
+    end
+
     def ordered?
       ordered_at.present?
     end
 
     def received?
       received_at.present?
+    end
+
+    def place_order!
+      self[:ordered_at] = Time.zone.now
+      save
     end
 
     def status

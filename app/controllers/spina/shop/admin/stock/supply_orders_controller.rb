@@ -42,6 +42,12 @@ module Spina::Shop
           end
         end
 
+        def place_order
+          @supply_order = SupplyOrder.find(params[:id])
+          @supply_order.place_order!
+          redirect_to spina.shop_admin_supply_order_path(@supply_order)
+        end
+
         private
 
           def set_breadcrumbs
