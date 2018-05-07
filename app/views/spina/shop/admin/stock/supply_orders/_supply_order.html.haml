@@ -1,0 +1,14 @@
+%tr
+  %td= link_to "##{supply_order.id}", spina.shop_admin_supply_order_path(supply_order), class: 'table-link'
+  %td= supply_order.supplier.name
+  %td
+    - if supply_order.ordered_at.present?
+      =l supply_order.ordered_at, format: "%e %B %Y"
+  %td
+    - if supply_order.expected_delivery.present?
+      =l supply_order.expected_delivery, format: :long
+  %td
+    = supply_order.ordered_supply.count
+    producten
+  %td.text-right
+    .label{class: ("label-#{supply_order.status_label}")}=t("spina.shop.supply_orders.status.#{supply_order.status}").upcase

@@ -1,0 +1,9 @@
+.table-container.infinite-table
+  %table.table.table-clickable.products-table
+    %thead
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :name
+        %th= Spina::Shop::Supplier.human_attribute_name :supply_orders
+
+    %tbody
+      = render partial: 'supplier', collection: @suppliers

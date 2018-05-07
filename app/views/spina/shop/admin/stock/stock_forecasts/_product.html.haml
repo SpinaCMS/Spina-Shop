@@ -1,11 +1,10 @@
 %tr
   %td.align-center{style: 'width: 20px'}
     .form-checkbox{style: 'width: 20px'}
-      = check_box_tag ''
+      = check_box_tag 'product_ids[]', product.id
       %label
   %td
-    = link_to spina.shop_admin_product_path(product) do
-      = product.name
+    = link_to product.full_name, spina.shop_admin_product_path(product)
   %td
     = product.supplier
   %td.text-right
@@ -18,6 +17,9 @@
     - else
       %span.text-success= product.stock_level
     %small{style: 'display: inline'} / #{product.optimal_stock}
+    - if product.supply_orders.incoming.any?
+      %span{data: {tooltip: product.supply_orders.incoming.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
+        %i.icon.icon-document
   %td.text-right
     = product.coming_30_days
   %td.text-right

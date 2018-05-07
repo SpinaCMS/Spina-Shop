@@ -1,0 +1,60 @@
+module Spina::Shop
+  module Product::Stock
+    extend ActiveSupport::Concern
+
+    included do
+      attr_accessor :initial_stock_level
+
+      has_many :stock_level_adjustments, dependent: :destroy
+      has_many :in_stock_reminders, as: :orderable, dependent: :destroy
+
+      after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
+
+      scope :stock_forecast, -> { select('(ceil(trend * 30) :: integer) as coming_30_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' THEN "adjustment" ELSE 0 END) * -1 as past_30_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' THEN "adjustment" ELSE 0 END) * -1 as past_90_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' THEN "adjustment" ELSE 0 END) * -1 as optimal_stock, stock_level - (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' THEN "adjustment" ELSE 0 END) * -1) as to_order, stock_level * cost_price AS stock_value, (SELECT COUNT(*) FROM spina_shop_in_stock_reminders WHERE orderable_type = \'Spina::Shop::Product\' AND orderable_id = spina_shop_products.id) as in_stock_reminders_count, spina_shop_products.*').purchasable.active.where(stock_enabled: true, archived: false, available_at_supplier: true).joins(:stock_level_adjustments).group('"spina_shop_products"."id"') }
+    end
+
+    def in_stock?
+      return true unless stock_enabled?
+      stock_level > 0
+    end
+
+    def cache_stock_level
+      update_columns(
+        stock_level: stock_level_adjustments.sum(:adjustment), 
+        sales_count: stock_level_adjustments.sales.sum(:adjustment) * -1,
+        expiration_date: can_expire? ? earliest_expiration_date : nil
+      )
+    end
+
+    def expiration_month
+      expiration_date.try(:month)
+    end
+
+    def expiration_year
+      expiration_date.try(:year)
+    end
+
+    def earliest_expiration_date
+      offset = 0
+      sum = 0
+      adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+      while sum < stock_level && adjustment.present? do
+        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+        offset = offset.next
+        sum = sum + adjustment.try(:adjustment).to_i
+      end 
+
+      if adjustment.try(:expiration_year).present?
+        Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
+      else
+        nil
+      end
+    end
+
+    private
+
+      def create_initial_stock_level_adjustment
+        ChangeStockLevel.new(self, adjustment: initial_stock_level).save
+      end
+  end
+end

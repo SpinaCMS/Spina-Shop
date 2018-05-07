@@ -66,8 +66,16 @@ Spina::Engine.routes.draw do
           end
         end
         scope module: :products do
-          resource :stock_forecast
           resources :product_bundles
+        end
+
+        scope module: :stock do
+          resource :stock_forecast
+          resources :suppliers
+          resources :supply_orders do
+            resources :ordered_supply, only: [:destroy]
+          end
+          resource :supply_order_products, only: [:new, :create]
         end
 
         # Product reviews

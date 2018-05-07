@@ -7,8 +7,12 @@
   %ul
     %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
       = link_to Spina::Shop::Order.model_name.human(count: 2), spina.shop_admin_orders_path
-    %li{class: ('active' if controller_name.in? %w(products stock_forecasts properties product_bundles))}
+    %li{class: ('active' if controller_name.in? %w(products properties product_bundles))}
       = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
+
+    %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers supply_orders))}
+      = link_to "Voorraad", spina.shop_admin_stock_forecast_path
+
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts))}
       = link_to Spina::Shop::Customer.model_name.human(count: 2), spina.shop_admin_customers_path 
     %li{class: ('active' if controller_name == 'product_reviews')}

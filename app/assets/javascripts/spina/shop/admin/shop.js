@@ -5,5 +5,8 @@
 //= require ./orders
 //= require ./customers
 
+// Stimulus
+//= require_tree ./controllers
+
 // Vendor stuff
 //= require spina_shop/select2

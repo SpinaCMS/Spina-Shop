@@ -1,0 +1,12 @@
+.table-container.infinite-table
+  %table.table.table-clickable.products-table
+    %thead
+      %tr
+        %th= Spina::Shop::SupplyOrder.human_attribute_name :id
+        %th= Spina::Shop::SupplyOrder.human_attribute_name :supplier
+        %th= Spina::Shop::SupplyOrder.human_attribute_name :ordered_at
+        %th= Spina::Shop::SupplyOrder.human_attribute_name :expected_delivery
+        %th= Spina::Shop::SupplyOrder.human_attribute_name :ordered_supply
+
+    %tbody
+      = render partial: 'supply_order', collection: @supply_orders

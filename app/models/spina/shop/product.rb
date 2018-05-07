@@ -1,9 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
-    include Variants, Pricing
+    include Variants, Pricing, Stock
 
     # Stores the old path when generating a new materialized_path
-    attr_accessor :old_path, :initial_stock_level, :files
+    attr_accessor :old_path, :files
 
     belongs_to :tax_group
     belongs_to :sales_category
@@ -19,11 +19,10 @@ module Spina::Shop
     has_many :available_products
     has_many :stores, through: :available_products, dependent: :destroy
     has_many :recounts, dependent: :destroy
+    has_many :ordered_supply, dependent: :destroy
+    has_many :supply_orders, through: :ordered_supply
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
-    has_many :stock_level_adjustments, dependent: :destroy
-    has_many :in_stock_reminders, as: :orderable, dependent: :destroy
-
     has_many :bundled_products, dependent: :restrict_with_exception
 
     accepts_nested_attributes_for :product_images, allow_destroy: true
@@ -33,8 +32,6 @@ module Spina::Shop
 
     # Create a 301 redirect if materialized_path changed
     after_save :rewrite_rule
-
-    after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
 
     validates :name, :base_price, presence: true
     validates :sku, uniqueness: true, allow_blank: true
@@ -66,11 +63,6 @@ module Spina::Shop
       name
     end
 
-    def in_stock?
-      return true unless stock_enabled?
-      stock_level > 0
-    end
-
     # All properties are dynamically stored using jsonb
     def properties
       decorate_with_methods(read_attribute(:properties))
@@ -100,39 +92,6 @@ module Spina::Shop
       return hide_variants ? all.where(parent_id: nil, id: products.select("CASE WHEN parent_id IS NULL THEN spina_shop_products.id ELSE parent_id END")) : products
     end
 
-    def expiration_month
-      expiration_date.try(:month)
-    end
-
-    def expiration_year
-      expiration_date.try(:year)
-    end
-
-    def cache_stock_level
-      update_columns(
-        stock_level: stock_level_adjustments.sum(:adjustment), 
-        sales_count: stock_level_adjustments.sales.sum(:adjustment) * -1,
-        expiration_date: can_expire? ? earliest_expiration_date : nil
-      )
-    end
-
-    def earliest_expiration_date
-      offset = 0
-      sum = 0
-      adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-      while sum < stock_level && adjustment.present? do
-        adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
-        offset = offset.next
-        sum = sum + adjustment.try(:adjustment).to_i
-      end 
-
-      if adjustment.try(:expiration_year).present?
-        Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
-      else
-        nil
-      end
-    end
-
     private
 
       def set_name
@@ -141,10 +100,6 @@ module Spina::Shop
 
       def rewrite_rule
         Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
-      end
-
-      def create_initial_stock_level_adjustment
-        ChangeStockLevel.new(self, adjustment: initial_stock_level).save
       end
 
       # Get all values for properties defined on the ProductCategory.

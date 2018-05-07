@@ -1,0 +1,30 @@
+.modal.modal-medium
+  = form_with url: spina.shop_admin_supply_order_products_path do |f|
+    %header
+      = link_to '#', data: {dismiss: "modal"} do
+        = icon('cross')
+      %h3
+        =t 'spina.shop.supply_order_products.new_html'
+        .select-dropdown
+          = f.select :supply_order_id, options_for_select(@supply_orders.map{|c| ["##{c.id} (#{c.supplier.name})", c.id]}), include_blank: t('spina.shop.supply_order_products.choose_supply_order')
+  
+    %table.table{style: 'margin: 0'}
+      %tr
+        %th Product
+        %th Aantal
+
+      - @products.each do |product|
+        = f.hidden_field "products[][id]", value: product.id
+        %tr
+          %td
+            = product.full_name
+            %small
+              Huidige voorraad:
+              = product.stock_level
+          %td= f.number_field "products[][quantity]", placeholder: "Aantal", value: product.to_order
+    
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.supply_order_products.create'

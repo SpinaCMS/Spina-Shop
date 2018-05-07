@@ -19,10 +19,6 @@
           = link_to spina.shop_admin_product_bundles_path do
             = Spina::Shop::ProductBundle.model_name.human count: 2
 
-        %li{class: ('active' if controller_name == "stock_forecasts")}
-          = link_to spina.shop_admin_stock_forecast_path do
-            Voorraad
-
   = yield
 
 = render template: 'layouts/spina/admin/admin'
