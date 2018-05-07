@@ -1,3 +1,7 @@
+- content_for(:header_actions) do
+  = link_to spina.edit_shop_admin_supply_order_path(@supply_order), class: 'button' do
+    =t 'spina.edit'
+
 .wizard-steps
   .wizard-step.done
     .wizard-step-circle
@@ -76,5 +80,5 @@
         %td.text-right{style: 'width: 50px'}= ordered.quantity
         %td.text-right{style: 'width: 50px'}= ordered.received
         %td.text-right
-          = link_to spina.shop_admin_supply_order_ordered_supply_path(@supply_order, ordered), method: :delete do
+          = link_to spina.shop_admin_supply_order_ordered_supply_path(@supply_order, ordered), class: 'button button-link button-mini icon-only', method: :delete do
             = icon('trash')

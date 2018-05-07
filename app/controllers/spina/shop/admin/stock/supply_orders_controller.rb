@@ -25,6 +25,23 @@ module Spina::Shop
           redirect_to spina.shop_admin_supply_orders_path
         end
 
+        def edit
+          @supply_order = SupplyOrder.find(params[:id])
+          @suppliers = Supplier.order(:name)
+          add_breadcrumb "##{@supply_order.id}", spina.shop_admin_supply_order_path(@supply_order)
+          add_breadcrumb t("spina.edit")
+          render layout: 'spina/admin/admin'
+        end
+
+        def update
+          @supply_order = SupplyOrder.find(params[:id])
+          if @supply_order.update_attributes(supply_order_params)
+            redirect_to spina.shop_admin_supply_order_path(@supply_order)
+          else
+            render :edit
+          end
+        end
+
         private
 
           def set_breadcrumbs

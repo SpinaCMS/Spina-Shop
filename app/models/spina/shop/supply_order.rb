@@ -1,6 +1,5 @@
 module Spina::Shop
   class SupplyOrder < ApplicationRecord
-
     belongs_to :supplier
 
     has_many :ordered_supply, class_name: "Spina::Shop::OrderedSupply", dependent: :destroy

@@ -463,6 +463,8 @@ nl:
         choose_supply_order: Kies leveringsorder
         create: Toevoegen
       supply_orders:
+        new_html: Nieuwe <strong>leveringsorder</strong>
+        choose_supplier: Kies een leverancier
         status:
           concept: Concept
           expected_today: Vandaag verwacht

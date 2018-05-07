@@ -2,7 +2,9 @@
   %header#header
     .breadcrumbs
       = render_breadcrumbs separator: '<div class="divider"></div>'
+      = yield(:breadcrumb_action) if content_for?(:breadcrumb_action)
 
+    #header_actions
       = yield(:header_actions) if content_for?(:header_actions)
 
     %nav#secondary.tabs

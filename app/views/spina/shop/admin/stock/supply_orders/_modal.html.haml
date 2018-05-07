@@ -7,7 +7,7 @@
         =t 'spina.shop.supply_orders.new_html'
 
     %section
-      = f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id)), include_blank: true
+      .select-dropdown{style: 'width: 100%'}= f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id)), include_blank: t("spina.shop.supply_orders.choose_supplier")
   
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
