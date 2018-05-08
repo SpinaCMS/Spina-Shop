@@ -17,6 +17,7 @@ module Spina::Shop
           @stock_order = StockOrder.open.find(params[:stock_order_id])
 
           # Background job to change stock levels
+          
         end
 
       end

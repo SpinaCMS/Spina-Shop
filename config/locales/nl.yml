@@ -261,6 +261,9 @@ nl:
       spina/shop/stock_order:
         one: Leveringsorder
         other: Leveringsorders
+      spina/shop/supplier:
+        one: Leverancier
+        other: Leveranciers
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen

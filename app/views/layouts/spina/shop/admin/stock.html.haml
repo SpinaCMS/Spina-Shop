@@ -20,6 +20,8 @@
         %li{class: ('active' if controller_name == "stock_orders")}
           = link_to spina.shop_admin_stock_orders_path do
             Leveringsorders
+            - if Spina::Shop::StockOrder.open.any?
+              (#{Spina::Shop::StockOrder.open.count})
 
   = yield
 
