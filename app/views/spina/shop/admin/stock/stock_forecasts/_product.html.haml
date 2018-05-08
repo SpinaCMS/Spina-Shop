@@ -20,8 +20,8 @@
     - else
       %span.text-success= product.stock_level
     %small{style: 'display: inline'} / #{product.optimal_stock}
-    - if product.stock_orders.incoming.any?
-      %span{data: {tooltip: product.stock_orders.incoming.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
+    - if product.stock_orders.open.any?
+      %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
         %i.icon.icon-document
   %td.text-right
     = product.coming_30_days

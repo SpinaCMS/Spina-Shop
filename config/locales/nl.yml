@@ -191,7 +191,7 @@ nl:
         id: ID
         supplier: Leverancier
         ordered_at: Order geplaatst
-        received_at: Ontvangen
+        closed_at: Gesloten
         expected_delivery: Verwacht
         ordered_stock: Producten
         note: Notitie
@@ -470,7 +470,7 @@ nl:
           expected_today: Vandaag verwacht
           pending: In afwachting
           late: Te laat
-          received: Ontvangen
+          closed: Afgerond
           ordered: Order geplaatst
       tax:
         no_tax: Geen btw

@@ -5,7 +5,12 @@ module Spina::Shop
     has_many :ordered_stock, class_name: "Spina::Shop::OrderedStock", dependent: :destroy
 
     scope :concept, -> { where(ordered_at: nil) }
-    scope :incoming, -> { where(received_at: nil) }
+    scope :open, -> { where(closed_at: nil).where.not(ordered_at: nil) }
+    scope :ordered, -> { where.not(ordered_at: nil) }
+
+    def open?
+      ordered? && !closed?
+    end
 
     def concept?
       ordered_at.blank?
@@ -15,8 +20,8 @@ module Spina::Shop
       ordered_at.present?
     end
 
-    def received?
-      received_at.present?
+    def closed?
+      closed_at.present?
     end
 
     def place_order!
@@ -26,8 +31,8 @@ module Spina::Shop
 
     def status
       if ordered?
-        if received?
-          'received'
+        if closed?
+          'closed'
         else
           if expected_delivery == Date.today
             'expected_today'
@@ -44,7 +49,7 @@ module Spina::Shop
 
     def status_label
       case status
-      when 'received'
+      when 'closed'
         'success'
       when 'expected_today'
         'primary'

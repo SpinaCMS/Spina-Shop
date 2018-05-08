@@ -16,3 +16,24 @@
 
           .sidebar-form-control
             = f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id), f.object.supplier_id), {include_blank: t('spina.shop.stock_orders.choose_supplier')}, class: 'select2', style: 'width: 100%'
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::StockOrder.human_attribute_name :delivery_tracking_url
+
+          .sidebar-form-control
+            = f.text_field :delivery_tracking_url, placeholder: Spina::Shop::StockOrder.human_attribute_name(:delivery_tracking_url)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::StockOrder.human_attribute_name :note
+
+          .sidebar-form-control
+            = f.text_area :note, placeholder: Spina::Shop::StockOrder.human_attribute_name(:note)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::StockOrder.human_attribute_name :expected_delivery
+
+          .sidebar-form-control
+            = f.date_field :expected_delivery, placeholder: Spina::Shop::StockOrder.human_attribute_name(:expected_delivery), class: 'datepicker', value: l(f.object.expected_delivery, format: '%d-%m-%Y') if f.object.expected_delivery.present?

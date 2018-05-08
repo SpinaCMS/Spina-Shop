@@ -11,7 +11,7 @@ class CreateSuppliersAndStockOrders < ActiveRecord::Migration[5.2]
       t.text :note
       t.string :delivery_tracking_url
       t.date :expected_delivery
-      t.datetime :received_at
+      t.datetime :closed_at
       t.datetime :ordered_at
       t.timestamps
     end

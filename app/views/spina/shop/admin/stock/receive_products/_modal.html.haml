@@ -1,0 +1,35 @@
+.modal.modal-medium
+  = form_with url: spina.shop_admin_stock_order_receive_products_path(@stock_order) do |f|
+    %header
+      = link_to '#', data: {dismiss: "modal"} do
+        = icon('cross')
+      %h3=t 'spina.shop.receive_products.new_html'
+  
+    %section{style: 'padding: 0'}
+      %table.table{style: 'margin: 0'}
+        %tr
+          %th
+          %th Product
+          %th Besteld
+          %th Ontvangen
+
+        - @ordered_stock.each do |ordered|
+          = f.hidden_field "ordered_stock[][id]", value: ordered.id
+          %tr
+            %td
+              - if ordered.product.root.product_images.any?
+                = image_tag main_app.url_for(ordered.product.root.product_images.first.file.variant(resize: '60x60')), width: 30
+            %td
+              = ordered.product.name
+              %small= ordered.product.variant_name
+            %td= ordered.quantity
+            %td
+              - value = ordered.quantity - ordered.received
+              - value = 0 if value < 0
+              = f.number_field "ordered_stock[][received]", placeholder: "Aantal", value: value
+    
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.receive_products.create'

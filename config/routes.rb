@@ -75,8 +75,10 @@ Spina::Engine.routes.draw do
           resources :stock_orders do
             member do
               post :place_order
+              post :close_order
             end
             resources :ordered_stock, only: [:destroy]
+            resource :receive_products, only: [:new, :create]
           end
           resource :stock_order_products, only: [:new, :create]
         end

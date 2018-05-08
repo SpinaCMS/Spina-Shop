@@ -1,93 +1,110 @@
-- content_for(:header_actions) do
-  - if @stock_order.concept?
-    = link_to spina.edit_shop_admin_stock_order_path(@stock_order), class: 'button' do
-      =t 'spina.edit'
+= form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), method: :get do
+  %header#header
+    #header_actions
+      = link_to spina.edit_shop_admin_stock_order_path(@stock_order), class: 'button' do
+        =t 'spina.edit'
 
-    = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post do
-      = icon('check')
-      =t 'spina.shop.stock_orders.place_order'
+      - if @stock_order.concept?
+        = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post do
+          = icon('check')
+          =t 'spina.shop.stock_orders.place_order'
 
-.wizard-steps
-  .wizard-step.done
-    .wizard-step-circle
-      .wizard-step-label=t "spina.shop.stock_orders.status.concept"
-    .wizard-step-connector
+      - if @stock_order.open?
+        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button button-danger', method: :post, data: {confirm: "Weet je het zeker?"} do
+          =t 'spina.shop.stock_orders.close_order'
 
-  .wizard-step{class: ('done' if @stock_order.ordered?)}
-    .wizard-step-circle
-      %i.icon.icon-mail
-      .wizard-step-label{style: "white-space: nowrap"}=t "spina.shop.stock_orders.status.ordered"
-    .wizard-step-connector
+        = button_tag "Voorraad bijwerken", type: :submit, class: 'button button-primary'
 
-  .wizard-step{class: ('done' if @stock_order.received?)}
-    .wizard-step-circle
-      %i.icon.icon-shop
-      .wizard-step-label=t "spina.shop.stock_orders.status.received"
-    .wizard-step-connector
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
-.divider-container
-  %hr.divider/
+  .wizard-steps
+    .wizard-step.done
+      .wizard-step-circle
+        .wizard-step-label=t "spina.shop.stock_orders.status.concept"
+      .wizard-step-connector
 
-.information-tables
-  .information-table
-    %table
-      %tr
-        %th= Spina::Shop::StockOrder.model_name.human
-        %td= "##{@stock_order.id}"
-      %tr
-        %th= Spina::Shop::StockOrder.human_attribute_name(:supplier)
-        %td= @stock_order.supplier.name
+    .wizard-step{class: ('done' if @stock_order.ordered?)}
+      .wizard-step-circle
+        %i.icon.icon-mail
+        .wizard-step-label{style: "white-space: nowrap"}=t "spina.shop.stock_orders.status.ordered"
+      .wizard-step-connector
 
-  .information-table
-    %table
-      %tr
-        %th= Spina::Shop::StockOrder.human_attribute_name(:ordered_at)
-        %td
-          - if @stock_order.ordered_at.present?
-            =l @stock_order.ordered_at, format: '%e %B %Y'
-      %tr
-        - if @stock_order.received?
-          %th= Spina::Shop::StockOrder.human_attribute_name(:received_at)
-          %td=l @stock_order.received_at, format: '%e %B %Y'
-        - else
-          %th= Spina::Shop::StockOrder.human_attribute_name(:expected_delivery)
+    .wizard-step{class: ('done' if @stock_order.closed?)}
+      .wizard-step-circle
+        %i.icon.icon-shop
+        .wizard-step-label=t "spina.shop.stock_orders.status.closed"
+      .wizard-step-connector
+
+  .divider-container
+    %hr.divider/
+
+  .information-tables
+    .information-table
+      %table
+        %tr
+          %th= Spina::Shop::StockOrder.model_name.human
+          %td= "##{@stock_order.id}"
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:supplier)
+          %td= @stock_order.supplier.name
+
+    .information-table
+      %table
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:ordered_at)
           %td
-            - if @stock_order.expected_delivery.present?
-              =l @stock_order.expected_delivery, format: '%e %B %Y'
+            - if @stock_order.ordered_at.present?
+              =l @stock_order.ordered_at, format: '%e %B %Y'
+        %tr
+          - if @stock_order.closed?
+            %th= Spina::Shop::StockOrder.human_attribute_name(:closed_at)
+            %td=l @stock_order.closed_at, format: '%e %B %Y'
+          - else
+            %th= Spina::Shop::StockOrder.human_attribute_name(:expected_delivery)
+            %td
+              - if @stock_order.expected_delivery.present?
+                =l @stock_order.expected_delivery, format: '%e %B %Y'
 
-  .information-table
-    %table
-      %tr
-        %th= Spina::Shop::StockOrder.human_attribute_name(:delivery_tracking_url)
-        %td= link_to @stock_order.delivery_tracking_url, "#{@stock_order.delivery_tracking_url}"
+    .information-table
+      %table
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:delivery_tracking_url)
+          %td= link_to @stock_order.delivery_tracking_url, "#{@stock_order.delivery_tracking_url}"
 
-      %tr
-        %th= Spina::Shop::StockOrder.human_attribute_name(:note)
-        %td= @stock_order.note
-        
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:note)
+          %td{style: 'white-space: pre'}= @stock_order.note
 
-.divider-container
-  %hr.divider/
+  .divider-container
+    %hr.divider/
 
-.table-container
-  %table.table
-    %thead
-      %tr
-        %th{style: 'width: 30px'}
-        %th= Spina::Shop::Product.human_attribute_name(:name)
-        %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:quantity)
-        %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:received)
-        %th
+  .table-container
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th{style: 'width: 20px'}
+          %th{style: 'width: 30px'}
+          %th= Spina::Shop::Product.human_attribute_name(:name)
+          %th= Spina::Shop::Product.human_attribute_name(:location)
+          %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:quantity)
+          %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:received)
+          - if @stock_order.concept?
+            %th
 
-    - @stock_order.ordered_stock.each do |ordered|
-      %tr
-        %td
-          - if ordered.product.root.product_images.any?
-            = image_tag main_app.url_for(ordered.product.root.product_images.first.file.variant(resize: '60x60')), width: 30
-        %td
-          = link_to ordered.product.full_name, spina.shop_admin_product_path(ordered.product)
-        %td.text-right{style: 'width: 50px'}= ordered.quantity
-        %td.text-right{style: 'width: 50px'}= ordered.received
-        %td.text-right
-          = link_to spina.shop_admin_stock_order_ordered_stock_path(@stock_order, ordered), class: 'button button-link button-mini icon-only', method: :delete do
-            = icon('trash')
+      - @stock_order.ordered_stock.each do |ordered|
+        %tr
+          %td.align-center{style: 'width: 20px'}
+            .form-checkbox{style: 'width: 20px'}
+              = check_box_tag 'ordered_stock_ids[]', ordered.id
+              %label
+          %td
+            - if ordered.product.root.product_images.any?
+              = image_tag main_app.url_for(ordered.product.root.product_images.first.file.variant(resize: '60x60')), width: 30
+          %td= link_to ordered.product.full_name, spina.shop_admin_product_path(ordered.product)
+          %td= ordered.product.location
+          %td.text-right{style: 'width: 50px'}= ordered.quantity
+          %td.text-right{style: 'width: 50px'}= ordered.received
+          - if @stock_order.concept?
+            %td.text-right
+              = link_to spina.shop_admin_stock_order_ordered_stock_path(@stock_order, ordered), class: 'button button-link button-mini icon-only', method: :delete do
+                = icon('trash')

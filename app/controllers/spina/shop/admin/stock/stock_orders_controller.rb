@@ -13,6 +13,7 @@ module Spina::Shop
         def show
           @stock_order = StockOrder.find(params[:id])
           add_breadcrumb "##{@stock_order.id}"
+          render layout: 'spina/admin/admin'
         end
 
         def new
@@ -43,8 +44,14 @@ module Spina::Shop
         end
 
         def place_order
-          @stock_order = StockOrder.find(params[:id])
+          @stock_order = StockOrder.concept.find(params[:id])
           @stock_order.place_order!
+          redirect_to spina.shop_admin_stock_order_path(@stock_order)
+        end
+
+        def close_order
+          @stock_order = StockOrder.open.find(params[:id])
+          @stock_order.update_attributes(closed_at: Time.zone.now)
           redirect_to spina.shop_admin_stock_order_path(@stock_order)
         end
 
@@ -56,7 +63,7 @@ module Spina::Shop
           end
 
           def stock_order_params
-            params.require(:stock_order).permit(:supplier_id)
+            params.require(:stock_order).permit(:supplier_id, :delivery_tracking_url, :note, :expected_delivery)
           end
 
       end
