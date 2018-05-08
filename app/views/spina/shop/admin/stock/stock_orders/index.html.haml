@@ -1,0 +1,16 @@
+- content_for(:breadcrumb_action) do
+  = link_to spina.new_shop_admin_stock_order_path, class: 'button button-mini icon-only', data: {remote: true} do
+    %i.icon.icon-plus{style: 'vertical-align: bottom'}
+
+.table-container.infinite-table
+  %table.table.table-clickable.products-table
+    %thead
+      %tr
+        %th= Spina::Shop::StockOrder.human_attribute_name :id
+        %th= Spina::Shop::StockOrder.human_attribute_name :supplier
+        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
+        %th= Spina::Shop::StockOrder.human_attribute_name :expected_delivery
+        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
+
+    %tbody
+      = render partial: 'stock_order', collection: @stock_orders

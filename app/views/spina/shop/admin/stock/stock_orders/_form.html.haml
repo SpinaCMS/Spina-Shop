@@ -1,4 +1,4 @@
-= form_with model: @supply_order, url: spina.shop_admin_supply_order_path(@supply_order) do |f|
+= form_with model: @stock_order, url: spina.shop_admin_stock_order_path(@stock_order) do |f|
   %header#header
     #header_actions
       = button_tag type: :submit, class: 'button button-primary' do
@@ -12,7 +12,7 @@
       .well{style: "margin-right: -20px"}
         .sidebar-form-group
           .sidebar-form-label
-            = Spina::Shop::SupplyOrder.human_attribute_name :supplier
+            = Spina::Shop::StockOrder.human_attribute_name :supplier
 
           .sidebar-form-control
-            = f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id), f.object.supplier_id), {include_blank: t('spina.shop.supply_orders.choose_supplier')}, class: 'select2', style: 'width: 100%'
+            = f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id), f.object.supplier_id), {include_blank: t('spina.shop.stock_orders.choose_supplier')}, class: 'select2', style: 'width: 100%'

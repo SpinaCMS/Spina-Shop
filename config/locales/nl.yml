@@ -110,7 +110,7 @@ nl:
       spina/shop/order_item:
         price: Prijs
         total: Totaal
-      spina/shop/ordered_supply:
+      spina/shop/ordered_stock:
         quantity: Aantal
         received: Ontvangen
       spina/shop/product:
@@ -186,14 +186,14 @@ nl:
         score_speed: Cijfer snelheid / levertijd
       spina/shop/supplier:
         name: Naam
-        supply_orders: Leveringsorders
-      spina/shop/supply_order:
+        stock_orders: Leveringsorders
+      spina/shop/stock_order:
         id: ID
         supplier: Leverancier
         ordered_at: Order geplaatst
         received_at: Ontvangen
         expected_delivery: Verwacht
-        ordered_supply: Producten
+        ordered_stock: Producten
         note: Notitie
         delivery_tracking_url: Track & Trace
       spina/shop/tax_rate:
@@ -258,7 +258,7 @@ nl:
       spina/shop/sales_category:
         one: Omzetcategorie
         other: Omzetcategorieën
-      spina/shop/supply_order:
+      spina/shop/stock_order:
         one: Leveringsorder
         other: Leveringsorders
       spina/shop/tax_group:
@@ -458,11 +458,11 @@ nl:
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
       settings: Webshopvoorkeuren
-      supply_order_products: 
+      stock_order_products: 
         new_html: "Voeg producten toe aan:"
-        choose_supply_order: Kies leveringsorder
+        choose_stock_order: Kies leveringsorder
         create: Toevoegen
-      supply_orders:
+      stock_orders:
         new_html: Nieuwe <strong>leveringsorder</strong>
         choose_supplier: Kies een leverancier
         status:

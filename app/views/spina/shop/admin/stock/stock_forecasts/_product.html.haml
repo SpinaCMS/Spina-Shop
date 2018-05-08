@@ -4,9 +4,12 @@
       = check_box_tag 'product_ids[]', product.id
       %label
   %td
+    - if product.root.product_images.any?
+      = image_tag main_app.url_for(product.root.product_images.first.file.variant(resize: '60x60')), width: 30
+  %td
     = link_to product.full_name, spina.shop_admin_product_path(product)
   %td
-    = product.supplier
+    = product.suppliers.pluck(:name).join(', ')
   %td.text-right
     = product.past_30_days
   %td.text-right
@@ -17,8 +20,8 @@
     - else
       %span.text-success= product.stock_level
     %small{style: 'display: inline'} / #{product.optimal_stock}
-    - if product.supply_orders.incoming.any?
-      %span{data: {tooltip: product.supply_orders.incoming.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
+    - if product.stock_orders.incoming.any?
+      %span{data: {tooltip: product.stock_orders.incoming.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
         %i.icon.icon-document
   %td.text-right
     = product.coming_30_days

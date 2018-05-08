@@ -3,7 +3,7 @@
     %thead
       %tr
         %th= Spina::Shop::Supplier.human_attribute_name :name
-        %th= Spina::Shop::Supplier.human_attribute_name :supply_orders
+        %th= Spina::Shop::Supplier.human_attribute_name :stock_orders
 
     %tbody
       = render partial: 'supplier', collection: @suppliers

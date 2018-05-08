@@ -1,8 +1,8 @@
 module Spina::Shop
-  class SupplyOrder < ApplicationRecord
+  class StockOrder < ApplicationRecord
     belongs_to :supplier
 
-    has_many :ordered_supply, class_name: "Spina::Shop::OrderedSupply", dependent: :destroy
+    has_many :ordered_stock, class_name: "Spina::Shop::OrderedStock", dependent: :destroy
 
     scope :concept, -> { where(ordered_at: nil) }
     scope :incoming, -> { where(received_at: nil) }
@@ -31,7 +31,7 @@ module Spina::Shop
         else
           if expected_delivery == Date.today
             'expected_today'
-          elsif expected_delivery < Date.today
+          elsif expected_delivery.present? && expected_delivery < Date.today
             'late'
           else
             'pending'

@@ -72,13 +72,13 @@ Spina::Engine.routes.draw do
         scope module: :stock do
           resource :stock_forecast
           resources :suppliers
-          resources :supply_orders do
+          resources :stock_orders do
             member do
               post :place_order
             end
-            resources :ordered_supply, only: [:destroy]
+            resources :ordered_stock, only: [:destroy]
           end
-          resource :supply_order_products, only: [:new, :create]
+          resource :stock_order_products, only: [:new, :create]
         end
 
         # Product reviews

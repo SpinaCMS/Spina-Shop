@@ -19,8 +19,10 @@ module Spina::Shop
     has_many :available_products
     has_many :stores, through: :available_products, dependent: :destroy
     has_many :recounts, dependent: :destroy
-    has_many :ordered_supply, dependent: :destroy
-    has_many :supply_orders, through: :ordered_supply
+    has_many :ordered_stock, dependent: :destroy
+    has_many :stock_orders, through: :ordered_stock
+    has_many :products_suppliers, dependent: :destroy
+    has_many :suppliers, through: :products_suppliers
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :bundled_products, dependent: :restrict_with_exception

@@ -48,7 +48,9 @@ ready = ->
     }
 
   $('body').enhanceProducts()
-  $('select.select2').select2()
+  $('select.select2').each ->
+    $select = $(this)
+    $select.select2({placeholder: $select.attr('placeholder')})
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
 
 $(document).on 'turbolinks:load', ready

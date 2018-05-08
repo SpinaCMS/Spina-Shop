@@ -325,17 +325,26 @@
             .form-group
               .input-group
                 .form-label
-                  = Spina::Shop::Product.human_attribute_name :cost_price
-                .form-control{style: "flex: 1.5", data: {form_prepend: '€'}}
-                  = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
-
-            .form-group
-              .input-group
-                .form-label
                   = Spina::Shop::Product.human_attribute_name :ean
 
                 .form-control{style: "flex: 1.5"}
                   = f.text_field :ean, placeholder: Spina::Shop::Product.human_attribute_name(:ean)
+
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+            %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Leverancier
+
+          .grouped-form-groups
+            .form-group
+              .input-group
+                .form-control{style: 'width: 100%'}
+                  = f.select :supplier_ids, Spina::Shop::Supplier.order(:name).pluck(:name, :id), {}, class: 'select2', multiple: true, style: 'width: 100%', placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
+
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :cost_price
+                .form-control{style: "flex: 1.5", data: {form_prepend: '€'}}
+                  = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
 
             .form-group
               .input-group
