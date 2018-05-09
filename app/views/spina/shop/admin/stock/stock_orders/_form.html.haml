@@ -36,4 +36,4 @@
             = Spina::Shop::StockOrder.human_attribute_name :expected_delivery
 
           .sidebar-form-control
-            = f.date_field :expected_delivery, placeholder: Spina::Shop::StockOrder.human_attribute_name(:expected_delivery), class: 'datepicker', value: l(f.object.expected_delivery, format: '%d-%m-%Y') if f.object.expected_delivery.present?
+            = f.date_field :expected_delivery, placeholder: Spina::Shop::StockOrder.human_attribute_name(:expected_delivery), class: 'datepicker', value: (l(f.object.expected_delivery, format: '%d-%m-%Y') if f.object.expected_delivery.present?)
