@@ -337,7 +337,7 @@
             .form-group
               .input-group
                 .form-control{style: 'width: 100%'}
-                  = f.select :supplier_ids, Spina::Shop::Supplier.order(:name).pluck(:name, :id), {}, class: 'select2', multiple: true, style: 'width: 100%', placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
+                  = f.select :supplier_id, Spina::Shop::Supplier.order(:name).pluck(:name, :id), {include_blank: true}, class: 'select2', style: 'width: 100%', placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
             .form-group
               .input-group
@@ -345,13 +345,6 @@
                   = Spina::Shop::Product.human_attribute_name :cost_price
                 .form-control{style: "flex: 1.5", data: {form_prepend: '€'}}
                   = f.text_field :cost_price, value: number_with_precision(f.object.cost_price, precision: 2)
-
-            .form-group
-              .input-group
-                .form-label
-                  = Spina::Shop::Product.human_attribute_name :supplier
-                .form-control{style: "flex: 1.5"}
-                  = f.text_field :supplier, placeholder: Spina::Shop::Product.human_attribute_name(:supplier)
 
             .form-group
               .input-group

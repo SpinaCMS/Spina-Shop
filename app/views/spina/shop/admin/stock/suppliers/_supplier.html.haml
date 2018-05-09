@@ -1,4 +1,4 @@
 %tr
-  %td= link_to supplier.name, spina.edit_shop_admin_supplier_path(supplier)
+  %td= link_to supplier.name, spina.edit_shop_admin_supplier_path(supplier), class: 'table-link'
   %td= supplier.stock_orders.count
   %td= supplier.products.count

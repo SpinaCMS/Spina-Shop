@@ -8,6 +8,7 @@ module Spina::Shop
     belongs_to :tax_group
     belongs_to :sales_category
     belongs_to :product_category, optional: true
+    belongs_to :supplier, optional: true
 
     has_many :product_images, dependent: :destroy
     has_many :product_reviews, dependent: :destroy
@@ -21,8 +22,6 @@ module Spina::Shop
     has_many :recounts, dependent: :destroy
     has_many :ordered_stock, dependent: :destroy
     has_many :stock_orders, through: :ordered_stock
-    has_many :products_suppliers, dependent: :destroy
-    has_many :suppliers, through: :products_suppliers
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :bundled_products, dependent: :restrict_with_exception

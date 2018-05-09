@@ -1,0 +1,25 @@
+= form_with model: @supplier, url: @supplier.new_record? ? spina.shop_admin_suppliers_path : spina.shop_admin_supplier_path(@supplier) do |f|
+  %header#header
+    #header_actions
+      = button_tag type: :submit, class: 'button button-primary' do
+        = icon('check')
+        =t "spina.shop.save"
+
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well{style: "margin-right: -20px"}
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::Shop::Supplier.human_attribute_name(:name)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :lead_time
+
+          .sidebar-form-control
+            = f.number_field :lead_time, placeholder: Spina::Shop::Supplier.human_attribute_name(:lead_time)

@@ -1,0 +1,3 @@
+= render 'form'
+
+.pull-right= link_to t('spina.delete'), spina.shop_admin_supplier_path(@supplier), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.delete_confirmation', subject: @supplier.name)}

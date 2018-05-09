@@ -9,7 +9,7 @@
   %td
     = link_to product.full_name, spina.shop_admin_product_path(product)
   %td
-    = product.suppliers.pluck(:name).join(', ')
+    = product.supplier&.name
   %td.text-right
     = product.past_30_days
   %td.text-right
