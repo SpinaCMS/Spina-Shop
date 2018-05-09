@@ -27,12 +27,10 @@
             = stock_order.ordered_stock.count
             producten
           %td.text-right
-            .label{class: ("label-#{stock_order.status_label}")}=t("spina.shop.stock_orders.status.#{stock_order.status}").upcase
+            - if stock_order.ordered?
+              .status-dot{class: ("status-dot-#{stock_order.status_label}"), data: {tooltip: t("spina.shop.stock_orders.status.#{stock_order.status}")}}
 
-.divider-container{style: 'margin-top: 40px; margin-bottom: 40px'}
-  %hr.divider/
-
-%h3 Historie
+%h3{style: 'margin-top: 60px'} Gesloten leveringen
 
 .table-container.infinite-table
   %table.table.table-clickable

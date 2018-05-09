@@ -29,6 +29,9 @@ module Spina::Shop
     end
 
     before_transition(to: :confirming) do |order, transition|
+      # Generate order number
+      order.update_attributes!(order_number: OrderNumberGenerator.generate!)
+
       # Allocate stock baby!
       AllocateStock.new(order).allocate
 
@@ -44,8 +47,8 @@ module Spina::Shop
       # Add address to customer if it doesn't have any addresses
       StoreAddress.new(order).store! if order.customer.addresses.none?
 
-      # Generate that number
-      order.update_attributes!(order_number: OrderNumberGenerator.generate!, confirming_at: Time.zone.now)
+      # Confirm order
+      order.update_attributes!(confirming_at: Time.zone.now)
     end
 
     before_transition(to: :cancelled) do |order, transition|

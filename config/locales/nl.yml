@@ -187,8 +187,9 @@ nl:
       spina/shop/supplier:
         name: Naam
         stock_orders: Leveringsorders
+        lead_time: Levertijd
       spina/shop/stock_order:
-        id: ID
+        id: Nummer
         supplier: Leverancier
         ordered_at: Order geplaatst
         closed_at: Gesloten
@@ -464,7 +465,7 @@ nl:
           concept: Concept
           expected_today: Vandaag verwacht
           open: Open
-          late: Laat
+          late: Late levering
           closed: Afgerond
           ordered: Order geplaatst
       tax:

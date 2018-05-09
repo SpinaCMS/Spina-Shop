@@ -26,6 +26,7 @@ module Spina::Shop
     end
 
     def place_order!
+      return if ordered_stock.none?
       self[:ordered_at] = Time.zone.now
       save
     end
@@ -50,14 +51,12 @@ module Spina::Shop
 
     def status_label
       case status
-      when 'closed'
-        ''
       when 'open'
-        'alert'
+        ''
       when 'expected_today'
         'primary'
       when 'late'
-        'danger'
+        'warning'
       end
     end
   end
