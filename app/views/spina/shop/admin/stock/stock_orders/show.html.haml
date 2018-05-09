@@ -99,7 +99,7 @@
           - if @stock_order.concept?
             %th
 
-      - @stock_order.ordered_stock.each do |ordered|
+      - @stock_order.ordered_stock.joins(:product).order('spina_shop_products.location').each do |ordered|
         %tr
           %td.align-center{style: 'width: 20px'}
             .form-checkbox{style: 'width: 20px'}
@@ -111,7 +111,16 @@
           %td= link_to ordered.product.full_name, spina.shop_admin_product_path(ordered.product)
           %td= ordered.product.location
           %td.text-right{style: 'width: 50px'}= ordered.quantity
-          %td.text-right{style: 'width: 50px'}= ordered.received
+          %td.text-right{style: 'width: 150px'}
+            .progress.progress-bar-primary
+              .progress-bar
+                - 5.times do
+                  .progress-bar-divider
+                .progress-bar-inner{style: "width: #{ordered.received / ordered.quantity.to_d * 100}%"}
+              .progress-label
+                = ordered.received
+                = Spina::Shop::OrderedStock.human_attribute_name(:received)
+
           - if @stock_order.concept?
             %td.text-right
               = link_to spina.shop_admin_stock_order_ordered_stock_path(@stock_order, ordered), class: 'button button-link button-mini icon-only', method: :delete do
