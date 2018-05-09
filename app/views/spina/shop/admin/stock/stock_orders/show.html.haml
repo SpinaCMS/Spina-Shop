@@ -1,19 +1,21 @@
 = form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), method: :get do
   %header#header
     #header_actions
-      = link_to spina.edit_shop_admin_stock_order_path(@stock_order), class: 'button' do
-        =t 'spina.edit'
+      - if @stock_order.open?
+        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post, data: {confirm: "Weet je het zeker?"} do
+          = icon('cross')
+          =t 'spina.shop.stock_orders.close_order'
+
+      = link_to spina.edit_shop_admin_stock_order_path(@stock_order), class: 'button icon-only' do
+        = icon('pencil')
+
+      - if @stock_order.open?
+        = button_tag t('spina.shop.stock_orders.receive_products'), type: :submit, class: 'button button-primary'
 
       - if @stock_order.concept?
         = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post, data: {confirm: t('spina.shop.stock_orders.place_order_confirmation')} do
           = icon('check')
           =t 'spina.shop.stock_orders.place_order'
-
-      - if @stock_order.open?
-        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button button-danger', method: :post, data: {confirm: "Weet je het zeker?"} do
-          =t 'spina.shop.stock_orders.close_order'
-
-        = button_tag "Voorraad bijwerken", type: :submit, class: 'button button-primary'
 
     .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
@@ -47,6 +49,12 @@
         %tr
           %th= Spina::Shop::StockOrder.human_attribute_name(:supplier)
           %td= @stock_order.supplier.name
+
+        - if @stock_order.ordered?
+          %tr
+            %th= Spina::Shop::StockOrder.human_attribute_name(:download)
+            %td
+              = link_to 'Excel download', spina.shop_admin_stock_order_path(@stock_order, format: :xlsx)
 
     .information-table
       %table

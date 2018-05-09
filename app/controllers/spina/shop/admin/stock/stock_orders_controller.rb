@@ -14,7 +14,14 @@ module Spina::Shop
         def show
           @stock_order = StockOrder.find(params[:id])
           add_breadcrumb "##{@stock_order.id}"
-          render layout: 'spina/admin/admin'
+
+          respond_to do |format|
+            format.html { render layout: 'spina/admin/admin' }
+            format.xlsx do
+              file = StockOrderToExcel.new(@stock_order).to_excel
+              send_data file, filename: "order.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            end
+          end
         end
 
         def new

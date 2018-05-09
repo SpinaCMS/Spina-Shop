@@ -20,6 +20,9 @@ module Spina
         Dir.glob(Engine.root + "app/decorators/**/*_decorator*.rb").each do |decorator|
           require_dependency(decorator)
         end
+
+        # Mimetype Excel
+        Mime::Type.register "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", :xlsx
       end
     end
   end

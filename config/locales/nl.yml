@@ -463,8 +463,9 @@ nl:
         new_html: Nieuwe <strong>leveringsorder</strong>
         choose_supplier: Kies een leverancier
         create: Aanmaken
+        receive_products: Voorraad bijwerken...
         place_order: Plaats order
-        close_order: Order sluiten
+        close_order: Sluiten
         status:
           concept: Concept
           expected_today: Vandaag verwacht
