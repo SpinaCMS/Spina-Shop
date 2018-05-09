@@ -447,6 +447,8 @@ nl:
         new: Nieuwe eigenschap
         options:
           add: Toevoegen
+      receive_products:
+        create: Voorraad bijwerken
       reports:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
           ontvangt automatisch een email.
