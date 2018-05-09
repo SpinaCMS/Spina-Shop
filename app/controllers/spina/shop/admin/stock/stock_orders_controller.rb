@@ -19,7 +19,7 @@ module Spina::Shop
             format.html { render layout: 'spina/admin/admin' }
             format.xlsx do
               file = StockOrderToExcel.new(@stock_order).to_excel
-              send_data file, filename: "order.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              send_data file, filename: "order-#{@stock_order.id}.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             end
           end
         end
