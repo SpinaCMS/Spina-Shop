@@ -272,17 +272,6 @@ nl:
       format:
         unit: Unit
   spina:
-    cancel: Cancel
-    commerce:
-      product_categories:
-        no_categories: No categories
-    delete: Delete
-    edit: Edit
-    main_menu: Main menu
-    pages:
-      photo_picker: Photo picker
-    save: Save
-    search: Search
     shop:
       addresses:
         add_address: Adres toevoegen
@@ -468,11 +457,14 @@ nl:
       stock_orders:
         new_html: Nieuwe <strong>leveringsorder</strong>
         choose_supplier: Kies een leverancier
+        create: Aanmaken
+        place_order: Plaats order
+        close_order: Order sluiten
         status:
           concept: Concept
           expected_today: Vandaag verwacht
-          open: In afwachting
-          late: Te laat
+          open: Open
+          late: Laat
           closed: Afgerond
           ordered: Order geplaatst
       tax:

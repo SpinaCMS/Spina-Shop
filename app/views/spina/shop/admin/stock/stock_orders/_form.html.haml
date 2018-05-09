@@ -37,3 +37,6 @@
 
           .sidebar-form-control
             = f.date_field :expected_delivery, placeholder: Spina::Shop::StockOrder.human_attribute_name(:expected_delivery), class: 'datepicker', value: (l(f.object.expected_delivery, format: '%d-%m-%Y') if f.object.expected_delivery.present?)
+
+- if @stock_order.persisted?
+  .pull-right= link_to t('spina.delete'), spina.shop_admin_stock_order_path(@stock_order), class: 'button button-link button-danger', method: :delete, data: {confirm: t('spina.delete_confirmation', subject: @stock_order.id)}

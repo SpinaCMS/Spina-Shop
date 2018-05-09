@@ -44,6 +44,16 @@ module Spina::Shop
           end
         end
 
+        def destroy
+          @stock_order = StockOrder.find(params[:id])
+          @stock_order.destroy
+          redirect_to spina.shop_admin_stock_orders_path
+        rescue ActiveRecord::DeleteRestrictionError
+          flash[:alert] = t('spina.shop.delete_restriction_error')
+          flash[:alert_small] = t('spina.shop.delete_restriction_error_explanation')
+          redirect_to spina.shop_admin_stock_order_path(@stock_order)
+        end
+
         def place_order
           @stock_order = StockOrder.concept.find(params[:id])
           @stock_order.place_order!

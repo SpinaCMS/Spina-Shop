@@ -6,7 +6,7 @@
       %h3
         =t 'spina.shop.stock_orders.new_html'
 
-    %section
+    %section{style: 'padding-top: 0'}
       .select-dropdown{style: 'width: 100%'}= f.select :supplier_id, options_for_select(@suppliers.pluck(:name, :id)), include_blank: t("spina.shop.stock_orders.choose_supplier")
   
     %footer

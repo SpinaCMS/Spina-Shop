@@ -5,7 +5,7 @@
         =t 'spina.edit'
 
       - if @stock_order.concept?
-        = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post do
+        = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post, data: {confirm: t('spina.shop.stock_orders.place_order_confirmation')} do
           = icon('check')
           =t 'spina.shop.stock_orders.place_order'
 
