@@ -17,6 +17,10 @@ module Spina::Shop
 
           respond_to do |format|
             format.html { render layout: 'spina/admin/admin' }
+            format.pdf do
+              pdf = StockOrderPdf.new(@stock_order)
+              send_data pdf.render, filename: "order-#{@stock_order.id}.pdf", type: "application/pdf"
+            end
             format.xlsx do
               file = StockOrderToExcel.new(@stock_order).to_excel
               send_data file, filename: "order-#{@stock_order.id}.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

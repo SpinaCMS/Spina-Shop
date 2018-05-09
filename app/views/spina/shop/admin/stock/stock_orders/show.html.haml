@@ -55,6 +55,8 @@
             %th= Spina::Shop::StockOrder.human_attribute_name(:download)
             %td
               = link_to 'Excel download', spina.shop_admin_stock_order_path(@stock_order, format: :xlsx)
+              %br/
+              = link_to 'PDF download', spina.shop_admin_stock_order_path(@stock_order, format: :pdf)
 
     .information-table
       %table
