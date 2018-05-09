@@ -1,14 +1,8 @@
 %tr
   %td= link_to "##{stock_order.id}", spina.shop_admin_stock_order_path(stock_order), class: 'table-link'
   %td= stock_order.supplier.name
-  %td
-    - if stock_order.ordered_at.present?
-      =l stock_order.ordered_at, format: "%e %B %Y"
-  %td
-    - if stock_order.expected_delivery.present?
-      =l stock_order.expected_delivery, format: :long
+  %td=l stock_order.ordered_at, format: "%e %B %Y"
+  %td=l stock_order.closed_at, format: "%e %B %Y"
   %td
     = stock_order.ordered_stock.count
     producten
-  %td.text-right
-    .label{class: ("label-#{stock_order.status_label}")}=t("spina.shop.stock_orders.status.#{stock_order.status}").upcase

@@ -7,7 +7,8 @@ module Spina::Shop
         before_action :set_breadcrumbs
 
         def index
-          @stock_orders = StockOrder.order(created_at: :desc)
+          @stock_orders = StockOrder.where(closed_at: nil).order(ordered_at: :desc, created_at: :desc)
+          @closed_stock_orders = StockOrder.closed.order(ordered_at: :desc, created_at: :desc)
         end
 
         def show

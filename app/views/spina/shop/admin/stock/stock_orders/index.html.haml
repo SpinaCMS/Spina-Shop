@@ -2,8 +2,8 @@
   = link_to spina.new_shop_admin_stock_order_path, class: 'button button-mini icon-only', data: {remote: true} do
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
-.table-container.infinite-table
-  %table.table.table-clickable.products-table
+.table-container
+  %table.table.table-clickable
     %thead
       %tr
         %th= Spina::Shop::StockOrder.human_attribute_name :id
@@ -13,4 +13,36 @@
         %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
 
     %tbody
-      = render partial: 'stock_order', collection: @stock_orders
+      - @stock_orders.each do |stock_order|
+        %tr
+          %td= link_to "##{stock_order.id}", spina.shop_admin_stock_order_path(stock_order), class: 'table-link'
+          %td= stock_order.supplier.name
+          %td
+            - if stock_order.ordered_at.present?
+              =l stock_order.ordered_at, format: "%e %B %Y"
+          %td
+            - if stock_order.expected_delivery.present?
+              =l stock_order.expected_delivery, format: :long
+          %td
+            = stock_order.ordered_stock.count
+            producten
+          %td.text-right
+            .label{class: ("label-#{stock_order.status_label}")}=t("spina.shop.stock_orders.status.#{stock_order.status}").upcase
+
+.divider-container{style: 'margin-top: 40px; margin-bottom: 40px'}
+  %hr.divider/
+
+%h3 Historie
+
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th= Spina::Shop::StockOrder.human_attribute_name :id
+        %th= Spina::Shop::StockOrder.human_attribute_name :supplier
+        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
+        %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
+        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
+
+    %tbody
+      = render partial: 'stock_order', collection: @closed_stock_orders

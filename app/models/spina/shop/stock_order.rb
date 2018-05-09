@@ -7,6 +7,7 @@ module Spina::Shop
     scope :concept, -> { where(ordered_at: nil) }
     scope :open, -> { where(closed_at: nil).where.not(ordered_at: nil) }
     scope :ordered, -> { where.not(ordered_at: nil) }
+    scope :closed, -> { where.not(closed_at: nil) }
 
     def open?
       ordered? && !closed?
@@ -39,7 +40,7 @@ module Spina::Shop
           elsif expected_delivery.present? && expected_delivery < Date.today
             'late'
           else
-            'pending'
+            'open'
           end
         end
       else
@@ -50,11 +51,13 @@ module Spina::Shop
     def status_label
       case status
       when 'closed'
-        'success'
+        ''
+      when 'open'
+        'alert'
       when 'expected_today'
         'primary'
       when 'late'
-        'alert'
+        'danger'
       end
     end
   end

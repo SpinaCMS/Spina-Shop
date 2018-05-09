@@ -471,7 +471,7 @@ nl:
         status:
           concept: Concept
           expected_today: Vandaag verwacht
-          pending: In afwachting
+          open: In afwachting
           late: Te laat
           closed: Afgerond
           ordered: Order geplaatst
