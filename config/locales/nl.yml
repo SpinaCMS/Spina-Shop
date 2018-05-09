@@ -197,6 +197,10 @@ nl:
         ordered_stock: Producten
         note: Notitie
         delivery_tracking_url: Track & Trace
+      spina/shop/stock_level_adjustment:
+        adjustment: Aantal
+        note: Notitie
+        created_at: Aangemaakt op
       spina/shop/tax_rate:
         business: Zakelijk
         code: Code

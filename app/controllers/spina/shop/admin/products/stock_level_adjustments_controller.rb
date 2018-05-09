@@ -5,6 +5,10 @@ module Spina::Shop
         before_action :set_product
 
         def index
+          add_breadcrumb Product.model_name.human(count: 2), spina.shop_admin_products_path
+          add_breadcrumb @product.name, spina.shop_admin_product_path(@product)
+          add_breadcrumb Product.human_attribute_name(:stock_level)
+
           @stock_level_adjustments = @product.stock_level_adjustments
         end
 

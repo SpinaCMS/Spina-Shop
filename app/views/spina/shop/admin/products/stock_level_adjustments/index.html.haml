@@ -1,0 +1,49 @@
+%header#header
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+- if @product.stock_orders.open.any?
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th= Spina::Shop::OrderedStock.human_attribute_name(:quantity)
+          %th= Spina::Shop::StockOrder.model_name.human
+          %th= Spina::Shop::StockOrder.human_attribute_name(:ordered_at)
+          %th= Spina::Shop::StockOrder.human_attribute_name(:expected_delivery)
+
+      %tbody
+        - @product.ordered_stock.joins(:stock_order).where(spina_shop_stock_orders: {closed_at: nil}).each do |ordered|
+          %tr
+            %td= ordered.quantity
+            %td= link_to "Leveringsorder ##{ordered.stock_order.id}", spina.shop_admin_stock_order_path(ordered.stock_order), class: 'table-link'
+            %td
+              - if ordered.stock_order.ordered_at.present?
+                =l ordered.stock_order.ordered_at, format: '%d %B %Y'
+            %td
+              - if ordered.stock_order.expected_delivery.present?
+                =l ordered.stock_order.expected_delivery, format: '%d %B %Y'
+
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:adjustment)
+        %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:note)
+        %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:created_at)
+        - if @product.can_expire?
+          %th.text-right= Spina::Shop::StockLevelAdjustment.human_attribute_name(:expiration_date)
+
+    %tbody
+      - @stock_level_adjustments.order(created_at: :desc).each do |adjustment|
+        %tr
+          %td
+            - if adjustment.adjustment > 0
+              .text-success= adjustment.adjustment
+            - else
+              .text-danger= adjustment.adjustment
+
+          %td= adjustment.description
+          %td=l adjustment.created_at, format: "%d-%m-%Y"
+
+          - if @product.can_expire?
+            %td.text-muted.text-right= adjustment.expiration_date if adjustment.adjustment > 0

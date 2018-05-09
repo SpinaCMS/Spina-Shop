@@ -7,7 +7,7 @@
   %ul
     %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
       = link_to Spina::Shop::Order.model_name.human(count: 2), spina.shop_admin_orders_path
-    %li{class: ('active' if controller_name.in? %w(products properties product_bundles))}
+    %li{class: ('active' if controller_name.in? %w(products properties product_bundles stock_level_adjustments))}
       = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
 
     %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders))}
