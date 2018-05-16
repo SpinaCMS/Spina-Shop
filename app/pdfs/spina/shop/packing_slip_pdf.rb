@@ -1,3 +1,4 @@
+require 'rqrcode'
 require 'prawn/measurement_extensions'
 
 module Spina::Shop
@@ -8,21 +9,18 @@ module Spina::Shop
 
       # Base font size
       font_families.update(
-        "Proxima Nova" => {
-          normal: "#{Rails.root}/app/assets/fonts/proximanova-regular-webfont.ttf",
-          semibold: "#{Rails.root}/app/assets/fonts/proximanova-semibold-webfont.ttf",
-          bold: "#{Rails.root}/app/assets/fonts/proximanova-bold-webfont.ttf",
-          italic: "#{Rails.root}/app/assets/fonts/proximanova-regitalic-webfont.ttf"
-        },
-        "Icons" => {
-          normal: "#{Rails.root}/app/assets/fonts/plango-next.ttf"
+        "Montserrat" => {
+          normal: "#{Spina::Shop.root}/app/assets/fonts/montserrat-regular.ttf",
+          semibold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-semibold.ttf",
+          bold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-bold.ttf",
+          italic: "#{Spina::Shop.root}/app/assets/fonts/montserrat-italic.ttf"
         }
       )
-      font "Proxima Nova"
+      font "Montserrat"
       font_size 10
       default_leading 3
 
-      mr_hop()
+      qrcode()
       header()
       order_title()
       order_details()
@@ -33,16 +31,10 @@ module Spina::Shop
         :size => 14}
     end
 
-    def mr_hop
+    def qrcode
       float do
-        indent(12.cm) do
-          text "Mr Hop", style: :semibold, size: 14
-          text "Keizersveld 1"
-          text "1234 AB, Venray"
-          move_down 13
-          text "www.mrhop.nl"
-          text "info@mrhop.nl"
-        end
+        qrcode = RQRCode::QRCode.new(@order.to_global_id.to_s)
+        svg qrcode.as_svg, width: 3.cm, position: :right
       end
     end
 
@@ -51,13 +43,22 @@ module Spina::Shop
       fill_color '999999'
       text "#{I18n.l @order.order_prepared_at, format: '%d %B %Y - %H:%M'}"
       fill_color '000000'
-      move_down 5.cm
+      move_down 1.cm
+      text @order.delivery_name, style: :semibold
+      text @order.delivery_address
+      text [@order.delivery_postal_code, @order.delivery_city, @order.delivery_country.try(:code)].join(', ')
+      move_down 1.cm
     end
 
     def order_title
+      float do
+        t = "#{@order.order_items.products.sum(:quantity)} producten"
+        if @order.order_items.product_bundles.sum(:quantity) > 0
+          t = t + "/ #{@order.order_items.product_bundles.sum(:quantity)} productbundels"
+        end
+        text t, size: 12, align: :right
+      end
       text "Bestelling ##{@order.number}", style: :semibold, size: 18
-      text "#{@order.order_items.products.sum(:quantity)} producten", size: 14
-      text "#{@order.order_items.product_bundles.sum(:quantity)} productbundels", size: 14
     end
 
     def order_details
@@ -74,8 +75,6 @@ module Spina::Shop
           { location: bundled_product.product.location, quantity: bundled_product.quantity * order_item.quantity, description: bundled_product.product.name }
         end
       end.flatten
-
-      Rails.logger.info products.inspect
 
       products.sort_by{|p| (p[:location].present? ? "0" : "1") + p[:location].to_s}.each do |product|
         lines << ["#{product[:quantity]} x", product[:description], product[:location], ""]

@@ -5,6 +5,7 @@ require 'statesman'
 require "email_validator"
 require "delocalize"
 require "bourbon"
+require "prawn-svg"
 require "prawn"
 require "prawn/table"
 require "ruby-measurement"
