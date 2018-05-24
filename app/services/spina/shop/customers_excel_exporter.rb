@@ -24,7 +24,6 @@ module Spina::Shop
         end
       end
  
-      temp_file.close
       temp_file
     end
 
