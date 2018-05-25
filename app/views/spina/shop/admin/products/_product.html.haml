@@ -7,7 +7,7 @@
     %td.align-center{style: 'width: 54px'}
       - if product.product_images.any?
         - if product.product_images.first.file.attached?
-          = image_tag main_app.url_for(product.product_images.first&.file&.variant(resize: '60x60')), style: 'vertical-align: middle; margin: -10px 0; max-width: 30px; max-height: 30px'
+          = image_tag main_app.url_for(product.product_images.first.file.variant(resize: '60x60')), style: 'vertical-align: middle; margin: -10px 0; max-width: 30px; max-height: 30px'
     %td
       = link_to spina.shop_admin_product_path(product), class: 'table-link' do
         %span.product-name= product.name
