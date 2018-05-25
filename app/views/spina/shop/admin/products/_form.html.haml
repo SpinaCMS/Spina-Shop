@@ -21,11 +21,17 @@
             %li{class: ('active' if @product == variant)}= link_to variant.variant_name, spina.edit_shop_admin_product_path(variant)
 
     #header_actions
-      - if @product.persisted? && @product.can_have_variants?
-        = link_to spina.variant_shop_admin_product_path(@product.parent || @product), class: 'button' do
-          = icon('plus')
-          Variant
-                  
+      - if @product.persisted?
+        - if @product.can_have_variants?
+          = link_to spina.variant_shop_admin_product_path(@product.parent || @product), class: 'button' do
+            = icon('plus')
+            Variant
+
+        - else
+          = link_to spina.duplicate_shop_admin_product_path(@product.id), class: 'button' do
+            = icon('plus')
+            =t 'spina.shop.products.duplicate'
+
       %button.button.button-primary.icon-only{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
 
@@ -216,12 +222,12 @@
               .select-dropdown{style: "min-width: 120px; max-width: 140px", data: {disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?}}
                 = f.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.all.map{|t| [t.name, t.id]}, f.object.tax_group_id), {}, disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank?
 
-        / .form-group
-        /   .form-label
-        /     = Spina::Shop::Product.human_attribute_name :promotional_price
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name :promotional_price
           
-        /   .form-control{data: {form_prepend: t('number.currency.format.unit')}}
-        /     = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
+          .form-control{data: {form_prepend: t('number.currency.format.unit')}}
+            = f.text_field :promotional_price, value: number_with_precision(f.object.promotional_price, precision: 2)
 
         - if Spina::Shop::CustomerGroup.any? || Spina::Shop::Store.any?
           .form-group.disabled-toggle-pricing
@@ -301,6 +307,16 @@
                   .form-control{style: 'flex: 1.5'}
                     = f.number_field :limit_per_order, placeholder: Spina::Shop::Product.human_attribute_name(:limit_per_order)
 
+              .form-group
+                .input-group
+                  %label.form-label{style: 'display: block; width: 100%; margin-right: 0; border-right: 1px solid rgb(204, 204, 204); cursor: pointer'}
+                    .form-checkbox{style: 'display: inline-block; width: 24px'}
+                      = f.check_box :can_expire
+                      %label{style: 'margin-right: 0'}
+                    - if f.object.can_expire? && f.object.expiration_date.present?
+                      .pull-right.text-muted{style: "font-weight: 400"}=l f.object.expiration_date, format: "%b '%y"
+                    = Spina::Shop::Product.human_attribute_name :can_expire
+
         - if f.object.stock_enabled? && f.object.purchasable?
           %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
             %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Magazijn
@@ -360,6 +376,17 @@
                     = f.check_box :available_at_supplier
                     %label{style: 'margin-right: 0'}
                   = Spina::Shop::Product.human_attribute_name :available_at_supplier
+
+          %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+            %span{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51)"} Geavanceerd
+
+          .grouped-form-groups
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :created_at
+                .form-control{style: "flex: 1.5"}
+                  = f.datetime_field :created_at, placeholder: Spina::Shop::Product.human_attribute_name(:created_at)
 
         - if @product.persisted?
 
