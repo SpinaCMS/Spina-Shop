@@ -22,7 +22,6 @@
       %thead
         %tr
           %th{style: 'width: 20px'}
-          %th
           %th Naam
           %th
             = link_to spina.shop_admin_stock_forecast_path({order: 'supplier', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do

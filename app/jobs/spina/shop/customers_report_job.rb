@@ -1,5 +1,5 @@
 module Spina::Shop
-  class CustomersReportJob < ApplicationJob
+  class CustomersReportJob < ReportJob
 
     def perform(customer_ids, email)
       # Create zipfile
@@ -7,8 +7,8 @@ module Spina::Shop
 
       blob = ActiveStorage::Blob.create_after_upload!(
         io: excel_file,
-        filename: "exact_export.zip",
-        content_type: "application/zip"
+        filename: "customers.xlsx",
+        content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       )
 
       excel_file.close
@@ -16,12 +16,6 @@ module Spina::Shop
       # Send URL in email
       ExportMailer.exported(url_for(blob), email).deliver_later
     end
-
-    protected
-
-      def default_url_options
-        Rails.application.config.action_mailer.default_url_options
-      end
 
   end
 end

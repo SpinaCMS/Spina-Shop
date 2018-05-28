@@ -1,6 +1,5 @@
 module Spina::Shop
-  class PaymentsReportJob < ApplicationJob
-    include Rails.application.routes.url_helpers
+  class PaymentsReportJob < ReportJob
 
     def perform(order_ids, email)
       # Generate password
@@ -11,20 +10,15 @@ module Spina::Shop
 
       blob = ActiveStorage::Blob.create_after_upload!(
         io: excel_file,
-        filename: "exact_export.xlsx"
-        # content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        filename: "payments.xlsx",
+        content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       )
+
+      excel_file.close
 
       # Send URL in email
       ExportMailer.exported(url_for(blob), email).deliver_later
     end
-
-    protected
-
-      def default_url_options
-        Rails.application.config.action_mailer.default_url_options
-      end
-
 
   end
 end

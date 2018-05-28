@@ -10,7 +10,6 @@ module Spina::Shop
     def to_excel
       # Create new tempfile
       temp_file = Tempfile.new(["order", ".xlsx"])
-      Zip::OutputStream.open(temp_file.path) { |zos| }
 
       # Generate .xlsx
       SimpleXlsx::Serializer.new(temp_file.path) do |doc|

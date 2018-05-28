@@ -9,7 +9,6 @@ module Spina::Shop
 
       # Create new tempfile
       temp_file = Tempfile.new(["payments", ".xlsx"])
-      Zip::OutputStream.open(temp_file.path) { |zos| }
 
       # Generate .xlsx
       SimpleXlsx::Serializer.new(temp_file.path) do |doc|
@@ -26,8 +25,11 @@ module Spina::Shop
           end
         end
       end
- 
-      temp_file
+  
+      data = File.open(temp_file.path)
+      temp_file.close
+      temp_file.unlink
+      return data
     end
 
     private

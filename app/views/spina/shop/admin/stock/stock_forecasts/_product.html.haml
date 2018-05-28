@@ -4,9 +4,6 @@
       = check_box_tag 'product_ids[]', product.id
       %label
   %td
-    - if product.root.product_images.any?
-      = image_tag main_app.url_for(product.root.product_images.first.file.variant(resize: '60x60')), width: 30
-  %td
     = link_to product.full_name, spina.shop_admin_product_path(product)
   %td
     = product.supplier&.name
