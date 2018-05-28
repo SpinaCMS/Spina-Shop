@@ -26,12 +26,12 @@
   %td.text-right
     = product.coming_30_days
   %td.text-right
-    - if product.to_order < 0
-      %span.text-danger= product.to_order
-    - elsif product.to_order == 0
+    - if product.stock_difference < 0
+      %span.text-danger= product.stock_difference
+    - elsif product.stock_difference == 0
       %span.text-success 0
     - else
-      %span.text-success= "+#{product.to_order}"
+      %span.text-success= "+#{product.stock_difference}"
   %td.text-right.text-muted
     = product.in_stock_reminders_count
     %i.icon.icon-mail{style: 'font-size: 11px'}

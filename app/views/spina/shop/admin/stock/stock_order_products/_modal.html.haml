@@ -26,7 +26,7 @@
               = product.name
               %small= product.variant_name
             %td= product.stock_level
-            %td= f.number_field "products[][quantity]", placeholder: "Aantal", value: product.to_order
+            %td= f.number_field "products[][quantity]", placeholder: "Aantal", value: (product.stock_difference < 0 ? product.stock_difference * -1 : 0)
     
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

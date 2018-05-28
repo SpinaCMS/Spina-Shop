@@ -40,7 +40,7 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'coming_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Voorspelling<br /><small>30 dagen</small>
           %th.text-right{style: 'min-width: 60px'}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'to_order', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+            = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Inkoop<br /><small>voorraadverschil</small>
           %th.text-right{style: 'min-width: 120px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'in_stock_reminders_count', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
