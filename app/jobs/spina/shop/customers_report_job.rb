@@ -11,6 +11,8 @@ module Spina::Shop
         content_type: "application/zip"
       )
 
+      excel_file.close
+
       # Send URL in email
       ExportMailer.exported(url_for(blob), email).deliver_later
     end
