@@ -153,7 +153,7 @@ module Spina::Shop
 
         def split_search_params
           search = :sku_or_location_or_translations_name_cont_all
-          if params[:q].try(:[], search).present?
+          if params[:q].try(:[], search).present? && params[:q][search].kind_of?(String)
             params[:q][search] = params[:q][search].split(' ')
           end
         end
