@@ -1,6 +1,6 @@
 .horizontal-form-label
   = f.object.title
-  
+
 .horizontal-form-content
-  = f.fields_for :page_partable, f.object.page_partable do |ff|
+  = f.fields_for :partable, f.object.partable do |ff|
     = ff.select :product_bundle_id, options_for_select([[ff.object.product_bundle.try(:name), ff.object.product_bundle.try(:id)]], ff.object.product_bundle_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products select-product-bundles', style: 'width: 100%'

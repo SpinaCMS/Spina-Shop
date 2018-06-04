@@ -33,6 +33,10 @@ module Spina::Shop
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 
+    def to_s
+      name
+    end
+
     # Calculate the price based on this order
     def price_for_order(order)
       price

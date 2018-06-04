@@ -1,3 +1,0 @@
-.horizontal-form-content
-  = f.fields_for :structure_partable, f.object.structure_partable do |ff|
-    = ff.select :product_id, options_for_select([[ff.object.product.try(:name), ff.object.product.try(:id)]], ff.object.product_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'

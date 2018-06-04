@@ -39,13 +39,13 @@ module Spina::Shop
             format.js
             format.json do
               results = @product_bundles.map do |product_bundle|
-              { id: product_bundle.id, 
-                name: product_bundle.name,
-                stock_level: product_bundle.stock_level,
-                image_url: view_context.attachment_url(product_bundle.product_images.first, :file, :fit, 30, 30), 
-                price: view_context.number_to_currency(product_bundle.price) }
-            end
-            render inline: {results: results, total_count: @q.result.count}.to_json
+                { id: product_bundle.id, 
+                  name: product_bundle.name,
+                  stock_level: product_bundle.stock_level,
+                  image_url: (main_app.url_for(product_bundle.product_images.first.file&.variant(resize: '60x60')) if product_bundle.product_images.any?),
+                  price: view_context.number_to_currency(product_bundle.price) }
+              end
+              render inline: {results: results, total_count: @q.result.count}.to_json
             end
           end
         end

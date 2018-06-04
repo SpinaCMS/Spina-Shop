@@ -5,7 +5,7 @@ class Spina.Products
     element.find('select.select-products:not(.select2-hidden-accessible)').each ->
       $select = $(this)
       scope = $select.attr('data-products-scope')
-      if $(this).hasClass('select-product-bundles')
+      if $select.hasClass('select-product-bundles')
         url = '/admin/shop/product_bundles'
       else
         url = '/admin/shop/products'
@@ -15,7 +15,10 @@ class Spina.Products
           delay: 250
           dataType: 'json'
           data: (params) ->
-            q: {sku_or_location_or_translations_name_cont_all: params.term}, page: params.page, scope: scope
+            if $select.hasClass('select-product-bundles')
+              q: {translations_name_cont_all: params.term}, page: params.page, scope: scope
+            else
+              q: {sku_or_location_or_translations_name_cont_all: params.term}, page: params.page, scope: scope
           processResults: (data, params) ->
             params.page = params.page or 1
             return {
