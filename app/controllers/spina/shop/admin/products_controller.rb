@@ -158,13 +158,22 @@ module Spina::Shop
           end
         end
 
+        # There's no file validation yet in ActiveStorage
+        # We do two things to reduce errors right now:
+        # 1. We add accept="image/*" to the image form
+        # 2. We destroy the entire record if the uploaded file is not an image
         def attach_product_images
           if params[:product][:files].present?
             @images = params[:product][:files].map do |file|
+              # Create the image and attach the file
               image = @product.product_images.create
               image.file.attach(file)
+
+              # Was it not an image after all? DESTROY IT
+              image.destroy and next unless image.file.image?
+
               image
-            end
+            end.compact
           end
         end
 

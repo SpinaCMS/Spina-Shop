@@ -77,7 +77,7 @@
                   = image_tag 'spina/shop/delete-big-confirm.png'
                 .sidebar-form-image-overlay
 
-        = f.file_field :files, multiple: true, class: "sidebar-form-image-dropzone", data: {direct_upload_url: main_app.rails_direct_uploads_url}
+        = f.file_field :files, multiple: true, accept: "image/*", class: "sidebar-form-image-dropzone", data: {direct_upload_url: main_app.rails_direct_uploads_url}
 
         .form-group
           .form-label
