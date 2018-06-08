@@ -10,6 +10,7 @@ require "prawn"
 require "prawn/table"
 require "ruby-measurement"
 require "valvat"
+require "pg_search"
 
 module Spina
   module Shop

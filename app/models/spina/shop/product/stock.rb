@@ -8,6 +8,11 @@ module Spina::Shop
       has_many :stock_level_adjustments, dependent: :destroy
       has_many :in_stock_reminders, as: :orderable, dependent: :destroy
 
+      has_many :recounts, dependent: :destroy
+      
+      has_many :ordered_stock, dependent: :destroy
+      has_many :stock_orders, through: :ordered_stock
+
       after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
 
       scope :stock_forecast, -> { select('(ceil(trend * 30) :: integer) as coming_30_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_30_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_90_days, SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * lead_time AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as optimal_stock, stock_level - (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * lead_time AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1) as stock_difference, stock_level * cost_price AS stock_value, (SELECT COUNT(*) FROM spina_shop_in_stock_reminders WHERE orderable_type = \'Spina::Shop::Product\' AND orderable_id = spina_shop_products.id) as in_stock_reminders_count, spina_shop_products.*').purchasable.active.where(stock_enabled: true, archived: false, available_at_supplier: true).joins(:stock_level_adjustments).joins("LEFT JOIN spina_shop_suppliers ON spina_shop_products.supplier_id = spina_shop_suppliers.id").group('"spina_shop_products"."id"') }

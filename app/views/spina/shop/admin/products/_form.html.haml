@@ -135,6 +135,13 @@
               .sidebar-form-control
                 = f.select :related_product_ids, options_for_select(f.object.related_products.map{|p| [p.name, p.id]}, f.object.related_product_ids), {}, class: 'select-products', multiple: true, style: 'width: 100%'
 
+            .sidebar-form-group
+              .sidebar-form-label
+                = Spina::Shop::Product.human_attribute_name :tags
+
+              .sidebar-form-control
+                = f.select :tag_ids, options_for_select(Spina::Shop::Tag.all.map{|t| [t.name, t.id]}, f.object.tag_ids), {}, class: 'select2', multiple: true, style: 'width: 100%'
+
         - unless @product.variant?
           .well
             .sidebar-form-group

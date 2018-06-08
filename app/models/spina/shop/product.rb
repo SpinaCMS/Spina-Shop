@@ -1,6 +1,6 @@
 module Spina::Shop
   class Product < ApplicationRecord
-    include Variants, Pricing, Stock
+    include Variants, Pricing, Stock, Search
 
     # Stores the old path when generating a new materialized_path
     attr_accessor :old_path, :files
@@ -19,9 +19,9 @@ module Spina::Shop
     has_many :product_collections, through: :collectables, dependent: :destroy
     has_many :available_products
     has_many :stores, through: :available_products, dependent: :destroy
-    has_many :recounts, dependent: :destroy
-    has_many :ordered_stock, dependent: :destroy
-    has_many :stock_orders, through: :ordered_stock
+
+    has_many :taggable_tags, as: :taggable, dependent: :destroy
+    has_many :tags, through: :taggable_tags
 
     has_many :order_items, as: :orderable, dependent: :restrict_with_exception
     has_many :bundled_products, dependent: :restrict_with_exception

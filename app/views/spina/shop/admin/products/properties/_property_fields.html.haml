@@ -5,7 +5,7 @@
   .sidebar-form-control{data: {form: {append: property.append, prepend: property.prepend}}}
     - case property.field_type
     - when 'select'
-      = f.select property.name, options_for_select(property.property_options.map{|option| [option.label, option.name]}.sort_by(&:first), (object.properties[property.name] if object.properties.present?)), {include_blank: ('–' unless property.multiple), include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
+      = f.select property.name, options_for_select(property.property_options.map{|option| [option.label.to_s, option.name]}.sort_by(&:first), (object.properties[property.name] if object.properties.present?)), {include_blank: ('–' unless property.multiple), include_hidden: false}, class: 'select2', multiple: property.multiple, style: 'width: 100%'
     - when 'checkbox'
       = f.check_box property.name, data: {switch: true}
     - when 'product'
