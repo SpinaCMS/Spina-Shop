@@ -9,7 +9,8 @@
     - when 'checkbox'
       = f.check_box property.name, data: {switch: true}
     - when 'product'
-      = f.select property.name, [], {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
+      - products = Spina::Shop::Product.where(id: object.properties[property.name])
+      = f.select property.name, options_for_select(products.map{|p| [p.name, p.id]}, (object.properties[property.name] if object.properties.present?)), {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
     - when 'textarea'
       %trix-toolbar.clearfix{ id: "#{property.name}_toolbar", data: { trix_editor_id: "#{property.name}_editor" }}
         .button-groups

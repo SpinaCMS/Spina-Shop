@@ -4,7 +4,9 @@
 
   .page-title
     - if @product.product_images.any?
-      .page-title-image= image_tag attachment_url(@product.product_images.first, :file, :fit, 60, 120), style: "margin: 0 auto; display: block"
+      .page-title-image
+        = image_tag main_app.url_for(@product.product_images.first.file.variant(resize: '60x120')), style: 'margin: 0 auto; display: block'
+
     %div
       %small
         Locatie:

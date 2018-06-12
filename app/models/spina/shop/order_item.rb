@@ -5,18 +5,21 @@ module Spina::Shop
     belongs_to :order
     belongs_to :orderable, polymorphic: true
 
+    belongs_to :parent, class_name: "Spina::Shop::OrderItem", optional: true
+    has_many :children, class_name: "Spina::Shop::OrderItem", foreign_key: :parent_id
+
     has_many :stock_level_adjustments, dependent: :nullify # Don't destroy the stock level adjustments automatically if an order is destroyed
 
     validates :unit_price, :unit_cost_price, :tax_rate, :weight, presence: true, if: -> { order.try(:received?) }
     validate :product_not_purchasable
     validate :item_must_be_in_stock, if: -> { validate_stock }
-    validates :order_id, uniqueness: {scope: [:orderable_id, :orderable_type]}
 
     before_validation :set_quantity_to_limit, if: -> { validate_stock }
 
     scope :ordered, -> { order(:created_at) }
     scope :products, -> { where(orderable_type: "Spina::Shop::Product") }
     scope :product_bundles, -> { where(orderable_type: "Spina::Shop::ProductBundle") }
+    scope :roots, -> { where(parent_id: nil) }
 
     def unit_price
       read_attribute(:unit_price) || orderable.price_for_order(order) || BigDecimal(0)
