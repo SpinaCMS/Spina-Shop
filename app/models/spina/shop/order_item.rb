@@ -6,7 +6,7 @@ module Spina::Shop
     belongs_to :orderable, polymorphic: true
 
     belongs_to :parent, class_name: "Spina::Shop::OrderItem", optional: true
-    has_many :children, class_name: "Spina::Shop::OrderItem", foreign_key: :parent_id
+    has_many :children, class_name: "Spina::Shop::OrderItem", foreign_key: :parent_id, dependent: :destroy
 
     has_many :stock_level_adjustments, dependent: :nullify # Don't destroy the stock level adjustments automatically if an order is destroyed
 
