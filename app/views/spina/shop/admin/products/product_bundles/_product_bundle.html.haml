@@ -4,6 +4,9 @@
   %td
     = product_bundle.bundled_products.sum(:quantity)
     producten
+  %td.align-right
+    = product_bundle.order_items.joins(:order).where.not(spina_shop_orders: {paid_at: nil}).sum(:quantity)
+    &times;
   %td.text-right
     %em.text-muted{style: 'text-decoration: line-through'}
       = number_to_currency product_bundle.original_price
