@@ -11,9 +11,17 @@ module Spina::Shop
 
     validates :expires_at, :value, :remaining_balance, presence: true
     validates :value, numericality: {greater_than: 0}
-
+ 
     def amount_for_order(order)
-      [remaining_balance, order.total].min
+      # All giftcards that went before
+      total_gift_card_amount_before_this_gift_card = order.gift_cards.where('remaining_balance < :balance OR remaining_balance = :balance AND spina_shop_gift_cards.id < :id', balance: remaining_balance, id: id).sum(:remaining_balance)
+
+      still_open = order.total - total_gift_card_amount_before_this_gift_card
+      if still_open > 0
+        [still_open, remaining_balance].min
+      else
+        BigDecimal.new(0)
+      end
     end
 
     def expired?

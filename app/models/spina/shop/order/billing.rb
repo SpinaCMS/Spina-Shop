@@ -18,7 +18,7 @@ module Spina::Shop
     end
 
     def gift_card_amount
-      read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
+      read_attribute(:gift_card_amount) || gift_cards.inject(BigDecimal(0)){|t, g| t + g&.amount_for_order(self)} || BigDecimal(0)
     end
 
     def billing_first_name
