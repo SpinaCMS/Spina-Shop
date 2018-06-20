@@ -25,6 +25,13 @@ module Spina::Shop
             elsif params[:add_or_remove] == "remove"
               RemoveFromProductCollectionInBatchJob.perform_later(@products.ids, id)
             end
+          when "tags"
+            id = params[:tag_id]
+            if params[:add_or_remove] == "add"
+              AddTagToProductsInBatchJob.perform_later(@products.ids, id)
+            elsif params[:add_or_remove] == "remove"
+              RemoveTagFromProductsInBatchJob.perform_later(@products.ids, id)
+            end
           when "stores"
             id = params[:store_id]
             if params[:add_or_remove] == "add"
