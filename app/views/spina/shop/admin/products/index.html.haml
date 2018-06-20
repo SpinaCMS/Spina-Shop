@@ -33,6 +33,12 @@
         = f.select :stores_id_in, options, {}, class: 'select2', style: 'width: 100%', multiple: true
 
     .filter-form-advanced-group
+      .filter-form-label= Spina::Shop::Tag.model_name.human(count: 2)
+      .filter-form-control
+        - tags = Spina::Shop::Tag.all.map{|t| [t.name, t.id]}
+        = f.select :tags_id_in, tags, {}, class: 'select2', style: 'width: 100%', multiple: true
+
+    .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Product.human_attribute_name(:active)
       .filter-form-control
         - options = [['Alleen beschikbaar', 1], ['Alleen niet beschikbaar', 0]]
