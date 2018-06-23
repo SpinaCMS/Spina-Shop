@@ -15,9 +15,13 @@
           = link_to spina.archived_shop_admin_products_path do
             =t 'spina.shop.products.archived_title'
 
-        %li{class: ('active' if controller_name == "product_bundles")}
+        %li{class: ('active' if controller_name == "product_bundles" && action_name == "index")}
           = link_to spina.shop_admin_product_bundles_path do
             = Spina::Shop::ProductBundle.model_name.human count: 2
+
+        %li{class: ("active" if controller_name == "product_bundles" && action_name == "archived")}
+          = link_to spina.archived_shop_admin_product_bundles_path do
+            =t 'spina.shop.products.archived_title'
 
   = yield
 

@@ -14,9 +14,12 @@
     = number_to_currency product_bundle.price
   %td.align-right
     - if product_bundle.active?
-      - if product_bundle.in_stock?
-        .status-dot.status-dot-success
+      - if !product_bundle.archived?
+        - if product_bundle.in_stock?
+          .status-dot.status-dot-success
+        - else
+          .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
       - else
-        .status-dot.status-dot-danger{data: {tooltip: t('spina.shop.products.out_of_stock')}}
+        .status-dot{style: 'background: #999', data: {tooltip: "URL benaderbaar"}}
     - else
       .status-dot

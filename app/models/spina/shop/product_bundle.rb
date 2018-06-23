@@ -26,7 +26,7 @@ module Spina::Shop
     validates :name, :price, presence: true
 
     # Active product bundles
-    scope :active, -> { where(active: true) }
+    scope :active, -> { where(active: true, archived: false) }
 
     # Mobility translates
     translates :name, :description, :materialized_path

@@ -31,7 +31,7 @@ module Spina::Shop
         end
 
         def index
-          @q = ProductBundle.includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale}).ransack(params[:q])
+          @q = product_bundles.where(archived: false).ransack(params[:q])
           @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
 
           respond_to do |format|
@@ -50,6 +50,13 @@ module Spina::Shop
           end
         end
 
+        def archived
+          @q = product_bundles.where(archived: true).ransack(params[:q])
+          @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
+
+          render :index, layout: 'spina/shop/admin/products'
+        end
+
         def update
           @product_bundle = ProductBundle.find(params[:id])
           attach_product_images
@@ -60,6 +67,18 @@ module Spina::Shop
           end
         end
 
+        def archive
+          @product_bundle = ProductBundle.find(params[:id])
+          @product_bundle.update_attributes(archived: true)
+          redirect_to spina.shop_admin_product_bundle_path(@product_bundle)
+        end
+
+        def unarchive
+          @product_bundle = ProductBundle.find(params[:id])
+          @product_bundle.update_attributes(archived: false)
+          redirect_to spina.shop_admin_product_bundle_path(@product_bundle)
+        end
+
         def destroy
           @product_bundle = ProductBundle.find(params[:id])
           @product_bundle.destroy
@@ -67,6 +86,10 @@ module Spina::Shop
         end
 
         private
+
+          def product_bundles
+            ProductBundle.includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale})
+          end
 
           # There's no file validation yet in ActiveStorage
           # We do two things to reduce errors right now:

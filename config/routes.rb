@@ -66,7 +66,15 @@ Spina::Engine.routes.draw do
           end
         end
         scope module: :products do
-          resources :product_bundles
+          resources :product_bundles do
+            collection do
+              get :archived
+            end
+            member do
+              post :archive
+              post :unarchive
+            end
+          end
         end
 
         scope module: :stock do
