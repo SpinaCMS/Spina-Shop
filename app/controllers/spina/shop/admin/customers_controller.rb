@@ -12,6 +12,7 @@ module Spina::Shop
       def new
         @customer = Customer.new
         add_breadcrumb t('spina.shop.customers.new')
+        render layout: 'spina/admin/admin'
       end
 
       def create
@@ -32,6 +33,7 @@ module Spina::Shop
         @customer = Customer.find(params[:id])
         add_breadcrumb @customer.name, spina.shop_admin_customer_path(@customer)
         add_breadcrumb t('spina.edit')
+        render layout: 'spina/admin/admin'
       end
 
       def update

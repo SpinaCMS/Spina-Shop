@@ -1,51 +1,27 @@
-%header#header
-  #header_actions
-    = search_form_for @q, url: spina.shop_admin_customers_path, html: {class: 'search-form', style: 'display: inline-block'} do |f|
-      .search-input= f.search_field :full_name_or_company_cont, style: 'box-sizing: border-box', placeholder: t('spina.search')
-      = button_tag "", type: :submit, class: 'button icon icon-search icon-only', style: 'margin-bottom: 0'
+- content_for(:header_actions) do
+  = link_to spina.new_shop_admin_customer_path, class: 'button button-mini icon-only' do
+    %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
-  .breadcrumbs
-    = render_breadcrumbs separator: '<div class="divider"></div>'
+= search_form_for @q, url: spina.shop_admin_customers_path, html: {class: 'filter-form'} do |f|
+  .filter-form-simple
+    .filter-form-input
+      = f.text_field :full_name_or_company_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
 
-    = link_to spina.new_shop_admin_customer_path, class: 'button button-mini icon-only' do
-      %i.icon.icon-plus{style: 'vertical-align: bottom'}
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      = icon('search')
 
-  %nav#secondary.tabs
-    %ul
-      %li.active
-        = link_to '#customers' do
-          =t 'spina.shop.customers.title'
-      %li
-        = link_to '#customer_groups' do
-          =t 'spina.shop.customer_groups.title'
+.table-container.infinite-table
+  %table.table.table-clickable
+    %thead
+      %tr
+        %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
+        %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
+        %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
+        %th= sort_link [:spina, @q], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
+        %th.text-right= Spina::Shop::Order.model_name.human count: 2
+        %th 
 
-.tab-content.active#customers
-  .table-container.infinite-table
-    %table.table.table-clickable
-      %thead
-        %tr
-          %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
-          %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
-          %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
-          %th= sort_link [:spina, @q], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
-          %th.text-right= Spina::Shop::Order.model_name.human count: 2
-          %th 
+    %tbody
+      = render partial: 'customer', collection: @customers.to_a.uniq
 
-      %tbody
-        = render partial: 'customer', collection: @customers.to_a.uniq
-
-    .pagination= link_to_next_page @customers, "Next"
-
-.tab-content#customer_groups
-  .table-container
-    %table.table
-      %thead
-        %tr
-          %th= Spina::Shop::CustomerGroup.human_attribute_name(:name)
-          %th
-
-      %tbody
-        - @customer_groups.each do |customer_group|
-          %tr
-            %td= customer_group.name
-            %td= customer_group.customers.count
+  .pagination= link_to_next_page @customers, "Next"

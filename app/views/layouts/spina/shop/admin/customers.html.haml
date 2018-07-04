@@ -1,0 +1,20 @@
+- content_for :application do
+  %header#header
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+
+      = yield(:header_actions) if content_for?(:header_actions)
+
+    %nav#secondary.tabs
+      %ul
+        %li{class: ("active" if controller_name == "customers")}
+          = link_to spina.shop_admin_customers_path do
+            =t 'spina.shop.customers.title'
+
+        %li{class: ("active" if controller_name == "customer_groups")}
+          = link_to spina.shop_admin_customer_groups_path do
+            =t 'spina.shop.customer_groups.title'
+
+  = yield
+
+= render template: 'layouts/spina/admin/admin'

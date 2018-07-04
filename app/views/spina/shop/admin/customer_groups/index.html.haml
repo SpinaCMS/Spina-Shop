@@ -1,0 +1,16 @@
+- content_for(:header_actions) do
+  = link_to spina.new_shop_admin_customer_group_path, class: 'button button-mini icon-only' do
+    %i.icon.icon-plus{style: 'vertical-align: bottom'}
+
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th= Spina::Shop::CustomerGroup.human_attribute_name(:name)
+        %th
+
+    %tbody
+      - @customer_groups.each do |customer_group|
+        %tr
+          %td= link_to customer_group.name, spina.edit_shop_admin_customer_group_path(customer_group), class: 'table-link'
+          %td= customer_group.customers.count

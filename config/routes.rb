@@ -99,6 +99,7 @@ Spina::Engine.routes.draw do
         end
 
         # Customers
+        resources :customer_groups
         resources :customers do
           member do
             get :validate_vat_id

@@ -290,6 +290,10 @@ nl:
         save: Account opslaan
       customer_groups:
         title: Klantgroepen
+        new: Nieuwe klantgroep
+        save: Klantgroep opslaan
+        delete: Verwijder klantgroep
+        delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
       customers:
         edit: Klant bewerken
         new: Nieuwe klant

@@ -1,0 +1,29 @@
+= form_for @customer_group, url: @customer_group.new_record? ? spina.shop_admin_customer_groups_path : spina.shop_admin_customer_group_path(@customer_group) do |f|
+  %header#header
+    #header_actions
+      = button_tag type: :submit, class: 'button button-primary' do
+        = icon('check')
+        =t ('spina.shop.customer_groups.save')
+
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::CustomerGroup.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::Shop::CustomerGroup.human_attribute_name(:name)
+
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::CustomerGroup.human_attribute_name :parent
+          .sidebar-form-control
+            = f.select :parent_id, options_for_select(Spina::Shop::CustomerGroup.where.not(id: @customer_group.id).map{|g| [g.name, g.id]}, f.object.parent_id), {include_blank: t('spina.shop.customer_groups.no_customer_group')}, class: 'select2', style: 'width: 100%'
+
+- if @customer_group.persisted? && @customer_group.customers.none?
+  .pull-right
+    = link_to t('spina.shop.customer_groups.delete'), spina.shop_admin_customer_group_path(@customer_group), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.customer_groups.delete_confirmation', name: @customer_group.name)}

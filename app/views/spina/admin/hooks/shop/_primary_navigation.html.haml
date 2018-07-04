@@ -13,7 +13,7 @@
     %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders))}
       = link_to "Voorraad", spina.shop_admin_stock_forecast_path
 
-    %li{class: ('active' if controller_name.in? %w(customers customer_accounts))}
+    %li{class: ('active' if controller_name.in? %w(customers customer_accounts customer_groups))}
       = link_to Spina::Shop::Customer.model_name.human(count: 2), spina.shop_admin_customers_path 
     %li{class: ('active' if controller_name == 'product_reviews')}
       = link_to Spina::Shop::ProductReview.model_name.human(count: 2), spina.shop_admin_product_reviews_path

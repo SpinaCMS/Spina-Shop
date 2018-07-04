@@ -24,15 +24,17 @@
         %trix-editor.text-input{input: property.name, toolbar: "#{property.name}_toolbar", id: "#{property.name}_editor", placeholder: property.label}
         = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
     - when 'image'
-      - image = Spina::Photo.find_by(id: object.properties.try(property.name))
-      = link_to spina.photo_select_admin_photos_path(property.name, selected_photo_id: object.properties.try(property.name), hidden_field_id: "#{property.name}_image_id"), remote: true, class: 'media_picker clearfix' do
+      - image = Spina::Image.find_by(id: object.properties.try(property.name))
+      = link_to spina.admin_media_picker_path(property.name, selected_image_id: object.properties.try(property.name), hidden_field_id: "#{property.name}_image_id"), remote: true, class: 'media_picker clearfix' do
         .placeholder
           %span.button.button-small.button-round
             %i.icon.icon-dots
             =t 'spina.pages.photo_picker'
 
         - if image.present?
-          .image= image_tag image.file.thumb
+          .image
+            - if image.file.attached?
+              = image_tag main_app.url_for(image.file.variant(resize: '250x250'))
 
         = f.hidden_field property.name, value: object.properties.try(property.name), data: {hidden_field_id: "#{property.name}_image_id"}
 
