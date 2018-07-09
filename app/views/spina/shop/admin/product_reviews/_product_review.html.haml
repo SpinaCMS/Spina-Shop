@@ -7,6 +7,8 @@
     = product_review.author
     %small= product_review.email
   %td
+    = link_to product_review.product.name, spina.shop_admin_product_path(product_review.product)
+    %br/
     %strong= product_review.review_summary
     %br/
     = product_review.review
