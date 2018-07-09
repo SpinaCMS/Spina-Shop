@@ -1,10 +1,10 @@
 module Spina::Shop
-  class DiscountRule < ApplicationRecord
+  class DiscountRequirement < ApplicationRecord
     include Preferable
     
     belongs_to :discount
 
-    def eligible?(order_item)
+    def eligible?(order)
       true
     end
 
@@ -12,6 +12,6 @@ module Spina::Shop
 end
 
 # Necessary for STI and the descendants method
-Dir[Spina::Shop::Engine.root.join *%w(app models spina shop discounts rules *) ].each do |file|
+Dir[Spina::Shop::Engine.root.join *%w(app models spina shop discounts requirements *) ].each do |file|
   require_dependency file
 end

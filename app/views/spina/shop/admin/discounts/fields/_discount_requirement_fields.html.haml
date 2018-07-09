@@ -1,0 +1,15 @@
+- case f.object.type
+- when 'Spina::Shop::Discounts::Requirements::OrderTotal'
+  .sidebar-form-group
+    .sidebar-form-label
+      = Spina::Shop::Discounts::Requirements::OrderTotal.human_attribute_name :total
+
+    .sidebar-form-control{data: {form: {prepend: "€"}}}
+      = f.text_field :total, placeholder: Spina::Shop::Discounts::Requirements::OrderTotal.human_attribute_name(:total)
+
+  .sidebar-form-group
+    .sidebar-form-label
+      = Spina::Shop::Discounts::Requirements::OrderTotal.human_attribute_name :total_max
+
+    .sidebar-form-control{data: {form: {prepend: "€"}}}
+      = f.text_field :total_max, placeholder: Spina::Shop::Discounts::Requirements::OrderTotal.human_attribute_name(:total_max)

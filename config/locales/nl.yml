@@ -39,6 +39,7 @@ nl:
         code: Kortingscode
         description: Omschrijving
         discount_rule: Geldig voor
+        discount_requirement: Van toepassing op
         expires_at: Einddatum
         optional: Optioneel
         starts_at: Begindatum
@@ -227,9 +228,10 @@ nl:
       spina/shop/discount:
         one: Kortingscode
         other: Kortingscodes
-      spina/shop/discounts/rules/all_orders: Alle bestellingen
+      spina/shop/discounts/rules/all_products: Alle producten
       spina/shop/discounts/rules/collection: Producten uit collectie
-      spina/shop/discounts/rules/order_total: Bestellingen boven een bedrag
+      spina/shop/discounts/requirements/all_orders: Alle bestellingen
+      spina/shop/discounts/requirements/order_total: Bestellingen vanaf
       spina/shop/gift_card:
         one: Cadeaubon
         other: Cadeaubonnen

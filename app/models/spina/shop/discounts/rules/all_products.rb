@@ -1,7 +1,7 @@
 module Spina::Shop
   module Discounts
     module Rules
-      class AllOrders < DiscountRule
+      class AllProducts < DiscountRule
 
         def eligible?(order_item)
           true

@@ -5,6 +5,10 @@ module Spina::Shop
       order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
     end
 
+    def order_total_without_discount
+      order_items.inject(BigDecimal(0)) { |t, i| t + i.total_without_discount }
+    end
+
     def delivery_price
       read_attribute(:delivery_price) || delivery_option.try(:price_for_order, self) || BigDecimal(0)
     end

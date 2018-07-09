@@ -16,20 +16,37 @@
             = Spina::Shop::Discount.human_attribute_name :code
 
           .sidebar-form-control
-            = f.text_field :code, placeholder: Spina::Shop::Product.human_attribute_name(:code)
+            = f.text_field :code, placeholder: Spina::Shop::Discount.human_attribute_name(:code)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Discount.human_attribute_name :auto
+
+          .sidebar-form-control
+            = f.check_box :auto, data: {switch: true}
 
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::Discount.human_attribute_name :description
 
           .sidebar-form-control
-            = f.text_field :description, placeholder: Spina::Shop::Product.human_attribute_name(:description)
+            = f.text_field :description, placeholder: Spina::Shop::Discount.human_attribute_name(:description)
 
       .well
         = f.fields_for :discount_action do |action_fields|
           = action_fields.hidden_field :type
 
-          = render partial: "spina/shop/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}            
+          = render partial: "spina/shop/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Discount.human_attribute_name :discount_requirement
+
+          .sidebar-form-control
+            = f.fields_for :discount_requirement do |requirement_fields|
+              = requirement_fields.select :type, options_for_select(Spina::Shop::DiscountRequirement.descendants.map(&:model_name).map{|r| [r.human, r]}, requirement_fields.object.type), {}, class: "select2", style: 'width: 100%'
+
+              = render partial: "spina/shop/admin/discounts/fields/discount_requirement_fields", locals: {f: requirement_fields}
 
         .sidebar-form-group
           .sidebar-form-label
@@ -37,7 +54,7 @@
 
           .sidebar-form-control
             = f.fields_for :discount_rule do |rule_fields|
-              = rule_fields.select :type, options_for_select(Spina::Shop::DiscountRule.descendants.map(&:model_name).map{|r| [r.human, r]}, f.object.type), {}, class: "select2", style: 'width: 100%'
+              = rule_fields.select :type, options_for_select(Spina::Shop::DiscountRule.descendants.map(&:model_name).map{|r| [r.human, r]}, rule_fields.object.type), {}, class: "select2", style: 'width: 100%'
 
               = render partial: "spina/shop/admin/discounts/fields/discount_rule_fields", locals: {f: rule_fields}
 
@@ -67,3 +84,7 @@
         .form-control
           .input-group
             = f.number_field :usage_limit
+
+  - if @discount.persisted?
+    .pull-right
+      = link_to t('spina.shop.discounts.delete'), spina.shop_admin_discount_path(@discount), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.discounts.delete_confirmation')}

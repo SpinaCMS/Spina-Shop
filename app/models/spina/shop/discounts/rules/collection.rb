@@ -2,10 +2,10 @@ module Spina::Shop
   module Discounts
     module Rules
       class Collection < DiscountRule
-        preferences :collection_id
+        preferences :product_collection_id
 
         def eligible?(order_item)
-          true
+          order_item.orderable&.product_collection_ids&.include? product_collection_id.to_i
         end
 
       end

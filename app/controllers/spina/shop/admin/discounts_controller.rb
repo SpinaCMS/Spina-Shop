@@ -8,6 +8,9 @@ module Spina::Shop
         if params[:scope] == "one_off"
           @scope = "one_off"
           @discounts = Discount.one_off
+        elsif params[:scope] == "auto"
+          @scope = "auto"
+          @discounts = Discount.auto
         else
           @scope = "multiple_use"
           @discounts = Discount.multiple_use
@@ -16,8 +19,9 @@ module Spina::Shop
 
       def new
         @discount = Discount.new(starts_at: Date.today)
+        @discount.build_discount_requirement(type: 'Spina::Shop::Discounts::Requirements::AllOrders')
         @discount.build_discount_action(type: 'Spina::Shop::Discounts::Actions::PercentOff')
-        @discount.build_discount_rule(type: 'Spina::Shop::Discounts::Rules::AllOrders')
+        @discount.build_discount_rule(type: 'Spina::Shop::Discounts::Rules::AllProducts')
         add_breadcrumb t('spina.shop.discounts.new')
       end
 
@@ -50,6 +54,8 @@ module Spina::Shop
       end
 
       def destroy
+        @discount.destroy
+        redirect_to spina.shop_admin_discounts_path
       end
 
       private
@@ -63,7 +69,7 @@ module Spina::Shop
         end
 
         def discount_params
-          params.require(:discount).permit(:code, :starts_at, :expires_at, :description, :usage_limit, discount_action_attributes: [:type, :percent_off, :id], discount_rule_attributes: [:type, :collection_id, :id])
+          params.require(:discount).permit!
         end
 
     end

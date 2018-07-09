@@ -1,0 +1,4 @@
+- case f.object.type
+- when 'Spina::Shop::Discounts::Rules::Collection'
+  .sidebar-form-group
+    = f.select :product_collection_id, options_for_select(Spina::Shop::ProductCollection.pluck(:name, :id), f.object.product_collection_id), {include_blank: "Kies"}, class: 'select2', style: 'width: 100%'
