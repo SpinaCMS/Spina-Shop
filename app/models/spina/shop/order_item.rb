@@ -16,6 +16,8 @@ module Spina::Shop
 
     before_validation :set_quantity_to_limit, if: -> { validate_stock }
 
+    after_save -> { children.each { |c| c.update_attributes(quantity: quantity) }}
+
     scope :ordered, -> { order(:created_at) }
     scope :products, -> { where(orderable_type: "Spina::Shop::Product") }
     scope :product_bundles, -> { where(orderable_type: "Spina::Shop::ProductBundle") }
