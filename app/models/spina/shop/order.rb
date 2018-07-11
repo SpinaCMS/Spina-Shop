@@ -194,8 +194,13 @@ module Spina::Shop
         shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_prepared_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
         shopping_cart.discount = discount
         shopping_cart.gift_card = gift_card
-        order_items.each do |order_item|
-          OrderItem.create!(order_item.attributes.reject{|key, value| key.in? %w(id created_at updated_at unit_price unit_cost_price discount_amount weight tax_rate order_id)}.merge(order_id: shopping_cart.id))
+        order_items.roots.each do |order_item|
+          new_item = OrderItem.create!(order_item.attributes.reject{|key, value| key.in? %w(id created_at updated_at unit_price unit_cost_price discount_amount weight tax_rate order_id)}.merge(order_id: shopping_cart.id))
+
+          # Duplicate children
+          order_item.children.each do |child|
+            new_item.children.create!(child.attributes.reject{|key, value| key.in? %w(id created_at updated_at unit_price unit_cost_price discount_amount weight tax_rate order_id)}.merge(order_id: shopping_cart.id))
+          end
         end
         update_attributes!(duplicate: shopping_cart)
       end
