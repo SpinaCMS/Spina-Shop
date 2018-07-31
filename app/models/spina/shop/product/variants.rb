@@ -4,7 +4,7 @@ module Spina::Shop
 
     included do
       belongs_to :parent, class_name: "Product", optional: true, counter_cache: :children_count
-      has_many :children, class_name: "Product", foreign_key: :parent_id, dependent: :restrict_with_exception
+      has_many :children, class_name: "Product", foreign_key: :parent_id#, dependent: :restrict_with_exception
 
       before_validation(if: :variant?) do
         set_name
