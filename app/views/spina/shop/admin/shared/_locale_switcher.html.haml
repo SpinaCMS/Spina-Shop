@@ -7,9 +7,10 @@
     - Spina.config.locales.each_with_index do |locale, index|
       %li
         = link_to "?locale=#{locale}", style: ("#{'font-weight: 600;' if @locale.to_s == locale.to_s}") do
-          - if (@product || @product_bundle).send("name_#{locale}").present? && (@product || @product_bundle).send("description_#{locale}").present?
-            %span.status-dot.status-dot-small{style: "margin-right: 4px; background: #333"}
-            = t("languages.#{locale}")
-          - else
-            %span.status-dot.status-dot-small{style: "margin-right: 4px"}
-            = t("languages.#{locale}")
+          = t("languages.#{locale}")
+          / - if (@product || @product_bundle).send("name_#{locale}").present? && (@product || @product_bundle).send("description_#{locale}").present?
+          /   %span.status-dot.status-dot-small{style: "margin-right: 4px; background: #333"}
+          /   = t("languages.#{locale}")
+          / - else
+          /   %span.status-dot.status-dot-small{style: "margin-right: 4px"}
+          /   = t("languages.#{locale}")
