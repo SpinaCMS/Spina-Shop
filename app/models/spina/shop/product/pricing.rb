@@ -14,9 +14,15 @@ module Spina::Shop
       promotional_price.presence || base_price
     end
 
+    def price_for_current_store
+      Current.store ||= Spina::Shop::Store.first
+      return price if Current.store.nil?
+      price_exception_for_store(Current.store).try(:[], 'price')&.to_d || price
+    end
+
     def price_for_order(order)
       # Return the default price if we don't know anything about the order
-      return price if order.nil? 
+      return price_for_current_store if order.nil? 
 
       # If no conversion is needed, simply return price
       price = price_for_customer(order.customer)
@@ -34,8 +40,8 @@ module Spina::Shop
     end
 
     def price_for_customer(customer)
-      return price if customer.nil?
-      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price
+      return price_for_current_store if customer.nil?
+      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price_for_current_store
     end
 
     def price_includes_tax_for_customer(customer)
@@ -69,5 +75,14 @@ module Spina::Shop
           return price_exception.presence
         end
       end
+
+      # Get price exception based on Store
+      def price_exception_for_store(store)
+        return if store.nil?
+        price_exceptions.try(:[], 'stores')&.find do |h|
+          return h if h["store_id"].to_i == store.id
+        end.presence
+      end
+
   end
 end
