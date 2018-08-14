@@ -1,10 +1,10 @@
-.table-container
+.table-container{style: 'margin: 0 -20px'}
   %table.table
     %tr
       %th Periode
-      %th.text-right Omzet ex. btw
-      %th.text-right Kostprijs
-      %th.text-right Bruto winst
+      %th.text-right Omzet
+      %th.text-right Inkoopwaarde
+      %th.text-right Brutowinst
     - @invoices.sort_by(&:first).each_with_index do |invoice, index|
       %tr
         %td
