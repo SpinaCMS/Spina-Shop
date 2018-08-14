@@ -7,3 +7,4 @@
 
 // Vendor stuff
 //= require spina_shop/select2
+//= require spina_shop/chart.bundle.min

@@ -1,0 +1,23 @@
+.table-container
+  %table.table
+    %tr
+      %th Periode
+      %th.text-right Omzet ex. btw
+      %th.text-right Kostprijs
+      %th.text-right Bruto winst
+    - @invoices.sort_by(&:first).each_with_index do |invoice, index|
+      %tr
+        %td
+          - case @period
+          - when "year"
+            =l invoice.first, format: "%Y"
+          - when "month"
+            =l invoice.first, format: "%B %Y"
+          - else
+            =l invoice.first, format: "%d %B %Y"
+        %td.text-right
+          = number_to_currency invoice.last
+        %td.text-right
+          = number_to_currency @cost_prices[index].last * -1
+        %td.text-right
+          = number_to_currency (invoice.last - @cost_prices[index].last * -1)

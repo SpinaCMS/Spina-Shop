@@ -112,6 +112,8 @@ Spina::Engine.routes.draw do
 
         # Reports
         resources :reports
+        resource :analytics
+        resources :exports
 
         # Gift Cards
         resources :gift_cards do

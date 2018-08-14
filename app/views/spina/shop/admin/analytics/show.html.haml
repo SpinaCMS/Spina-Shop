@@ -1,0 +1,17 @@
+.well
+  = form_with url: spina.shop_admin_analytics_path do |f|
+    = f.label :from
+    = f.date_field :from, class: 'datepicker'
+
+    = f.label :to
+    = f.date_field :to, class: 'datepicker'
+
+    = f.select :period, options_for_select(%w(day month year))
+
+    = f.submit "Go", class: 'button button-primary'
+
+#analytics_graph
+  Graph
+
+#analytics_table
+  Table
