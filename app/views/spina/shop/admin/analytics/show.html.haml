@@ -28,4 +28,10 @@
             .form-control{style: "flex: 1.5"}
               .select-dropdown{style: 'width: 100%'}= f.select :period, options_for_select([['Dag', 'day'], ['Maand', 'month'], ['Jaar', 'year']])
 
+        .form-group
+          .input-group
+            .form-label Online/offline
+            .form-control{style: "flex: 1.5"}
+              .select-dropdown{style: 'width: 100%'}= f.select :online_offline, options_for_select([['Allebei', 'both'], ['Online', 'online'], ['Offline', 'offline']])
+
       = f.submit "Toon resultaten", class: 'button button-primary', style: 'width: 100%'

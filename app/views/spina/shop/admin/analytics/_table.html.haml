@@ -5,19 +5,19 @@
       %th.text-right Omzet
       %th.text-right Inkoopwaarde
       %th.text-right Brutowinst
-    - @invoices.sort_by(&:first).each_with_index do |invoice, index|
+    - @orders.sort_by(&:first).each_with_index do |order, index|
       %tr
         %td
           - case @period
           - when "year"
-            =l invoice.first, format: "%Y"
+            =l order.first, format: "%Y"
           - when "month"
-            =l invoice.first, format: "%B %Y"
+            =l order.first, format: "%B %Y"
           - else
-            =l invoice.first, format: "%d %B %Y"
+            =l order.first, format: "%d %B %Y"
         %td.text-right
-          = number_to_currency invoice.last
+          = number_to_currency order.last
         %td.text-right
           = number_to_currency @cost_prices[index].last * -1
         %td.text-right
-          = number_to_currency (invoice.last - @cost_prices[index].last * -1)
+          = number_to_currency (order.last - @cost_prices[index].last * -1)
