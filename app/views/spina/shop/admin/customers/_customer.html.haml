@@ -1,4 +1,5 @@
 %tr
+  %td= customer.number
   %td= link_to customer.name, spina.shop_admin_customer_path(customer), class: 'table-link'
   %td= customer.customer_group.try(:name)
   %td= mail_to customer.email, customer.email, class: 'table-link'
