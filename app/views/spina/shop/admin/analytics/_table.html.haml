@@ -7,6 +7,8 @@
       %th.text-right Inkoopwaarde
       %th.text-right Brutowinst
       %th.text-right Korting
+      / %th.text-right Cadeaubon verkocht
+      / %th.text-right Cadeaubon verzilverd
     - @orders.sort_by(&:first).each_with_index do |order, index|
       %tr
         %td
@@ -27,3 +29,7 @@
           = number_to_currency (order.last - @cost_prices[index].last * -1)
         %td.text-right
           = number_to_currency @discounts[index]
+        / %td.text-right
+        /   = number_to_currency @gift_cards_sold[index]
+        / %td.text-right
+        /   = number_to_currency @gift_cards[index]
