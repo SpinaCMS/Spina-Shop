@@ -3,9 +3,6 @@
     .well
       #analytics_graph{style: 'margin-right: -20px'}
 
-    .well
-      #analytics_table
-
   .sidebar-form-sidebar
     = form_with url: spina.shop_admin_analytics_path, data: {remote: true} do |f|
       %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
@@ -35,3 +32,6 @@
               .select-dropdown{style: 'width: 100%; z-index: 0'}= f.select :online_offline, options_for_select([['Allebei', 'both'], ['Online', 'online'], ['Offline', 'offline']])
 
       = f.submit "Toon resultaten", class: 'button button-primary', style: 'width: 100%'
+
+.well
+  #analytics_table

@@ -2,9 +2,11 @@
   %table.table
     %tr
       %th Periode
+      %th Bestellingen
       %th.text-right Omzet
       %th.text-right Inkoopwaarde
       %th.text-right Brutowinst
+      %th.text-right Korting
     - @orders.sort_by(&:first).each_with_index do |order, index|
       %tr
         %td
@@ -15,9 +17,13 @@
             =l order.first, format: "%B %Y"
           - else
             =l order.first, format: "%d %B %Y"
+        %td
+          = @counts[index]
         %td.text-right
           = number_to_currency order.last
         %td.text-right
           = number_to_currency @cost_prices[index].last * -1
         %td.text-right
           = number_to_currency (order.last - @cost_prices[index].last * -1)
+        %td.text-right
+          = number_to_currency @discounts[index]
