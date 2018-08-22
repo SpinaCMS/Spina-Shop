@@ -31,7 +31,7 @@ module Spina::Shop
 
         @orders = orders.where(paid_at: @from..@to).joins(:order_items).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").sum('CASE WHEN prices_include_tax THEN round(quantity * (unit_price / ((100 + tax_rate) / 100)), 2) - round(discount_amount / ((100 + tax_rate) / 100), 2) ELSE quantity * unit_price - discount_amount END').sort_by(&:first)
 
-        @counts = orders.where(paid_at: @from..@to).joins(:order_items).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").count.sort_by(&:first).map(&:last)
+        @counts = orders.where(paid_at: @from..@to).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").count.sort_by(&:first).map(&:last)
 
         @discounts = orders.where(paid_at: @from..@to).joins(:order_items).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").sum("CASE WHEN prices_include_tax THEN round(discount_amount / ((100 + tax_rate) / 100), 2) ELSE discount_amount END").sort_by(&:first).map(&:last)
 
