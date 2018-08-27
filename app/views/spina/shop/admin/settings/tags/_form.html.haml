@@ -1,0 +1,23 @@
+= form_for @tag, url: @tag.new_record? ? spina.shop_admin_settings_tags_path : spina.shop_admin_settings_tag_path(@tag) do |f|
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.save'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Tag.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::Shop::Tag.human_attribute_name(:name)
+
+.pull-right
+  - if @tag.persisted? && @tag.taggable_tags.none?
+    .pull-right
+      = link_to t('spina.shop.tags.delete'), spina.shop_admin_settings_tag_path(@tag), method: :delete, class: 'button button-link button-danger'

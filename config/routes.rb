@@ -38,6 +38,7 @@ Spina::Engine.routes.draw do
               end
             end
           end
+          resources :tags
         end
 
         # Invoices

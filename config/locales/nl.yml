@@ -271,6 +271,9 @@ nl:
       spina/shop/supplier:
         one: Leverancier
         other: Leveranciers
+      spina/shop/tag:
+        one: Tag
+        other: Tags
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen
@@ -485,6 +488,9 @@ nl:
           late: Late levering
           closed: Afgerond
           ordered: Order geplaatst
+      tags:
+        new: Nieuwe tag
+        delete: Tag verwijderen
       tax:
         no_tax: Geen btw
         rate: "%{rate}% btw"
