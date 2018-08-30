@@ -14,6 +14,7 @@
   %table.table.table-clickable
     %thead
       %tr
+        %th= sort_link [:spina, @q], :number, Spina::Shop::Customer.human_attribute_name(:number), {}, class: 'table-sort'
         %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
         %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
         %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'

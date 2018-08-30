@@ -1,0 +1,8 @@
+.table-container
+  %table.table
+    - @tags.each do |tag|
+      %tr
+        %td= link_to tag.name, spina.edit_shop_admin_settings_tag_path(tag), class: 'table-link'
+        %td= tag.taggable_tags.count
+
+= link_to t('spina.shop.tags.new'), spina.new_shop_admin_settings_tag_path, class: 'button button-primary'

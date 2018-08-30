@@ -271,6 +271,9 @@ nl:
       spina/shop/supplier:
         one: Leverancier
         other: Leveranciers
+      spina/shop/tag:
+        one: Tag
+        other: Tags
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen
@@ -459,6 +462,10 @@ nl:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je
           ontvangt automatisch een email.
         title: Rapportages
+      exports:
+        title: Export
+      analytics:
+        title: Statistieken
       save: Opslaan
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
@@ -481,6 +488,9 @@ nl:
           late: Late levering
           closed: Afgerond
           ordered: Order geplaatst
+      tags:
+        new: Nieuwe tag
+        delete: Tag verwijderen
       tax:
         no_tax: Geen btw
         rate: "%{rate}% btw"
