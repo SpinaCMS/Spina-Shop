@@ -14,9 +14,10 @@ module Spina::Shop
           products.where(archived: false).roots
         end
 
-        # Search for products
-        @q = pr.ransack(params[:q])
+        # Search for products filtered
+        @q = pr.filtered(filters).ransack(params[:q])
         @products = @q.result(distinct: true).page(params[:page]).per(10)
+        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
         respond_to do |format|
           format.html { render layout: 'spina/shop/admin/products' }
@@ -146,6 +147,16 @@ module Spina::Shop
       end
 
       private
+
+        def filters
+          filter_params.to_h.map do |property, value|
+            value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
+          end
+        end
+
+        def filter_params
+          params.require(:filters).permit! if params[:filters]
+        end
 
         def products
           Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
