@@ -38,6 +38,7 @@ module Spina::Shop
       def archived
         @q = products.where(archived: true).roots.ransack(params[:q])
         @products = @q.result(distinct: true).page(params[:page]).per(10)
+        @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
         render :index, layout: 'spina/shop/admin/products'
       end
