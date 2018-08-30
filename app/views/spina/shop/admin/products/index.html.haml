@@ -57,7 +57,7 @@
               = number_field_tag "filters[#{property.name}][min]", params[:filters].try(:[], property.name).try(:[], 'min'), placeholder: 'min'
               = number_field_tag "filters[#{property.name}][max]", params[:filters].try(:[], property.name).try(:[], 'max'), placeholder: 'max'
 
-= form_with url: spina.edit_shop_admin_products_batch_path(q: params.permit(q: {})[:q]), method: :get do
+= form_with url: spina.edit_shop_admin_products_batch_path(q: params.permit(q: {})[:q], filters: params.permit(filters: {})[:filters]), method: :get do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
     = link_to '#', class: 'button button-link products-batch-action', style: 'text-transform: uppercase; font-size: 12px; font-weight: bold', data: {trigger: 'dropdown', target: '#actions'} do
       geselecteerde producten

@@ -52,10 +52,20 @@ module Spina::Shop
 
           def set_products
             @products = if params[:select_all]
-              Product.where(archived: false).ransack(params[:q]).result
+              Product.where(archived: false).filtered(filters).ransack(params[:q]).result
             else
               Product.where(id: params[:product_ids])
             end
+          end
+
+          def filters
+            filter_params.to_h.map do |property, value|
+              value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
+            end
+          end
+
+          def filter_params
+            params.require(:filters).permit! if params[:filters]
           end
 
           def pricing_params
