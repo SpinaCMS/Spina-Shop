@@ -20,7 +20,7 @@ module Spina::Shop
 
             # Loop through orders
             orders[key].each do |order|
-              sheet.add_row [order.number, order.invoices.pluck(:invoice_number).join(', '), I18n.l(order.paid_at, format: :long), order.billing_name, order.total, order.gift_card_amount, (order.payment_method == "cash" ? order.to_be_paid_round : order.to_be_paid), (order.payment_method == "cash" ? order.to_be_paid_rounding_difference : nil), order.payment_method]
+              sheet.add_row [order.number, order.invoices.pluck(:invoice_number).join(', '), I18n.l(order.paid_at, format: :long), order.billing_name, order.total, order.gift_card_amount, (order.payment_method.to_s == "cash" ? order.to_be_paid_round : order.to_be_paid), (order.payment_method.to_s == "cash" ? order.to_be_paid_rounding_difference : nil), order.payment_method.to_s]
             end
           end
         end

@@ -15,6 +15,7 @@ module Spina::Shop
     belongs_to :billing_country, class_name: "Spina::Shop::Country"
     belongs_to :delivery_country, class_name: "Spina::Shop::Country", optional: true
     belongs_to :delivery_option, optional: true
+    belongs_to :payment_method, optional: true
     belongs_to :duplicate, class_name: "Spina::Shop::Order", optional: true
 
     has_many :order_transitions, autosave: false, dependent: :destroy
@@ -191,7 +192,7 @@ module Spina::Shop
     def duplicate!
       # Duplicate order
       transaction do
-        shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_prepared_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
+        shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate payment_method_price payment_method_tax_rate delivery_metadata payment_method_metadata status received_at shipped_at paid_at delivered_at order_prepared_at payment_id payment_url failed_at cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
         shopping_cart.discount = discount
         shopping_cart.gift_card = gift_card
         order_items.roots.each do |order_item|

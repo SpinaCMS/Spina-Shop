@@ -11,6 +11,9 @@ module Spina::Shop
 
       # Cache delivery option
       cache_delivery_option if @order.delivery_option.present?
+
+      # Cache payment method
+      cache_payment_method if @order.payment_method.present?
     end
 
     private
@@ -39,6 +42,17 @@ module Spina::Shop
           delivery_metadata: {
             tax_code: @order.delivery_option.tax_group.tax_code_for_order(@order),
             sales_category_code: @order.delivery_option.sales_category.code_for_order(@order)  
+          }
+        )
+      end
+
+      def cache_payment_method
+        @order.update_columns(
+          payment_method_price: @order.payment_method_price,
+          payment_method_tax_rate: @order.payment_method_tax_rate,
+          payment_method_metadata: {
+            tax_code: @order.payment_method.tax_group.tax_code_for_order(@order),
+            sales_category_code: @order.payment_method.sales_category.code_for_order(@order)  
           }
         )
       end

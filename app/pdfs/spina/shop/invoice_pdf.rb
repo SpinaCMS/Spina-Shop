@@ -59,7 +59,7 @@ module Spina::Shop
       float do
         indent(12.cm) do
           formatted_text [{text: "#{Invoice.human_attribute_name(:date)}: "}, {text: I18n.l(@presenter.date, format: '%d-%m-%Y'), style: :semibold}]
-          formatted_text [{text: "#{Order.human_attribute_name(:payment_method)}: "}, {text: @presenter.payment_method, style: :semibold}]
+          formatted_text [{text: "#{Order.human_attribute_name(:payment_method)}: "}, {text: @presenter.payment_method.to_s, style: :semibold}]
         end
       end
 

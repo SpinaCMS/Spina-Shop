@@ -29,7 +29,7 @@
             = Spina::Shop::Order.human_attribute_name(:payment_method)
 
           .sidebar-form-control
-            = f.text_field :payment_method
+            = f.select :payment_method_id, options_for_select(Spina::Shop::PaymentMethod.all.map{|o| [o.name, o.id]}, f.object.payment_method_id), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label

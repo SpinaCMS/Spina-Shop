@@ -67,6 +67,16 @@ module Spina::Shop
         )
       end
 
+      if @order.payment_method.present? && @order.payment_method_price > BigDecimal.new(0)
+        invoice.invoice_lines << InvoiceLine.new(
+          quantity: 1,
+          description: "Betalingskosten",
+          unit_price: @order.payment_method_price,
+          tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : @order.payment_method_tax_rate,
+          metadata: @order.payment_method_metadata
+        )
+      end
+
       return invoice if invoice.save!
     end
   end

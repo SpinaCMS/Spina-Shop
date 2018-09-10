@@ -21,6 +21,18 @@ module Spina::Shop
       (delivery_tax_rate + BigDecimal(100)) / BigDecimal(100)
     end
 
+    def payment_method_price
+      read_attribute(:payment_method_price) || payment_method.try(:price_for_order, self) || BigDecimal(0)
+    end
+
+    def payment_method_tax_rate
+      read_attribute(:payment_method_tax_rate) || payment_method.try(:tax_group).try(:tax_rate_for_order, self) || BigDecimal(0)
+    end
+
+    def payment_method_tax_modifier
+      (payment_method_tax_rate + BigDecimal(100)) / BigDecimal(100)
+    end
+
     def gift_card_amount
       read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
     end
@@ -35,7 +47,7 @@ module Spina::Shop
 
     # Total of the order
     def total
-      order_total + delivery_price + (prices_include_tax ? 0 : tax_amount)
+      order_total + delivery_price + payment_method_price + (prices_include_tax ? 0 : tax_amount)
     end
 
     def total_excluding_tax
@@ -69,6 +81,7 @@ module Spina::Shop
       else
         items = [order_items]
         items << OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price) if delivery_option.present?
+        items << OpenStruct.new(tax_rate: payment_method_tax_rate, tax_modifier: payment_method_tax_modifier, total: payment_method_price) if payment_method.present?
         rates = items.flatten.inject({}) do |h, item|
           rate = h[item.tax_rate] ||= { tax_amount: BigDecimal(0), total: BigDecimal(0) }
           if prices_include_tax
