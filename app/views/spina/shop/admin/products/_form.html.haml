@@ -86,7 +86,7 @@
                 = f.select :product_category_id, options_for_select(Spina::Shop::ProductCategory.all.map{|c| [c.name, c.id]}, f.object.product_category_id), {include_blank: t('spina.commerce.product_categories.no_categories')}, class: 'select2', style: 'width: 100%'
 
         - unless @product.variant?
-          .well
+          .well{style: 'margin-bottom: 12px'}
             .sidebar-form-group
               .sidebar-form-control
                 - if f.object.persisted? && Spina.config.locales.many?
@@ -104,6 +104,30 @@
                         .icon.icon-list-ul
                   %trix-editor.text-input{input: "product_description", toolbar: "product_description_toolbar", id: "product_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
                   = f.hidden_field :description, id: 'product_description', value: f.object.description(fallback: false, default: nil)
+
+          - if f.object.extended_description.blank?
+            = link_to '#', class: 'button button-hollow button-round button-mini', style: 'margin-left: 196px', id: 'extended_description_button' do
+              = icon('plus')
+              = Spina::Shop::Product.human_attribute_name(:extended_description)
+
+          .well#extended_description{style: ('display: none' if f.object.extended_description.blank?)}
+            .sidebar-form-group
+              .sidebar-form-control
+                - if f.object.persisted? && Spina.config.locales.many?
+                  .pull-right
+                    = link_to spina.translations_shop_admin_product_path(@product, :extended_description), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                      %i.icon.icon-comment
+                %trix-toolbar.clearfix{ id: "product_extended_description_toolbar", data: { trix_editor_id: "product_extended_description_editor" }}
+                  .button-groups
+                    .button-group
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                        .icon.icon-bold
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                        .icon.icon-italic
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                        .icon.icon-list-ul
+                  %trix-editor.text-input{input: "product_extended_description", toolbar: "product_extended_description_toolbar", id: "product_extended_description_editor", placeholder: Spina::Shop::Product.human_attribute_name(:extended_description)}
+                  = f.hidden_field :extended_description, id: 'product_extended_description', value: f.object.extended_description(fallback: false, default: nil)
         
         - if @product.product_category.present?
           - if !@product.has_children? || @product.variant?

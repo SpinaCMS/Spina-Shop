@@ -122,6 +122,7 @@ nl:
         cost_price: Kostprijs ex btw
         created_at: Aangemaakt op
         description: Beschrijving
+        extended_description: Uitgebreide beschrijving
         ean: EAN
         expiration_date: Verloopdatum
         limit: Limiet

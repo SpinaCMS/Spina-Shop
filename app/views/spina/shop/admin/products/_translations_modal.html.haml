@@ -29,6 +29,19 @@
                         .icon.icon-list-ul
                 %trix-editor.text-input{input: "product_description_#{locale}", toolbar: "product_description_#{locale}_toolbar", id: "product_description_#{locale}_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
                 = f.hidden_field "description_#{locale}", id: "product_description_#{locale}", value: f.object.send("description_#{locale}", fallback: false, default: nil)
+            - elsif params[:field] == "extended_description"
+              .horizontal-form-content
+                %trix-toolbar.clearfix{ id: "product_extended_description_#{locale}_toolbar", data: { trix_editor_id: "product_extended_description_#{locale}_editor" }}
+                  .button-groups
+                    .button-group
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
+                        .icon.icon-bold
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Italic', data: { trix_attribute: 'italic', trix_key: 'i' }}
+                        .icon.icon-italic
+                      %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
+                        .icon.icon-list-ul
+                %trix-editor.text-input{input: "product_extended_description_#{locale}", toolbar: "product_extended_description_#{locale}_toolbar", id: "product_extended_description_#{locale}_editor", placeholder: Spina::Shop::Product.human_attribute_name(:extended_description)}
+                = f.hidden_field "extended_description_#{locale}", id: "product_extended_description_#{locale}", value: f.object.send("extended_description_#{locale}", fallback: false, default: nil)
 
     %footer
       = link_to t('spina.close'), '#', data: {dismiss: 'modal'}

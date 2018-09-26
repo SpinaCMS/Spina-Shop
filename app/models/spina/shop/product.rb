@@ -38,7 +38,7 @@ module Spina::Shop
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
-    translates :name, :description, :materialized_path
+    translates :name, :description, :materialized_path, :extended_description
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 

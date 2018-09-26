@@ -82,6 +82,11 @@ $(document).on 'spina:product_fields_added', 'form', (e) ->
   $(this).enhanceProducts()
   $('select.select2').select2()
 
+$(document).on 'click', '#extended_description_button', (e) ->
+  e.preventDefault()
+  $('#extended_description').show()
+  $('#extended_description_button').hide()
+
 # Dynamically add and remove fields in a nested form
 $(document).on 'click', 'form .add_price_exception', (event) ->
   time = new Date().getTime()
