@@ -68,7 +68,7 @@
           = f.fields_for :product_images, f.object.product_images.ordered do |image_builder|
             - if image_builder.object.file.attached?
               .sidebar-form-image{data: {id: image_builder.object.id}}>
-                = product_image_tag(image_builder.object, resize: '640x480')
+                = product_image_tag(image_builder.object, variant: {resize: '640x480'})
                 = image_builder.hidden_field :id
                 = image_builder.hidden_field :position, class: 'product-image-position'
                 = image_builder.check_box :_destroy, style: 'display: none'

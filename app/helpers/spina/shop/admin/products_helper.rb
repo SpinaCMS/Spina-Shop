@@ -2,12 +2,6 @@ module Spina::Shop
   module Admin
     module ProductsHelper
 
-      def product_image_tag(product_image, variant: {})
-        image_tag main_app.url_for(product_image.file.variant(variant))
-      rescue 
-        ""
-      end
-
       def stores
         @stores ||= Store.order(:name)
       end
