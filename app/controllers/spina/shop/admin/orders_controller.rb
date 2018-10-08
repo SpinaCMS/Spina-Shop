@@ -106,7 +106,7 @@ module Spina::Shop
         else
           flash[:success] = t('spina.shop.orders.start_preparing_and_ship_success_html')
         end
-        redirect_back
+        redirect_back fallback_location: spina.shop_admin_orders_path
       end
 
       private
