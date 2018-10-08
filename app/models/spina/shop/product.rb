@@ -58,7 +58,14 @@ module Spina::Shop
       where("spina_shop_products.properties->'#{key}' ?& array['#{value.join('\',\'')}']")
     end
 
-    scope :where_in_range, -> (key, min, max) { where("CAST(coalesce(NULLIF(REPLACE(spina_shop_products.properties->>'#{key}', ',', '.'), ''), '0') AS numeric) BETWEEN ? AND ?", min, max) }
+    scope :where_in_range, -> (key, min, max) { where("CAST(
+      coalesce(
+        NULLIF(
+          REGEXP_REPLACE(
+            REPLACE(spina_shop_products.properties->>'#{key}', ',', '.')
+          , '[^[:digit:]\.]', '', 'g')
+        , '')
+      , '0') AS numeric) BETWEEN ? AND ?", min, max) }
 
     def to_s
       name
