@@ -70,7 +70,7 @@ $(document).on 'click', '.filter-form-advanced-link', (e) ->
   })
   e.preventDefault()
 
-$(document).on 'click', '.sidebar-form-image a', (e) ->
+$(document).on 'click', '.sidebar-form-image a.delete-image', (e) ->
   $checkbox = $(this).parents('.sidebar-form-image').find('input[type="checkbox"]')
   $checkbox.prop("checked", !$checkbox.prop("checked"))
   e.preventDefault()
