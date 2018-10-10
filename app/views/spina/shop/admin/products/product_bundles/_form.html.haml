@@ -69,10 +69,12 @@
             - if image_builder.object.file.attached?
               .sidebar-form-image{data: {id: image_builder.object.id}}>
                 = product_image_tag(image_builder.object, variant: {resize: '640x480'})
+                = link_to main_app.url_for(image_builder.object.file), target: :blank, class: 'export', style: "position: absolute; top: 0; right: 0; color: #fff; font-size: 14px; text-shadow: 0 -1px 0 rgba(0, 0, 0, .25)" do
+                  = icon('export')
                 = image_builder.hidden_field :id
                 = image_builder.hidden_field :position, class: 'product-image-position'
                 = image_builder.check_box :_destroy, style: 'display: none'
-                = link_to '#', style: "position: absolute; bottom: 0; right: 0" do
+                = link_to '#', style: "position: absolute; bottom: 0; right: 0", class: 'delete-image' do
                   = image_tag 'spina/shop/delete-big.png'
                   = image_tag 'spina/shop/delete-big-confirm.png'
                 .sidebar-form-image-overlay
