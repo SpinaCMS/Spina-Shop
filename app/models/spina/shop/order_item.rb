@@ -11,6 +11,7 @@ module Spina::Shop
     has_many :stock_level_adjustments, dependent: :nullify # Don't destroy the stock level adjustments automatically if an order is destroyed
 
     validates :unit_price, :unit_cost_price, :tax_rate, :weight, presence: true, if: -> { order.try(:received?) }
+    validates :quantity, presence: true, numericality: {greater_than: 0, only_integer: true}
     validate :product_not_purchasable
     validate :item_must_be_in_stock, if: -> { validate_stock }
 
