@@ -18,7 +18,7 @@ module Spina::Shop
 
         def update
           @shared_property = SharedProperty.find(params[:id])
-          @shared_property.update_attributes(product_category_property_params)
+          I18n.with_locale(@locale) { @shared_property.update_attributes(product_category_property_params) }
           redirect_to spina.edit_shop_admin_settings_shared_property_path(@shared_property)
         end
 

@@ -1,6 +1,10 @@
 = form_for @shared_property, url: @shared_property.new_record? ? spina.shop_admin_settings_shared_properties_path : spina.shop_admin_settings_shared_property_path(@shared_property) do |f|
+  = hidden_field_tag :locale, @locale
+
   %header#header
-    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+    .breadcrumbs
+      = render_breadcrumbs separator: '<div class="divider"></div>'
+      = render partial: 'spina/shop/admin/shared/locale_switcher' unless @shared_property.new_record?
 
     #header_actions
       %button.button.button-primary{type: 'submit'}
@@ -8,8 +12,9 @@
         =t 'spina.save'
 
   .well{style: 'padding-top: 0; padding-bottom: 0'}
-    = f.fields_for :property_options do |ff|
-      = render partial: 'spina/shop/admin/settings/property_options/fields', locals: {f: ff}
+    - Mobility.with_locale(@locale) do
+      = f.fields_for :property_options do |ff|
+        = render partial: 'spina/shop/admin/settings/property_options/fields', locals: {f: ff}
 
     = link_to_add_property_option_fields f, :property_options do
       = icon('plus')
