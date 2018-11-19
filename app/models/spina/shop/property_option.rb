@@ -6,6 +6,6 @@ module Spina::Shop
 
     validates :name, presence: true
 
-    translates :label
+    translates :label, fallbacks: I18n.fallbacks
   end
 end

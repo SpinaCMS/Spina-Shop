@@ -4,12 +4,27 @@
   %header#header
     .breadcrumbs
       = render_breadcrumbs separator: '<div class="divider"></div>'
-      = render partial: 'spina/shop/admin/shared/locale_switcher' unless @shared_property.new_record?
 
     #header_actions
       %button.button.button-primary{type: 'submit'}
         = icon('check')
         =t 'spina.save'
+
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th Key
+          - Spina.config.locales.each do |locale|
+            %th= locale
+
+        %tbody
+          = f.fields_for :property_options do |ff|
+            %tr
+              %td= ff.text_field :name, placeholder: Spina::Shop::PropertyOption.human_attribute_name(:name), disabled: f.object&.persisted?
+              - Spina.config.locales.each do |locale|
+                %td
+                  = ff.text_field "label_#{locale.downcase.gsub("-", "_")}", placeholder: Spina::Shop::PropertyOption.human_attribute_name(:label)
 
   .well{style: 'padding-top: 0; padding-bottom: 0'}
     - Mobility.with_locale(@locale) do
