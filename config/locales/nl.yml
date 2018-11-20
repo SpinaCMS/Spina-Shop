@@ -216,6 +216,7 @@ nl:
             base:
               stock_level_not_sufficient: Niet alle producten zijn op voorraad
               shopping_cart_empty: Winkelmand is leeg
+
     models:
       spina/shop/campaign:
         one: Campaign
@@ -409,6 +410,8 @@ nl:
         add_bundled_product: Product toevoegen
         new: Nieuwe productbundel
       product_categories: Productcategorieën
+      product_category_part:
+        select_blank: Kies een productcategorie
       product_items:
         adjust_stock: Adjust stock
         almost_expired: Almost expired
