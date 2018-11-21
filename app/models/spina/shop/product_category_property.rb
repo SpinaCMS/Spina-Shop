@@ -14,6 +14,10 @@ module Spina::Shop
 
     accepts_nested_attributes_for :property_options, allow_destroy: true, reject_if: :all_blank
 
+    def to_s
+      label
+    end
+
     def property_options
       shared_property&.property_options || super
     end
