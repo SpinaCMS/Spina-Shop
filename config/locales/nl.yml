@@ -357,6 +357,8 @@ nl:
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt
           <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         cancel_order_html: Annuleren
+        confirm_order: Bestelling plaatsen
+        confirm_order_html: Weet je zeker dat je de bestelling wilt plaatsen?
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
         failed: Mislukt

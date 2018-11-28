@@ -12,6 +12,13 @@
       .well
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name(:customer)
+
+          .sidebar-form-control
+            = f.select :customer_id, options_for_select(Spina::Shop::Customer.joins(:customer_account).order(:full_name).where.not(full_name: " -").pluck(:full_name, :id), f.object.customer_id), {include_blank: "Nieuwe klant"}, class: 'select2', style: 'width: 100%'
+
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name(:note)
 
           .sidebar-form-control
@@ -29,7 +36,7 @@
             = Spina::Shop::Order.human_attribute_name(:payment_method)
 
           .sidebar-form-control
-            = f.text_field :payment_method
+            = f.select :payment_method, options_for_select(['ideal', 'sofort', 'banktransfer', 'pin'], f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label

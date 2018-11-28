@@ -9,6 +9,7 @@ Spina::Engine.routes.draw do
         resources :orders do
           resources :order_items, only: [:new, :create, :destroy]
           member do
+            post :confirm
             post :cancel
             post :pay
             post :receive
