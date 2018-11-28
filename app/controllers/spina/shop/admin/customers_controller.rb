@@ -46,6 +46,16 @@ module Spina::Shop
         end
       end
 
+      def destroy
+        @customer = Customer.find(params[:id])
+        @customer.destroy
+        redirect_to spina.shop_admin_customers_path
+      rescue ActiveRecord::DeleteRestrictionError
+        flash[:alert] = t('spina.shop.customers.delete_restriction_error', name: @customer.name)
+        flash[:alert_small] = t('spina.shop.customers.delete_restriction_error_explanation')
+        redirect_to spina.shop_admin_customer_path(@customer)
+      end
+
       def validate_vat_id
         @customer = Customer.find(params[:id])
         if vat_details = Valvat.new(@customer.vat_id).exists?(detail: true)

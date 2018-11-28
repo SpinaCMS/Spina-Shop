@@ -128,3 +128,9 @@
             %td{colspan: 7}
               %p.text-center.text-muted
                 %em=t 'spina.shop.customers.no_orders_yet'
+
+- if @customer.persisted? && @customer.orders.none? && @customer.invoices.none?
+  .pull-right
+    = link_to spina.shop_admin_customer_path(@customer), class: 'button button-danger button-link', data: {method: :delete, confirm: t('spina.shop.customers.delete_confirmation_html', name: @customer.name)} do
+      = icon('trash')
+      =t 'spina.shop.customers.delete'

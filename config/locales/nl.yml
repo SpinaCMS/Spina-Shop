@@ -311,6 +311,10 @@ nl:
         profile: Profiel
         save: Klant opslaan
         title: Alle klanten
+        delete_restriction_error: "<strong>%{name}</strong> kan niet verwijderd worden"
+        delete_restriction_error_explanation: Heeft bestellingen, winkelmand en/of facturen
+        delete_confirmation_html: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
+        delete: Verwijder klant
       delete_selected: Verwijder geselecteerde regels
       discounts:
         new: Nieuwe kortingscode
