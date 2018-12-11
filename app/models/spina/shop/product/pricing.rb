@@ -15,8 +15,12 @@ module Spina::Shop
     end
 
     def price_for_current_store
-      return price if Current.store.nil? # Get store from order
-      price_exception_for_store(Current.store).try(:[], 'price')&.to_d || price
+      return price
+      # Werkt nog niet want Spina::Shop::Current is niet altijd bekend!
+      # Eerst oplossen voor livegang
+      # 
+      # return price if ::Spina::Shop::Current.store.nil? # Get store from order
+      # price_exception_for_store(::Spina::Shop::Current.store).try(:[], 'price')&.to_d || price
     end
 
     def price_for_order(order)
