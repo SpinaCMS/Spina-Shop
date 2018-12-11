@@ -4,6 +4,7 @@ module Spina::Shop
 
     has_secure_password
     has_secure_token :password_reset_token
+    has_secure_token :magic_link_token
     
     belongs_to :customer
     belongs_to :store, optional: true
