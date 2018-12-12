@@ -15,7 +15,7 @@
             = Spina::Shop::Order.human_attribute_name(:customer)
 
           .sidebar-form-control
-            = f.select :customer_id, options_for_select(Spina::Shop::Customer.joins(:customer_account).order(:full_name).where.not(full_name: " -").pluck(:full_name, :id), f.object.customer_id), {include_blank: "Nieuwe klant"}, class: 'select2', style: 'width: 100%'
+            = f.select :customer_id, options_for_select(Spina::Shop::Customer.order(:full_name).map{|c| ["#{c.full_name} (#{c.number})", c.id]}, f.object.customer_id), {include_blank: "Nieuwe klant"}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label
