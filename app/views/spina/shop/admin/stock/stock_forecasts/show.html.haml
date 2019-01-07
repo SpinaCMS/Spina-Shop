@@ -45,6 +45,9 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'in_stock_reminders_count', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Herinneren<br /><small>nieuwe voorraad</small>
           %th.text-right.nowrap
+            = link_to spina.shop_admin_stock_forecast_path({order: 'base_price', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+              Verkoopprijs<br /><small>per product</small>
+          %th.text-right.nowrap
             = link_to spina.shop_admin_stock_forecast_path({order: 'cost_price', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Kostprijs<br /><small>per product</small>
           %th.text-right 

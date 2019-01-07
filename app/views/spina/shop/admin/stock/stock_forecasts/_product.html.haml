@@ -33,6 +33,8 @@
     = product.in_stock_reminders_count
     %i.icon.icon-mail{style: 'font-size: 11px'}
   %td.text-right
+    %small= number_to_currency product.base_price
+  %td.text-right
     %small= number_to_currency product.cost_price
   %td.text-right
     %small= number_to_currency product.stock_value
