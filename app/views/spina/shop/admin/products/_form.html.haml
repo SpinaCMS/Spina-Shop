@@ -69,7 +69,7 @@
                 = Spina::Shop::Product.human_attribute_name :variant_name
 
               .sidebar-form-control
-                = f.text_field :variant_name, placeholder: Spina::Shop::Product.human_attribute_name(:variant_name)            
+                = f.text_field :variant_name, placeholder: Spina::Shop::Product.human_attribute_name(:variant_name), value: f.object.variant_name(fallback: false, default: nil)       
 
           .sidebar-form-group
             .sidebar-form-label

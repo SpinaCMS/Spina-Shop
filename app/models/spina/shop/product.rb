@@ -38,7 +38,8 @@ module Spina::Shop
     validates :sku, uniqueness: true, allow_blank: true
 
     # Mobility translates
-    translates :name, :description, :materialized_path, :extended_description
+    translates :name, fallbacks: true
+    translates :description, :materialized_path, :extended_description
     translates :seo_title, default: -> { name }
     translates :seo_description, default: -> { description }
 
@@ -145,7 +146,7 @@ module Spina::Shop
 
       def localized_materialized_path
         if Spina.config.locale_paths.present?
-          full_name.try(:parameterize).prepend("#{Spina.config.locale_paths[I18n.locale.to_sym]}/products/").gsub(/\/\z/, "")
+          full_name.try(:parameterize).prepend("#{Spina.config.locale_paths[Mobility.locale.to_sym]}/products/").gsub(/\/\z/, "")
         else
           if I18n.locale == I18n.default_locale
             full_name.try(:parameterize).prepend('/products/')

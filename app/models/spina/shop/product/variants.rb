@@ -26,7 +26,7 @@ module Spina::Shop
       # Only products with no children are purchasable
       scope :purchasable, -> { where(children_count: 0) }
 
-      translates :variant_name, default: -> { "–" }
+      translates :variant_name, fallbacks: true
     end
 
     # Root product
