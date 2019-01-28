@@ -7,6 +7,8 @@ module Spina::Shop
 
     scope :ordered, -> { order(:position) }
 
+    after_create :set_filename
+
     has_one_attached :file
 
     def description
@@ -16,5 +18,14 @@ module Spina::Shop
     def alt
       alt_description.presence || description
     end
+
+    private
+
+      def set_filename
+        if file.attached?
+          file.blob.update(filename: "#{product.name.parameterize}.#{file.filename.extension}")
+        end
+      end
+
   end
 end
