@@ -93,6 +93,9 @@ module Spina::Shop
     end
 
     before_transition(to: :paid) do |order, transition|
+      # Don't do anything if it's already paid
+      return if order.paid?
+
       # Update order to paid
       order.update_attributes!(paid_at: Time.zone.now)
 
