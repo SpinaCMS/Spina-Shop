@@ -32,6 +32,7 @@ module Spina::Shop
     scope :received, -> { where.not(received_at: nil) }
     scope :prepared, -> { where.not(order_prepared_at: nil) }
     scope :confirmed, -> { where.not(confirming_at: nil) }
+    scope :shipped, -> { where.not(shipped_at: nil) }
     scope :paid, -> { where.not(paid_at: nil) }
     scope :building, -> { in_state(:building) }
 
