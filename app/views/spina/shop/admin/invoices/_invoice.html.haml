@@ -9,6 +9,8 @@
         = link_to invoice.order.number, spina.shop_admin_order_path(invoice.order)
   %td.text-right= number_to_currency invoice.total
   %td.text-right
+    .status-dot{class: (invoice.order.paid? ? "status-dot-success" : "status-dot-warning")}
+  %td.text-right
     = link_to spina.shop_admin_invoice_path(invoice, format: :pdf), class: 'button button-mini' do
       = icon('pages')
       PDF

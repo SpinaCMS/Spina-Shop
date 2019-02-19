@@ -60,6 +60,7 @@
           %th= sort_link [:spina, @q], :last_name, Spina::Shop::Customer.model_name.human, {}, class: 'table-sort'
           %th= sort_link [:spina, @q], :received_at, Spina::Shop::Order.human_attribute_name(:received_at), {}, class: 'table-sort'
           %th= sort_link [:spina, @q], :shipped_at, Spina::Shop::Order.human_attribute_name(:shipped_at), {}, class: 'table-sort'
+          %th= sort_link [:spina, @q], :paid_at, Spina::Shop::Order.human_attribute_name(:paid_at), {}, class: 'table-sort'
           %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
           %th
 

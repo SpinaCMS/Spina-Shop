@@ -33,8 +33,6 @@
       - if @order.in_state?(:received)
         = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
-        = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
-
     - if @order.in_state?(:paid)
       - if @order.order_prepared?
         - if @order.requires_shipping?
@@ -45,16 +43,17 @@
         = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
 
     - if @order.in_state?(:preparing)
-      - unless @order.paid?
-        = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
+      - if @order.requires_shipping?
+        = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
       - else
-        - if @order.requires_shipping?
-          = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
-        - else
-          = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+        = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
 
     - if @order.in_state?(:shipped)
       = link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+
+    - if @order.received? && !@order.paid?
+      = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
+
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 

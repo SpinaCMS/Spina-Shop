@@ -105,6 +105,7 @@ nl:
         reference: Referentie
         separate_delivery_address: Ander afleveradres
         shipped_at: Verzonden op
+        paid_at: Betaald op
         sub_total: Subtotaal
         total: Totaal
         total_excluding_tax: Totaal excl. btw

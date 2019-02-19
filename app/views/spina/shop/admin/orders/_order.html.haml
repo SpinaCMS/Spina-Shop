@@ -15,6 +15,9 @@
   %td
     - if order.shipped_at.present?
       =l order.shipped_at, format: "%d %B %Y"
+  %td
+    - if order.paid_at.present?
+      =l order.paid_at, format: "%d %B %Y"
   %td.nowrap.text-right
     = number_to_currency order.total
   %td{style: 'width: 200px'}

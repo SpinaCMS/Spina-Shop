@@ -19,9 +19,9 @@ module Spina::Shop
     transition from: :received,   to: [:paid, :preparing, :cancelled, :failed]
     transition from: :paid,       to: [:preparing, :shipped, :picked_up]
     transition from: :preparing,  to: [:paid, :shipped, :picked_up]
-    transition from: :shipped,    to: [:delivered, :refunded]
-    transition from: :picked_up,  to: :refunded
-    transition from: :delivered,  to: :refunded
+    transition from: :shipped,    to: [:paid, :delivered, :refunded]
+    transition from: :picked_up,  to: [:paid, :refunded]
+    transition from: :delivered,  to: [:paid, :refunded]
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right? Do we even have any order items?
