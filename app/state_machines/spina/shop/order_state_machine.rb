@@ -98,9 +98,6 @@ module Spina::Shop
 
       # Update order to paid
       order.update_attributes!(paid_at: Time.zone.now)
-
-      # Invoice
-      InvoiceGenerator.new(order).generate!
     end
 
     after_transition(to: :preparing) do |order, transition|
