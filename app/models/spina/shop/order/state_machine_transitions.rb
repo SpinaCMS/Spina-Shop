@@ -65,6 +65,7 @@ module Spina::Shop
     end
 
     def status_css_class
+      return 'success' if delivered? || picked_up?
       case current_state
       when 'preparing'
         'primary'
