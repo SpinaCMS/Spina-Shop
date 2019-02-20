@@ -18,6 +18,10 @@ module Spina::Shop
       view_context.number_to_currency(invoice.total)
     end
 
+    def order
+      invoice.order
+    end
+
     def order_number
       invoice.order.try(:number)
     end

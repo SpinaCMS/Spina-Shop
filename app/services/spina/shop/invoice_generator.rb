@@ -8,7 +8,8 @@ module Spina::Shop
     def generate!
       @customer = @order.customer
 
-      number = InvoiceNumberGenerator.generate!
+      # Generate a new unique number for the sequence
+      number = generate_number!
 
       invoice = Invoice.new(
         order_id: @order.id,
@@ -29,12 +30,8 @@ module Spina::Shop
         invoice_number: "#{number}",
         date: Date.today,
         reference: @order.reference,
-        identity_name: @account.name,
-        identity_details: "#{@account.address}
-        #{@account.postal_code}, #{@account.city}
-
-        #{@account.phone}
-        #{@account.email}"
+        identity_name: identity_name,
+        identity_details: identity_details
       )
 
       @order.order_items.each do |order_item|
@@ -69,5 +66,23 @@ module Spina::Shop
 
       return invoice if invoice.save!
     end
+
+    private
+
+      def generate_number!
+        InvoiceNumberGenerator.generate!
+      end
+
+      def identity_name
+        @account.name
+      end
+
+      def identity_details
+        "#{@account.address}
+        #{@account.postal_code}, #{@account.city}
+
+        #{@account.phone}
+        #{@account.email}"
+      end
   end
 end
