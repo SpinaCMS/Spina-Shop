@@ -45,6 +45,12 @@
           .sidebar-form-control
             = f.text_field :reference, placeholder: Spina::Shop::Order.human_attribute_name(:reference)
 
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :store
+          .sidebar-form-control
+            = f.select :store_id, options_for_select(Spina::Shop::Store.order(:name).map{|c| [c.name, c.id]}, f.object.store_id), {prompt: true}, class: 'select2', style: 'width: 100%'
+
       .well
         .sidebar-form-group
           .sidebar-form-label
@@ -80,6 +86,13 @@
 
           .sidebar-form-control
             = f.text_field :company, placeholder: Spina::Shop::Order.human_attribute_name(:company)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :date_of_birth
+
+          .sidebar-form-control
+            = f.text_field :date_of_birth, placeholder: Spina::Shop::Order.human_attribute_name(:date_of_birth)
 
       .well
         .sidebar-form-group
