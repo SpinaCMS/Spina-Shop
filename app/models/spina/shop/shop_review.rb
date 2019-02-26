@@ -6,7 +6,7 @@ module Spina::Shop
 
     accepts_nested_attributes_for :product_reviews, reject_if: :mostly_blank
 
-    validates :author, :email, :review_pros, :review_cons, :score, :score_communication, :score_speed, presence: true
+    validates :author, :email, :review_pros, :score, :score_communication, :score_speed, presence: true
     validates :score, :score_communication, :score_speed, numericality: {greater_than: 1, less_than_or_equal_to: 10}
     validates :order_id, uniqueness: true
 
