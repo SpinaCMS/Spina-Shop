@@ -1,14 +1,14 @@
 module Spina::Shop
   class ShopReview < ApplicationRecord
-    belongs_to :order
-    belongs_to :customer
+    belongs_to :order, optional: true
+    belongs_to :customer, optional: true
     has_many :product_reviews, dependent: :destroy
 
     accepts_nested_attributes_for :product_reviews, reject_if: :mostly_blank
 
     validates :author, :email, :review_pros, :score, presence: true
     validates :score, numericality: {greater_than: 0, less_than_or_equal_to: 10}
-    validates :order_id, uniqueness: true
+    validates :order_id, uniqueness: true, allow_blank: true
 
     private
 
