@@ -70,7 +70,7 @@ module Spina::Shop
     private
 
       def generate_number!
-        InvoiceNumberGenerator.generate!
+        InvoiceNumberGenerator.generate!(@order)
       end
 
       def identity_name
