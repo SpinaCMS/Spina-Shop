@@ -33,7 +33,7 @@ module Spina::Shop
           end
 
           def product_category_property_params
-            params.require(:shared_property).permit(property_options_attributes: [:id, :name, :label, :_destroy])
+            params.require(:shared_property).permit!
           end
 
       end
