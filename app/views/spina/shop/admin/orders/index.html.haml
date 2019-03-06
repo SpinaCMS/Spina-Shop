@@ -16,7 +16,7 @@
 = search_form_for @q, url: spina.shop_admin_orders_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :first_name_or_last_name_or_company_or_number_cont, placeholder: t('spina.search')
+      = f.text_field :first_name_or_last_name_or_company_cont, placeholder: t('spina.search')
       = link_to 'geavanceerd', '#', class: 'filter-form-advanced-link'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
