@@ -97,7 +97,7 @@ module Spina::Shop
         return if properties.blank?
         self.variant_name = product_category.variant_properties.map do |property|
           properties.send(property.name).try(:label)
-        end.try(:join, ' - ')
+        end.try(:join, ' - ').gsub(/\s-\s\z/, "")
       end
 
       def set_parent
