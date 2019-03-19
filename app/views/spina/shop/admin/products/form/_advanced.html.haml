@@ -1,0 +1,7 @@
+.grouped-form-groups
+  .form-group
+    .input-group
+      .form-label
+        = Spina::Shop::Product.human_attribute_name :created_at
+      .form-control{style: "flex: 1.5"}
+        = f.datetime_field :created_at, placeholder: Spina::Shop::Product.human_attribute_name(:created_at)
