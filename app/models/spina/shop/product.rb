@@ -126,6 +126,8 @@ module Spina::Shop
               else
                 property.property_options.where(name: jsonb[property.name]).first
               end
+            when 'checkbox'
+              jsonb[property.name] == "1"
             else
               jsonb[property.name]
             end

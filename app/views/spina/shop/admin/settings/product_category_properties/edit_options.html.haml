@@ -7,6 +7,22 @@
         = icon('check')
         =t 'spina.save'
 
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th Key
+          - Spina.config.locales.each do |locale|
+            %th= locale
+
+        %tbody
+          = f.fields_for :property_options do |ff|
+            %tr
+              %td= ff.text_field :name, placeholder: Spina::Shop::PropertyOption.human_attribute_name(:name), disabled: f.object&.persisted?
+              - Spina.config.locales.each do |locale|
+                %td
+                  = ff.text_field "label_#{locale.downcase.gsub("-", "_")}", placeholder: Spina::Shop::PropertyOption.human_attribute_name(:label)
+
   .well{style: 'padding-top: 0; padding-bottom: 0'}
     = f.fields_for :property_options do |ff|
       = render partial: 'spina/shop/admin/settings/property_options/fields', locals: {f: ff}
