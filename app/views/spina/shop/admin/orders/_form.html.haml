@@ -36,7 +36,7 @@
             = Spina::Shop::Order.human_attribute_name(:payment_method)
 
           .sidebar-form-control
-            = f.select :payment_method, options_for_select(['ideal', 'sofort', 'banktransfer', 'pin'], f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
+            = f.select :payment_method, options_for_select(['ideal', 'sofort', 'banktransfer', 'pin', 'banktransfer', 'on_account', 'directdebit'], f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label
