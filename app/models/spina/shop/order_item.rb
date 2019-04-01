@@ -50,7 +50,7 @@ module Spina::Shop
     end
 
     def description
-      orderable.try(:name)
+      orderable.try(:full_name)
     end
 
     def total_without_discount
