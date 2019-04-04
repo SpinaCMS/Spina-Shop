@@ -22,7 +22,7 @@ de:
         country: Land
         created_at: erstellt auf
         date_of_birth: Geburtsdatum
-        email: Email
+        email: E-Mail-Adresse
         first_name: Vorname
         full_name: vollständige Namen
         ip_addresses: IP-Adressen
@@ -101,7 +101,7 @@ de:
         phone: Telefon
         received_at: Bestelldatum
         reference: Referenz
-        separate_delivery_address: verschiedene Lieferadresse
+        separate_delivery_address: abweichende Lieferanschrift 
         shipped_at: geschickt
         sub_total: Zwischensumme
         total: gesamt
