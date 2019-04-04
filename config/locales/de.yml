@@ -10,7 +10,7 @@ de:
         country: Land
         delivery_address: Lieferadresse
         first_name: Vorname
-        house_number: Anschrift
+        house_number: Nummer
         house_number_addition: Zusatz
         last_name: Nachname
         name: Name
@@ -52,7 +52,7 @@ de:
         remaining_balance: Balance
         value: Wert
       spina/shop/in_stock_reminder:
-        email: Emaille
+        email: Email
       spina/shop/invoice:
         customer_number: Kundennummer
         date: Rechnungsdatum
@@ -68,7 +68,7 @@ de:
         billing_address: Rechnungsadresse
         billing_city: Platz
         billing_country: Land
-        billing_house_number: Anschrift
+        billing_house_number: Nummer
         billing_house_number_addition: Zusatz
         billing_name: Name
         billing_postal_code: Postleitzahl
@@ -80,7 +80,7 @@ de:
         delivery_address: Lieferadresse
         delivery_city: Platz
         delivery_country: Land
-        delivery_house_number: Anschrift
+        delivery_house_number: Nummer
         delivery_house_number_addition: Zusatz
         delivery_name: Name
         delivery_option: Versandart
@@ -90,7 +90,7 @@ de:
         delivery_street2: Straße 2
         delivery_tracking_ids: Track & Trace
         discount: Rabatt
-        email: Emaille
+        email: Email
         first_name: Vorname
         ip_address: IP-Adresse
         last_name: Nachname
