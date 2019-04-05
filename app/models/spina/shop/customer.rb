@@ -29,7 +29,8 @@ module Spina::Shop
 
     accepts_nested_attributes_for :addresses, allow_destroy: true
 
-    validates :last_name, :email, presence: true
+    validates :last_name, presence: true
+    validates :email, email: true, presence: true
 
     def name
       company.blank? ? full_name : "#{company} (#{full_name})"
