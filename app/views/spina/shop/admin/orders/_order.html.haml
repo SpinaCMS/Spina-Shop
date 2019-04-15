@@ -12,12 +12,16 @@
   %td
     - if order.received_at.present?
       =l order.received_at, format: "%d %B %Y"
+      %small=l order.received_at, format: "%H:%M"
   %td
     - if order.shipped_at.present?
       =l order.shipped_at, format: "%d %B %Y"
+      %small=l order.shipped_at, format: "%H:%M"
+    %small= order.delivery_option.try(:name)
   %td
     - if order.paid_at.present?
       =l order.paid_at, format: "%d %B %Y"
+      %small=l order.paid_at, format: "%H:%M"
   %td.nowrap.text-right
     = number_to_currency order.total
   %td{style: 'width: 200px'}

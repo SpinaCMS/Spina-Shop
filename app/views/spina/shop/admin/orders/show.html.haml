@@ -208,6 +208,11 @@
             %td= @order.discount.code
 
         %tr
+          %th= Spina::Shop::Order.human_attribute_name(:delivery_option)
+          %td
+            = @order.delivery_option.try(:name)
+
+        %tr
           %th= Spina::Shop::Order.human_attribute_name(:delivery_address)
           %td 
             = @order.delivery_name
