@@ -3,14 +3,14 @@
     = render_breadcrumbs separator: '<div class="divider"></div>'
 
 .table-container.infinite-table
-  %table.table.table-clickable
+  %table.table
     %thead
       %tr
         %th= Spina::Shop::Invoice.model_name.human
         %th= Spina::Shop::Invoice.human_attribute_name(:date)
         %th= Spina::Shop::Invoice.human_attribute_name(:customer)
         %th.text-right= Spina::Shop::Invoice.human_attribute_name(:total)
-        %th
+        %th{colspan: 2}
 
     %tbody
       - if @invoices.any?
