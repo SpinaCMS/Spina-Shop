@@ -6,11 +6,11 @@ de:
         address_type: Geben Sie Adresse
         billing_address: Rechnungsadresse
         city: Platz
-        company: Unternehmen
+        company: Firmenname
         country: Land
         delivery_address: Lieferadresse
         first_name: Vorname
-        house_number: Nummer
+        house_number: Hausnr
         house_number_addition: Zusatz
         last_name: Nachname
         name: Name
@@ -18,7 +18,7 @@ de:
         street1: Straße
         street2: Straße 2
       spina/shop/customer:
-        company: Unternehmen
+        company: Firmenname
         country: Land
         created_at: erstellt auf
         date_of_birth: Geburtsdatum
