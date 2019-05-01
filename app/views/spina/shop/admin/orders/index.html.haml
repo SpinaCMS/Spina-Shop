@@ -46,10 +46,10 @@
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
     %ul#actions.align-right
-      %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'transition_to', value: 'order_picking'
+      %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'transition_to', value: 'preparing'
       %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
       %li.divider
-      %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'transition_to', value: 'order_prepared_and_shipped'
+      %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'transition_to', value: 'preparing_and_shipped'
 
   .table-container.infinite-table
     %table.table.table-clickable
