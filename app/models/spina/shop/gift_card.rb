@@ -5,16 +5,13 @@ module Spina::Shop
     before_create :set_remaining_balance
 
     scope :available, -> { where('remaining_balance > ?', BigDecimal(0)).where('expires_at > ?', Date.today) }
+    scope :sorted_by_order, -> { order("spina_shop_gift_cards_orders.created_at") }
 
     has_many :gift_cards_orders
     has_many :orders, through: :gift_cards_orders, dependent: :restrict_with_exception
 
     validates :expires_at, :value, :remaining_balance, presence: true
     validates :value, numericality: {greater_than: 0}
-
-    def amount_for_order(order)
-      [remaining_balance, order.total].min
-    end
 
     def expired?
       expires_at < Date.today
@@ -30,6 +27,18 @@ module Spina::Shop
       else
         'partially_used'
       end
+    end
+
+    def used_balance
+      value - remaining_balance
+    end
+
+    def subtract!(value)
+      update_attributes!(remaining_balance: remaining_balance - value)
+    end
+
+    def add!(value)
+      update_attributes!(remaining_balance: remaining_balance + value)
     end
 
     private

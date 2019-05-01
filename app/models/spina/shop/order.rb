@@ -25,8 +25,8 @@ module Spina::Shop
 
     has_one :discounts_order, class_name: "Spina::Shop::DiscountsOrder"
     has_one :discount, through: :discounts_order, class_name: "Spina::Shop::Discount"
-    has_one :gift_cards_order, class_name: "Spina::Shop::GiftCardsOrder"
-    has_one :gift_card, through: :gift_cards_order, class_name: "Spina::Shop::GiftCard"
+    has_many :gift_cards_orders, class_name: "Spina::Shop::GiftCardsOrder"
+    has_many :gift_cards, through: :gift_cards_orders, class_name: "Spina::Shop::GiftCard"
 
     scope :sorted, -> { order(order_number: :desc, id: :desc) }
     scope :received, -> { where.not(received_at: nil) }
@@ -171,20 +171,6 @@ module Spina::Shop
       age >= 18 if age
     end
 
-    def apply_gift_card!
-      transaction do
-        update_attributes!(gift_card_amount: gift_card_amount)
-        gift_card.update_attributes!(remaining_balance: gift_card.remaining_balance - gift_card_amount)
-      end
-    end
-
-    def remove_gift_card!
-      transaction do
-        gift_card.update_attributes!(remaining_balance: gift_card.remaining_balance + gift_card_amount)
-        update_attributes!(gift_card_amount: nil)
-      end
-    end
-
     def remove_discount!
       update_attributes!(discount: nil)
     end
@@ -194,7 +180,7 @@ module Spina::Shop
       transaction do
         shopping_cart = Order.create!(attributes.reject{|key, value| key.in? %w(id delivery_price delivery_tax_rate status received_at shipped_at paid_at delivered_at order_prepared_at payment_id payment_url payment_failed failed_at  cancelled_at delivery_tracking_ids picked_up_at order_number confirming_at created_at updated_at)})
         shopping_cart.discount = discount
-        shopping_cart.gift_card = gift_card
+        shopping_cart.gift_cards = gift_cards
         order_items.roots.each do |order_item|
           new_item = OrderItem.create!(order_item.attributes.reject{|key, value| key.in? %w(id created_at updated_at unit_price unit_cost_price discount_amount weight tax_rate order_id)}.merge(order_id: shopping_cart.id))
 

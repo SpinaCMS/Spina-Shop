@@ -22,7 +22,40 @@ module Spina::Shop
     end
 
     def gift_card_amount
-      read_attribute(:gift_card_amount) || gift_card.try(:amount_for_order, self) || BigDecimal(0)
+      read_attribute(:gift_card_amount) || total_gift_card_amount
+    end
+
+    def gift_cards_applied?
+      read_attribute(:gift_card_amount).present?
+    end
+
+    def total_gift_card_amount
+      gift_card_usage_for_order.inject(BigDecimal(0)) { |t, g| t + g[:usage_for_order]}
+    end
+
+    def gift_card_usage_for_order
+      remaining_total = gift_cards_applied? ? gift_card_amount : total  
+      gift_cards.sorted_by_order.map do |gift_card|
+        value = [gift_cards_applied? ? gift_card.used_balance : gift_card.remaining_balance, remaining_total].min
+        remaining_total = remaining_total - value
+        { gift_card: gift_card, usage_for_order: value }
+      end
+    end
+
+    def apply_gift_cards!
+      transaction do
+        # Cache total before subtracting from gift cards
+        total = total_gift_card_amount
+        gift_card_usage_for_order.each{|g| g[:gift_card].subtract!(g[:usage_for_order])}
+        update_attributes!(gift_card_amount: total)
+      end
+    end
+
+    def remove_gift_cards!
+      transaction do
+        gift_card_usage_for_order.each{|g| g[:gift_card].add!(g[:usage_for_order])}
+        update_attributes!(gift_card_amount: nil)
+      end
     end
 
     def billing_first_name

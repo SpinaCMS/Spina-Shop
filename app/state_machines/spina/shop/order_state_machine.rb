@@ -39,7 +39,7 @@ module Spina::Shop
       CacheOrder.new(order).cache
 
       # Apply gift card
-      order.apply_gift_card! if order.gift_card.present?
+      order.apply_gift_cards! if order.gift_cards.any?
 
       # Create customer if necessary
       CustomerGenerator.new(order).generate!
@@ -58,7 +58,7 @@ module Spina::Shop
       DeallocateStock.new(order).deallocate
 
       # Remove gift card
-      order.remove_gift_card! if order.gift_card.present?
+      order.remove_gift_cards! if order.gift_cards.any?
 
       # Remove discount
       order.remove_discount! if order.discount.present?
@@ -81,7 +81,7 @@ module Spina::Shop
       DeallocateStock.new(order).deallocate
 
       # Remove gift card
-      order.remove_gift_card! if order.gift_card.present?
+      order.remove_gift_cards! if order.gift_cards.any?
 
       # Remove discount
       order.remove_discount! if order.discount.present?
