@@ -93,29 +93,6 @@ module Spina::Shop
         end
       end
 
-      def transition
-        @orders = Order.where(id: params[:order_ids])
-        if params[:transition_to] == "preparing_and_shipped"
-          @orders.each do |order|
-            order.transition_to("preparing", user: current_spina_user.name, ip_address: request.remote_ip)
-            order.transition_to("shipped", user: current_spina_user.name, ip_address: request.remote_ip)
-          end
-        else
-          @orders.each do |order|
-            order.transition_to(params[:transition_to], user: current_spina_user.name, ip_address: request.remote_ip)
-          end
-        end
-
-        if params[:transition_to] == "preparing"
-          flash[:success] = t('spina.shop.orders.start_preparing_success_html')
-        elsif params[:transition_to] == "shipping"
-          flash[:success] = t('spina.shop.orders.ship_order_success_html')
-        else
-          flash[:success] = t('spina.shop.orders.start_preparing_and_ship_success_html')
-        end
-        redirect_back fallback_location: spina.shop_admin_orders_path
-      end
-
       private
 
         def order_params

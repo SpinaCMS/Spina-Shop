@@ -386,6 +386,7 @@ nl:
         start_picking_and_ship_success_html: Start picking orders and shipping orders
         start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling
           <strong>verzenden</strong>
+        download_attachments_html: Download <strong>bijlagen</strong>
         start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong>
           en bestelling <strong>verzonden</strong>
         start_preparing_html: Begin <strong>voorbereiden</strong>

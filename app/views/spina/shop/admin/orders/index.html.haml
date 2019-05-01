@@ -39,17 +39,19 @@
           = f.text_field :received_at_gteq, value: (l(f.object.received_at_gteq, format: '%d-%m-%Y') if f.object.received_at_gteq), placeholder: 'min', class: 'datepicker'
           = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
 
-= form_tag spina.transition_shop_admin_orders_path, method: :put do
+= form_with url: spina.shop_admin_orders_batch_path, local: true do
   .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}
     = link_to '#', class: 'button button-link', data: {trigger: 'dropdown', target: '#actions'} do
       =t 'spina.shop.orders.actions'
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
     %ul#actions.align-right
-      %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'transition_to', value: 'preparing'
-      %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'transition_to', value: 'shipped'
+      %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'batch_action', value: 'start_preparing'
+      %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'batch_action', value: 'start_shipping'
       %li.divider
-      %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'transition_to', value: 'preparing_and_shipped'
+      %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'batch_action', value: 'start_preparing_and_shipping'
+      %li.divider
+      %li= button_tag t('spina.shop.orders.download_attachments_html'), type: :submit, name: 'batch_action', value: 'download_attachments'
 
   .table-container.infinite-table
     %table.table.table-clickable

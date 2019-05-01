@@ -19,12 +19,15 @@ Spina::Engine.routes.draw do
           collection do
             get :to_process
             get :failed
-            put :transition
           end
           scope module: :orders do
             resource :packing_slip, only: [:show, :create]
             resource :shipping_label, only: [:show, :create]
           end
+        end
+
+        namespace :orders do
+          resource :batch, only: [:create]
         end
 
         # Settings
