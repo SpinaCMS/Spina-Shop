@@ -5,7 +5,7 @@ module Spina::Shop
       @account = Spina::Account.first
     end
 
-    def generate!
+    def generate!(date: Date.today)
       @customer = @order.customer
 
       # Generate a new unique number for the sequence
@@ -28,7 +28,7 @@ module Spina::Shop
         city: @order.billing_city,
         number: number,
         invoice_number: "#{number}",
-        date: Date.today,
+        date: date,
         reference: @order.reference,
         identity_name: identity_name,
         identity_details: identity_details
