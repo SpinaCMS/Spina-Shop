@@ -1,0 +1,27 @@
+%tr
+  %td
+    .form-checkbox{style: 'width: 20px'}
+      = check_box_tag 'shop_review_ids[]', shop_review.id
+      %label
+  %td
+    = shop_review.author
+    %small= shop_review.email
+  %td
+    %strong Review pros
+    %br/
+    = shop_review.review_pros
+    %br/
+    %strong Review cons
+    %br/
+    = shop_review.review_cons
+  %td.text-right
+    - if shop_review.approved?
+      = icon('check')
+  %td.text-right
+    .progress{style: 'width: 120px'}
+      .progress-bar
+        - 10.times do
+          .progress-bar-divider
+        .progress-bar-inner{style: "width: #{shop_review.score * 10}%"}
+      .progress-label
+        = shop_review.score

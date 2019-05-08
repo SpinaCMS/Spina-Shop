@@ -1,0 +1,4 @@
+$("<%=j render partial: 'shop_review', collection: @shop_reviews %>").appendTo($(".infinite-table table tbody"));
+
+// Update pagination link
+$('.pagination').html("<%=j link_to_next_page @shop_reviews, 'Next' %>").infiniteScroll();

@@ -316,7 +316,8 @@ nl:
         delete_restriction_error_explanation: Heeft bestellingen, winkelmand en/of facturen
         delete_confirmation_html: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
         delete: Verwijder klant
-      delete_selected: Verwijder geselecteerde regels
+      approve_selected: Goedkeuren
+      delete_selected: Verwijderen
       discounts:
         new: Nieuwe kortingscode
         save: Kortingscode opslaan
@@ -478,6 +479,10 @@ nl:
         title: Export
       analytics:
         title: Statistieken
+      product_reviews: 
+        title: Productbeoordelingen
+      shop_reviews:
+        title: Winkelbeoordelingen
       save: Opslaan
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie

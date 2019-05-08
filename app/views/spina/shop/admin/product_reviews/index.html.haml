@@ -1,12 +1,8 @@
 = form_tag spina.delete_multiple_shop_admin_product_reviews_path, method: :delete do
-  %header#header
-    #header_actions
-      = button_tag type: :submit, class: 'button button-link' do
-        = icon('trash')
-        = t('spina.shop.delete_selected')
-
-    .breadcrumbs
-      = render_breadcrumbs separator: '<div class="divider"></div>'
+  .pull-right{style: "margin-top: 20px"}
+    = button_tag type: :submit, class: 'button button-primary' do
+      = icon('trash')
+      = t('spina.shop.delete_selected')
 
   .table-container.infinite-table
     %table.table.table-clickable

@@ -4,6 +4,9 @@ module Spina::Shop
     belongs_to :customer, optional: true
     has_many :product_reviews, dependent: :destroy
 
+    scope :sorted, -> { order(created_at: :desc) }
+    scope :approved, -> { where(approved: true) }
+
     accepts_nested_attributes_for :product_reviews, reject_if: :mostly_blank
 
     validates :author, :email, :review_pros, :score, presence: true

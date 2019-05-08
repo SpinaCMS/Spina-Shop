@@ -15,7 +15,7 @@
 
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts customer_groups))}
       = link_to Spina::Shop::Customer.model_name.human(count: 2), spina.shop_admin_customers_path 
-    %li{class: ('active' if controller_name == 'product_reviews')}
+    %li{class: ('active' if controller_name.in? %w(product_reviews shop_reviews))}
       = link_to Spina::Shop::ProductReview.model_name.human(count: 2), spina.shop_admin_product_reviews_path
     %li{class: ('active' if controller_name == 'discounts'), style: 'margin-top: 20px'}
       = link_to Spina::Shop::Discount.model_name.human(count: 2), spina.shop_admin_discounts_path

@@ -97,6 +97,11 @@ Spina::Engine.routes.draw do
         end
 
         # Product reviews
+        resources :shop_reviews do
+          collection do
+            post :batch_update
+          end
+        end
         resources :product_reviews do
           collection do
             delete :delete_multiple

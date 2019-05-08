@@ -1,0 +1,30 @@
+= form_with url: spina.batch_update_shop_admin_shop_reviews_path, local: true do
+  .pull-right{style: "margin-top: 20px"}
+    = button_tag type: :submit, name: "button", value: "approve", class: 'button button-primary' do
+      = icon('check')
+      = t('spina.shop.approve_selected')
+
+    = button_tag type: :submit, name: "button", value: "delete", class: 'button button-danger button-link' do
+      = icon('trash')
+      = t('spina.shop.delete_selected')
+
+  .table-container.infinite-table
+    %table.table.table-clickable
+      %thead
+        %tr
+          %th
+          %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:author)
+          %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:review)
+          %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:approved)
+          %th.nowrap.text-right= Spina::Shop::ShopReview.human_attribute_name(:score)
+
+      %tbody
+        - if @shop_reviews.any?
+          = render partial: 'shop_review', collection: @shop_reviews
+        - else
+          %tr
+            %td{colspan: 4}
+              %p.text-center
+                %em.text-muted= 'spina.shop.shop_reviews.no_reviews'
+
+    .pagination= link_to_next_page @shop_reviews, "Next"
