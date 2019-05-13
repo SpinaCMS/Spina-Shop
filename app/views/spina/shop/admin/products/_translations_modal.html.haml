@@ -18,7 +18,7 @@
                 = f.text_field "name_#{locale}"
             - elsif params[:field] == "description"
               .horizontal-form-content
-                %trix-toolbar.clearfix{ id: "product_description_#{locale}_toolbar", data: { trix_editor_id: "product_description_#{locale}_editor" }}
+                %trix-toolbar.clearfix.spina-trix-toolbar{ id: "product_description_#{locale}_toolbar", data: { trix_editor_id: "product_description_#{locale}_editor" }}
                   .button-groups
                     .button-group
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
@@ -27,6 +27,18 @@
                         .icon.icon-italic
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
                         .icon.icon-list-ul
+                      %button.button.button-small{type: "button", tabindex: -1, title: "Link", data: {trix_attribute: 'href', trix_key: 'k', trix_action: 'link'}}
+                        .icon.icon-link
+
+                  .trix-dialogs{data: {trix_dialogs: ""}}
+                    .trix-dialog.trix-dialog--link{data: {trix_dialog: 'href', trix_dialog_attribute: 'href'}}
+                      .trix-dialog__link-fields
+                        %input.trix-input.trix-input--dialog{type: "text", name: "href", placeholder: "Enter a URL", required: true, data: {trix_input: ""}}
+                        .trix-button-group
+                          %button.button.button-primary.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', data: {trix_method: "setAttribute"}}
+                            %i.icon.icon-link
+                          %button.button.button-default.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', value: "Unlink", data: {trix_method: "removeAttribute"}}
+                            %i.icon.icon-cross
                 %trix-editor.text-input{input: "product_description_#{locale}", toolbar: "product_description_#{locale}_toolbar", id: "product_description_#{locale}_editor", placeholder: Spina::Shop::Product.human_attribute_name(:description)}
                 = f.hidden_field "description_#{locale}", id: "product_description_#{locale}", value: f.object.send("description_#{locale}", fallback: false, default: nil)
             - elsif params[:field] == "extended_description"
@@ -40,6 +52,18 @@
                         .icon.icon-italic
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
                         .icon.icon-list-ul
+                      %button.button.button-small{type: "button", tabindex: -1, title: "Link", data: {trix_attribute: 'href', trix_key: 'k', trix_action: 'link'}}
+                        .icon.icon-link
+
+                  .trix-dialogs{data: {trix_dialogs: ""}}
+                    .trix-dialog.trix-dialog--link{data: {trix_dialog: 'href', trix_dialog_attribute: 'href'}}
+                      .trix-dialog__link-fields
+                        %input.trix-input.trix-input--dialog{type: "text", name: "href", placeholder: "Enter a URL", required: true, data: {trix_input: ""}}
+                        .trix-button-group
+                          %button.button.button-primary.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', data: {trix_method: "setAttribute"}}
+                            %i.icon.icon-link
+                          %button.button.button-default.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', value: "Unlink", data: {trix_method: "removeAttribute"}}
+                            %i.icon.icon-cross
                 %trix-editor.text-input{input: "product_extended_description_#{locale}", toolbar: "product_extended_description_#{locale}_toolbar", id: "product_extended_description_#{locale}_editor", placeholder: Spina::Shop::Product.human_attribute_name(:extended_description)}
                 = f.hidden_field "extended_description_#{locale}", id: "product_extended_description_#{locale}", value: f.object.send("extended_description_#{locale}", fallback: false, default: nil)
 

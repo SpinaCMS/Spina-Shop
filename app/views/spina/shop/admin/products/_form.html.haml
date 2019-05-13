@@ -96,7 +96,7 @@
 
                 = f.hidden_field :description, id: 'product_description', value: f.object.description(fallback: false, default: nil)
 
-                #product_description_toolbar{style: 'margin-top: 20px'}
+                #product_description_toolbar.spina-trix-toolbar{style: 'margin-top: 20px'}
                   .button-groups
                     .button-group
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
@@ -105,6 +105,18 @@
                         .icon.icon-italic
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
                         .icon.icon-list-ul
+                      %button.button.button-small{type: "button", tabindex: -1, title: "Link", data: {trix_attribute: 'href', trix_key: 'k', trix_action: 'link'}}
+                        .icon.icon-link
+
+                  .trix-dialogs{data: {trix_dialogs: ""}}
+                    .trix-dialog.trix-dialog--link{data: {trix_dialog: 'href', trix_dialog_attribute: 'href'}}
+                      .trix-dialog__link-fields
+                        %input.trix-input.trix-input--dialog{type: "text", name: "href", placeholder: "Enter a URL", required: true, data: {trix_input: ""}}
+                        .trix-button-group
+                          %button.button.button-primary.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', data: {trix_method: "setAttribute"}}
+                            %i.icon.icon-link
+                          %button.button.button-default.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', value: "Unlink", data: {trix_method: "removeAttribute"}}
+                            %i.icon.icon-cross
 
                 %trix-editor.text-input.trix-content{input: "product_description", toolbar: "product_description_toolbar"}
 
@@ -123,7 +135,7 @@
 
                 = f.hidden_field :extended_description, id: 'product_extended_description', value: f.object.extended_description(fallback: false, default: nil)
 
-                #product_extended_description_toolbar{style: "margin-top: 20px"}
+                #product_extended_description_toolbar.spina-trix-toolbar{style: "margin-top: 20px"}
                   .button-groups
                     .button-group
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
@@ -132,6 +144,18 @@
                         .icon.icon-italic
                       %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
                         .icon.icon-list-ul
+                      %button.button.button-small{type: "button", tabindex: -1, title: "Link", data: {trix_attribute: 'href', trix_key: 'k', trix_action: 'link'}}
+                        .icon.icon-link
+
+                  .trix-dialogs{data: {trix_dialogs: ""}}
+                    .trix-dialog.trix-dialog--link{data: {trix_dialog: 'href', trix_dialog_attribute: 'href'}}
+                      .trix-dialog__link-fields
+                        %input.trix-input.trix-input--dialog{type: "text", name: "href", placeholder: "Enter a URL", required: true, data: {trix_input: ""}}
+                        .trix-button-group
+                          %button.button.button-primary.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', data: {trix_method: "setAttribute"}}
+                            %i.icon.icon-link
+                          %button.button.button-default.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', value: "Unlink", data: {trix_method: "removeAttribute"}}
+                            %i.icon.icon-cross
 
                 %trix-editor.text-input{input: "product_extended_description", toolbar: "product_extended_description_toolbar"}
         

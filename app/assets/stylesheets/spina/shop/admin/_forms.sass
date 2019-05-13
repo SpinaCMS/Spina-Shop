@@ -7,6 +7,36 @@
   .button
     margin-bottom: 0
 
+// Spina flavoured Trix toolbar
+.spina-trix-toolbar
+  padding-right: 20px
+
+  .button.trix-active
+    background: $primary-color
+    color: white
+
+  .trix-dialog
+    border: 1px solid #ddd
+    border-radius: 5px
+    display: none
+
+  .trix-dialog__link-fields
+    display: flex
+
+    .trix-button-group
+      align-items: center
+      display: flex
+
+      .button
+        margin-bottom: 0
+        margin-right: 5px
+
+        .icon
+          margin-right: 0
+
+  .trix-dialog.trix-active
+    display: block
+
 // Select2
 .select2-container
   font-size: 14px
