@@ -27,10 +27,8 @@
             = icon('plus')
             Variant
 
-        - else
-          = link_to spina.duplicate_shop_admin_product_path(@product.id), class: 'button' do
-            = icon('plus')
-            =t 'spina.shop.products.duplicate'
+        = link_to spina.duplicate_shop_admin_product_path(@product.parent || @product), class: 'button' do
+          =t 'spina.shop.products.duplicate'
 
       %button.button.button-primary.icon-only{type: 'submit', style: "margin-left: 3px"}
         = icon('check')
