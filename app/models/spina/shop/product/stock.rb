@@ -29,6 +29,7 @@ module Spina::Shop
         sales_count: stock_level_adjustments.sales.sum(:adjustment) * -1,
         expiration_date: can_expire? ? earliest_expiration_date : nil
       )
+      touch
     end
 
     def expiration_month
