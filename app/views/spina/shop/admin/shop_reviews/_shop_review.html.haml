@@ -25,3 +25,5 @@
         .progress-bar-inner{style: "width: #{shop_review.score * 10}%"}
       .progress-label
         = shop_review.score
+  %td.text-right
+    = link_to t('edit'), spina.edit_shop_admin_shop_review_path(shop_review)

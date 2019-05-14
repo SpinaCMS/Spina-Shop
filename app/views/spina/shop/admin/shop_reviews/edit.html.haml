@@ -1,0 +1,66 @@
+= form_for [spina, :shop, :admin, @shop_review] do |f|
+  %header#header
+    #header_actions
+      = button_tag type: :submit, class: 'button button-primary' do
+        = icon('check')
+        = t('spina.shop.shop_reviews.save')
+
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ShopReview.human_attribute_name :author
+
+          .sidebar-form-control
+            = f.text_field :author, placeholder: Spina::Shop::ShopReview.human_attribute_name(:author)
+            
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ShopReview.human_attribute_name :email
+
+          .sidebar-form-control
+            = f.text_field :email, placeholder: Spina::Shop::ShopReview.human_attribute_name(:email)
+
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ShopReview.human_attribute_name :review_pros
+
+          .sidebar-form-control
+            = f.text_area :review_pros, placeholder: Spina::Shop::ShopReview.human_attribute_name(:review_pros)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::ShopReview.human_attribute_name :review_cons
+
+          .sidebar-form-control
+            = f.text_area :review_cons, placeholder: Spina::Shop::ShopReview.human_attribute_name(:review_cons)
+
+        / .sidebar-form-group
+        /   .sidebar-form-label
+        /     = Spina::Shop::CustomerAccount.human_attribute_name :password_confirmation
+
+        /   .sidebar-form-control
+        /     = f.password_field :password_confirmation, placeholder: Spina::Shop::CustomerAccount.human_attribute_name(:password_confirmation)
+
+    .sidebar-form-sidebar{style: "padding-top: 20px"}
+      .form-group
+        .form-control.pull-right
+          = f.check_box :approved, data: {switch: true}
+        .form-label
+          = Spina::Shop::ShopReview.human_attribute_name :approved
+
+      .form-group
+        .form-label= Spina::Shop::ShopReview.human_attribute_name :score
+        .form-control= f.text_field :score
+
+      .form-group
+        .form-label= Spina::Shop::ShopReview.human_attribute_name :score_communication
+        .form-control= f.text_field :score_communication
+
+      .form-group
+        .form-label= Spina::Shop::ShopReview.human_attribute_name :score_speed
+        .form-control= f.text_field :score_speed

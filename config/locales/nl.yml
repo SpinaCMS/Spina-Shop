@@ -187,6 +187,9 @@ nl:
         score: Cijfer
         score_communication: Cijfer communicatie
         score_speed: Cijfer snelheid / levertijd
+        approved: Goedgekeurd
+        author: Auteur
+        email: Email
       spina/shop/supplier:
         name: Naam
         stock_orders: Leveringsorders
@@ -268,6 +271,9 @@ nl:
       spina/shop/sales_category:
         one: Omzetcategorie
         other: Omzetcategorieën
+      spina/shop/shop_review:
+        one: Winkelbeoordeling
+        other: Winkelbeoordelingen
       spina/shop/stock_order:
         one: Leveringsorder
         other: Leveringsorders
@@ -483,6 +489,7 @@ nl:
         title: Productbeoordelingen
       shop_reviews:
         title: Winkelbeoordelingen
+        save: Winkelbeoordeling opslaan
       save: Opslaan
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
