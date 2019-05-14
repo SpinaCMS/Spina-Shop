@@ -16,7 +16,7 @@
 
           .sidebar-form-control
             = f.text_field :author, placeholder: Spina::Shop::ShopReview.human_attribute_name(:author)
-            
+
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::ShopReview.human_attribute_name :email
@@ -47,12 +47,6 @@
         /     = f.password_field :password_confirmation, placeholder: Spina::Shop::CustomerAccount.human_attribute_name(:password_confirmation)
 
     .sidebar-form-sidebar{style: "padding-top: 20px"}
-      .form-group
-        .form-control.pull-right
-          = f.check_box :approved, data: {switch: true}
-        .form-label
-          = Spina::Shop::ShopReview.human_attribute_name :approved
-
       .form-group
         .form-label= Spina::Shop::ShopReview.human_attribute_name :score
         .form-control= f.text_field :score
