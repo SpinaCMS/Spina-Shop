@@ -3,7 +3,7 @@ module Spina::Shop
     extend ActiveSupport::Concern
 
     included do
-      belongs_to :parent, class_name: "Product", optional: true, counter_cache: :children_count
+      belongs_to :parent, class_name: "Product", optional: true, counter_cache: :children_count, touch: true
       has_many :children, class_name: "Product", foreign_key: :parent_id
 
       before_validation(if: :variant?) do
@@ -19,6 +19,7 @@ module Spina::Shop
       before_save :set_variant_name
       before_save :set_parent, if: :variant?
       after_save { children.each(&:save) }
+      after_touch { parent&.touch }
 
       scope :variants, -> { where.not(parent_id: nil) }
       scope :roots, -> { where(parent_id: nil) }
