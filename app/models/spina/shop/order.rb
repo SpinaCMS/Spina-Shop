@@ -69,6 +69,7 @@ module Spina::Shop
         against: [:order_number, :first_name, :last_name, :email, :delivery_city, :billing_city, :received_at], 
         associated_against: {
           delivery_option: [:name],
+          customer: [:full_name]
         },
         using: {
           tsearch: {prefix: true}
