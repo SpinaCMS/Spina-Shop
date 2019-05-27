@@ -3,6 +3,9 @@
     .form-checkbox{style: 'width: 20px'}
       = check_box_tag 'order_ids[]', order.id
       %label
+  - if Spina::Shop::Store.many?
+    %td
+      .store-badge{style: "background: #{order.store.color}"}= order.store.initials
   %td= link_to order.number, spina.shop_admin_order_path(order)
   %td.no-wrap
     = order.billing_name

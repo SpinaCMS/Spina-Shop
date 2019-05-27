@@ -58,6 +58,8 @@
       %thead
         %tr
           %th
+          - if Spina::Shop::Store.many?
+            %th
           %th= sort_link [:spina, @q], :id, Spina::Shop::Order.human_attribute_name(:order_number), {}, class: 'table-sort'
           %th= sort_link [:spina, @q], :last_name, Spina::Shop::Customer.model_name.human, {}, class: 'table-sort'
           %th= sort_link [:spina, @q], :received_at, Spina::Shop::Order.human_attribute_name(:received_at), {}, class: 'table-sort'

@@ -3,6 +3,9 @@
     .form-checkbox{style: 'width: 20px'}
       = check_box_tag 'shop_review_ids[]', shop_review.id
       %label
+  - if Spina::Shop::Store.many?
+    %td
+      .store-badge{style: "background: #{shop_review.store.color}"}= shop_review.store.initials
   %td
     = shop_review.author
     %small= shop_review.email

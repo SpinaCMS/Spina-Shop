@@ -2,6 +2,7 @@ module Spina::Shop
   class ShopReview < ApplicationRecord
     belongs_to :order, optional: true
     belongs_to :customer, optional: true
+    belongs_to :store, optional: true
     has_many :product_reviews, dependent: :destroy
 
     scope :sorted, -> { order(created_at: :desc) }

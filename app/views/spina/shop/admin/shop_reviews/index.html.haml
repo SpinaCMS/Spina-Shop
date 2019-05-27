@@ -13,6 +13,8 @@
       %thead
         %tr
           %th
+          - if Spina::Shop::Store.many?
+            %th
           %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:author)
           %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:review)
           %th.nowrap= Spina::Shop::ShopReview.human_attribute_name(:approved)
