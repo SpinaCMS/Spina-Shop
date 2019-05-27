@@ -4,6 +4,8 @@ end
 
 module Spina::Shop
   class Order < ApplicationRecord
+    include PgSearch
+
     require_dependency 'spina/shop/order/state_machine_transitions'
     require_dependency 'spina/shop/order/billing'
 
@@ -61,6 +63,18 @@ module Spina::Shop
     before_validation :validate_stock_for_order_items, if: -> { validate_stock }
 
     accepts_nested_attributes_for :order_items
+
+    # Search
+    pg_search_scope :search, 
+        against: [:order_number, :first_name, :last_name, :email, :delivery_city, :billing_city, :received_at], 
+        associated_against: {
+          delivery_option: [:name],
+        },
+        using: {
+          tsearch: {prefix: true}
+        },
+        ignoring: :accents,
+        order_within_rank: "order_number DESC, id DESC"
 
     # Override addresses if necessary
     [:delivery_name, :delivery_street1, :delivery_postal_code, :delivery_city, :delivery_house_number, :delivery_house_number_addition, :delivery_country].each do |f|

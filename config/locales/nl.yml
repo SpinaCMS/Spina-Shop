@@ -107,6 +107,7 @@ nl:
         shipped_at: Verzonden op
         paid_at: Betaald op
         sub_total: Subtotaal
+        store: Winkel
         total: Totaal
         total_excluding_tax: Totaal excl. btw
       spina/shop/order_item:
@@ -361,6 +362,7 @@ nl:
       next: Volgende
       orders:
         actions: Acties
+        all_stores: Alle winkels
         add_product: Voeg product toe
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt
           <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
@@ -383,6 +385,7 @@ nl:
         receive_order_html: Definitief maken
         save: Save order
         save_order: Bestelling opslaan
+        search_results: "Resultaten: %{count}"
         ship_order_confirmation_html: Weet je zeker dat je de bestelling wilt <strong>verzenden</strong>?
           De klant krijgt hier <strong>automatisch</strong> een email van.
         ship_order_html: "<strong>Zending</strong> aanmaken"

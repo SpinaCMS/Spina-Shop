@@ -57,19 +57,19 @@ module Spina::Shop
       end
 
       def index
-        @q = Order.ransack(params[:q])
-        @orders = @q.result.confirmed.sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
+        @orders = Order.confirmed.includes(:order_items, :order_transitions).sorted
+        filter_orders
       end
 
       def to_process
-        @q = Order.ransack(params[:q])
-        @orders = @q.result.in_state(:paid, :preparing).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
+        @orders = Order.in_state(:paid, :preparing).includes(:order_items, :order_transitions).sorted
+        filter_orders
         render :index
       end
 
       def failed
-        @q = Order.ransack(params[:q])
-        @orders = @q.result.in_state(:failed).sorted.includes(:order_items, :order_transitions).page(params[:page]).per(15)
+        @orders = Order.in_state(:failed).includes(:order_items, :order_transitions).sorted
+        filter_orders
         render :index
       end
 
@@ -94,6 +94,30 @@ module Spina::Shop
       end
 
       private
+
+        def advanced_filters
+          params[:advanced_filters] || Hash.new
+        end
+
+        def filter_orders        
+          # Store
+          @orders = @orders.where(store_id: advanced_filters[:store_id]) if advanced_filters[:store_id].present?
+
+          # Date range
+          start_date = Date.parse(advanced_filters[:received_at_gteq].presence || "01-01-2000")
+          end_date = Date.parse(advanced_filters[:received_at_lteq].presence || "31-12-3000")
+          @orders = @orders.where(received_at: start_date..end_date)
+
+          # Search
+          @orders = @orders.search(params[:search]) if params[:search].present?
+
+          # Totaal
+          @orders_count = @orders.count
+          @advanced_filter = advanced_filters.values.any?(&:present?)
+
+          # Pagination
+          @orders = @orders.page(params[:page]).per(15)
+        end
 
         def order_params
           params.require(:order).permit!

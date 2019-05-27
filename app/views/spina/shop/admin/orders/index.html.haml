@@ -13,31 +13,35 @@
       %li{class: ('active' if action_name == 'failed')}
         = link_to t('spina.shop.orders.failed'), spina.failed_shop_admin_orders_path
 
-= search_form_for @q, url: spina.shop_admin_orders_path, html: {class: 'filter-form'} do |f|
+= form_with url: '', method: :get, local: true, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :first_name_or_last_name_or_company_cont, placeholder: t('spina.search')
+      = f.text_field :search, value: params[:search], placeholder: t('spina.search')
       = link_to 'geavanceerd', '#', class: 'filter-form-advanced-link'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
 
-  .filter-form-advanced
-    .filter-form-advanced-group
-      .filter-form-label
-        = Spina::Shop::Order.human_attribute_name(:order_number)
+  .filter-form-advanced{style: ("display: block" if @advanced_filter)}
+    = f.fields_for :advanced_filters do |ff|
+      .filter-form-advanced-group
+        .filter-form-label= Spina::Shop::Store.human_attribute_name(:store)
 
-      .filter-form-control
-        = f.text_field :order_number_eq, placeholder: Spina::Shop::Order.human_attribute_name(:order_number)
+        .filter-form-control
+          .input-group
+            = ff.select :store_id, options_for_select(Spina::Shop::Store.pluck(:name, :id), params.dig(:advanced_filters, :store_id)), {include_blank: t("spina.shop.orders.all_stores")}, class: 'select2', style: 'width: 100%'
 
-    .filter-form-advanced-group
-      .filter-form-label
-        = Spina::Shop::Order.human_attribute_name(:received_at)
+      .filter-form-advanced-group
+        .filter-form-label= Spina::Shop::Order.human_attribute_name(:received_at)
 
-      .filter-form-control
-        .input-group
-          = f.text_field :received_at_gteq, value: (l(f.object.received_at_gteq, format: '%d-%m-%Y') if f.object.received_at_gteq), placeholder: 'min', class: 'datepicker'
-          = f.text_field :received_at_lteq, value: (l(f.object.received_at_lteq, format: '%d-%m-%Y') if f.object.received_at_lteq), placeholder: 'max', class: 'datepicker'
+        .filter-form-control
+          .input-group
+            = ff.text_field :received_at_gteq, value: params.dig(:advanced_filters, :received_at_gteq), placeholder: 'min', class: 'datepicker'
+            = ff.text_field :received_at_lteq, value: params.dig(:advanced_filters, :received_at_lteq), placeholder: 'max', class: 'datepicker'
+
+- if @advanced_filter || params[:search].present?
+  %small.text-muted{style: "margin-top: 10px; display: block"}
+    =t 'spina.shop.orders.search_results', count: @orders_count
 
 = form_with url: spina.shop_admin_orders_batch_path, local: true do
   .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}
@@ -60,11 +64,11 @@
           %th
           - if Spina::Shop::Store.many?
             %th
-          %th= sort_link [:spina, @q], :id, Spina::Shop::Order.human_attribute_name(:order_number), {}, class: 'table-sort'
-          %th= sort_link [:spina, @q], :last_name, Spina::Shop::Customer.model_name.human, {}, class: 'table-sort'
-          %th= sort_link [:spina, @q], :received_at, Spina::Shop::Order.human_attribute_name(:received_at), {}, class: 'table-sort'
-          %th= sort_link [:spina, @q], :shipped_at, Spina::Shop::Order.human_attribute_name(:shipped_at), {}, class: 'table-sort'
-          %th= sort_link [:spina, @q], :paid_at, Spina::Shop::Order.human_attribute_name(:paid_at), {}, class: 'table-sort'
+          %th= Spina::Shop::Order.human_attribute_name(:order_number)
+          %th= Spina::Shop::Customer.model_name.human
+          %th= Spina::Shop::Order.human_attribute_name(:received_at)
+          %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
+          %th= Spina::Shop::Order.human_attribute_name(:paid_at)
           %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
           %th
 
