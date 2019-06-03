@@ -1,4 +1,7 @@
 %tr
+  - if Spina::Shop::Store.many?
+    %td
+      .store-badge{style: "background: #{customer.store.color}"}= customer.store.initials
   %td= customer.number
   %td= link_to customer.name, spina.shop_admin_customer_path(customer), class: 'table-link'
   %td= customer.customer_group.try(:name)
