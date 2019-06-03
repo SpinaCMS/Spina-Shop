@@ -9,7 +9,7 @@ module Spina::Shop
     end
 
     def readable_code
-      code.insert(4, ' - ')
+      code.size > 3 ? code.insert(4, ' - ') : code
     end
 
     private
