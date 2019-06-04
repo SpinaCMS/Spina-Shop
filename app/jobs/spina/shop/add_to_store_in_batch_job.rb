@@ -3,7 +3,7 @@ module Spina::Shop
 
     def perform(product_ids, store_id)
       store = Store.find(store_id)
-      store.products << Product.where(id: product_ids)
+      store.products << (Product.where(id: product_ids) + Product.where(parent_id: product_ids)).uniq
 
       # Trigger save callback for parent products
       Product.where(id: product_ids).roots.where('children_count > 0').each(&:save)
