@@ -8,8 +8,11 @@ module Spina::Shop
       end
 
       def create
+        # Adjust for reserved stock
+        recount_stock_level = recount_params[:stock_level].to_i - @reserved
+
         original_stock_level = @product.stock_level.to_i
-        recount_difference = recount_params[:stock_level].to_i - original_stock_level.to_i
+        recount_difference = recount_stock_level - original_stock_level.to_i
         something_changed = (recount_difference != 0) || (recount_params[:expiration_year].to_i != @product.expiration_year.to_i) || (recount_params[:expiration_month].to_i != @product.expiration_month.to_i)
         difference_params = {difference: recount_difference, actor: current_spina_user.try(:name) || "onbekend"}
 
@@ -24,7 +27,7 @@ module Spina::Shop
 
             # Create new stock entry
             ChangeStockLevel.new(@product, {
-              adjustment: recount_params[:stock_level],
+              adjustment: recount_stock_level,
               description: "Stock Management Recount (#{recount_difference} difference)",
               expiration_year: recount_params[:expiration_year],
               expiration_month: recount_params[:expiration_month],
@@ -45,6 +48,7 @@ module Spina::Shop
 
         def set_product
           @product = Product.find_by(id: params[:product_id])
+          @reserved = -1 * @product.stock_level_adjustments.joins(order_item: :order).where(spina_shop_orders: {id: Spina::Shop::Order.in_state(:paid, :preparing).ids}).sum(:adjustment)
         end
 
         def set_previous_product

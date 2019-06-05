@@ -1,0 +1,15 @@
+.container
+  .page-title
+    %div
+      🔍
+      = @q.presence || "Zoek product..."
+
+  = form_with url: spina.search_shop_stock_management_products_path, local: true, method: :get do |f|
+    .input-wrapper
+      .form-control= f.text_field :q, placeholder: "Zoeken..."
+
+    .list
+      - @products.each do |product|
+        = link_to spina.new_shop_stock_management_product_recount_path(product), class: 'list-item' do
+          = product.full_name
+        

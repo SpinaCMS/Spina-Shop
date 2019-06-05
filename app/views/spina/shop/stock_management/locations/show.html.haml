@@ -1,4 +1,8 @@
 .container
+  .pull-right
+    = link_to spina.search_shop_stock_management_products_path, class: 'button button-link icon-only' do
+      🔍
+      
   = link_to "⇤ Alle locaties", spina.shop_stock_management_locations_path, class: 'button button-link', style: 'margin-bottom: 10px'
   .page-title.page-title-large 📦 Locatie #{@location}
 

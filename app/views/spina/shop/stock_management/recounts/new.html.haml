@@ -1,4 +1,8 @@
 .container
+  .pull-right
+    = link_to spina.search_shop_stock_management_products_path, class: 'button button-link icon-only' do
+      🔍
+
   - primary_location = @product.location.match(/(\A\D*)/).try(:[], 0)
   = link_to "⇤ Locatie #{primary_location}", spina.shop_stock_management_location_path(primary_location), class: 'button button-link', style: 'margin-bottom: 10px'
 
@@ -11,14 +15,14 @@
       %small
         Locatie:
         %strong= @product.location
-      = @product.name
+      = @product.full_name
 
   - if @product.stock_enabled?
     = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
 
       .select-dropdown
         %label Voorraad
-        = f.select :stock_level, options_for_select(0..1000, f.object.stock_level)
+        = f.number_field :stock_level
 
       - if @product.can_expire?    
         .input-group
@@ -26,7 +30,12 @@
             = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
           .select-dropdown
             = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), include_blank: "Kies een jaar"
-            
+
+      - unless @reserved.zero?
+        %p.text-muted
+          %small
+            Vul het <strong>totaal in het schap</strong> in. De gereserveerde voorraad (#{@reserved}) wordt automatisch verrekend.
+              
       = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 40px', data: {disable_with: "Opslaan..."} do
         💾 Opslaan en volgende
 

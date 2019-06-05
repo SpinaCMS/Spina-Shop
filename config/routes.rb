@@ -145,6 +145,9 @@ Spina::Engine.routes.draw do
       resources :locations
 
       resources :products do
+        collection do
+          get :search
+        end
         resource :recount, only: [:new, :create]
       end
     end
