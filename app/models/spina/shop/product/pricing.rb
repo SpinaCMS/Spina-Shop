@@ -14,22 +14,19 @@ module Spina::Shop
       promotional_price.presence || base_price
     end
 
-    def price_for_current_store
-      return price
-      # Werkt nog niet want Spina::Shop::Current is niet altijd bekend!
-      # Eerst oplossen voor livegang
-      # 
-      # return price if ::Spina::Shop::Current.store.nil? # Get store from order
-      # price_exception_for_store(::Spina::Shop::Current.store).try(:[], 'price')&.to_d || price
+    def price_for_store(store)
+      # If there is no store, simply return price
+      return price if store.nil?
+      price_exception_for_store(store).try(:[], 'price')&.gsub(",", ".")&.to_d || price
     end
 
     def price_for_order(order)
       # Return the default price if we don't know anything about the order
-      return price_for_current_store if order.nil? 
+      return price if order.nil? 
 
       # If no conversion is needed, simply return price
-      price = price_for_customer(order.customer)
-      price_includes_tax = price_includes_tax_for_customer(order.customer)
+      price = price_for_customer(order)
+      price_includes_tax = price_includes_tax_for_order(order)
       return price if price_includes_tax == order.prices_include_tax
 
       # Price modifier for unit price
@@ -42,14 +39,14 @@ module Spina::Shop
       return unit_price.round(2, :half_even)
     end
 
-    def price_for_customer(customer)
-      return price_for_current_store if customer.nil?
-      price_exception_for_customer(customer).try(:[], 'price').try(:to_d) || price_for_current_store
+    def price_for_customer(order)
+      return price_for_store(order.store) if order.customer.nil?
+      price_exception_for_customer(order.customer).try(:[], 'price')&.gsub(",", ".")&.to_d || price_for_store(order.store)
     end
 
-    def price_includes_tax_for_customer(customer)
-      return price_includes_tax if customer.nil?
-      price_exception = price_exception_for_customer(customer)
+    def price_includes_tax_for_order(order)
+      return price_includes_tax if order.nil?
+      price_exception = price_exception_for_customer(order.customer) || price_exception_for_store(order.store)
       if price_exception.present?
         ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
       else
@@ -70,7 +67,7 @@ module Spina::Shop
       # Try the parent of one's CustomerGroup if present
       # Subgroups are always first
       def price_exception_for_customer(customer)
-        return if customer.customer_group_id.blank?
+        return if customer&.customer_group_id.blank?
         [customer.customer_group_id, customer.customer_group.parent_id].each do |group_id|
           price_exception = price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
             return h if h["customer_group_id"].to_i == group_id
