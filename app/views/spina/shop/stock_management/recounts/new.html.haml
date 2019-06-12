@@ -3,13 +3,14 @@
     = link_to spina.search_shop_stock_management_products_path, class: 'button button-link icon-only' do
       🔍
 
-  - primary_location = @product.location.match(/(\A\D*)/).try(:[], 0)
+  - regex = @product.location.match(/\A(\d*)([a-zA-Z]*).*\z/)
+  - primary_location = regex.try(:[], 1).presence || regex.try(:[], 2).presence
   = link_to "⇤ Locatie #{primary_location}", spina.shop_stock_management_location_path(primary_location), class: 'button button-link', style: 'margin-bottom: 10px'
 
   .page-title
-    - if @product.product_images.any?
+    - if @product.product_images.any? || @product.root.product_images.any?
       .page-title-image
-        = image_tag main_app.url_for(@product.product_images.first.file.variant(resize: '60x120')), style: 'margin: 0 auto; display: block'
+        = image_tag main_app.url_for((@product.product_images.first || @product.root.product_images.first).file.variant(resize: '60x120')), style: 'margin: 0 auto; display: block'
 
     %div
       %small
