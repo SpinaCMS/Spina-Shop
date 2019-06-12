@@ -30,11 +30,6 @@
             = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
           .select-dropdown
             = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), include_blank: "Kies een jaar"
-
-      - unless @reserved.zero?
-        %p.text-muted
-          %small
-            Vul het <strong>totaal in het schap</strong> in. De gereserveerde voorraad (#{@reserved}) wordt automatisch verrekend.
               
       = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 40px', data: {disable_with: "Opslaan..."} do
         💾 Opslaan en volgende
@@ -47,6 +42,10 @@
     - if @next_product.present?
       = link_to spina.new_shop_stock_management_product_recount_path(@next_product), class: 'button' do
         Volgende ▶︎
+
+  - unless @reserved.zero?
+    .text-center.text-muted{style: 'margin-top: 20px'}
+      Vul het <strong>totaal in het schap</strong> in. De gereserveerde voorraad (#{@reserved}) wordt automatisch verrekend.
 
   - if @last_recount.present?
     .text-center.text-muted{style: 'margin-top: 20px'}
