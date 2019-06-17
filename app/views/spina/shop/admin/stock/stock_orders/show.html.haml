@@ -74,6 +74,9 @@
             %td
               - if @stock_order.expected_delivery.present?
                 =l @stock_order.expected_delivery, format: '%e %B %Y'
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:order_value)
+          %td= number_to_currency @stock_order.order_value
 
     .information-table
       %table
@@ -110,9 +113,14 @@
           %td
             - if ordered.product.root.product_images.any?
               = image_tag main_app.url_for(ordered.product.root.product_images.first.file.variant(resize: '60x60')), width: 30
-          %td= link_to ordered.product.full_name, spina.shop_admin_product_path(ordered.product)
+          %td
+            = link_to ordered.product.full_name, spina.shop_admin_product_path(ordered.product)
+            %small= number_to_currency ordered.product.cost_price
           %td= ordered.product.location
-          %td.text-right{style: 'width: 50px'}= ordered.quantity
+          %td.text-right
+            = ordered.quantity
+            %small= number_to_currency ordered.quantity * ordered.product.cost_price
+
           %td.text-right{style: 'width: 150px'}
             .progress.progress-bar-primary
               .progress-bar

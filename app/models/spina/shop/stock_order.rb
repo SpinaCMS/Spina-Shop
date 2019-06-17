@@ -25,6 +25,10 @@ module Spina::Shop
       closed_at.present?
     end
 
+    def order_value
+      ordered_stock.joins(:product).sum("quantity * cost_price")
+    end
+
     def place_order!
       return if ordered_stock.none?
       self[:ordered_at] = Time.zone.now
