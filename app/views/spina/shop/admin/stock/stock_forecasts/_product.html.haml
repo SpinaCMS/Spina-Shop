@@ -5,6 +5,7 @@
       %label
   %td
     = link_to product.full_name, spina.shop_admin_product_path(product)
+    %small= product.location
   %td
     = product.supplier&.name
   %td.text-right
@@ -31,12 +32,13 @@
       %span.text-success= "+#{product.stock_difference}"
   %td.text-right.nowrap
     - if product.recount_created_at.present?
-      %small= time_ago_in_words(product.recount_created_at)
       %span{style: "font-size: 13px", class: ('text-danger' unless product.recount_difference.in? -10..10)}
         - if product.recount_difference > 0
           = "+#{product.recount_difference}"
         - else
           = product.recount_difference
+      %small
+        =l product.recount_created_at, format: "%d-%m-%y"
   %td.text-right.text-muted
     = product.in_stock_reminders_count
     %i.icon.icon-mail{style: 'font-size: 11px'}

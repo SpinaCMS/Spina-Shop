@@ -53,10 +53,10 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Inkoop<br /><small>voorraadverschil</small>
           %th.text-right{style: 'min-width: 60px'}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'recount_created_at', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+            = link_to spina.shop_admin_stock_forecast_path({order: 'recount_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Hertelling
               %br/
-              %small Verschil
+              %small verschil
           %th.text-right{style: 'min-width: 120px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'in_stock_reminders_count', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Herinneren<br /><small>nieuwe voorraad</small>
