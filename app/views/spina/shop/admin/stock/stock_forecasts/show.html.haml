@@ -1,11 +1,22 @@
 = search_form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :sku_or_translations_name_or_supplier_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of leverancier'
+      = f.text_field :sku_or_location_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
+      = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
+        = icon('filter')
+        = "filteren #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
-- search_params = {q: {sku_or_translations_name_or_supplier_cont: params[:q].try(:[], :sku_or_translations_name_or_supplier_cont)}}
+
+  .filter-form-advanced
+    .filter-form-advanced-group
+      .filter-form-label= Spina::Shop::Supplier.model_name.human(count: 2)
+      .filter-form-control
+        - suppliers = Spina::Shop::Supplier.all.map{|t| [t.name, t.id]}
+        = f.select :supplier_id_in, suppliers, {}, class: 'select2', style: 'width: 100%', multiple: true
+
+- search_params = {q: {sku_or_location_or_translations_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_cont)}}
 
 = form_with url: spina.new_shop_admin_stock_order_products_path(q: params.permit(q: {})[:q]), method: :get do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
@@ -41,6 +52,11 @@
           %th.text-right{style: 'min-width: 60px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Inkoop<br /><small>voorraadverschil</small>
+          %th.text-right{style: 'min-width: 60px'}
+            = link_to spina.shop_admin_stock_forecast_path({order: 'recount_created_at', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+              Hertelling
+              %br/
+              %small Verschil
           %th.text-right{style: 'min-width: 120px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'in_stock_reminders_count', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Herinneren<br /><small>nieuwe voorraad</small>

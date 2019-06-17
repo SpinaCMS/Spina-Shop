@@ -5,7 +5,7 @@
 = search_form_for @q, url: (action_name == "index" ? spina.shop_admin_products_path : spina.archived_shop_admin_products_path), html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :sku_or_location_or_translations_name_cont_all, style: 'box-sizing: border-box', placeholder: 'Zoek op naam, SKU of locatie'
+      = f.text_field :sku_or_location_or_translations_name_cont_all, style: 'box-sizing: border-box', placeholder: 'Zoek op hoofdproduct'
       = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
         = icon('filter')
         = "filteren #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
