@@ -119,6 +119,8 @@
           %td= ordered.product.location
           %td.text-right
             = ordered.quantity
+            - if ordered.product.supplier_packing_unit > 1
+              = "(colli: #{(ordered.quantity / ordered.product.supplier_packing_unit).ceil})"
             %small= number_to_currency ordered.quantity * ordered.product.cost_price
 
           %td.text-right{style: 'width: 150px'}

@@ -13,8 +13,8 @@
         %tr
           %th
           %th Product
-          %th.nowrap Huidige voorraad
-          %th Aantal
+          %th.nowrap Voorraad
+          %th Aantal bestellen
 
         - @products.each do |product|
           = f.hidden_field "products[][id]", value: product.id
@@ -25,8 +25,15 @@
             %td
               = product.name
               %small= product.variant_name
-            %td= product.stock_level
-            %td= f.number_field "products[][quantity]", placeholder: "Aantal", value: (product.stock_difference < 0 ? product.stock_difference * -1 : 0)
+            %td.nowrap
+              = product.stock_level
+              %small{style: "display: inline"}
+                \/
+                = product.optimal_stock
+            %td
+              - quantity_to_order = (product.stock_difference < 0 ? (product.stock_difference / product.supplier_packing_unit).ceil * product.supplier_packing_unit * -1 : 0)
+              = f.number_field "products[][quantity]", placeholder: "Aantal", value: quantity_to_order
+              %small= "(verpakt per: #{product.supplier_packing_unit})"
     
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
