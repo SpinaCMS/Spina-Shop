@@ -144,6 +144,8 @@ Spina::Engine.routes.draw do
 
       resources :locations
 
+      resources :stock_orders
+
       resources :products do
         collection do
           get :search

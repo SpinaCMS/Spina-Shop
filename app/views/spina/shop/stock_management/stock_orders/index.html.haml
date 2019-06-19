@@ -1,0 +1,35 @@
+.container
+  = link_to "⇤ Dashboard", spina.shop_stock_management_root_path, class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title.page-title-large 🚚 Leveringen
+
+  .list-title Vandaag
+  .list
+    - @expected_today.each do |stock_order|
+      = link_to [spina, :shop, :stock_management, stock_order], class: 'list-item' do
+        %div
+          %strong= "##{stock_order.id}"
+          = stock_order.supplier.name
+
+        .text-right
+          = stock_order.received_percentage
+          verwerkt
+          .text-muted
+            = stock_order.ordered_stock.count
+            producten
+
+  .list-title Later
+  .list
+    - @expected_later.each do |stock_order|
+      = link_to [spina, :shop, :stock_management, stock_order], class: 'list-item' do
+        %div
+          %strong= "##{stock_order.id}"
+          = stock_order.supplier.name
+        
+        .text-right
+          - if stock_order.expected_delivery.present?
+            =l stock_order.expected_delivery, format: "%d-%m-%Y"
+          - else
+            Onbekend
+          .text-muted
+            = stock_order.ordered_stock.count
+            producten

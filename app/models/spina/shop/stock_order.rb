@@ -8,6 +8,7 @@ module Spina::Shop
     scope :open, -> { where(closed_at: nil).where.not(ordered_at: nil) }
     scope :ordered, -> { where.not(ordered_at: nil) }
     scope :closed, -> { where.not(closed_at: nil) }
+    scope :expected_today, -> { where(expected_delivery: Date.today) }
 
     def open?
       ordered? && !closed?
@@ -27,6 +28,10 @@ module Spina::Shop
 
     def order_value
       ordered_stock.joins(:product).sum("quantity * cost_price")
+    end
+
+    def received_percentage
+      "#{((ordered_stock.sum(:received) / ordered_stock.sum(:quantity).to_d) * 100).round}%"
     end
 
     def place_order!

@@ -1,0 +1,14 @@
+.container
+  = link_to "⇤ Leveringen", spina.shop_stock_management_stock_orders_path, class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title
+    %div
+      %small
+        Levering ##{@stock_order.id}
+      = @stock_order.supplier.name
+
+  .text-muted
+    Verwacht:
+    - if @stock_order.expected_delivery.present?
+      =l @stock_order.expected_delivery, format: "%d-%m-%Y"
+    - else
+      onbekend
