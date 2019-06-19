@@ -148,6 +148,7 @@ nl:
         stock_level: Voorraad
         supplier: Leverancier
         supplier_reference: Leverancier referentie
+        supplier_packing_unit: Verpakt per
         weight: Gewicht
       spina/shop/product_bundle:
         name: Naam

@@ -432,6 +432,13 @@
 
             .form-group
               .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :supplier_packing_unit
+                .form-control{style: "flex: 1.5"}
+                  = f.text_field :supplier_packing_unit, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_packing_unit)
+
+            .form-group
+              .input-group
                 %label.form-label{style: 'display: block; width: 100%; margin-right: 0; border-right: 1px solid rgb(204, 204, 204); cursor: pointer'}
                   .form-checkbox{style: 'display: inline-block; width: 24px'}
                     = f.check_box :available_at_supplier

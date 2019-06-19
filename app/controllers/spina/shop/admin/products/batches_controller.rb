@@ -39,6 +39,10 @@ module Spina::Shop
             elsif params[:add_or_remove] == "remove"
               RemoveFromStoreInBatchJob.perform_later(@products.ids, id)
             end
+          when "supplier"
+            id = params[:supplier_id]
+            supplier_packing_unit = params[:supplier_packing_unit]
+            AddSupplierToProductsInBatchJob.perform_later(@products.ids, id, supplier_packing_unit)
           else
             # Update all other attributes in batch
             UpdateProductsInBatchJob.perform_later(@products.ids, product_params)
