@@ -25,6 +25,10 @@
             %td
               = product.name
               %small= product.variant_name
+              - if product.supplier
+                = product.supplier.name
+              - else
+                .text-danger Geen leverancier
             %td.nowrap
               = product.stock_level
               %small{style: "display: inline"}
