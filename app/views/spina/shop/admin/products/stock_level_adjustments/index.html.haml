@@ -32,6 +32,7 @@
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:adjustment)
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:note)
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:created_at)
+        %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:actor)
         - if @product.can_expire?
           %th.text-right= Spina::Shop::StockLevelAdjustment.human_attribute_name(:expiration_date)
 
@@ -46,6 +47,7 @@
 
           %td= adjustment.description
           %td=l adjustment.created_at, format: "%d-%m-%Y"
+          %td= adjustment.actor
 
           - if @product.can_expire?
             %td.text-muted.text-right= adjustment.expiration_date if adjustment.adjustment > 0

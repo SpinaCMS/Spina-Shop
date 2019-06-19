@@ -21,13 +21,20 @@
   %br/
   %br/
 
-  %strong Ontvangen:
+  %strong Reeds ontvangen: 
+  = @ordered_stock.received
   %br/
   %br/
   = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order) do |f|
     = f.hidden_field :ordered_stock_id, value: @ordered_stock.id
-
-    .form-control= f.number_field :received, value: (@ordered_stock.received if @ordered_stock.received != 0), placeholder: Spina::Shop::OrderedStock.human_attribute_name(:received)
+    - if @ordered_stock.received > 0
+      .text-danger{style: "margin-bottom: 20px"}
+        %strong Let op!
+        Je hebt dit product al ingevuld. 
+        %br/ 
+        %br/
+        Heb je meer ontvangen? Vul dan alleen de extra hoeveelheid in. Spina telt dit automatisch bij elkaar op.
+    .form-control= f.number_field :received, placeholder: "Ontvangen", pattern: "[0-9]*"
 
     = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 20px', data: {disable_with: "Opslaan..."} do
       💾 Opslaan
