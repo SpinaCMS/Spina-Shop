@@ -2,9 +2,13 @@
   %header#header
     #header_actions
       - if @stock_order.open?
-        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post, data: {confirm: "Weet je het zeker?"} do
+        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post do
           = icon('cross')
           =t 'spina.shop.stock_orders.close_order'
+      - else
+        = link_to spina.reopen_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post do
+          = icon('pencil')
+          =t 'spina.shop.stock_orders.reopen_order'
 
       = link_to spina.edit_shop_admin_stock_order_path(@stock_order), class: 'button icon-only' do
         = icon('pencil')

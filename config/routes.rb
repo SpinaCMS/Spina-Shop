@@ -88,6 +88,7 @@ Spina::Engine.routes.draw do
           resources :stock_orders do
             member do
               post :place_order
+              post :reopen_order
               post :close_order
             end
             resources :ordered_stock, only: [:destroy]
@@ -144,7 +145,12 @@ Spina::Engine.routes.draw do
 
       resources :locations
 
-      resources :stock_orders
+      resources :stock_orders do
+        member do
+          post :close_order
+        end
+        resource :receive_products, only: [:new, :create]
+      end
 
       resources :products do
         collection do

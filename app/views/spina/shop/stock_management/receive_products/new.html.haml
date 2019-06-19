@@ -1,0 +1,33 @@
+.container
+  = link_to "⇤ Levering ##{@stock_order.id}", spina.shop_stock_management_stock_order_path(@stock_order), class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title
+    - if @ordered_stock.product.product_images.any? || @ordered_stock.product.root.product_images.any?
+      .page-title-image{style: "width: 30px; margin-right: 20px"}
+        = image_tag main_app.url_for((@ordered_stock.product.product_images.first || @ordered_stock.product.root.product_images.first).file.variant(resize: '60x120')), style: 'margin: 0 auto 0 auto; display: block'
+
+    %div
+      = @ordered_stock.product.name
+      %small= @ordered_stock.product.variant_name
+
+  %strong Locatie:
+  = @ordered_stock.product.location
+
+  %br/
+  %br/
+
+  %strong Besteld:
+  = @ordered_stock.quantity
+
+  %br/
+  %br/
+
+  %strong Ontvangen:
+  %br/
+  %br/
+  = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order) do |f|
+    = f.hidden_field :ordered_stock_id, value: @ordered_stock.id
+
+    .form-control= f.number_field :received, value: (@ordered_stock.received if @ordered_stock.received != 0), placeholder: Spina::Shop::OrderedStock.human_attribute_name(:received)
+
+    = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 20px', data: {disable_with: "Opslaan..."} do
+      💾 Opslaan

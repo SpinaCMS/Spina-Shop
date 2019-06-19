@@ -6,5 +6,8 @@ module Spina::Shop
     belongs_to :product
 
     validates :quantity, presence: true
+
+    scope :processed, -> { where('received >= quantity') }
+    scope :unprocessed, -> { where('received < quantity') }
   end
 end

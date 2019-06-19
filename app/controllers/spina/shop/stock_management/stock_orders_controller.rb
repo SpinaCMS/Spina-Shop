@@ -11,6 +11,12 @@ module Spina::Shop
         @stock_order = StockOrder.find(params[:id])
       end
 
+      def close_order
+        @stock_order = StockOrder.open.find(params[:id])
+        @stock_order.update_attributes(closed_at: Time.zone.now)
+        redirect_to spina.shop_stock_management_stock_orders_path
+      end
+
     end
   end
 end

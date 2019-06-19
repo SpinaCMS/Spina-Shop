@@ -77,6 +77,12 @@ module Spina::Shop
           redirect_to spina.shop_admin_stock_order_path(@stock_order)
         end
 
+        def reopen_order
+          @stock_order = StockOrder.find(params[:id])
+          @stock_order.update_attributes(closed_at: nil)
+          redirect_to spina.shop_admin_stock_order_path(@stock_order)
+        end
+
         private
 
           def set_breadcrumbs
