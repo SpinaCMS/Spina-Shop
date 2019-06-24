@@ -200,12 +200,20 @@
               .sidebar-form-label
                 = Spina::Shop::Product.human_attribute_name :seo_title
               .sidebar-form-control
+                - if f.object.persisted? && Spina.config.locales.many? && !f.object.variant?
+                  .pull-right
+                    = link_to spina.translations_shop_admin_product_path(@product, :seo_title), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                      %i.icon.icon-comment
                 = f.text_field :seo_title, placeholder: Spina::Shop::Product.human_attribute_name(:seo_title), value: f.object.seo_title(fallback: false, default: nil)
 
             .sidebar-form-group
               .sidebar-form-label
                 = Spina::Shop::Product.human_attribute_name :seo_description
               .sidebar-form-control
+                - if f.object.persisted? && Spina.config.locales.many? && !f.object.variant?
+                  .pull-right
+                    = link_to spina.translations_shop_admin_product_path(@product, :seo_description), class: "button button-mini icon-only button-round", style: "position: absolute; right: 12px; top: 12px", data: {remote: true} do
+                      %i.icon.icon-comment
                 = f.text_field :seo_description, placeholder: Spina::Shop::Product.human_attribute_name(:seo_description), value: f.object.seo_description(fallback: false, default: nil)
 
             .sidebar-form-group
