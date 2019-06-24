@@ -114,6 +114,7 @@ module Spina::Shop
       def parent_attributes
         attributes = %w(name product_category must_be_of_age_to_buy)
         attributes << :active unless parent.active
+        attributes << :archived if parent.archived?
         attributes << :sales_category_id unless variant_override?(:sales_category)
         attributes += pricing_attributes unless variant_override?(:pricing)
         attributes
