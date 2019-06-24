@@ -2,7 +2,8 @@ module Spina::Shop
   class UpdateProductsInBatchJob < ApplicationJob
 
     def perform(product_ids, product_params)
-      Product.where(id: product_ids).each do |product|
+      # Order by children count desc so root products are handled first
+      Product.where(id: product_ids).order(children_count: :desc).each do |product|
         product.update_attributes(product_params)
       end
     end
