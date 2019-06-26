@@ -15,10 +15,8 @@
             .horizontal-form-label{style: "width: 150px"}=t "languages.#{locale}"
             - if params[:field] == "name"
               .horizontal-form-content= f.text_field "name_#{locale}"
-            - elsif params[:field] == "seo_title"
-              .horizontal-form-content= f.text_field "seo_title_#{locale}", value: f.object.seo_title(fallback: false, default: nil)
-            - elsif params[:field] == "seo_description"
-              .horizontal-form-content= f.text_field "seo_description_#{locale}", value: f.object.seo_description(fallback: false, default: nil)
+            - elsif params[:field].in? %w(seo_title seo_description)
+              .horizontal-form-content= f.text_field "seo_description_#{locale}", value: f.object.send("#{params[:field]}_#{locale}", fallback: false, default: nil)
             - elsif params[:field].in? %w(description extended_description)
               .horizontal-form-content
                 %trix-toolbar.clearfix.spina-trix-toolbar{ id: "product_description_#{locale}_toolbar", data: { trix_editor_id: "product_description_#{locale}_editor" }}
