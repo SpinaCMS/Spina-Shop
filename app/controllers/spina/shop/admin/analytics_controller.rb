@@ -29,6 +29,8 @@ module Spina::Shop
           orders = Spina::Shop::Order.all
         end
 
+        orders = orders.where(store_id: params[:store_ids]) if params[:store_ids].present?
+
         @orders = orders.where(paid_at: @from..@to).joins(:order_items).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").where("spina_shop_order_items.metadata->>'sales_category_code' != '2010'").sum('CASE WHEN prices_include_tax THEN round(quantity * (unit_price / ((100 + tax_rate) / 100)), 2) - round(discount_amount / ((100 + tax_rate) / 100), 2) ELSE quantity * unit_price - discount_amount END').sort_by(&:first)
 
         @gift_cards_sold = orders.where(paid_at: @from..@to).joins(:order_items).group("date_trunc('#{@period}', spina_shop_orders.paid_at)").sum("CASE WHEN spina_shop_order_items.metadata->>'sales_category_code' = '2010' THEN CASE WHEN prices_include_tax THEN round(quantity * (unit_price / ((100 + tax_rate) / 100)), 2) - round(discount_amount / ((100 + tax_rate) / 100), 2) ELSE quantity * unit_price - discount_amount END ELSE 0 END").sort_by(&:first).map(&:last)

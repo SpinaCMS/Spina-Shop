@@ -31,6 +31,21 @@
             .form-control{style: "flex: 1.5"}
               .select-dropdown{style: 'width: 100%; z-index: 0'}= f.select :online_offline, options_for_select([['Allebei', 'both'], ['Online', 'online'], ['Offline', 'offline']])
 
+      - if Spina::Shop::Store.many?
+        .form-group
+          .table-collection-check-boxes-container
+            %table.table.table-collection-check-boxes.table-clickable
+              = f.collection_check_boxes(:store_ids, Spina::Shop::Store.all, :id, :name) do |b|
+                %tr
+                  %td{style: 'width: 10px'}
+                    .form-checkbox{style: 'width: 20px'}
+                      = b.check_box
+                      %label
+                  %th{style: 'padding-left: 0'}
+                    .pull-right
+                      .store-badge{style: "background: #{b.object.color}"}= b.object.initials
+                    %span= b.text
+
       = f.submit "Toon resultaten", class: 'button button-primary', style: 'width: 100%'
 
 .well
