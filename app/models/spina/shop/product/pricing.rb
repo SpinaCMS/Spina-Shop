@@ -72,7 +72,7 @@ module Spina::Shop
           price_exception = price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
             return h if h["customer_group_id"].to_i == group_id
           end
-          return price_exception.presence
+          return price_exception if price_exception.present?
         end
       end
 
