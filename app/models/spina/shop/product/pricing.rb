@@ -68,11 +68,10 @@ module Spina::Shop
       # Subgroups are always first
       def price_exception_for_customer(customer)
         return if customer&.customer_group_id.blank?
-        [customer.customer_group_id, customer.customer_group.parent_id].each do |group_id|
-          price_exception = price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
+        [customer.customer_group_id, customer.customer_group.parent_id].find do |group_id|
+          price_exceptions.try(:[], 'customer_groups').try(:find) do |h|
             return h if h["customer_group_id"].to_i == group_id
-          end
-          return price_exception if price_exception.present?
+          end.presence
         end
       end
 
