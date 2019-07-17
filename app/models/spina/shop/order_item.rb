@@ -106,9 +106,9 @@ module Spina::Shop
     private
 
       def product_in_stock?(product_id)
-        # Add itself to an array of order items 
+        # Add itself to an array of order items (only check other order items that are product bundles, which might contain the same product_id)
         # If the record isn't persisted yet it won't show up in order.order_items
-        order_items = order.order_items.to_a | [self]
+        order_items = order.order_items.product_bundles.to_a | order.order_items.products.where(orderable_id: product_id) | [self]
         product = Product.find(product_id)
         return true unless product.stock_enabled
         product.stock_level >= order_items.inject(BigDecimal(0)) do |total, order_item|
