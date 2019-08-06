@@ -58,7 +58,7 @@ module Spina::Shop
         end
         text t, size: 12, align: :right
       end
-      text "Bestelling ##{@order.number}", style: :semibold, size: 18
+      text "#{Spina::Shop::Order.model_name.human} ##{@order.number}", style: :semibold, size: 18
     end
 
     def order_details
