@@ -7,3 +7,6 @@
     = stock_order.ordered_stock.count
     producten
   %td= number_to_currency stock_order.order_value
+  %td.text-right
+    - if stock_order.feedback.present?
+      %i.icon.icon-pencil

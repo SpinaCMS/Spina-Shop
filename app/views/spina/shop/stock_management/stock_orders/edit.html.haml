@@ -1,0 +1,15 @@
+.container
+  = form_with model: @stock_order, url: spina.shop_stock_management_stock_order_path(@stock_order) do |f|
+    .pull-right
+      = button_tag type: :submit, class: 'button button-link' do
+        ✓ Opslaan
+
+    = link_to "⇤ Levering ##{@stock_order.id}", spina.shop_stock_management_stock_order_path(@stock_order), class: 'button button-link', style: 'margin-bottom: 10px'
+
+    .page-title
+      %div
+        %small Levering ##{@stock_order.id}
+        Feedback
+
+    .form-control
+      = f.text_area :feedback, placeholder: "Feedback"

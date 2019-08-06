@@ -92,6 +92,11 @@
           %th= Spina::Shop::StockOrder.human_attribute_name(:note)
           %td{style: 'white-space: pre'}= @stock_order.note
 
+        - if @stock_order.feedback.present?
+          %tr
+            %th= Spina::Shop::StockOrder.human_attribute_name(:feedback)
+            %td{style: 'white-space: pre'}= @stock_order.feedback
+
   .divider-container
     %hr.divider/
 
