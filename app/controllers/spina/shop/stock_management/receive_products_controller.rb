@@ -20,6 +20,8 @@ module Spina::Shop
           ChangeStockLevel.new(@ordered_stock.product, {
             adjustment: params["received"].to_i,
             description: "StockOrder ##{@stock_order.id}",
+            expiration_month: params["expiration_month"],
+            expiration_year: params["expiration_year"],
             actor: current_spina_user.name
           }).save
         end
