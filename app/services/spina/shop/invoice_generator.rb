@@ -57,7 +57,7 @@ module Spina::Shop
       if @order.delivery_option.present?
         invoice.invoice_lines << InvoiceLine.new(
           quantity: 1,
-          description: "Verzendkosten",
+          description: Spina::Shop::Order.human_attribute_name(:delivery_price),
           unit_price: @order.delivery_price,
           tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : @order.delivery_tax_rate,
           metadata: @order.delivery_metadata
