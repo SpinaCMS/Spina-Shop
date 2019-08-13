@@ -1,8 +1,11 @@
 .container
-  - if @stock_order.delivery_tracking_url.present?
-    .pull-right
+  .pull-right
+    - if @stock_order.delivery_tracking_url.present?
       = link_to @stock_order.delivery_tracking_url, target: :blank, class: 'button button-link' do
         🚚 Track & Trace
+
+    = link_to spina.edit_shop_stock_management_stock_order_path(@stock_order), class: 'button button-link', style: "margin-left: 10px" do
+      💬 Feedback
 
   = link_to "⇤ Leveringen", spina.shop_stock_management_stock_orders_path, class: 'button button-link', style: 'margin-bottom: 10px'
 

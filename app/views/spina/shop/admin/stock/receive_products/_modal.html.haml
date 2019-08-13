@@ -27,6 +27,14 @@
               - value = ordered.quantity - ordered.received
               - value = 0 if value < 0
               = f.number_field "ordered_stock[][received]", placeholder: "Aantal", value: value
+
+              - if ordered.product.can_expire?
+                .input-group
+                  .select-dropdown
+                    = f.select "ordered_stock[][expiration_month]", options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}), prompt: "Kies een maand"
+
+                  .select-dropdown
+                    = f.select "ordered_stock[][expiration_year]", options_for_select(Date.today.year..8.years.from_now.year), prompt: "Kies een jaar"
     
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

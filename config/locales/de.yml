@@ -58,12 +58,12 @@ de:
         date: Rechnungsdatum
         reference: Referenz
         sub_total: Zwischensumme
-        total: gesamt
+        total: Gesamt
       spina/shop/invoice_line:
-        description: Definition
+        description: Artikel
         price: Preis
-        tax: btw
-        total: gesamt
+        tax: MwSt
+        total: Gesamt
       spina/shop/order:
         billing_address: Rechnungsadresse
         billing_city: Platz
@@ -104,11 +104,11 @@ de:
         separate_delivery_address: abweichende Lieferanschrift 
         shipped_at: geschickt
         sub_total: Zwischensumme
-        total: gesamt
+        total: Gesamt
         total_excluding_tax: Gesamt exkl. MwSt
       spina/shop/order_item:
         price: Preis
-        total: gesamt
+        total: Gesamt
       spina/shop/product:
         active: Erhältlich im Shop
         base_price: Preis

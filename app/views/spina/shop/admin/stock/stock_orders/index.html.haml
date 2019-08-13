@@ -12,7 +12,7 @@
         %th= Spina::Shop::StockOrder.human_attribute_name :expected_delivery
         %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
         %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
-        %th
+        %th{colspan: 2}
 
     %tbody
       - @stock_orders.each do |stock_order|
@@ -33,6 +33,9 @@
           %td.text-right
             - if stock_order.ordered?
               .status-dot{class: ("status-dot-#{stock_order.status_label}"), data: {tooltip: t("spina.shop.stock_orders.status.#{stock_order.status}")}}
+          %td.text-right
+            - if stock_order.feedback.present?
+              %i.icon.icon-pencil
 
 %h3{style: 'margin-top: 60px'} Gesloten leveringen
 
@@ -46,6 +49,7 @@
         %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
         %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
         %th= Spina::Shop::StockOrder.human_attribute_name :order_value
+        %th
 
     %tbody
       = render partial: 'stock_order', collection: @closed_stock_orders
