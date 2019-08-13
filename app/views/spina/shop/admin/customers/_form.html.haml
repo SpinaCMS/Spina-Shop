@@ -54,6 +54,13 @@
 
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :postpay_allowed
+
+          .sidebar-form-control
+            = f.check_box :postpay_allowed, data: {switch: true}
+
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Shop::Customer.human_attribute_name :country
 
           .sidebar-form-control

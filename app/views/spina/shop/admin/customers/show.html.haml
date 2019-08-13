@@ -104,6 +104,11 @@
               = @customer.vat_id
               %span.result
 
+        - if @customer.postpay_allowed?
+          %tr
+            %th= Spina::Shop::Customer.human_attribute_name(:postpay_allowed)
+            %td= icon(:check)
+
   .divider-container
     %hr.divider/
 
@@ -111,11 +116,12 @@
     %table.table.table-clickable
       %thead
         %tr
-          %th
+          %th{colspan: Spina::Shop::Store.many? ? 2 : 1}
           %th= Spina::Shop::Order.human_attribute_name(:order_number)
           %th= Spina::Shop::Customer.model_name.human
           %th= Spina::Shop::Order.human_attribute_name(:received_at)
           %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
+          %th= Spina::Shop::Order.human_attribute_name(:paid_at)
           %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
           %th
 

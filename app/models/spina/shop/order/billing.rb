@@ -118,5 +118,9 @@ module Spina::Shop
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
     end
 
+    def postpay?
+      payment_method == "postpay"
+    end
+
   end
 end
