@@ -361,6 +361,8 @@ nl:
         used: Gebruikt
       invoices:
         no_invoices: Geen facturen beschikbaar
+        all: Alle facturen
+        unpaid: Onbetaalde facturen
       next: Volgende
       orders:
         actions: Acties

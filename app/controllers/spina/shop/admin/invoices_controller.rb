@@ -6,11 +6,11 @@ module Spina::Shop
 
       def index
         @invoices = Invoice.order(date: :desc, number: :desc).page(params[:page]).per(25)
+      end
 
-        respond_to do |format|
-          format.js
-          format.html
-        end
+      def unpaid
+        @invoices = Invoice.order(date: :desc, number: :desc).joins(:order).where(spina_shop_orders: {paid_at: nil}).page(params[:page]).per(25)
+        render :index
       end
 
       def show
