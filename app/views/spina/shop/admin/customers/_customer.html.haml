@@ -3,7 +3,9 @@
     %td
       .store-badge{style: "background: #{customer.store.color}"}= customer.store.initials
   %td= customer.number
-  %td= link_to customer.name, spina.shop_admin_customer_path(customer), class: 'table-link'
+  %td
+    = link_to customer.name, spina.shop_admin_customer_path(customer), class: 'table-link'
+    %small= customer.vat_id
   %td= customer.customer_group.try(:name)
   %td= mail_to customer.email, customer.email, class: 'table-link'
   %td=l customer.created_at, format: "%d-%m-%Y"

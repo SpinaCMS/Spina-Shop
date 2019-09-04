@@ -5,7 +5,9 @@ module Spina::Shop
 
       def index
         @q = Customer.ransack(params[:q])
-        @customers = @q.result.sorted.page(params[:page]).per(25)
+        @customers = @q.result
+        @customers = @customers.where(store_id: params[:store_id]) if params[:store_id].present?
+        @customers = @customers.sorted.page(params[:page]).per(25)
         @customer_groups = CustomerGroup.all
       end
 

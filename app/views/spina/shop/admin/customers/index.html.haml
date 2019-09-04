@@ -5,7 +5,7 @@
 = search_form_for @q, url: spina.shop_admin_customers_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :full_name_or_company_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
+      = f.text_field :full_name_or_company_or_email_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
