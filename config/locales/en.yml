@@ -397,7 +397,7 @@ en:
       tax:
         no_tax: No tax
         rate: "%{rate}% btw"
-        vat_reverse_charge: VAT shifted
+        vat_reverse_charge: Reverse charge
       tax_groups:
         default_tax_rate: Default tax rate
         new: New tax group

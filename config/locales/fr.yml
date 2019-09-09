@@ -399,7 +399,7 @@ fr:
       tax:
         no_tax: pas de TVA
         rate: "%{rate}% TVA"
-        vat_reverse_charge: TVA décalée
+        vat_reverse_charge: Autoliquidation
       tax_groups:
         default_tax_rate: taux normal de TVA
         new: groupe fiscal Nouveau

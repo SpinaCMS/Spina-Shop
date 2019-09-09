@@ -402,7 +402,7 @@ de:
       tax:
         no_tax: keine Mehrwertsteuer
         rate: "%{rate}% MwSt"
-        vat_reverse_charge: verschoben Mehrwertsteuer
+        vat_reverse_charge: Umkehrung der Steuerschuldnerschafft
       tax_groups:
         default_tax_rate: Standard Mehrwertsteuersatz
         new: Neue Steuergruppe
