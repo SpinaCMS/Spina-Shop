@@ -64,6 +64,7 @@ de:
         price: Preis
         tax: MwSt
         total: Gesamt
+        discount: Rabatt
       spina/shop/order:
         billing_address: Rechnungsadresse
         billing_city: Platz

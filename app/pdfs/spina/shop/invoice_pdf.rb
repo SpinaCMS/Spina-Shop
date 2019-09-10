@@ -79,29 +79,41 @@ module Spina::Shop
     end
 
     def invoice_details()
-      lines = [["", InvoiceLine.human_attribute_name(:description), InvoiceLine.human_attribute_name(:price), InvoiceLine.human_attribute_name(:total), InvoiceLine.human_attribute_name(:tax)]]
+      lines = []
+      headers = ["", InvoiceLine.human_attribute_name(:description), InvoiceLine.human_attribute_name(:price), InvoiceLine.human_attribute_name(:total), InvoiceLine.human_attribute_name(:tax)]
+      headers.insert(3, InvoiceLine.human_attribute_name(:discount)) if @presenter.has_discount?
+
+      lines << headers
 
       @presenter.invoice.invoice_lines.each do |line|
-        lines << ["#{line.quantity} x", line.description, @presenter.number_to_currency(line.unit_price), @presenter.number_to_currency(line.total), ("#{@presenter.number_with_precision(line.tax_rate, precision: 0)}%" if line.tax_rate > 0)]
+        invoice_line = ["#{line.quantity} x", 
+          line.description, 
+          @presenter.number_to_currency(line.unit_price), 
+          @presenter.number_to_currency(line.total), 
+          ("#{@presenter.number_with_precision(line.tax_rate, precision: 0)}%" if line.tax_rate > 0)]
+        invoice_line.insert(3, "– #{@presenter.number_to_currency(line.discount)}") if @presenter.has_discount?
+        lines << invoice_line
       end
 
-      lines << [{content: Invoice.human_attribute_name(:sub_total), colspan: 3, font_style: :semibold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
+      colspan = @presenter.has_discount? ? 4 : 3
+
+      lines << [{content: Invoice.human_attribute_name(:sub_total), colspan: colspan, font_style: :semibold, border_width: 2}, {content: @presenter.sub_total, border_width: 2}, {content: "", border_width: 2}]
 
       @presenter.invoice.tax_amount_by_rates.each do |rate|
         unless rate[0] == 0
-          lines << [{content: I18n.t('spina.shop.tax.rate', rate: @presenter.number_with_precision(rate[0], precision: 0)), colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(rate[1][:tax_amount]), border_width: 0}, {content: "", border_width: 0}]
+          lines << [{content: I18n.t('spina.shop.tax.rate', rate: @presenter.number_with_precision(rate[0], precision: 0)), colspan: colspan, border_width: 0}, {content: @presenter.number_to_currency(rate[1][:tax_amount]), border_width: 0}, {content: "", border_width: 0}]
         end
         if @presenter.invoice.vat_reverse_charge 
-          lines << [{content: I18n.t('spina.shop.tax.vat_reverse_charge'), colspan: 3, border_width: 0}, {content: @presenter.number_to_currency(BigDecimal.new(0)), border_width: 0}, {content: "", border_width: 0}]
+          lines << [{content: I18n.t('spina.shop.tax.vat_reverse_charge'), colspan: colspan, border_width: 0}, {content: @presenter.number_to_currency(BigDecimal.new(0)), border_width: 0}, {content: "", border_width: 0}]
         end
       end
 
-      lines << [{content: Invoice.human_attribute_name(:total), colspan: 3, font_style: :semibold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
+      lines << [{content: Invoice.human_attribute_name(:total), colspan: colspan, font_style: :semibold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
 
       if @presenter.gift_card_amount > 0
-        lines << [{content: GiftCard.model_name.human, colspan: 3, font_style: :semibold, border_width: 0}, {content: "– #{@presenter.view_context.number_to_currency(@presenter.gift_card_amount)}", border_width: 0}, {content: "", border_width: 0}]
+        lines << [{content: GiftCard.model_name.human, colspan: colspan, font_style: :semibold, border_width: 0}, {content: "– #{@presenter.view_context.number_to_currency(@presenter.gift_card_amount)}", border_width: 0}, {content: "", border_width: 0}]
       
-        lines << [{content: Order.human_attribute_name(:to_be_paid), colspan: 3, font_style: :semibold, border_width: 0}, {content: @presenter.to_be_paid, border_width: 0, font_style: :semibold}, {content: "", border_width: 0}]
+        lines << [{content: Order.human_attribute_name(:to_be_paid), colspan: colspan, font_style: :semibold, border_width: 0}, {content: @presenter.to_be_paid, border_width: 0, font_style: :semibold}, {content: "", border_width: 0}]
       end
 
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 8.cm, 4 => 2.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 8} do |t|

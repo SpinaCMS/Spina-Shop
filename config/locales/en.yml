@@ -64,6 +64,7 @@ en:
         price: Price
         tax: Tax
         total: Total
+        discount: Discount
       spina/shop/order:
         billing_address: Billing address
         billing_city: City

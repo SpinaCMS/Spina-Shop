@@ -39,19 +39,10 @@ module Spina::Shop
           quantity: order_item.quantity,
           description: order_item.description,
           unit_price: order_item.unit_price,
+          discount: order_item.discount_amount,
           tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : order_item.tax_rate,
           metadata: order_item.metadata
         )
-        
-        if order_item.discount_amount > 0
-          invoice.invoice_lines << InvoiceLine.new(
-            quantity: -1,
-            description: "Korting #{order_item.description}",
-            unit_price: order_item.discount_amount,
-            tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : order_item.tax_rate,
-            metadata: order_item.metadata
-          )
-        end
       end
 
       if @order.delivery_option.present?

@@ -26,6 +26,10 @@ module Spina::Shop
       invoice.order.gift_card_amount
     end
 
+    def has_discount?
+      @has_discount ||= invoice.invoice_lines.where.not(discount: 0).any?
+    end
+
     def paid?
       invoice.order&.paid?
     end

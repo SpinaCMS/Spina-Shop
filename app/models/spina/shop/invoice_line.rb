@@ -3,7 +3,7 @@ module Spina::Shop
     belongs_to :invoice
 
     def total
-      quantity * unit_price
+      quantity * unit_price - discount
     end
 
     def tax_modifier

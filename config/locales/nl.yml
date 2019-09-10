@@ -67,6 +67,7 @@ nl:
         price: Prijs
         tax: Btw
         total: Totaal
+        discount: Korting
       spina/shop/order:
         billing_address: Factuuradres
         billing_city: Plaats
