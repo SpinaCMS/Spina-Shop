@@ -98,6 +98,12 @@ module Spina::Shop
 
       lines << [{content: Invoice.human_attribute_name(:total), colspan: 3, font_style: :semibold, border_width: 0}, {content: @presenter.total, border_width: 0}, {content: "", border_width: 0}]
 
+      if @presenter.gift_card_amount > 0
+        lines << [{content: GiftCard.model_name.human, colspan: 3, font_style: :semibold, border_width: 0}, {content: "– #{@presenter.view_context.number_to_currency(@presenter.gift_card_amount)}", border_width: 0}, {content: "", border_width: 0}]
+      
+        lines << [{content: Order.human_attribute_name(:to_be_paid), colspan: 3, font_style: :semibold, border_width: 0}, {content: @presenter.to_be_paid, border_width: 0, font_style: :semibold}, {content: "", border_width: 0}]
+      end
+
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 8.cm, 4 => 2.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 8} do |t|
         t.before_rendering_page do |page|
           page.row(0).border_top_width = 0

@@ -106,6 +106,7 @@ en:
         sub_total: Sub total
         total: Total
         total_excluding_tax: Total excl. tax
+        to_be_paid: To pay
       spina/shop/order_item:
         price: Price
         total: Total

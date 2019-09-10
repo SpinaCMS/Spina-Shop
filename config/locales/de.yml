@@ -106,6 +106,7 @@ de:
         sub_total: Zwischensumme
         total: Gesamt
         total_excluding_tax: Gesamt exkl. MwSt
+        to_be_paid: Zu zahlen
       spina/shop/order_item:
         price: Preis
         total: Gesamt

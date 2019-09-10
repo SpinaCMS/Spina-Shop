@@ -18,6 +18,18 @@ module Spina::Shop
       view_context.number_to_currency(invoice.total)
     end
 
+    def to_be_paid
+      view_context.number_to_currency(invoice.order.to_be_paid)
+    end
+
+    def gift_card_amount
+      invoice.order.gift_card_amount
+    end
+
+    def paid?
+      invoice.order&.paid?
+    end
+
     def order
       invoice.order
     end

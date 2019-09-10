@@ -111,6 +111,7 @@ nl:
         store: Winkel
         total: Totaal
         total_excluding_tax: Totaal excl. btw
+        to_be_paid: Te betalen
       spina/shop/order_item:
         price: Prijs
         total: Totaal
