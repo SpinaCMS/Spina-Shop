@@ -17,7 +17,7 @@ module Spina::Shop
           sheet.add_row row_headers
 
           @stock_order.ordered_stock.sort_by{|o|o.product.full_name}.each do |ordered|
-            sheet.add_row [ordered.quantity, ordered.product.name, ordered.product.variant_name, ordered.product.supplier_reference]
+            sheet.add_row [ordered.product.supplier_reference, ordered.quantity, ordered.product.name, ordered.product.variant_name]
           end
         end
       end
@@ -31,7 +31,7 @@ module Spina::Shop
     private
 
       def row_headers
-        [OrderedStock.human_attribute_name(:quantity), Product.model_name.human, Product.human_attribute_name(:variant_name), Product.human_attribute_name(:supplier_reference)]
+        [Product.human_attribute_name(:supplier_reference), OrderedStock.human_attribute_name(:quantity), Product.model_name.human, Product.human_attribute_name(:variant_name)]
       end
 
   end
