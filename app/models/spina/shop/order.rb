@@ -18,6 +18,7 @@ module Spina::Shop
     belongs_to :delivery_country, class_name: "Spina::Shop::Country", optional: true
     belongs_to :delivery_option, optional: true
     belongs_to :duplicate, class_name: "Spina::Shop::Order", optional: true
+    belongs_to :store, optional: true
 
     has_many :order_transitions, autosave: false, dependent: :destroy
     has_many :order_items, dependent: :destroy # Destroy order items if the order is destroyed as well
