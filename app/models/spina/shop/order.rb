@@ -85,6 +85,12 @@ module Spina::Shop
       end
     end
 
+    [:delivery_full_name, :delivery_first_name, :delivery_last_name, :delivery_company].each do |f|
+      define_method(f) do
+        separate_delivery_address? ? super() : send(f.to_s.gsub('delivery_', ''))
+      end
+    end
+
     def billing_address
       "#{billing_street1} #{billing_house_number} #{billing_house_number_addition}".strip
     end
@@ -144,8 +150,20 @@ module Spina::Shop
       order_number ? order_number.to_s.rjust(8, '0') : nil
     end
 
+    def delivery_full_name
+      "#{delivery_first_name} #{delivery_last_name}".strip
+    end
+
+    def delivery_name
+      return read_attribute(:delivery_name) if read_attribute(:delivery_name).present?
+      delivery_company.present? ? "#{delivery_company} (#{delivery_full_name})" : delivery_full_name
+    end
+
+    def full_name
+      "#{first_name} #{last_name}".strip
+    end
+
     def billing_name
-      full_name = "#{first_name} #{last_name}".strip
       company.present? ? "#{company} (#{full_name})" : full_name
     end
 

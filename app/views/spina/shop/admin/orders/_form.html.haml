@@ -143,9 +143,21 @@
       .well#delivery_address
         .sidebar-form-group
           .sidebar-form-label
-            = Spina::Shop::Order.human_attribute_name :delivery_name
+            = Spina::Shop::Order.human_attribute_name :delivery_company
           .sidebar-form-control
-            = f.text_field :delivery_name, placeholder: Spina::Shop::Order.human_attribute_name(:delivery_name)
+            = f.text_field :delivery_company, placeholder: Spina::Shop::Order.human_attribute_name(:delivery_company)
+            
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :delivery_first_name
+          .sidebar-form-control
+            = f.text_field :delivery_first_name, placeholder: Spina::Shop::Order.human_attribute_name(:delivery_first_name)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Order.human_attribute_name :delivery_last_name
+          .sidebar-form-control
+            = f.text_field :delivery_last_name, placeholder: Spina::Shop::Order.human_attribute_name(:delivery_last_name)
 
         .sidebar-form-group
           .sidebar-form-label

@@ -87,6 +87,9 @@ nl:
         delivery_house_number: Huisnummer
         delivery_house_number_addition: Toevoeging
         delivery_name: Naam
+        delivery_company: Bedrijf
+        delivery_first_name: Voornaam
+        delivery_last_name: Achternaam
         delivery_option: Verzendmethode
         delivery_postal_code: Postcode
         delivery_price: Verzendkosten
