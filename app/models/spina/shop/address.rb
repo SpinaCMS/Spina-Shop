@@ -9,7 +9,11 @@ module Spina::Shop
     scope :delivery, -> { where(address_type: 'delivery') }
 
     def name
-      read_attribute(:name) || "#{first_name} #{last_name}".strip
+      read_attribute(:name).presence || full_name
+    end
+
+    def full_name
+      "#{first_name} #{last_name}".strip
     end
 
     def address

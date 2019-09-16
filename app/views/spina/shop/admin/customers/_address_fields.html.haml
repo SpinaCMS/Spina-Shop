@@ -7,9 +7,21 @@
 
   .sidebar-form-group
     .sidebar-form-label
-      = Spina::Shop::Address.human_attribute_name :name
+      = Spina::Shop::Address.human_attribute_name :company
     .sidebar-form-control
-      = f.text_field :name
+      = f.text_field :company
+
+  .sidebar-form-group
+    .sidebar-form-label
+      = Spina::Shop::Address.human_attribute_name :first_name
+    .sidebar-form-control
+      = f.text_field :first_name
+
+  .sidebar-form-group
+    .sidebar-form-label
+      = Spina::Shop::Address.human_attribute_name :last_name
+    .sidebar-form-control
+      = f.text_field :last_name
 
   .sidebar-form-group
     .sidebar-form-label

@@ -10,6 +10,7 @@ module Spina::Shop
         address_type: 'billing',
         first_name: @order.first_name,
         last_name: @order.last_name,
+        company: @order.company,
         postal_code: @order.billing_postal_code,
         city: @order.billing_city,
         country_id: @order.billing_country_id,
