@@ -48,7 +48,7 @@ module Spina::Shop
 
     # Validate details
     validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_country_id, presence: true, if: -> { validate_details }
-    validates :delivery_name, :delivery_street1, :delivery_city, :delivery_postal_code, presence: true, if: -> { validate_details && separate_delivery_address? }
+    validates :delivery_first_name, :delivery_last_name, :delivery_street1, :delivery_city, :delivery_postal_code, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :email, email: true, if: -> { validate_details }
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
 
