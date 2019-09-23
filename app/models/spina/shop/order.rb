@@ -48,9 +48,10 @@ module Spina::Shop
 
     # Validate details
     validates :first_name, :last_name, :email, :billing_street1, :billing_city, :billing_postal_code, :billing_country_id, presence: true, if: -> { validate_details }
-    validates :delivery_first_name, :delivery_last_name, :delivery_street1, :delivery_city, :delivery_postal_code, presence: true, if: -> { validate_details && separate_delivery_address? }
+    validates :delivery_street1, :delivery_city, :delivery_postal_code, presence: true, if: -> { validate_details && separate_delivery_address? }
     validates :email, email: true, if: -> { validate_details }
     validate :must_be_of_age_to_buy_products, if: -> { validate_details }
+    validate :must_have_any_delivery_name, if: -> { validate_details && separate_delivery_address? }
 
     # Validate delivery
     validates :delivery_option, presence: true, if: -> { validate_delivery }
@@ -253,6 +254,10 @@ module Spina::Shop
         if order_items.any?{|item| item.orderable.must_be_of_age_to_buy?}
           errors.add(:date_of_birth, :not_of_age) unless of_age?
         end
+      end
+
+      def must_have_any_delivery_name
+        errors.add(:last_name, :blank) if delivery_name.blank?
       end
 
   end
