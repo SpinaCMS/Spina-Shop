@@ -2,7 +2,10 @@
   %header
     = link_to '#', data: {dismiss: "modal"} do
       = icon('cross')
-    %h3 Hoeveel stuks?
+    %h3 
+      Hoeveel stuks?
+      %br/
+      %small= link_to t("spina.shop.stock.reset_stock"), spina.new_shop_admin_product_reset_stock_path(@product), data: {remote: true}
 
   = form_for @stock_level_adjustment, url: @stock_level_adjustment.new_record? ? spina.shop_admin_product_stock_level_adjustments_path(@product) : spina.shop_admin_product_stock_level_adjustment_path(@product, @stock_level_adjustement) do |f|
 

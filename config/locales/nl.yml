@@ -506,6 +506,8 @@ nl:
       sales_categories:
         default_sales_category_code: Standaard omzetcategorie
       settings: Webshopvoorkeuren
+      stock: 
+        reset_stock: Voorraad resetten...
       stock_order_products: 
         new_html: "Voeg producten toe aan:"
         choose_stock_order: Kies leveringsorder
