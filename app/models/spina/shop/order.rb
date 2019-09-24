@@ -257,7 +257,7 @@ module Spina::Shop
       end
 
       def must_have_any_delivery_name
-        errors.add(:last_name, :blank) if delivery_name.blank?
+        errors.add(:delivery_last_name, :blank) if delivery_name.blank?
       end
 
   end
