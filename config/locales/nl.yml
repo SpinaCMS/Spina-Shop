@@ -526,6 +526,9 @@ nl:
           late: Late levering
           closed: Afgerond
           ordered: Order geplaatst
+      suppliers:
+        edit: Bewerk leverancier
+        lead_time_in_days: "%{days} dagen"
       tags:
         new: Nieuwe tag
         delete: Tag verwijderen

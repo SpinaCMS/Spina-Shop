@@ -3,7 +3,7 @@
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
 .table-container
-  %table.table.table-clickable
+  %table.table
     %thead
       %tr
         %th= Spina::Shop::StockOrder.human_attribute_name :id
@@ -15,32 +15,7 @@
         %th{colspan: 2}
 
     %tbody
-      - @stock_orders.each do |stock_order|
-        %tr
-          %td= link_to "##{stock_order.id}", spina.shop_admin_stock_order_path(stock_order), class: 'table-link'
-          %td= stock_order.supplier.name
-          %td
-            - if stock_order.ordered_at.present?
-              =l stock_order.ordered_at, format: "%e %B %Y"
-          %td
-            - if stock_order.expected_delivery.present?
-              =l stock_order.expected_delivery, format: :long
-            - elsif stock_order.supplier.lead_time.present? && stock_order.ordered_at.present?
-              .text-muted
-                over
-                = time_ago_in_words(stock_order.ordered_at + stock_order.supplier.lead_time.days)
-               
-          %td
-            = stock_order.ordered_stock.count
-            producten
-          %td.text-right
-            = number_to_currency stock_order.order_value
-          %td.text-right
-            - if stock_order.ordered?
-              .status-dot{class: ("status-dot-#{stock_order.status_label}"), data: {tooltip: t("spina.shop.stock_orders.status.#{stock_order.status}")}}
-          %td.text-right
-            - if stock_order.feedback.present?
-              %i.icon.icon-pencil
+      = render partial: "active_stock_order", collection: @stock_orders
 
 %h3{style: 'margin-top: 60px'} Gesloten leveringen
 

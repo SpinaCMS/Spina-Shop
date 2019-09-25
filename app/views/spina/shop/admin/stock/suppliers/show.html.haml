@@ -1,0 +1,38 @@
+%header#header
+  #header_actions
+    = link_to spina.edit_shop_admin_supplier_path(@supplier), class: 'button button-default' do
+      = icon('pencil')
+      =t 'spina.shop.suppliers.edit'
+
+  .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+.information-tables{style: "margin-top: 20px"}
+  .information-table
+    %table
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :name 
+        %td= @supplier.name
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :lead_time
+        %td=t "spina.shop.suppliers.lead_time_in_days", days: @supplier.lead_time
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :products
+        %td= @supplier.products.active.count
+
+- if @supplier.stock_orders.active.any?
+  %h3{style: 'margin-top: 60px'} Actieve leveringen
+
+  .table-container.infinite-table
+    %table.table
+      %thead
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name :id
+          %th= Spina::Shop::StockOrder.human_attribute_name :supplier
+          %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
+          %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
+          %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
+          %th= Spina::Shop::StockOrder.human_attribute_name :order_value
+          %th
+
+      %tbody
+        = render partial: "spina/shop/admin/stock/stock_orders/active_stock_order", collection: @supplier.stock_orders.active

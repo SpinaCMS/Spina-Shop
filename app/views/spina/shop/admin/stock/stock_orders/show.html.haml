@@ -5,7 +5,7 @@
         = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post do
           = icon('cross')
           =t 'spina.shop.stock_orders.close_order'
-      - else
+      - elsif @stock_order.closed?
         = link_to spina.reopen_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post do
           = icon('pencil')
           =t 'spina.shop.stock_orders.reopen_order'
@@ -52,15 +52,14 @@
           %td= "##{@stock_order.id}"
         %tr
           %th= Spina::Shop::StockOrder.human_attribute_name(:supplier)
-          %td= @stock_order.supplier.name
+          %td= link_to @stock_order.supplier.name, spina.shop_admin_supplier_path(@stock_order.supplier)
 
-        - if @stock_order.ordered?
-          %tr
-            %th= Spina::Shop::StockOrder.human_attribute_name(:download)
-            %td
-              = link_to 'Excel download', spina.shop_admin_stock_order_path(@stock_order, format: :xlsx)
-              %br/
-              = link_to 'PDF download', spina.shop_admin_stock_order_path(@stock_order, format: :pdf)
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:download)
+          %td
+            = link_to 'Excel download', spina.shop_admin_stock_order_path(@stock_order, format: :xlsx)
+            %br/
+            = link_to 'PDF download', spina.shop_admin_stock_order_path(@stock_order, format: :pdf)
 
     .information-table
       %table
@@ -90,12 +89,12 @@
 
         %tr
           %th= Spina::Shop::StockOrder.human_attribute_name(:note)
-          %td{style: 'white-space: pre'}= @stock_order.note
+          %td{style: 'white-space: pre-wrap'}= @stock_order.note
 
         - if @stock_order.feedback.present?
           %tr
             %th= Spina::Shop::StockOrder.human_attribute_name(:feedback)
-            %td{style: 'white-space: pre'}= @stock_order.feedback
+            %td{style: 'white-space: pre-wrap'}= @stock_order.feedback
 
   .divider-container
     %hr.divider/

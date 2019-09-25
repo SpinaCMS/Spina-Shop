@@ -7,7 +7,7 @@ module Spina::Shop
         before_action :set_breadcrumbs
 
         def index
-          @stock_orders = StockOrder.where(closed_at: nil).joins(:supplier).order("CASE WHEN ordered_at IS NOT NULL THEN 1 ELSE 0 END", "CASE WHEN expected_delivery IS NOT NULL THEN expected_delivery ELSE ordered_at + (interval '1' day * lead_time) END", created_at: :desc)
+          @stock_orders = StockOrder.active
           @closed_stock_orders = StockOrder.closed.order(closed_at: :desc, created_at: :desc)
         end
 

@@ -21,6 +21,12 @@ module Spina::Shop
           end
         end
 
+        def show
+          @supplier = Supplier.find(params[:id])
+          add_breadcrumb @supplier.name
+          render layout: 'spina/admin/admin'
+        end
+
         def edit
           @supplier = Supplier.find(params[:id])
           add_breadcrumb @supplier.name
@@ -34,7 +40,7 @@ module Spina::Shop
         def update
           @supplier = Supplier.find(params[:id])
           if @supplier.update_attributes(supplier_params)
-            redirect_to spina.edit_shop_admin_suppliers_path(@supplier)
+            redirect_to spina.shop_admin_supplier_path(@supplier)
           else
             render :edit
           end

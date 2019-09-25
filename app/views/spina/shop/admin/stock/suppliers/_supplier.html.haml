@@ -1,5 +1,5 @@
 %tr
-  %td= link_to supplier.name, spina.edit_shop_admin_supplier_path(supplier), class: 'table-link'
+  %td= link_to supplier.name, spina.shop_admin_supplier_path(supplier), class: 'table-link'
   %td= distance_of_time_in_words(Time.now, Time.now + supplier.lead_time.days)
   %td= supplier.stock_orders.count
   %td= supplier.products.count
