@@ -25,6 +25,11 @@
           %td
             - if stock_order.expected_delivery.present?
               =l stock_order.expected_delivery, format: :long
+            - elsif stock_order.supplier.lead_time.present? && stock_order.ordered_at.present?
+              .text-muted
+                over
+                = time_ago_in_words(stock_order.ordered_at + stock_order.supplier.lead_time.days)
+               
           %td
             = stock_order.ordered_stock.count
             producten
