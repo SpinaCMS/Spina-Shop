@@ -23,3 +23,32 @@
 
           .sidebar-form-control
             = f.number_field :lead_time, placeholder: Spina::Shop::Supplier.human_attribute_name(:lead_time)
+
+      .well{style: "margin-right: -20px"}
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :contact_name
+
+          .sidebar-form-control
+            = f.text_field :contact_name, placeholder: Spina::Shop::Supplier.human_attribute_name(:contact_name)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :email
+
+          .sidebar-form-control
+            = f.email_field :email, placeholder: Spina::Shop::Supplier.human_attribute_name(:email)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :phone
+
+          .sidebar-form-control
+            = f.text_field :phone, placeholder: Spina::Shop::Supplier.human_attribute_name(:phone)
+
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :note
+
+          .sidebar-form-control
+            = f.text_area :note, placeholder: Spina::Shop::Supplier.human_attribute_name(:note)

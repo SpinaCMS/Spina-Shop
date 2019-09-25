@@ -19,6 +19,21 @@
         %th= Spina::Shop::Supplier.human_attribute_name :products
         %td= @supplier.products.active.count
 
+  .information-table
+    %table
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :contact_name
+        %td= @supplier.contact_name
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :email
+        %td= mail_to @supplier.email, @supplier.email
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :phone
+        %td= @supplier.phone
+      %tr
+        %th= Spina::Shop::Supplier.human_attribute_name :note
+        %td{style: "white-space: pre-wrap"}= @supplier.note
+
 - if @supplier.stock_orders.active.any?
   %h3{style: 'margin-top: 60px'} Actieve leveringen
 

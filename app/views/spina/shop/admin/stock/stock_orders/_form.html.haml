@@ -26,6 +26,13 @@
 
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Shop::StockOrder.human_attribute_name :reference
+
+          .sidebar-form-control
+            = f.text_field :reference, placeholder: Spina::Shop::StockOrder.human_attribute_name(:reference)
+
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Shop::StockOrder.human_attribute_name :note
 
           .sidebar-form-control

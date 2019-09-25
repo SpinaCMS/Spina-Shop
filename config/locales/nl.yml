@@ -202,6 +202,10 @@ nl:
         name: Naam
         stock_orders: Leveringsorders
         lead_time: Levertijd
+        note: Notitie
+        phone: Telefoon
+        email: Email
+        contact_name: Contactpersoon
       spina/shop/stock_order:
         id: Nummer
         supplier: Leverancier
@@ -211,6 +215,7 @@ nl:
         ordered_stock: Producten
         note: Notitie
         delivery_tracking_url: Track & Trace
+        reference: Referentie
       spina/shop/stock_level_adjustment:
         adjustment: Aantal
         note: Notitie

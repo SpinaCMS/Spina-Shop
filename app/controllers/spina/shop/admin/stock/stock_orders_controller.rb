@@ -91,7 +91,7 @@ module Spina::Shop
           end
 
           def stock_order_params
-            params.require(:stock_order).permit(:supplier_id, :delivery_tracking_url, :note, :expected_delivery)
+            params.require(:stock_order).permit(:supplier_id, :reference, :delivery_tracking_url, :note, :expected_delivery)
           end
 
       end

@@ -88,6 +88,10 @@
           %td= link_to @stock_order.delivery_tracking_url, "#{@stock_order.delivery_tracking_url}"
 
         %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:reference)
+          %td{style: 'white-space: pre-wrap'}= @stock_order.reference
+
+        %tr
           %th= Spina::Shop::StockOrder.human_attribute_name(:note)
           %td{style: 'white-space: pre-wrap'}= @stock_order.note
 
