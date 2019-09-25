@@ -8,10 +8,13 @@
     %small= product.location
   %td
     = product.supplier&.name
-  %td.text-right
-    = product.past_30_days
-  %td.text-right
-    = product.past_90_days
+  %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px; position: relative'}
+    %span{style: "font-size: 12px; font-weight: 500; color: #7070B3"}= product.past_30_days
+    %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
+      %div{style: "background: #D6D6E9; width: #{BigDecimal(product.past_60_days) / product.past_90_days * 100}%; height: 100%; border-radius: 4px"}
+        %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
+  %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
+    %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}= product.past_90_days
   %td.text-right
     - if product.stock_level < 4
       %span.text-danger= product.stock_level

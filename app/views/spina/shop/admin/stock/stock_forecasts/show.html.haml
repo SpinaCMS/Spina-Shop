@@ -33,14 +33,16 @@
       %thead
         %tr
           %th{style: 'width: 20px'}
-          %th Naam
+          %th 
+            Naam
+            %small &nbsp;
           %th
-            = link_to spina.shop_admin_stock_forecast_path({order: 'supplier', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Leverancier<br /><small>&nbsp;</small>
-          %th.text-right{style: 'white-space: nowrap; min-width: 60px'} 
+            Leverancier
+            %small &nbsp;
+          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>30 dagen</small>
-          %th.text-right{style: 'white-space: nowrap; min-width: 60px'} 
+          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>90 dagen</small>
           %th.text-right{style: 'min-width: 100px; white-space: nowrap'}
