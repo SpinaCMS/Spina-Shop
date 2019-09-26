@@ -62,7 +62,7 @@ module Spina::Shop
       end
 
       def to_process
-        @orders = Order.in_state(:paid, :preparing).includes(:order_items, :order_transitions).sorted
+        @orders = Order.to_process.includes(:order_items, :order_transitions).sorted
         filter_orders
         render :index
       end

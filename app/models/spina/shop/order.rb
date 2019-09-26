@@ -38,6 +38,7 @@ module Spina::Shop
     scope :shipped, -> { where.not(shipped_at: nil) }
     scope :paid, -> { where.not(paid_at: nil) }
     scope :building, -> { in_state(:building) }
+    scope :to_process, -> { received.where(cancelled_at: nil, failed_at: nil, shipped_at: nil, picked_up_at: nil) }
 
     # Always validate
     validates :password, confirmation: true

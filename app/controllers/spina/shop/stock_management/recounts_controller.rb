@@ -48,7 +48,7 @@ module Spina::Shop
 
         def set_product
           @product = Product.find_by(id: params[:product_id])
-          @reserved = -1 * @product.stock_level_adjustments.joins(order_item: :order).where(spina_shop_orders: {id: Spina::Shop::Order.in_state(:paid, :preparing).ids}).sum(:adjustment)
+          @reserved = -1 * @product.stock_level_adjustments.joins(order_item: :order).where(spina_shop_orders: {id: Spina::Shop::Order.to_process.ids}).sum(:adjustment)
         end
 
         def set_previous_product
