@@ -47,6 +47,10 @@
             Leverancier
             %small &nbsp;
           %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
+            = link_to spina.shop_admin_stock_forecast_path({order: 'location', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+              Locatie
+              %small &nbsp;
+          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>30 dagen</small>
           %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 

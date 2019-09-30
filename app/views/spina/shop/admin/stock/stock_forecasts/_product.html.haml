@@ -5,9 +5,9 @@
       %label
   %td
     = link_to product.full_name, spina.shop_admin_product_path(product)
-    %small= product.location
   %td
     = product.supplier&.name
+  %td= product.location
   %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px; position: relative'}
     %span{style: "font-size: 12px; font-weight: 500; color: #7070B3"}= product.past_30_days
     %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
