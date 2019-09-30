@@ -3,14 +3,14 @@
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
 .table-container
-  %table.table
+  %table.table.table-clickable
     %thead
       %tr
         %th= Spina::Shop::StockOrder.human_attribute_name :id
         %th= Spina::Shop::StockOrder.human_attribute_name :supplier
         %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
         %th= Spina::Shop::StockOrder.human_attribute_name :expected_delivery
-        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
+        %th
         %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
         %th{colspan: 2}
 
@@ -27,9 +27,8 @@
         %th= Spina::Shop::StockOrder.human_attribute_name :supplier
         %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
         %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
-        %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
-        %th= Spina::Shop::StockOrder.human_attribute_name :order_value
         %th
+        %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
 
     %tbody
       = render partial: 'stock_order', collection: @closed_stock_orders

@@ -44,9 +44,9 @@
           %th= Spina::Shop::StockOrder.human_attribute_name :id
           %th= Spina::Shop::StockOrder.human_attribute_name :supplier
           %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
-          %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
-          %th= Spina::Shop::StockOrder.human_attribute_name :ordered_stock
-          %th= Spina::Shop::StockOrder.human_attribute_name :order_value
+          %th= Spina::Shop::StockOrder.human_attribute_name :expected_delivery
+          %th
+          %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
           %th
 
       %tbody

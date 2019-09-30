@@ -62,7 +62,7 @@ module Spina::Shop
     def status_label
       case status
       when 'open'
-        'warning'
+        ''
       when 'expected_today'
         'primary'
       when 'late'

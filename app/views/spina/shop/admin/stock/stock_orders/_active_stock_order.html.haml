@@ -1,26 +1,37 @@
 %tr
-  %td= link_to "##{active_stock_order.id}", spina.shop_admin_stock_order_path(active_stock_order), class: 'table-link'
   %td
-    = link_to active_stock_order.supplier.name, spina.shop_admin_supplier_path(active_stock_order.supplier), class: 'table-link'
+    = link_to spina.shop_admin_stock_order_path(active_stock_order), class: 'table-link' do
+      = "##{active_stock_order.id}"
+      - if active_stock_order.feedback.present?
+        %i.icon.icon-pencil
+  %td= active_stock_order.supplier.name
   %td
     - if active_stock_order.ordered_at.present?
-      =l active_stock_order.ordered_at, format: "%e %B %Y"
+      =l active_stock_order.ordered_at, format: "%d-%m-%Y"
   %td
     - if active_stock_order.expected_delivery.present?
-      =l active_stock_order.expected_delivery, format: :long
+      =l active_stock_order.expected_delivery, format: "%d-%m-%Y"
     - elsif active_stock_order.supplier.lead_time.present? && active_stock_order.ordered_at.present?
+      - expected_day = active_stock_order.ordered_at + active_stock_order.supplier.lead_time.days
       .text-muted
-        over
-        = time_ago_in_words(active_stock_order.ordered_at + active_stock_order.supplier.lead_time.days)
+        - if expected_day > Date.today
+          = "over #{time_ago_in_words(expected_day)}"
+        - else
+          = "#{time_ago_in_words(expected_day)} geleden"
        
-  %td
-    = active_stock_order.ordered_stock.count
-    producten
+  %td{style: "width: 150px"}
+    .progress.progress-bar-primary
+      .progress-bar
+        - 5.times do
+          .progress-bar-divider
+        .progress-bar-inner{style: "width: #{active_stock_order.received_percentage}"}
+      .progress-label
+        = active_stock_order.received_percentage
+        \/
+        = active_stock_order.ordered_stock.sum(:quantity)
+
   %td.text-right
     = number_to_currency active_stock_order.order_value
   %td.text-right
     - if active_stock_order.ordered?
       .status-dot{class: ("status-dot-#{active_stock_order.status_label}"), data: {tooltip: t("spina.shop.stock_orders.status.#{active_stock_order.status}")}}
-  %td.text-right
-    - if active_stock_order.feedback.present?
-      %i.icon.icon-pencil

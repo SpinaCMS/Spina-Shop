@@ -1,12 +1,22 @@
 %tr
-  %td= link_to "##{stock_order.id}", spina.shop_admin_stock_order_path(stock_order), class: 'table-link'
-  %td= stock_order.supplier.name
-  %td=l stock_order.ordered_at, format: "%e %B %Y"
-  %td=l stock_order.closed_at, format: "%e %B %Y"
   %td
-    = stock_order.ordered_stock.count
-    producten
-  %td= number_to_currency stock_order.order_value
-  %td.text-right
-    - if stock_order.feedback.present?
-      %i.icon.icon-pencil
+    = link_to spina.shop_admin_stock_order_path(stock_order), class: 'table-link' do
+      = "##{stock_order.id}"
+      - if stock_order.feedback.present?
+        %i.icon.icon-pencil
+  %td= stock_order.supplier.name
+  %td
+    - if stock_order.ordered_at.present?
+      =l stock_order.ordered_at, format: "%d-%m-%Y"
+  %td=l stock_order.closed_at, format: "%d-%m-%Y"
+  %td{style: "width: 150px"}
+    .progress.progress-bar-primary
+      .progress-bar
+        - 5.times do
+          .progress-bar-divider
+        .progress-bar-inner{style: "width: #{stock_order.received_percentage}"}
+      .progress-label
+        = stock_order.received_percentage
+        \/
+        = stock_order.ordered_stock.sum(:quantity)
+  %td.text-right= number_to_currency stock_order.order_value
