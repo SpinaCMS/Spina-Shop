@@ -4,9 +4,9 @@
       = check_box_tag 'product_ids[]', product.id
       %label
   %td
-    = link_to product.full_name, spina.shop_admin_product_path(product)
-  %td
-    = product.supplier&.name
+    = link_to spina.shop_admin_product_path(product) do
+      = product.full_name
+    %small= product.supplier&.name
   %td= product.location
   %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px; position: relative'}
     %span{style: "font-size: 12px; font-weight: 500; color: #7070B3"}= product.past_30_days
