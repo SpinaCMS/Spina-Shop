@@ -50,6 +50,10 @@ module Spina::Shop
             'expected_today'
           elsif expected_delivery.present? && expected_delivery < Date.today
             'late'
+          elsif ordered_at + supplier.lead_time.days == Date.today
+            'expected_today'
+          elsif ordered_at + supplier.lead_time.days < Date.today
+            'late'
           else
             'open'
           end
@@ -66,7 +70,7 @@ module Spina::Shop
       when 'expected_today'
         'primary'
       when 'late'
-        'danger'
+        'warning'
       end
     end
   end
