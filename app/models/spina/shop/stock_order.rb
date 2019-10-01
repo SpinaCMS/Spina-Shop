@@ -32,6 +32,7 @@ module Spina::Shop
     end
 
     def received_percentage
+      return 0 if ordered_stock.sum(:quantity).zero?
       "#{((ordered_stock.sum(:received) / ordered_stock.sum(:quantity).to_d) * 100).round}%"
     end
 
