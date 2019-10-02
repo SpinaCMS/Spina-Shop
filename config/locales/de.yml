@@ -1,4 +1,3 @@
----
 de:
   activerecord:
     attributes:
@@ -30,6 +29,7 @@ de:
         name: Name
         number: Kundennummer
         phone: Telefon
+        postpay_allowed: 
         vat_id: Umsatzsteuer-Identifikationsnummer
       spina/shop/customer_account:
         email: Email
@@ -38,6 +38,7 @@ de:
       spina/shop/discount:
         code: Rabatt-Code
         description: Definition
+        discount_requirement: 
         discount_rule: gültig für
         expires_at: Beendet
         optional: fakultativ
@@ -54,6 +55,7 @@ de:
       spina/shop/in_stock_reminder:
         email: Email
       spina/shop/invoice:
+        customer: 
         customer_number: Kundennummer
         date: Rechnungsdatum
         reference: Referenz
@@ -61,10 +63,10 @@ de:
         total: Gesamt
       spina/shop/invoice_line:
         description: Artikel
+        discount: Rabatt
         price: Preis
         tax: MwSt
         total: Gesamt
-        discount: Rabatt
       spina/shop/order:
         billing_address: Rechnungsadresse
         billing_city: Platz
@@ -80,9 +82,12 @@ de:
         delivered_at: geliefert auf
         delivery_address: Lieferadresse
         delivery_city: Platz
+        delivery_company: 
         delivery_country: Land
+        delivery_first_name: 
         delivery_house_number: Nummer
         delivery_house_number_addition: Zusatz
+        delivery_last_name: 
         delivery_name: Name
         delivery_option: Versandart
         delivery_postal_code: Postleitzahl
@@ -98,35 +103,48 @@ de:
         note: Notiz
         order_attachments: Zubehör
         order_number: Bestellnummer
+        paid_at: 
         payment_method: Zahlung
+        payment_reminder_sent_at: 
         phone: Telefon
         received_at: Bestelldatum
         reference: Referenz
-        separate_delivery_address: abweichende Lieferanschrift 
+        separate_delivery_address: abweichende Lieferanschrift
         shipped_at: geschickt
+        store: 
         sub_total: Zwischensumme
+        to_be_paid: Zu zahlen
         total: Gesamt
         total_excluding_tax: Gesamt exkl. MwSt
-        to_be_paid: Zu zahlen
       spina/shop/order_item:
         price: Preis
         total: Gesamt
+      spina/shop/ordered_stock:
+        quantity: 
+        received: 
       spina/shop/product:
         active: Erhältlich im Shop
+        available_at_supplier: 
         base_price: Preis
         can_expire: Hat ein Ablaufdatum
         cost_price: Selbstkostenpreis
+        created_at: 
         description: Beschreibung
         ean: EAN
         expiration_date: Ablauf
+        extended_description: 
+        limit: 
         limit_per_order: Limit pro Bestellung
         location: Lage
         materialized_path: URL
         must_be_of_age_to_buy: Nur für 18+
         name: Name
+        price: 
         price_exceptions: Preis pro Kundengruppe
+        product_category: 
         product_collections: Sammlungen
         promotional_price: Preis-Aktion
+        reference: 
         related_products: Genussmittel
         sales_category: Einnahmen Kategorie
         seo_description: SEO Beschreibung
@@ -135,12 +153,19 @@ de:
         stock_enabled: Inventar
         stock_level: Lager
         supplier: Lieferant
+        supplier_packing_unit: 
         supplier_reference: Lieferant Referenz
         weight: Gewicht
       spina/shop/product_bundle:
+        active: 
+        description: 
+        materialized_path: 
         name: Name
+        original_price: 
         price: Preis
         sales_category: Einnahmen Kategorie
+        seo_description: 
+        seo_title: 
       spina/shop/product_item:
         active: aktiv
         can_expire: Hat ein Ablaufdatum
@@ -165,11 +190,36 @@ de:
         business: Unternehmen
         code: Code
       spina/shop/shop_review:
+        approved: 
+        author: 
+        email: 
         review_cons: Verbesserung oder Tipps
         review_pros: Positive
         score: Abbildung
         score_communication: Kommunikation Bewertung
         score_speed: Einstellige / Liefer
+      spina/shop/stock_level_adjustment:
+        adjustment: 
+        created_at: 
+        note: 
+      spina/shop/stock_order:
+        closed_at: 
+        delivery_tracking_url: 
+        expected_delivery: 
+        id: 
+        note: 
+        ordered_at: 
+        ordered_stock: 
+        reference: 
+        supplier: 
+      spina/shop/supplier:
+        contact_name: 
+        email: 
+        lead_time: 
+        name: 
+        note: 
+        phone: 
+        stock_orders: 
       spina/shop/tax_rate:
         business: Unternehmen
         code: Code
@@ -178,6 +228,9 @@ de:
       models:
         spina/shop/order:
           attributes:
+            base:
+              shopping_cart_empty: 
+              stock_level_not_sufficient: 
             date_of_birth:
               not_of_age: muss mindestens 18 Jahre alt
     models:
@@ -193,7 +246,10 @@ de:
       spina/shop/discount:
         one: Rabatt-Code
         other: Rabatt-Codes
+      spina/shop/discounts/requirements/all_orders: 
+      spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: Bestellungen
+      spina/shop/discounts/rules/all_products: 
       spina/shop/discounts/rules/collection: Produkte aus der Sammlung
       spina/shop/discounts/rules/order_total: Bestellungen über den Betrag,
       spina/shop/gift_card:
@@ -214,6 +270,7 @@ de:
       spina/shop/product_category:
         one: Produkt
         other: Produktkategorien
+      spina/shop/product_collection: 
       spina/shop/product_item:
         one: Produktartikel
         other: Produktartikel
@@ -223,6 +280,11 @@ de:
       spina/shop/sales_category:
         one: Einnahmen Kategorie
         other: Einnahmen Kategorien
+      spina/shop/shop_review: 
+      spina/shop/stock_order: 
+      spina/shop/store: 
+      spina/shop/supplier: 
+      spina/shop/tag: 
       spina/shop/tax_group:
         one: MwSt-Gruppe
         other: Mehrwertsteuergruppen
@@ -245,16 +307,28 @@ de:
     shop:
       addresses:
         add_address: Adresse hinzufügen
+      analytics:
+        title: 
+      approve_selected: 
       customer_accounts:
         edit: Konto bearbeiten
         forgot_password:
           title: Titel
         guest: Gast
+        new: 
         registered: eingetragen
         save: Sparkonto
       customer_groups:
+        delete: 
+        delete_confirmation: 
+        new: 
+        save: 
         title: Kundengruppen
       customers:
+        delete: 
+        delete_confirmation_html: 
+        delete_restriction_error: 
+        delete_restriction_error_explanation: 
         edit: Unternehmen Kunden
         new: neue Kunden
         no_customer_group: Keine Kundengruppe
@@ -266,7 +340,9 @@ de:
         title: alle Kunden
       delete_selected: Löschen ausgewählter Linien
       discounts:
+        multiple_use: 
         new: Neuer Code
+        one_off: 
         save: Coupon speichern
         usage_limit_0: Auf 0 für unbegrenzt
       emails:
@@ -276,13 +352,13 @@ de:
         order_confirmation_title: Ihre Bestellung wurde bestätigt
         order_shipped_title: Ihre Bestellung wurde versandt
         welcome_email_title: Begrüßungs-E-Titel
+      exports:
+        title: 
       gift_cards:
         all: Alle Geschenkgutscheine
         delete: löschen Geschenk
-        delete_confirmation: Sind Sie sicher, dass Sie das <strong> Geschenk </ strong>
-          löschen?
-        delete_restriction_error: "<Strong> Geschenk </ strong> kann nicht entfernt
-          werden"
+        delete_confirmation: Sind Sie sicher, dass Sie das <strong> Geschenk </ strong> löschen?
+        delete_restriction_error: "<Strong> Geschenk </ strong> kann nicht entfernt werden"
         delete_restriction_error_explanation: Ist bereits im Einsatz, um
         expired: abgelaufen
         new: neues Geschenk
@@ -295,42 +371,58 @@ de:
           used: gebraucht
         unused: ungebraucht
         used: gebraucht
+      invoices:
+        all: 
+        no_invoices: 
+        unpaid: 
+      next: 
       orders:
         actions: Aktionen
         add_product: Produkt hinzufügen
-        cancel_order_confirmation_html: Sind Sie sicher , dass Sie diese Bestellung
-          <strong>stornieren?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
+        all_stores: 
+        cancel_order_confirmation_html: Sind Sie sicher , dass Sie diese Bestellung <strong>stornieren?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         cancel_order_html: stornieren
+        confirm_order: 
+        confirm_order_html: 
+        download_attachments_html: 
         download_invoice: Download Rechnung %{number}
         download_packing_slip: Download Packliste
         failed: fehlgeschlagen
+        first_order_for_email: 
         history: Geschichte
         new: neue Ordnung
         no_orders: keine Aufträge
         order_picked_up: Bestellungen abgeholt
-        pay_order_confirmation_html: Sind Sie sicher , dass Sie diese markieren ,
-          um als <strong>bezahlt?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
+        pay_order_confirmation_html: Sind Sie sicher , dass Sie diese markieren , um als <strong>bezahlt?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         pay_order_html: Mark als bezahlt
-        receive_order_confirmation_html: Sind Sie sicher , dass Sie diesen Auftrag
-          <strong>abzuschließen?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
+        payment_reminders:
+          customer_received_invoice: 
+          email_sent: 
+          send_confirmation_html: 
+          send_html: 
+        receive_order_confirmation_html: Sind Sie sicher , dass Sie diesen Auftrag <strong>abzuschließen?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         receive_order_html: zum Abschluss bringen
         save: Speichern Sie bestellen
         save_order: speichern bestellen
-        ship_order_confirmation_html: Sind Sie sicher , dass Sie die Bestellung <strong>schicken?</strong>
-          Der Kunde erhält <strong>automatisch</strong> eine E - Mail von hier.
+        search_results: 
+        ship_order_confirmation_html: Sind Sie sicher , dass Sie die Bestellung <strong>schicken?</strong> Der Kunde erhält <strong>automatisch</strong> eine E - Mail von hier.
         ship_order_html: erstellen <strong>Sendung</strong>
         ship_order_success_html: "<strong>gesendet</strong> Aufträge"
         start_order_picking_html: Starten Sie Kommissionierung
         start_order_picking_success_html: Gestartet Aufträge Kommissionierung
         start_picking_and_ship_html: Starten Sie Kommissionierung und Schiff bestellen
-        start_picking_and_ship_success_html: Starten Sie Bestellungen und Versandaufträge
-          Kommissionierung
-        start_preparing_and_ship_html: "<strong>Generieren</strong> Packzettel und
-          <strong>Schiff</strong> bestellen"
-        start_preparing_and_ship_success_html: Lieferschein <strong>generiert</strong>
-          und <strong>gesendet</strong> , um
+        start_picking_and_ship_success_html: Starten Sie Bestellungen und Versandaufträge Kommissionierung
+        start_preparing_and_ship_html: "<strong>Generieren</strong> Packzettel und <strong>Schiff</strong> bestellen"
+        start_preparing_and_ship_success_html: Lieferschein <strong>generiert</strong> und <strong>gesendet</strong> , um
         start_preparing_html: Beginn der <strong>Vorbereitung</strong>
         start_preparing_success_html: Lieferschein <strong>erzeugt</strong> wurde
+        state_icons:
+          delivered: 
+          paid: 
+          picked_up: 
+          preparing: 
+          received: 
+          shipped: 
         states:
           building: Einkaufswagen
           cancelled: storniert
@@ -341,6 +433,7 @@ de:
           order_preparing: vorbereiten
           paid: bezahlt
           picked_up: abgerufen
+          preparing: 
           received: bestellen
           refunded: gerendert
           shipped: erstellte Mission
@@ -350,6 +443,8 @@ de:
         add_bundled_product: Produkt hinzufügen
         new: Neuer Produkt-Bundle
       product_categories: Produktkategorien
+      product_category_part:
+        select_blank: 
       product_items:
         adjust_stock: Passen Lager
         almost_expired: fast abgelaufen
@@ -360,29 +455,34 @@ de:
         stock_history: Geschichte
       product_reviews:
         no_reviews: Keine Bewertungen sind bereitgestellt worden,
+        title: 
       products:
         adjust_stock: Einstellen Lager
         almost_expired: Das Produkt ist fast abgelaufen
         archive: Archiv Produkt
-        archive_confirmation: Sind Sie sicher, dass Sie <strong> %{name} </ strong>
-          zu archivieren?
+        archive_confirmation: Sind Sie sicher, dass Sie <strong> %{name} </ strong> zu archivieren?
         archived_title: archivieren
+        batches:
+          updating_html: 
         choose_customer_group: Wählen Kundengruppe
         delete: Produkt entfernen
-        delete_confirmation: Sind Sie sicher, dass Sie <strong> %{name} </ strong>
-          löschen?
-        delete_restriction_error: "<Strong> %{name} </ strong> kann nicht entfernt
-          werden"
+        delete_confirmation: Sind Sie sicher, dass Sie <strong> %{name} </ strong> löschen?
+        delete_restriction_error: "<Strong> %{name} </ strong> kann nicht entfernt werden"
         delete_restriction_error_explanation: Tritt auf Bestellung oder Produktbündel
+        duplicate: 
         expired: Produkt ist abgelaufen
+        in_stock_reminders: 
         new: neues Produkt
         new_by_category_title_html: Wählen Sie eine <strong>Kategorie</strong>
+        new_copy: 
+        new_variant: 
         out_of_stock: Vorräte auf
         save: Sparprodukt
         select_blank: Wählen Sie ein Produkt
         send_in_stock_reminders: Das Versenden von Nachrichten Lager
         stock_history: Geschichte
         title: Katalog
+        translations: 
         unarchive: reaktivieren Produkt
       properties:
         field_types:
@@ -394,13 +494,44 @@ de:
         new: neue Eigenschaft
         options:
           add: hinzufügen
+      receive_products:
+        create: 
       reports:
-        start_exporting_html: Der <strong>Bericht</strong> wird erzeugt. Sie werden
-          automatisch eine E-Mail erhalten.
+        start_exporting_html: Der <strong>Bericht</strong> wird erzeugt. Sie werden automatisch eine E-Mail erhalten.
         title: Berichte
       sales_categories:
         default_sales_category_code: Standard Umsatz Kategorie
+      save: 
       settings: webshop Vorl
+      shop_reviews:
+        save: 
+        title: 
+      stock:
+        reset_stock: 
+      stock_order_products:
+        choose_stock_order: 
+        create: 
+        new_html: 
+      stock_orders:
+        choose_supplier: 
+        close_order: 
+        create: 
+        new_html: 
+        place_order: 
+        receive_products: 
+        status:
+          closed: 
+          concept: 
+          expected_today: 
+          late: 
+          open: 
+          ordered: 
+      suppliers:
+        edit: 
+        lead_time_in_days: 
+      tags:
+        delete: 
+        new: 
       tax:
         no_tax: keine Mehrwertsteuer
         rate: "%{rate}% MwSt"

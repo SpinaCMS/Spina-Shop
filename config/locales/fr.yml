@@ -1,4 +1,3 @@
----
 fr:
   activerecord:
     attributes:
@@ -22,7 +21,7 @@ fr:
         country: pays
         created_at: créé sur
         date_of_birth: date de naissance
-        email: émail
+        email: "émail"
         first_name: prénom
         full_name: nom et prénom
         ip_addresses: adresses IP
@@ -30,14 +29,16 @@ fr:
         name: nom
         number: numéro de client
         phone: téléphone
+        postpay_allowed: 
         vat_id: N ° de TVA
       spina/shop/customer_account:
-        email: émail
+        email: "émail"
         password: mot de passe
         password_confirmation: confirmer le mot de passe
       spina/shop/discount:
         code: code de réduction
         description: description
+        discount_requirement: 
         discount_rule: valable pour
         expires_at: fini
         optional: en option
@@ -49,11 +50,12 @@ fr:
         code: code
         created_at: créé sur
         expires_at: arrive à expiration
-        remaining_balance: équilibre
+        remaining_balance: "équilibre"
         value: valeur
       spina/shop/in_stock_reminder:
-        email: émail
+        email: "émail"
       spina/shop/invoice:
+        customer: 
         customer_number: numéro de client
         date: date de la facture
         reference: référence
@@ -61,6 +63,7 @@ fr:
         total: total
       spina/shop/invoice_line:
         description: description
+        discount: 
         price: prix
         tax: BTW
         total: total
@@ -79,9 +82,12 @@ fr:
         delivered_at: rendu le
         delivery_address: Adresse de livraison
         delivery_city: Endroit
+        delivery_company: 
         delivery_country: pays
+        delivery_first_name: 
         delivery_house_number: adresse
         delivery_house_number_addition: addition
+        delivery_last_name: 
         delivery_name: nom
         delivery_option: Mode de livraison
         delivery_postal_code: Code postal
@@ -90,41 +96,55 @@ fr:
         delivery_street2: rue 2
         delivery_tracking_ids: Track & Trace
         discount: Réduction
-        email: émail
+        email: "émail"
         first_name: prénom
         ip_address: adresse IP
         last_name: nom de famille
         note: note
         order_attachments: pièces jointes
         order_number: numéro de commande
+        paid_at: 
         payment_method: paiement
+        payment_reminder_sent_at: 
         phone: téléphone
         received_at: Date de commande
         reference: référence
         separate_delivery_address: autre adresse
         shipped_at: envoyé sur
+        store: 
         sub_total: total
+        to_be_paid: 
         total: total
         total_excluding_tax: Total hors. TVA
       spina/shop/order_item:
         price: prix
         total: total
+      spina/shop/ordered_stock:
+        quantity: 
+        received: 
       spina/shop/product:
         active: Disponible en magasin
+        available_at_supplier: 
         base_price: prix
         can_expire: A une date d'expiration
         cost_price: prix de revient
+        created_at: 
         description: description
         ean: EAN
         expiration_date: expiration
+        extended_description: 
+        limit: 
         limit_per_order: Limite par commande
         location: lieu
         materialized_path: URL
         must_be_of_age_to_buy: Seulement pour les 18+
         name: nom
+        price: 
         price_exceptions: Prix ​​par groupe de clients
+        product_category: 
         product_collections: collections
         promotional_price: Prix ​​d'action
+        reference: 
         related_products: produits associés
         sales_category: Catégorie de revenu
         seo_description: Description SEO
@@ -133,12 +153,19 @@ fr:
         stock_enabled: inventaire
         stock_level: stock
         supplier: fournisseur
+        supplier_packing_unit: 
         supplier_reference: Référence fournisseur
         weight: poids
       spina/shop/product_bundle:
+        active: 
+        description: 
+        materialized_path: 
         name: nom
+        original_price: 
         price: prix
         sales_category: Catégorie de revenu
+        seo_description: 
+        seo_title: 
       spina/shop/product_item:
         active: actif
         can_expire: A une date d'expiration
@@ -163,11 +190,36 @@ fr:
         business: affaires
         code: code
       spina/shop/shop_review:
+        approved: 
+        author: 
+        email: 
         review_cons: Amélioration ou conseils
         review_pros: positifs
         score: figure
-        score_communication: Évaluation de la communication
+        score_communication: "Évaluation de la communication"
         score_speed: débit numérique / Livraison
+      spina/shop/stock_level_adjustment:
+        adjustment: 
+        created_at: 
+        note: 
+      spina/shop/stock_order:
+        closed_at: 
+        delivery_tracking_url: 
+        expected_delivery: 
+        id: 
+        note: 
+        ordered_at: 
+        ordered_stock: 
+        reference: 
+        supplier: 
+      spina/shop/supplier:
+        contact_name: 
+        email: 
+        lead_time: 
+        name: 
+        note: 
+        phone: 
+        stock_orders: 
       spina/shop/tax_rate:
         business: affaires
         code: code
@@ -176,6 +228,9 @@ fr:
       models:
         spina/shop/order:
           attributes:
+            base:
+              shopping_cart_empty: 
+              stock_level_not_sufficient: 
             date_of_birth:
               not_of_age: doit être il y a au moins 18 ans
     models:
@@ -191,7 +246,10 @@ fr:
       spina/shop/discount:
         one: code de réduction
         other: Codes de réduction
+      spina/shop/discounts/requirements/all_orders: 
+      spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: toutes les commandes
+      spina/shop/discounts/rules/all_products: 
       spina/shop/discounts/rules/collection: Produits de la collection
       spina/shop/discounts/rules/order_total: Les commandes sur le montant
       spina/shop/gift_card:
@@ -212,8 +270,9 @@ fr:
       spina/shop/product_category:
         one: produit
         other: Catégories de produits
+      spina/shop/product_collection: 
       spina/shop/product_item:
-        one: élément de produit
+        one: "élément de produit"
         other: articles de ce produit
       spina/shop/product_review:
         one: examen
@@ -221,6 +280,11 @@ fr:
       spina/shop/sales_category:
         one: Catégorie de revenu
         other: Catégories de revenus
+      spina/shop/shop_review: 
+      spina/shop/stock_order: 
+      spina/shop/store: 
+      spina/shop/supplier: 
+      spina/shop/tag: 
       spina/shop/tax_group:
         one: Groupe TVA
         other: groupes de TVA
@@ -234,7 +298,7 @@ fr:
       product_categories:
         no_categories: pas de catégories
     delete: effacer
-    edit: éditer
+    edit: "éditer"
     main_menu: Menu principal
     pages:
       photo_picker: sélecteur de photo
@@ -243,16 +307,28 @@ fr:
     shop:
       addresses:
         add_address: Ajouter une adresse
+      analytics:
+        title: 
+      approve_selected: 
       customer_accounts:
         edit: Modifier le compte
         forgot_password:
           title: titre
         guest: invité
+        new: 
         registered: inscrit
         save: compte d'épargne
       customer_groups:
+        delete: 
+        delete_confirmation: 
+        new: 
+        save: 
         title: Groupes de clients
       customers:
+        delete: 
+        delete_confirmation_html: 
+        delete_restriction_error: 
+        delete_restriction_error_explanation: 
         edit: Modifier le client
         new: nouveau client
         no_customer_group: Aucun groupe de clients
@@ -264,7 +340,9 @@ fr:
         title: tous les clients
       delete_selected: Supprimer les lignes sélectionnées
       discounts:
+        multiple_use: 
         new: nouveau code
+        one_off: 
         save: coupon Économisez
         usage_limit_0: Mettre à 0 pour un nombre illimité
       emails:
@@ -274,11 +352,12 @@ fr:
         order_confirmation_title: Votre commande a été confirmée
         order_shipped_title: Votre commande a été expédiée
         welcome_email_title: Titre Bienvenue email
+      exports:
+        title: 
       gift_cards:
         all: tous les certificats-cadeaux
         delete: supprimer cadeau
-        delete_confirmation: Êtes-vous sûr de vouloir supprimer le don <strong> </
-          strong>?
+        delete_confirmation: "Êtes-vous sûr de vouloir supprimer le don <strong> </ strong>?"
         delete_restriction_error: "<Strong> Cadeau </ strong> ne peut pas être enlevé"
         delete_restriction_error_explanation: Est déjà utilisé pour
         expired: expiré
@@ -292,43 +371,58 @@ fr:
           used: d'occasion
         unused: inutilisé
         used: d'occasion
+      invoices:
+        all: 
+        no_invoices: 
+        unpaid: 
+      next: 
       orders:
         actions: actes
         add_product: Ajouter le produit
-        cancel_order_confirmation_html: Etes - vous sûr de vouloir <strong>annuler</strong>
-          cette commande? <strong>Cette action est irréversible.</strong>
+        all_stores: 
+        cancel_order_confirmation_html: Etes - vous sûr de vouloir <strong>annuler</strong> cette commande? <strong>Cette action est irréversible.</strong>
         cancel_order_html: annuler
+        confirm_order: 
+        confirm_order_html: 
+        download_attachments_html: 
         download_invoice: Télécharger facture %{number}
         download_packing_slip: télécharger la liste d'emballage
         failed: manqué
+        first_order_for_email: 
         history: histoire
         new: nouvel ordre
         no_orders: aucune commande
         order_picked_up: Les commandes ramassées
-        pay_order_confirmation_html: Etes - vous sûr que vous voulez marquer cet ordre
-          comme <strong>payé?</strong> <strong>Cette action est irréversible.</strong>
+        pay_order_confirmation_html: Etes - vous sûr que vous voulez marquer cet ordre comme <strong>payé?</strong> <strong>Cette action est irréversible.</strong>
         pay_order_html: Marquer comme payé
-        receive_order_confirmation_html: Etes - vous sûr de vouloir <strong>finaliser</strong>
-          cet ordre? <strong>Cette action est irréversible.</strong>
+        payment_reminders:
+          customer_received_invoice: 
+          email_sent: 
+          send_confirmation_html: 
+          send_html: 
+        receive_order_confirmation_html: Etes - vous sûr de vouloir <strong>finaliser</strong> cet ordre? <strong>Cette action est irréversible.</strong>
         receive_order_html: finaliser
         save: pour sauver
         save_order: ordre de sauvegarde
-        ship_order_confirmation_html: Etes - vous sûr de vouloir <strong>envoyer</strong>
-          l'ordre? Le client reçoit <strong>automatiquement</strong> un e - mail d'ici.
+        search_results: 
+        ship_order_confirmation_html: Etes - vous sûr de vouloir <strong>envoyer</strong> l'ordre? Le client reçoit <strong>automatiquement</strong> un e - mail d'ici.
         ship_order_html: Créer <strong>expédition</strong>
         ship_order_success_html: commandes <strong>envoyées</strong>
         start_order_picking_html: Commencez la préparation des commandes
         start_order_picking_success_html: Commencé commandes cueillette
-        start_picking_and_ship_html: Commencez la préparation des commandes et l'ordre
-          du navire
-        start_picking_and_ship_success_html: Commencez les commandes et la cueillette
-          des commandes d'expédition
-        start_preparing_and_ship_html: "<strong>Générer</strong> bordereau d'expédition
-          et de l' ordre <strong>du navire</strong>"
-        start_preparing_and_ship_success_html: bordereau d' expédition <strong>généré</strong>
-          et <strong>envoyé</strong> commande
+        start_picking_and_ship_html: Commencez la préparation des commandes et l'ordre du navire
+        start_picking_and_ship_success_html: Commencez les commandes et la cueillette des commandes d'expédition
+        start_preparing_and_ship_html: "<strong>Générer</strong> bordereau d'expédition et de l' ordre <strong>du navire</strong>"
+        start_preparing_and_ship_success_html: bordereau d' expédition <strong>généré</strong> et <strong>envoyé</strong> commande
         start_preparing_html: commencer à <strong>préparer</strong>
         start_preparing_success_html: Note de livraison a été <strong>générée</strong>
+        state_icons:
+          delivered: 
+          paid: 
+          picked_up: 
+          preparing: 
+          received: 
+          shipped: 
         states:
           building: chariot
           cancelled: annulé
@@ -339,6 +433,7 @@ fr:
           order_preparing: préparer
           paid: payé
           picked_up: récupéré
+          preparing: 
           received: ordre
           refunded: rendu
           shipped: mission créée
@@ -348,6 +443,8 @@ fr:
         add_bundled_product: Ajouter le produit
         new: Nouveau groupe de produits
       product_categories: Catégories de produits
+      product_category_part:
+        select_blank: 
       product_items:
         adjust_stock: ajuster stock
         almost_expired: presque expiré
@@ -358,26 +455,34 @@ fr:
         stock_history: histoire
       product_reviews:
         no_reviews: Aucun commentaire n'a été fourni
+        title: 
       products:
         adjust_stock: stock réglage
         almost_expired: Le produit est sur le point d'expirer
         archive: produit Archive
-        archive_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour archiver?
+        archive_confirmation: "Êtes-vous sûr <strong> %{name} </ strong> pour archiver?"
         archived_title: archives
+        batches:
+          updating_html: 
         choose_customer_group: Sélectionner un groupe de clients
         delete: Retirer le produit
-        delete_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour supprimer?
+        delete_confirmation: "Êtes-vous sûr <strong> %{name} </ strong> pour supprimer?"
         delete_restriction_error: "<Strong> %{name} </ strong> ne peut pas être enlevé"
         delete_restriction_error_explanation: Survient sur commande ou groupe de produits
+        duplicate: 
         expired: Le Produit a expiré
+        in_stock_reminders: 
         new: nouveau produit
         new_by_category_title_html: Choisissez une <strong>catégorie</strong>
+        new_copy: 
+        new_variant: 
         out_of_stock: Stock sur
         save: produit d'économie
         select_blank: Sélectionnez un produit
         send_in_stock_reminders: L'envoi de messages stock
         stock_history: histoire
         title: catalogue
+        translations: 
         unarchive: réactiver le produit
       properties:
         field_types:
@@ -389,13 +494,44 @@ fr:
         new: nouvelle propriété
         options:
           add: ajouter
+      receive_products:
+        create: 
       reports:
-        start_exporting_html: Le <strong>rapport</strong> est généré. Vous recevrez
-          automatiquement un e-mail.
+        start_exporting_html: Le <strong>rapport</strong> est généré. Vous recevrez automatiquement un e-mail.
         title: rapports
       sales_categories:
         default_sales_category_code: catégorie standard chiffre d'affaires
+      save: 
       settings: Préférences webshop
+      shop_reviews:
+        save: 
+        title: 
+      stock:
+        reset_stock: 
+      stock_order_products:
+        choose_stock_order: 
+        create: 
+        new_html: 
+      stock_orders:
+        choose_supplier: 
+        close_order: 
+        create: 
+        new_html: 
+        place_order: 
+        receive_products: 
+        status:
+          closed: 
+          concept: 
+          expected_today: 
+          late: 
+          open: 
+          ordered: 
+      suppliers:
+        edit: 
+        lead_time_in_days: 
+      tags:
+        delete: 
+        new: 
       tax:
         no_tax: pas de TVA
         rate: "%{rate}% TVA"

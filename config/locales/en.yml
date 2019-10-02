@@ -1,4 +1,3 @@
----
 en:
   activerecord:
     attributes:
@@ -30,6 +29,7 @@ en:
         name: Name
         number: Customer number
         phone: Phone
+        postpay_allowed: 
         vat_id: VAT ID
       spina/shop/customer_account:
         email: Email
@@ -38,6 +38,7 @@ en:
       spina/shop/discount:
         code: Discount code
         description: Description
+        discount_requirement: 
         discount_rule: Valid for
         expires_at: Expires at
         optional: Optional
@@ -54,6 +55,7 @@ en:
       spina/shop/in_stock_reminder:
         email: Email
       spina/shop/invoice:
+        customer: 
         customer_number: Customer number
         date: Invoice date
         reference: Reference
@@ -61,10 +63,10 @@ en:
         total: Total
       spina/shop/invoice_line:
         description: Description
+        discount: Discount
         price: Price
         tax: Tax
         total: Total
-        discount: Discount
       spina/shop/order:
         billing_address: Billing address
         billing_city: City
@@ -80,9 +82,12 @@ en:
         delivered_at: Delivered at
         delivery_address: Delivery address
         delivery_city: City
+        delivery_company: 
         delivery_country: Country
+        delivery_first_name: 
         delivery_house_number: House number
         delivery_house_number_addition: Addition
+        delivery_last_name: 
         delivery_name: Name
         delivery_option: Delivery option
         delivery_postal_code: Postal code
@@ -98,35 +103,48 @@ en:
         note: Note
         order_attachments: Attachments
         order_number: Order number
+        paid_at: 
         payment_method: Payment method
+        payment_reminder_sent_at: Payment reminder
         phone: Phone
         received_at: Order date
         reference: Reference
         separate_delivery_address: Separate delivery address
         shipped_at: Shipped at
+        store: 
         sub_total: Sub total
+        to_be_paid: To pay
         total: Total
         total_excluding_tax: Total excl. tax
-        to_be_paid: To pay
       spina/shop/order_item:
         price: Price
         total: Total
+      spina/shop/ordered_stock:
+        quantity: 
+        received: 
       spina/shop/product:
         active: Available in webshop
+        available_at_supplier: 
         base_price: Price
         can_expire: Has an expiration date
         cost_price: Cost price
+        created_at: 
         description: Description
         ean: EAN
         expiration_date: Expiration date
+        extended_description: 
+        limit: 
         limit_per_order: Limit per order
         location: Location
         materialized_path: Materialized path
         must_be_of_age_to_buy: Only for 18+
         name: Name
+        price: 
         price_exceptions: Price exceptions
+        product_category: 
         product_collections: Collections
         promotional_price: Promotional price
+        reference: 
         related_products: Related products
         sales_category: Sales category
         seo_description: SEO description
@@ -135,12 +153,19 @@ en:
         stock_enabled: Stock management
         stock_level: Stock level
         supplier: Supplier
+        supplier_packing_unit: 
         supplier_reference: Supplier reference
         weight: Weight
       spina/shop/product_bundle:
+        active: 
+        description: 
+        materialized_path: 
         name: Name
+        original_price: 
         price: Price
         sales_category: Sales category
+        seo_description: 
+        seo_title: 
       spina/shop/product_item:
         active: Active
         can_expire: Has an expiration date
@@ -165,11 +190,36 @@ en:
         business: Business
         code: Code
       spina/shop/shop_review:
+        approved: 
+        author: 
+        email: 
         review_cons: Cons
         review_pros: Pros
         score: Score
         score_communication: Score communication
         score_speed: Score speed
+      spina/shop/stock_level_adjustment:
+        adjustment: 
+        created_at: 
+        note: 
+      spina/shop/stock_order:
+        closed_at: 
+        delivery_tracking_url: 
+        expected_delivery: 
+        id: 
+        note: 
+        ordered_at: 
+        ordered_stock: 
+        reference: 
+        supplier: 
+      spina/shop/supplier:
+        contact_name: 
+        email: 
+        lead_time: 
+        name: 
+        note: 
+        phone: 
+        stock_orders: 
       spina/shop/tax_rate:
         business: Business
         code: Code
@@ -178,6 +228,9 @@ en:
       models:
         spina/shop/order:
           attributes:
+            base:
+              shopping_cart_empty: 
+              stock_level_not_sufficient: 
             date_of_birth:
               not_of_age: must be of age
     models:
@@ -193,7 +246,10 @@ en:
       spina/shop/discount:
         one: Discount
         other: Discounts
+      spina/shop/discounts/requirements/all_orders: 
+      spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: All orders
+      spina/shop/discounts/rules/all_products: 
       spina/shop/discounts/rules/collection: Products from collection
       spina/shop/discounts/rules/order_total: Order total more than
       spina/shop/gift_card:
@@ -214,6 +270,7 @@ en:
       spina/shop/product_category:
         one: Product category
         other: Product categories
+      spina/shop/product_collection: 
       spina/shop/product_item:
         one: Product item
         other: Product items
@@ -223,6 +280,11 @@ en:
       spina/shop/sales_category:
         one: Sales category
         other: Sales categories
+      spina/shop/shop_review: 
+      spina/shop/stock_order: 
+      spina/shop/store: 
+      spina/shop/supplier: 
+      spina/shop/tag: 
       spina/shop/tax_group:
         one: Tax group
         other: Tax groups
@@ -245,16 +307,28 @@ en:
     shop:
       addresses:
         add_address: Add address
+      analytics:
+        title: 
+      approve_selected: 
       customer_accounts:
         edit: Edit account
         forgot_password:
           title: Title
         guest: Guest
+        new: 
         registered: Registered
         save: Save account
       customer_groups:
+        delete: 
+        delete_confirmation: 
+        new: 
+        save: 
         title: Customer groups
       customers:
+        delete: 
+        delete_confirmation_html: 
+        delete_restriction_error: 
+        delete_restriction_error_explanation: 
         edit: Edit customer
         new: New customer
         no_customer_group: No customer group
@@ -266,7 +340,9 @@ en:
         title: All customers
       delete_selected: Delete selected lines
       discounts:
+        multiple_use: 
         new: New discount
+        one_off: 
         save: Save discount
         usage_limit_0: Enter 0 for no usage limit
       emails:
@@ -276,6 +352,8 @@ en:
         order_confirmation_title: Your order was confirmed
         order_shipped_title: Your order was shipped
         welcome_email_title: Welcome email title
+      exports:
+        title: 
       gift_cards:
         all: All gift cards
         delete: Delete gift card
@@ -293,41 +371,58 @@ en:
           used: Used
         unused: Unused
         used: Used
+      invoices:
+        all: 
+        no_invoices: 
+        unpaid: 
+      next: 
       orders:
         actions: Actions
         add_product: Add product
-        cancel_order_confirmation_html: Are you sure you want to <strong>cancel</strong>
-          this order? <strong>This action is irreversable.</strong>
+        all_stores: 
+        cancel_order_confirmation_html: Are you sure you want to <strong>cancel</strong> this order? <strong>This action is irreversable.</strong>
         cancel_order_html: "<strong>Cancel</strong> order"
+        confirm_order: 
+        confirm_order_html: 
+        download_attachments_html: 
         download_invoice: Download invoice %{number}
         download_packing_slip: Download packing slip
         failed: Failed
+        first_order_for_email: 
         history: History
         new: New order
         no_orders: No orders
         order_picked_up: Order picked up
-        pay_order_confirmation_html: Are you sure you want to mark this order as <strong>paid</strong>?
-          <strong>This action is irreversable.</strong>
+        pay_order_confirmation_html: Are you sure you want to mark this order as <strong>paid</strong>? <strong>This action is irreversable.</strong>
         pay_order_html: Mark as paid
-        receive_order_confirmation_html: Are you sure you want to mark this invoice
-          as <strong>final</strong>?<strong>This action is irreversable.</strong>
+        payment_reminders:
+          customer_received_invoice: 
+          email_sent: 
+          send_confirmation_html: 
+          send_html: 
+        receive_order_confirmation_html: Are you sure you want to mark this invoice as <strong>final</strong>?<strong>This action is irreversable.</strong>
         receive_order_html: Mark as final
         save: Save order
         save_order: Save order
-        ship_order_confirmation_html: Are you sure you want to ship the order? Your
-          customer will automatically receive an email with details.
+        search_results: 
+        ship_order_confirmation_html: Are you sure you want to ship the order? Your customer will automatically receive an email with details.
         ship_order_html: Ship order
         ship_order_success_html: Shipped orders
         start_order_picking_html: Start order picking
         start_order_picking_success_html: Started picking orders
         start_picking_and_ship_html: Start order picking and ship order
         start_picking_and_ship_success_html: Start picking orders and shipping orders
-        start_preparing_and_ship_html: "<strong>Generate</strong> packing slip and
-          <strong>send</strong> order"
-        start_preparing_and_ship_success_html: Packing slip <strong>generated</strong>
-          and order <strong>shipped</strong>
+        start_preparing_and_ship_html: "<strong>Generate</strong> packing slip and <strong>send</strong> order"
+        start_preparing_and_ship_success_html: Packing slip <strong>generated</strong> and order <strong>shipped</strong>
         start_preparing_html: Start <strong>preparing</strong>
         start_preparing_success_html: Packing slip is <strong>generated</strong>
+        state_icons:
+          delivered: 
+          paid: 
+          picked_up: 
+          preparing: 
+          received: 
+          shipped: 
         states:
           building: Shopping cart
           cancelled: Cancelled
@@ -338,6 +433,7 @@ en:
           order_preparing: Order preparing
           paid: Paid
           picked_up: Picked up
+          preparing: 
           received: Received
           refunded: Refunded
           shipped: Shipped
@@ -347,6 +443,8 @@ en:
         add_bundled_product: Add product
         new: New product bundle
       product_categories: Productcategorieën
+      product_category_part:
+        select_blank: 
       product_items:
         adjust_stock: Adjust stock
         almost_expired: Almost expired
@@ -357,27 +455,34 @@ en:
         stock_history: History
       product_reviews:
         no_reviews: No reviews yet
+        title: 
       products:
         adjust_stock: Adjust stock
         almost_expired: Product has almost expired
         archive: Archive product
-        archive_confirmation: Are you sure you want to archive <strong> %{name} </
-          strong>?
+        archive_confirmation: Are you sure you want to archive <strong> %{name} </ strong>?
         archived_title: Archive
+        batches:
+          updating_html: 
         choose_customer_group: Choose customer group
         delete: Remove product
         delete_confirmation: Are you sure you want to delete <strong> %{name} </ strong>?
         delete_restriction_error: "<strong> %{name} </ strong> can not be deleted"
         delete_restriction_error_explanation: Occurs in order or product bundle
+        duplicate: 
         expired: Product has expired
+        in_stock_reminders: 
         new: New product
         new_by_category_title_html: Choose a <strong>category</strong>
+        new_copy: 
+        new_variant: 
         out_of_stock: Stock is up
         save: Save product
         select_blank: Choose a product
         send_in_stock_reminders: Send inventory notifications
         stock_history: History
         title: Catalog
+        translations: 
         unarchive: Reactivate product
       properties:
         field_types:
@@ -389,13 +494,44 @@ en:
         new: New property
         options:
           add: Add
+      receive_products:
+        create: 
       reports:
-        start_exporting_html: The <strong>report</strong> is generated. You will automatically
-          receive an email.
+        start_exporting_html: The <strong>report</strong> is generated. You will automatically receive an email.
         title: Reports
       sales_categories:
         default_sales_category_code: Standard turnover category
+      save: 
       settings: Shop settings
+      shop_reviews:
+        save: 
+        title: 
+      stock:
+        reset_stock: 
+      stock_order_products:
+        choose_stock_order: 
+        create: 
+        new_html: 
+      stock_orders:
+        choose_supplier: 
+        close_order: 
+        create: 
+        new_html: 
+        place_order: 
+        receive_products: 
+        status:
+          closed: 
+          concept: 
+          expected_today: 
+          late: 
+          open: 
+          ordered: 
+      suppliers:
+        edit: 
+        lead_time_in_days: 
+      tags:
+        delete: 
+        new: 
       tax:
         no_tax: No tax
         rate: "%{rate}% btw"

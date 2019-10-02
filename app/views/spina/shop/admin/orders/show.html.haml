@@ -2,6 +2,9 @@
   .pull-right
     / Available hook for custom actions
     = render 'custom_actions'
+
+    = link_to spina.edit_shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px' do
+      %i.icon.icon-pencil
     
     - if @order.order_attachments.any?
       %div{style: 'display: inline-block', data: {dropdown: true}}
@@ -19,41 +22,45 @@
                   .pull-right= number_to_human_size order_attachment.attachment_size
                   = order_attachment.attachment_content_type
 
-    = link_to t('spina.edit'), spina.edit_shop_admin_order_path(@order), class: 'button'
+    %div{style: 'display: inline-block', data: {dropdown: true}}
+      = link_to '#', class: 'button button-primary', data: {trigger: 'dropdown', target: '#actions'} do
+        Acties
+        %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-    - if @order.in_state?(:building)
-      = link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.confirm_order_html')}
+      %ul#actions.align-right
+        - if @order.in_state?(:building)
+          %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
 
-    - if @order.in_state?(:confirming, :received)
-      = link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, class: 'button', data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+        - if @order.in_state?(:confirming, :received)
+          %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
-      - if @order.in_state?(:confirming)
-        = link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
+        - if @order.in_state?(:confirming)
+          %li= link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
 
-      - if @order.in_state?(:received)
-        = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+        - if @order.in_state?(:received)
+          %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
 
-    - if @order.in_state?(:paid)
-      - if @order.order_prepared?
-        - if @order.requires_shipping?
-          = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
-        - else
-          = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
-      - else
-        = link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post, class: 'button button-primary'
+        - if @order.in_state?(:paid)
+          - if @order.order_prepared?
+            - if @order.requires_shipping?
+              %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+            - else
+              %li= link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post
+          - else
+            %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
 
-    - if @order.in_state?(:preparing)
-      - if @order.requires_shipping?
-        = link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
-      - else
-        = link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+        - if @order.in_state?(:preparing)
+          - if @order.requires_shipping?
+            %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+          - else
+            %li= link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post
 
-    - if @order.in_state?(:shipped)
-      = link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post, class: 'button button-primary'
+        - if @order.in_state?(:shipped)
+          %li= link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post
 
-    - if @order.received? && !@order.paid?
-      = link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, class: 'button button-primary', data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
-
+        - if @order.received? && !@order.paid?
+          %li= link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
+          %li= link_to t('spina.shop.orders.payment_reminders.send_html'), spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 

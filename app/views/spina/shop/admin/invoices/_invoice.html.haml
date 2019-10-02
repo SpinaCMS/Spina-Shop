@@ -1,17 +1,17 @@
 %tr
-  %td= link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf), class:  'table-link'
+  %td= link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
   %td=l invoice.date, format: '%d-%m-%Y'
   %td
-    = invoice.receiver
+    - if invoice.order.payment_reminder_sent_at.present?
+      =l invoice.order.payment_reminder_sent_at, format: '%d-%m-%Y'
+    - elsif !invoice.order.paid?
+      = link_to Spina::Shop::Order.human_attribute_name(:payment_reminder_sent_at), spina.shop_admin_order_payment_reminder_path(invoice.order), method: :post, class: 'button button-mini', data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
+  %td
+    = link_to invoice.receiver, spina.shop_admin_customer_path(invoice.customer)
     - if invoice.order.present?
       %small
         = Spina::Shop::Order.model_name.human
         = link_to invoice.order.number, spina.shop_admin_order_path(invoice.order)
   %td.text-right= number_to_currency invoice.total
-  %td.text-right
-    - if invoice.exported?
-      - invoice.export_data.each do |key, value|
-        %strong= key
-        %small.text-muted= value
   %td.text-right
     .status-dot{class: (invoice.order.paid? ? "status-dot-success" : "status-dot-warning"), data: {tooltip: invoice.order.paid? ? "Betaald" : "Openstaand"}}

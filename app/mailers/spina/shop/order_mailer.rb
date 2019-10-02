@@ -12,6 +12,16 @@ module Spina::Shop
       )
     end
 
+    def payment_reminder(order)
+      @order = order
+
+      mail(
+        to: order.email,
+        from: "#{current_account.name} <#{current_account.email}>",
+        subject: t('spina.shop.emails.payment_reminder_title')
+      )
+    end
+
     def shipped(order)
       @order = order
 

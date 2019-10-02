@@ -23,6 +23,7 @@ Spina::Engine.routes.draw do
           scope module: :orders do
             resource :packing_slip, only: [:show, :create]
             resource :shipping_label, only: [:show, :create]
+            resource :payment_reminder, only: [:create]
           end
         end
 
