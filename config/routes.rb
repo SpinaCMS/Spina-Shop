@@ -17,6 +17,7 @@ Spina::Engine.routes.draw do
             post :delivered
           end
           collection do
+            get :concepts
             get :to_process
             get :failed
           end

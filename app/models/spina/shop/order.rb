@@ -38,6 +38,7 @@ module Spina::Shop
     scope :shipped, -> { where.not(shipped_at: nil) }
     scope :paid, -> { where.not(paid_at: nil) }
     scope :building, -> { in_state(:building) }
+    scope :concept, -> { building.where(manual_entry: true) }
     scope :to_process, -> { received.where(cancelled_at: nil, failed_at: nil, shipped_at: nil, picked_up_at: nil).where("paid_at IS NOT NULL OR payment_method = 'postpay'") }
 
     # Always validate
@@ -69,7 +70,7 @@ module Spina::Shop
 
     # Search
     pg_search_scope :search, 
-        against: [:order_number, :first_name, :last_name, :email, :delivery_city, :billing_city, :received_at], 
+        against: [:order_number, :first_name, :last_name, :company, :email, :delivery_city, :billing_city, :received_at], 
         associated_against: {
           delivery_option: [:name],
           customer: [:full_name]

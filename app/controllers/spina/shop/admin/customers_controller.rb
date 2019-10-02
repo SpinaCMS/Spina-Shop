@@ -9,6 +9,21 @@ module Spina::Shop
         @customers = @customers.where(store_id: params[:store_id]) if params[:store_id].present?
         @customers = @customers.sorted.page(params[:page]).per(25)
         @customer_groups = CustomerGroup.all
+
+        respond_to do |format|
+          format.html
+          format.js
+          format.json do
+            results = @customers.reorder(:company, :full_name).map do |customer|
+              { id:           customer.id, 
+                full_name:    customer.full_name,
+                company:      customer.company,
+                name:         customer.name
+              }
+            end
+            render inline: {results: results, total_count: @q.result.count}.to_json
+          end
+        end
       end
 
       def new
@@ -29,6 +44,27 @@ module Spina::Shop
       def show
         @customer = Customer.find(params[:id])
         add_breadcrumb @customer.name
+
+        respond_to do |format|
+          format.html
+          format.json do
+            render inline: {
+              id: @customer.id,
+              first_name: @customer.first_name,
+              last_name: @customer.last_name,
+              email: @customer.email,
+              phone: @customer.phone,
+              company: @customer.company,
+              billing_street_1: @customer.default_address&.street1,
+              billing_street_2: @customer.default_address&.street2,
+              billing_house_number: @customer.default_address&.house_number,
+              billing_house_number_addition: @customer.default_address&.house_number_addition,
+              billing_postal_code: @customer.default_address&.postal_code,
+              billing_city: @customer.default_address&.city,
+              billing_country: @customer.default_address&.country_id
+            }.to_json
+          end
+        end
       end
 
       def edit

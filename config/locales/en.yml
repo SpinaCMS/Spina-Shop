@@ -293,17 +293,6 @@ en:
       format:
         unit: Unit
   spina:
-    cancel: Cancel
-    commerce:
-      product_categories:
-        no_categories: No categories
-    delete: Delete
-    edit: Edit
-    main_menu: Main menu
-    pages:
-      photo_picker: Photo picker
-    save: Save
-    search: Search
     shop:
       addresses:
         add_address: Add address
@@ -382,6 +371,7 @@ en:
         all_stores: 
         cancel_order_confirmation_html: Are you sure you want to <strong>cancel</strong> this order? <strong>This action is irreversable.</strong>
         cancel_order_html: "<strong>Cancel</strong> order"
+        concepts: Concepts
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 

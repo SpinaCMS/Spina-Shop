@@ -293,17 +293,6 @@ de:
       format:
         unit: Einheit
   spina:
-    cancel: stornieren
-    commerce:
-      product_categories:
-        no_categories: keine Kategorien
-    delete: löschen
-    edit: bearbeiten
-    main_menu: Hauptmenü
-    pages:
-      photo_picker: Foto Picker
-    save: Speichern
-    search: Suche
     shop:
       addresses:
         add_address: Adresse hinzufügen
@@ -382,6 +371,7 @@ de:
         all_stores: 
         cancel_order_confirmation_html: Sind Sie sicher , dass Sie diese Bestellung <strong>stornieren?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         cancel_order_html: stornieren
+        concepts: 
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 

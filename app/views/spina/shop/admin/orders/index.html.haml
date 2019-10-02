@@ -8,6 +8,8 @@
     %ul
       %li{class: ('active' if action_name == 'index')}
         = link_to t('spina.shop.orders.title'), spina.shop_admin_orders_path
+      %li{class: ('active' if action_name == 'concepts')}
+        = link_to t('spina.shop.orders.concepts'), spina.concepts_shop_admin_orders_path
       %li{class: ('active' if action_name == 'to_process')}
         = link_to t('spina.shop.orders.to_process'), spina.to_process_shop_admin_orders_path
       %li{class: ('active' if action_name == 'failed')}

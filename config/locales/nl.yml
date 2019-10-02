@@ -305,17 +305,6 @@ nl:
       format:
         unit: Unit
   spina:
-    cancel: 
-    commerce:
-      product_categories:
-        no_categories: 
-    delete: 
-    edit: 
-    main_menu: 
-    pages:
-      photo_picker: 
-    save: 
-    search: 
     shop:
       addresses:
         add_address: Adres toevoegen
@@ -394,6 +383,7 @@ nl:
         all_stores: Alle winkels
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         cancel_order_html: Annuleren
+        concepts: Concepten
         confirm_order: Bestelling plaatsen
         confirm_order_html: Weet je zeker dat je de bestelling wilt plaatsen?
         download_attachments_html: Download <strong>bijlagen</strong>

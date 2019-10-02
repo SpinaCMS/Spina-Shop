@@ -4,6 +4,7 @@
 //= require ./product_categories
 //= require ./orders
 //= require ./customers
+//= require_tree ./controllers
 
 // Vendor stuff
 //= require spina_shop/select2

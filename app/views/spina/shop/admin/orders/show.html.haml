@@ -3,6 +3,10 @@
     / Available hook for custom actions
     = render 'custom_actions'
 
+    - if @order.building?
+      = link_to spina.shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px', data: {method: :delete} do
+        %i.icon.icon-trash
+
     = link_to spina.edit_shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px' do
       %i.icon.icon-pencil
     
@@ -31,7 +35,7 @@
         - if @order.in_state?(:building)
           %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
 
-        - if @order.in_state?(:confirming, :received)
+        - if @order.in_state?(:confirming, :received) && @order.invoices.none?
           %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
         - if @order.in_state?(:confirming)

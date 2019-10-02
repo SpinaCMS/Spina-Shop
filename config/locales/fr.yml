@@ -293,17 +293,6 @@ fr:
       format:
         unit: unité
   spina:
-    cancel: annuler
-    commerce:
-      product_categories:
-        no_categories: pas de catégories
-    delete: effacer
-    edit: "éditer"
-    main_menu: Menu principal
-    pages:
-      photo_picker: sélecteur de photo
-    save: Enregistrer
-    search: recherche
     shop:
       addresses:
         add_address: Ajouter une adresse
@@ -382,6 +371,7 @@ fr:
         all_stores: 
         cancel_order_confirmation_html: Etes - vous sûr de vouloir <strong>annuler</strong> cette commande? <strong>Cette action est irréversible.</strong>
         cancel_order_html: annuler
+        concepts: 
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 

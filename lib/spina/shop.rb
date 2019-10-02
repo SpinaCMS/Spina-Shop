@@ -5,11 +5,15 @@ module Spina
   module Shop
     include ActiveSupport::Configurable
 
-    config_accessor :default_tax_rate, :default_tax_code, :default_sales_category_code
+    config_accessor :default_tax_rate, :default_tax_code, :default_sales_category_code, :payment_methods_for_manual_orders
 
     # Default tax settings
     self.default_tax_rate = BigDecimal(0)
     self.default_tax_code = "0"
+
+    # Manual payment methods are payment methods
+    # that can be set when creating an order manually through Spina
+    self.payment_methods_for_manual_orders = []
 
     self.default_sales_category_code = "8000"
 

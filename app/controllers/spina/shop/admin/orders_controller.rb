@@ -9,7 +9,7 @@ module Spina::Shop
       end
 
       def create
-        @order = Order.new(order_params)
+        @order = Order.new(order_params.merge(manual_entry: true))
         @order.validate_details = true
         if @order.save
           redirect_to spina.shop_admin_order_path(@order)
@@ -17,6 +17,12 @@ module Spina::Shop
           add_breadcrumb t('spina.shop.orders.new')
           render :new
         end
+      end
+
+      def destroy
+        @order = Order.find(params[:id])
+        @order.destroy if @order.building?
+        redirect_to spina.shop_admin_orders_path
       end
 
       def confirm
@@ -59,6 +65,12 @@ module Spina::Shop
       def index
         @orders = Order.confirmed.includes(:order_items, :order_transitions).sorted
         filter_orders
+      end
+
+      def concepts
+        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).sorted
+        filter_orders
+        render :index
       end
 
       def to_process
@@ -104,9 +116,11 @@ module Spina::Shop
           @orders = @orders.where(store_id: advanced_filters[:store_id]) if advanced_filters[:store_id].present?
 
           # Date range
-          start_date = Date.parse(advanced_filters[:received_at_gteq].presence || "01-01-2000")
-          end_date = Date.parse(advanced_filters[:received_at_lteq].presence || "31-12-3000")
-          @orders = @orders.where(received_at: start_date..end_date)
+          if advanced_filters[:received_at_gteq].present? || advanced_filters[:received_at_lteq].present?
+            start_date = Date.parse(advanced_filters[:received_at_gteq].presence || "01-01-2000")
+            end_date = Date.parse(advanced_filters[:received_at_lteq].presence || "31-12-3000")
+            @orders = @orders.where(received_at: start_date..end_date)
+          end
 
           # Search
           @orders = @orders.search(params[:search]) if params[:search].present?
