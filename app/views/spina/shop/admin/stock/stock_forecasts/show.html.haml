@@ -1,7 +1,7 @@
 = search_form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :sku_or_location_or_translations_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
+      = f.text_field :sku_or_location_or_translations_name_or_translations_variant_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
       = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
         = icon('filter')
         = "geavanceerd #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
@@ -23,7 +23,7 @@
         - suppliers = Spina::Shop::Supplier.all.map{|t| [t.name, t.id]}
         = f.select :supplier_id_in, suppliers, {}, class: 'select2', style: 'width: 100%', multiple: true
 
-- search_params = {q: {sku_or_location_or_translations_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start: params[:q].try(:[], :location_start), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq)}}
+- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start: params[:q].try(:[], :location_start), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq)}}
 
 = form_with url: spina.new_shop_admin_stock_order_products_path(q: params.permit(q: {})[:q]), method: :get do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
