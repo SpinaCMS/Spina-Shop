@@ -34,9 +34,9 @@ module Spina::Shop
       # 2. Match parent of zone
       # 3. Default zone
       def code_by_zone(o)
-        sales_category_codes.where(sales_categorizable: o.delivery_country, business: o.business).first ||
-        sales_category_codes.where(sales_categorizable: o.delivery_country.parent, business: o.business).first ||
-        default_code
+        codes = sales_category_codes.where(sales_categorizable: [o.delivery_country, o.delivery_country.parent].compact)
+        codes = codes.where(business: false) unless o.business?
+        codes.order("business, CASE WHEN sales_categorizable_id = ? THEN 0 ELSE 1 END", o.delivery_country_id).first || default_code
       end
 
   end

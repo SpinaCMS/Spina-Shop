@@ -7,7 +7,7 @@ FactoryGirl.define do
     tax_group
     sales_category
 
-    price BigDecimal.new("12.50")
+    base_price 12.5
 
     factory :product_with_stock do
       stock_level 1

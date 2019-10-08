@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170731082105) do
+ActiveRecord::Schema.define(version: 2019_10_02_142327) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "pg_trgm"
   enable_extension "btree_gin"
+  enable_extension "citext"
+  enable_extension "pg_trgm"
+  enable_extension "plpgsql"
   enable_extension "unaccent"
 
   create_table "spina_accounts", id: :serial, force: :cascade do |t|
@@ -186,6 +187,15 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.index ["customer_id"], name: "idx_shop_addresses_on_customer_id"
   end
 
+  create_table "spina_shop_available_products", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "store_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_spina_shop_available_products_on_product_id"
+    t.index ["store_id"], name: "index_spina_shop_available_products_on_store_id"
+  end
+
   create_table "spina_shop_bundled_products", force: :cascade do |t|
     t.integer "product_id"
     t.integer "product_bundle_id"
@@ -215,28 +225,36 @@ ActiveRecord::Schema.define(version: 20170731082105) do
 
   create_table "spina_shop_customer_accounts", id: :serial, force: :cascade do |t|
     t.integer "customer_id", null: false
-    t.string "email", null: false
+    t.citext "email", null: false
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.integer "store_id"
+    t.string "magic_link_token"
+    t.datetime "magic_link_sent_at"
     t.index ["customer_id"], name: "idx_shop_customer_accounts_on_customer_id"
-    t.index ["email"], name: "idx_shop_customer_accounts_on_email", unique: true
+    t.index ["email", "store_id"], name: "index_spina_shop_customer_accounts_on_email_and_store_id", unique: true
     t.index ["password_reset_token"], name: "idx_shop_customer_accounts_on_password_reset_token", unique: true
+    t.index ["store_id"], name: "index_spina_shop_customer_accounts_on_store_id"
   end
 
   create_table "spina_shop_customer_groups", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
+    t.integer "store_id"
+    t.index ["parent_id"], name: "index_spina_shop_customer_groups_on_parent_id"
+    t.index ["store_id"], name: "index_spina_shop_customer_groups_on_store_id"
   end
 
   create_table "spina_shop_customers", id: :serial, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "company"
-    t.string "email"
+    t.citext "email"
     t.string "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -246,8 +264,11 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.integer "country_id"
     t.integer "customer_group_id"
     t.string "vat_id"
+    t.integer "store_id"
+    t.boolean "postpay_allowed", default: false, null: false
     t.index ["country_id"], name: "idx_shop_customers_on_country_id"
     t.index ["customer_group_id"], name: "index_spina_shop_customers_on_customer_group_id"
+    t.index ["store_id"], name: "index_spina_shop_customers_on_store_id"
   end
 
   create_table "spina_shop_delivery_options", id: :serial, force: :cascade do |t|
@@ -260,6 +281,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.datetime "updated_at", null: false
     t.boolean "requires_shipping", default: false, null: false
     t.string "description"
+    t.boolean "price_includes_tax", default: true, null: false
     t.index ["sales_category_id"], name: "idx_shop_delivery_options_on_sales_category_id"
     t.index ["tax_group_id"], name: "idx_shop_delivery_options_on_tax_group_id"
   end
@@ -273,6 +295,15 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.index ["discount_id"], name: "idx_shop_discount_actions_on_discount_id"
   end
 
+  create_table "spina_shop_discount_requirements", force: :cascade do |t|
+    t.integer "discount_id"
+    t.string "type"
+    t.text "preferences"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discount_id"], name: "index_spina_shop_discount_requirements_on_discount_id"
+  end
+
   create_table "spina_shop_discount_rules", id: :serial, force: :cascade do |t|
     t.integer "discount_id"
     t.string "type"
@@ -283,7 +314,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
   end
 
   create_table "spina_shop_discounts", id: :serial, force: :cascade do |t|
-    t.string "code", null: false
+    t.citext "code", null: false
     t.date "starts_at", null: false
     t.date "expires_at"
     t.integer "usage_limit", default: 0, null: false
@@ -294,6 +325,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.string "type"
     t.text "preferences"
     t.text "description"
+    t.boolean "auto", default: false, null: false
     t.index ["code"], name: "idx_shop_discounts_on_code", unique: true
   end
 
@@ -314,7 +346,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
   end
 
   create_table "spina_shop_gift_cards", id: :serial, force: :cascade do |t|
-    t.string "code", null: false
+    t.citext "code", null: false
     t.date "expires_at", null: false
     t.decimal "value", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "remaining_balance", precision: 8, scale: 2, default: "0.0", null: false
@@ -334,7 +366,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
   end
 
   create_table "spina_shop_in_stock_reminders", id: :serial, force: :cascade do |t|
-    t.string "email"
+    t.citext "email"
     t.integer "orderable_id"
     t.string "orderable_type"
     t.datetime "created_at", null: false
@@ -352,6 +384,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.datetime "updated_at", null: false
     t.jsonb "metadata", default: "{}", null: false
     t.decimal "discount_amount", precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal "discount", precision: 8, scale: 2, default: "0.0", null: false
     t.index ["invoice_id"], name: "idx_shop_invoice_lines_on_invoice_id"
   end
 
@@ -380,6 +413,9 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.jsonb "export_data", default: "{}", null: false
     t.boolean "exported", default: false, null: false
     t.string "country_name"
+    t.string "vat_id"
+    t.boolean "vat_reverse_charge", default: false, null: false
+    t.string "reference"
     t.index ["country_id"], name: "idx_shop_invoices_on_country_id"
     t.index ["customer_id"], name: "idx_shop_invoices_on_customer_id"
     t.index ["invoice_number"], name: "idx_shop_invoices_on_invoice_number", unique: true
@@ -419,8 +455,10 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.integer "orderable_id"
     t.jsonb "metadata", default: "{}", null: false
     t.decimal "discount_amount", precision: 8, scale: 2
+    t.integer "parent_id"
     t.index ["order_id"], name: "idx_shop_order_items_on_order_id"
     t.index ["orderable_id"], name: "idx_shop_order_items_on_orderable_id"
+    t.index ["parent_id"], name: "index_spina_shop_order_items_on_parent_id"
   end
 
   create_table "spina_shop_order_transitions", id: :serial, force: :cascade do |t|
@@ -435,11 +473,20 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.index ["order_id", "sort_key"], name: "index_order_transitions_parent_sort", unique: true
   end
 
+  create_table "spina_shop_ordered_stock", force: :cascade do |t|
+    t.integer "stock_order_id"
+    t.integer "product_id"
+    t.integer "quantity", null: false
+    t.integer "received", default: 0, null: false
+    t.index ["product_id"], name: "index_spina_shop_ordered_stock_on_product_id"
+    t.index ["stock_order_id"], name: "index_spina_shop_ordered_stock_on_stock_order_id"
+  end
+
   create_table "spina_shop_orders", id: :serial, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "company"
-    t.string "email"
+    t.citext "email"
     t.string "phone"
     t.string "status"
     t.datetime "received_at"
@@ -488,14 +535,38 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.jsonb "delivery_metadata", default: "{}", null: false
     t.text "note"
     t.string "token"
+    t.boolean "business", default: false, null: false
+    t.string "reference"
+    t.decimal "gift_card_amount", precision: 8, scale: 2
+    t.integer "store_id"
+    t.string "delivery_first_name"
+    t.string "delivery_last_name"
+    t.string "delivery_company"
+    t.datetime "payment_reminder_sent_at"
+    t.boolean "manual_entry", default: false, null: false
     t.index ["billing_country_id"], name: "idx_shop_orders_on_billing_country_id"
     t.index ["order_number"], name: "idx_shop_orders_on_order_number", unique: true
+    t.index ["store_id"], name: "index_spina_shop_orders_on_store_id"
   end
 
   create_table "spina_shop_product_bundle_parts", id: :serial, force: :cascade do |t|
     t.integer "product_bundle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "spina_shop_product_bundle_translations", force: :cascade do |t|
+    t.integer "spina_shop_product_bundle_id", null: false
+    t.string "locale", null: false
+    t.string "name"
+    t.text "description"
+    t.string "seo_title"
+    t.string "seo_description"
+    t.string "materialized_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["locale"], name: "index_spina_shop_product_bundle_translations_on_locale"
+    t.index ["spina_shop_product_bundle_id"], name: "product_bundle_tranlations_index"
   end
 
   create_table "spina_shop_product_bundles", id: :serial, force: :cascade do |t|
@@ -508,6 +579,10 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.text "description"
     t.integer "sales_category_id"
     t.boolean "must_be_of_age_to_buy", default: false
+    t.integer "limit_per_order"
+    t.boolean "active", default: false, null: false
+    t.decimal "original_price", precision: 8, scale: 2
+    t.boolean "archived", default: false, null: false
     t.index ["sales_category_id"], name: "idx_shop_product_bundles_on_sales_category_id"
     t.index ["tax_group_id"], name: "idx_shop_product_bundles_on_tax_group_id"
   end
@@ -517,6 +592,13 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "review_categories"
+  end
+
+  create_table "spina_shop_product_category_parts", force: :cascade do |t|
+    t.integer "product_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_category_id"], name: "index_spina_shop_product_category_parts_on_product_category_id"
   end
 
   create_table "spina_shop_product_category_properties", id: :serial, force: :cascade do |t|
@@ -535,7 +617,11 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.string "append"
     t.text "options"
     t.string "label"
+    t.boolean "editable", default: false, null: false
+    t.boolean "editable_options", default: false, null: false
+    t.integer "shared_property_id"
     t.index ["product_category_id"], name: "idx_shop_product_category_properties_on_product_category_id"
+    t.index ["shared_property_id"], name: "sp_pro_cat_pr_index_shared_pr"
   end
 
   create_table "spina_shop_product_collections", force: :cascade do |t|
@@ -553,6 +639,9 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.integer "position"
     t.integer "product_item_id"
     t.integer "product_bundle_id"
+    t.string "file_filename"
+    t.integer "file_size"
+    t.string "file_content_type"
     t.index ["product_bundle_id"], name: "idx_shop_product_images_on_product_bundle_id"
     t.index ["product_id"], name: "idx_shop_product_images_on_product_id"
     t.index ["product_item_id"], name: "idx_shop_product_images_on_product_item_id"
@@ -604,7 +693,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "review_summary"
-    t.string "email"
+    t.citext "email"
     t.decimal "score", precision: 3, scale: 1
     t.integer "product_id"
     t.integer "shop_review_id"
@@ -622,6 +711,8 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.string "seo_title"
     t.string "seo_description"
     t.string "materialized_path"
+    t.string "variant_name"
+    t.text "extended_description"
     t.index ["locale"], name: "idx_shop_product_translations_on_locale"
     t.index ["spina_shop_product_id"], name: "idx_shop_product_translations_on_spina_product_id"
   end
@@ -641,7 +732,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.string "location"
     t.integer "tax_group_id"
     t.decimal "weight", precision: 8, scale: 3
-    t.decimal "price", precision: 8, scale: 2
+    t.decimal "base_price", precision: 8, scale: 2
     t.decimal "cost_price", precision: 8, scale: 2
     t.string "ean"
     t.integer "sales_category_id"
@@ -655,10 +746,58 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.boolean "deletable", default: true, null: false
     t.jsonb "price_exceptions", default: "{}", null: false
     t.boolean "price_includes_tax", default: true, null: false
+    t.boolean "archived", default: false, null: false
+    t.decimal "trend", precision: 8, scale: 3, default: "0.0", null: false
+    t.decimal "promotional_price", precision: 8, scale: 2
+    t.integer "limit_per_order"
+    t.integer "parent_id"
+    t.jsonb "variant_overrides"
+    t.integer "children_count", default: 0, null: false
+    t.boolean "available_at_supplier", default: true, null: false
+    t.boolean "waiting_for_stock", default: false, null: false
+    t.integer "supplier_id"
+    t.integer "supplier_packing_unit", default: 1, null: false
     t.index ["name"], name: "idx_shop_products_on_name", using: :gin
+    t.index ["parent_id"], name: "index_spina_shop_products_on_parent_id"
     t.index ["product_category_id"], name: "idx_shop_products_on_product_category_id"
     t.index ["sales_category_id"], name: "index_spina_shop_products_on_sales_category_id"
     t.index ["tax_group_id"], name: "index_spina_shop_products_on_tax_group_id"
+  end
+
+  create_table "spina_shop_property_option_translations", force: :cascade do |t|
+    t.integer "spina_shop_property_option_id"
+    t.string "locale"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["locale"], name: "index_spina_shop_property_option_translations_on_locale"
+    t.index ["spina_shop_property_option_id"], name: "idx_sp_shp_pr_op_translations_123"
+  end
+
+  create_table "spina_shop_property_options", force: :cascade do |t|
+    t.string "name"
+    t.integer "product_category_property_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "property_id"
+    t.string "property_type"
+    t.index ["product_category_property_id"], name: "index_spina_shop_pr_options_on_pr_cat_property_id"
+    t.index ["property_id", "property_type"], name: "sp_sh_pr_op_pr_id_pr_type_index"
+  end
+
+  create_table "spina_shop_property_parts", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "spina_shop_recounts", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "difference"
+    t.string "actor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_spina_shop_recounts_on_product_id"
   end
 
   create_table "spina_shop_sales_categories", id: :serial, force: :cascade do |t|
@@ -676,8 +815,15 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.integer "sales_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "business", default: false, null: false
     t.index ["sales_categorizable_id"], name: "index_spina_shop_sales_category_codes_on_sales_categorizable_id"
     t.index ["sales_category_id"], name: "index_spina_shop_sales_category_codes_on_sales_category_id"
+  end
+
+  create_table "spina_shop_shared_properties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "spina_shop_shop_reviews", id: :serial, force: :cascade do |t|
@@ -691,7 +837,8 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.integer "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
+    t.citext "email"
+    t.boolean "approved", default: true, null: false
   end
 
   create_table "spina_shop_stock_level_adjustments", id: :serial, force: :cascade do |t|
@@ -710,6 +857,54 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.index ["product_item_id"], name: "idx_shop_stock_level_adjustments_on_product_item_id"
   end
 
+  create_table "spina_shop_stock_orders", force: :cascade do |t|
+    t.integer "supplier_id"
+    t.datetime "closed_at"
+    t.text "note"
+    t.string "delivery_tracking_url"
+    t.date "expected_delivery"
+    t.datetime "ordered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "feedback"
+    t.string "reference"
+    t.index ["supplier_id"], name: "index_spina_shop_stock_orders_on_supplier_id"
+  end
+
+  create_table "spina_shop_stores", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "color"
+  end
+
+  create_table "spina_shop_suppliers", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "lead_time", default: 0, null: false
+    t.string "contact_name"
+    t.citext "email"
+    t.string "phone"
+    t.text "note"
+  end
+
+  create_table "spina_shop_taggable_tags", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "taggable_type"
+    t.bigint "taggable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_spina_shop_taggable_tags_on_tag_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_spina_shop_taggable_tags_on_taggable_type_and_taggable_id"
+  end
+
+  create_table "spina_shop_tags", force: :cascade do |t|
+    t.jsonb "name", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "spina_shop_tax_groups", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
@@ -726,6 +921,7 @@ ActiveRecord::Schema.define(version: 20170731082105) do
     t.datetime "updated_at", null: false
     t.string "tax_rateable_type"
     t.integer "tax_rateable_id"
+    t.boolean "business", default: false, null: false
     t.index ["tax_group_id"], name: "index_spina_shop_tax_rates_on_tax_group_id"
     t.index ["tax_rateable_type", "tax_rateable_id"], name: "spina_tax_rates_tax_rateable_index"
   end

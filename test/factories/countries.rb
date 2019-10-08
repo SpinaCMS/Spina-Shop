@@ -12,6 +12,11 @@ FactoryGirl.define do
       name 'Germany'
       code 'DE'
     end
+
+    factory :france do
+      name 'France'
+      code 'FR'
+    end
     
   end
 end

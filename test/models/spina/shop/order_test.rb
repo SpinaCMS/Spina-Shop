@@ -39,23 +39,28 @@ module Spina::Shop
     end
 
     test "Order total" do
-      assert_equal BigDecimal.new('12.50'), @order_with_order_items.total
+      assert_equal BigDecimal('12.50'), @order_with_order_items.total
     end
 
     test "Order sub total" do
-      assert_equal BigDecimal.new('10.33'), @order_with_order_items.order_total_excluding_tax
+      assert_equal BigDecimal('10.33'), @order_with_order_items.total_excluding_tax
     end
 
     test "Order with different country tax rate" do
       order = FactoryGirl.create :order_from_germany
-      assert_equal BigDecimal.new('10.50'), order.order_total_excluding_tax
+      assert_equal BigDecimal('10.50'), order.total_excluding_tax
+    end
+
+    test "Business order from France no tax" do
+      order = FactoryGirl.create :business_order_from_france
+      assert_equal order.total_excluding_tax, order.total
     end
 
     test "Order change tax rate by changing delivery country" do
-      assert_equal BigDecimal.new('10.33'), @order_with_order_items.order_total_excluding_tax
+      assert_equal BigDecimal('10.33'), @order_with_order_items.total_excluding_tax
       @order_with_order_items.delivery_country = FactoryGirl.create(:germany)
       @order_with_order_items.separate_delivery_address = true
-      assert_equal BigDecimal.new('10.50'), @order_with_order_items.order_total_excluding_tax
+      assert_equal BigDecimal('10.50'), @order_with_order_items.total_excluding_tax
     end
 
   end

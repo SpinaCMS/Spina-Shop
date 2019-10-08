@@ -22,6 +22,15 @@ FactoryGirl.define do
         factory :order_from_germany do
           association :billing_country, factory: :germany
         end
+
+        factory :order_from_france do
+          association :billing_country, factory: :france
+        end
+
+        factory :business_order_from_france do
+          business true
+          association :billing_country, factory: :france
+        end
       end
     end
 

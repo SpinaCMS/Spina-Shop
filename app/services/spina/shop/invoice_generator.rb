@@ -40,7 +40,7 @@ module Spina::Shop
           description: order_item.description,
           unit_price: order_item.unit_price,
           discount: order_item.discount_amount,
-          tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : order_item.tax_rate,
+          tax_rate: invoice.vat_reverse_charge? ? BigDecimal(0) : order_item.tax_rate,
           metadata: order_item.metadata
         )
       end
@@ -50,7 +50,7 @@ module Spina::Shop
           quantity: 1,
           description: Spina::Shop::Order.human_attribute_name(:delivery_price),
           unit_price: @order.delivery_price,
-          tax_rate: invoice.vat_reverse_charge? ? BigDecimal.new(0) : @order.delivery_tax_rate,
+          tax_rate: invoice.vat_reverse_charge? ? BigDecimal(0) : @order.delivery_tax_rate,
           metadata: @order.delivery_metadata
         )
       end

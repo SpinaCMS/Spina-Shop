@@ -93,7 +93,7 @@ module Spina::Shop
     end
 
     def tax_amount
-      tax_amount_by_rates.inject(BigDecimal.new(0)) { |t, r| t + r[1][:tax_amount] }
+      tax_amount_by_rates.inject(BigDecimal(0)) { |t, r| t + r[1][:tax_amount] }
     end
 
     def tax_amount_by_rates

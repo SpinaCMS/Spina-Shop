@@ -12,11 +12,11 @@ module Spina::Shop
     end
 
     test "Tax groups default tax rate" do
-      assert_equal @tax_group.default_tax_rate.rate, BigDecimal.new(21)
+      assert_equal @tax_group.default_tax_rate.rate, BigDecimal(21)
     end
 
     test "Tax groups multiple rates" do
-      assert_equal 2, @tax_group.tax_rates.count
+      assert_equal 3, @tax_group.tax_rates.count
     end
 
   end
