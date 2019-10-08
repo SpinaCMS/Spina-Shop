@@ -29,14 +29,28 @@ module Spina::Shop
 
       # Get the correct code by zone
       # 
-      # Priority:
-      # 1. Match zone
-      # 2. Match parent of zone
+      # Priority for business orders:
+      # 1. Match zone with business = true
+      # 2. Match parent of zone with business = true
+      # 3. Match zone with business = false
+      # 4. Match parent of zone with business = false
+      # 5. Default zone
+      # 
+      # Priority for other orders:
+      # 1. Match zone with business = false
+      # 2. Match parent of zone with business = false
       # 3. Default zone
       def code_by_zone(o)
-        sales_category_codes.where(sales_categorizable: o.delivery_country, business: o.business).first || 
-        sales_category_codes.where(sales_categorizable: o.delivery_country.parent, business: o.business).first || 
-        default_code
+        where = {sales_categorizable: [o.delivery_country, o.delivery_country.parent].compact}
+        where[:business] = false unless o.business?
+        order = Arel.sql("
+          business DESC, 
+          CASE WHEN 
+            sales_categorizable_id = '#{o.delivery_country.id}' 
+            AND sales_categorizable_type = '#{o.delivery_country.class.name}' 
+          THEN 0 ELSE 1 END")
+
+        sales_category_codes.where(where).order(order).first || default_code
       end
 
   end

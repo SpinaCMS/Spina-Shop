@@ -19,7 +19,7 @@ module Spina::Shop
     def price_modifier_for_order(order)
       tax_rate = rate_by_order(order)
       rate = order.vat_reverse_charge? ? default_tax_rate.rate : tax_rate.rate
-      (rate + BigDecimal.new(100)) / BigDecimal.new(100)
+      (rate + BigDecimal(100)) / BigDecimal(100)
     end
 
     # Get the rate based on the order
@@ -48,20 +48,28 @@ module Spina::Shop
 
       # Get the correct rate by zone
       # 
-      # Priority:
-      # 1. Match zone
-      # 2. Match parent of zone
+      # Priority for business orders:
+      # 1. Match zone with business = true
+      # 2. Match parent of zone with business = true
+      # 3. Match zone with business = false
+      # 4. Match parent of zone with business = false
+      # 5. Default zone
+      # 
+      # Priority for other orders:
+      # 1. Match zone with business = false
+      # 2. Match parent of zone with business = false
       # 3. Default zone
       def rate_by_order(o)
-        # tax_rates
-        #   .where(tax_rateable: [o.delivery_country, o.delivery_country.parent].compact)
-        #   .where(business: o.business? ? [true, false] : false)
-        #   .order(Arel.sql("business, CASE WHEN (tax_rateable_id = '#{o.delivery_country.id}') THEN 0 ELSE 1 END"))
-        #   .first || default_tax_rate
+        where = {tax_rateable: [o.delivery_country, o.delivery_country.parent].compact}
+        where[:business] = false unless o.business?
+        order = Arel.sql("
+          business DESC, 
+          CASE WHEN 
+            tax_rateable_id = '#{o.delivery_country.id}' 
+            AND tax_rateable_type = '#{o.delivery_country.class.name}' 
+          THEN 0 ELSE 1 END")
 
-        tax_rates.where(tax_rateable: o.delivery_country, business: o.business).first || 
-        tax_rates.where(tax_rateable: o.delivery_country.parent, business: o.business).first || 
-        default_tax_rate
+        tax_rates.where(where).order(order).first || default_tax_rate
       end
 
 

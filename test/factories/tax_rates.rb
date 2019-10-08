@@ -11,6 +11,7 @@ FactoryBot.define do
       rate {0}
       business { true }
       code {'7'}
+      association :tax_rateable, factory: :eu
       tax_group
     end
 

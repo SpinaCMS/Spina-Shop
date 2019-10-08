@@ -36,6 +36,11 @@ FactoryBot.define do
           business {true}
           association :billing_country, factory: :france
         end
+
+        factory :business_order_from_switzerland do
+          business {true}
+          association :billing_country, factory: :switzerland
+        end
       end
     end
 

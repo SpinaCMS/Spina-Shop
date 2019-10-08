@@ -57,6 +57,34 @@ module Spina::Shop
       assert_equal order.total_excluding_tax, order.total
     end
 
+    test "Business order without defined tax rate" do
+      order = FactoryBot.create :business_order_from_switzerland
+      assert_equal order.total_excluding_tax, order.total
+    end
+
+    test "Cached order with Swiss tax code" do
+      order = FactoryBot.create :business_order_from_switzerland
+      Spina::Shop::CacheOrder.new(order).cache
+      assert_equal order.order_items.first.metadata["tax_code"], "6"
+    end
+
+    test "Cached order with default tax code" do
+      Spina::Shop::CacheOrder.new(@order_with_order_items).cache
+      assert_equal @order_with_order_items.order_items.first.metadata["tax_code"], "4"
+    end
+
+    test "Cached order with german tax code" do
+      order = FactoryBot.create :order_from_germany
+      Spina::Shop::CacheOrder.new(order).cache
+      assert_equal order.order_items.first.metadata["tax_code"], "13"
+    end
+
+    test "Cached order with german business tax code" do
+      order = FactoryBot.create :business_order_from_germany
+      Spina::Shop::CacheOrder.new(order).cache
+      assert_equal order.order_items.first.metadata["tax_code"], "7"
+    end
+
     test "Business order from Germany no tax" do
       order = FactoryBot.create :business_order_from_germany
       assert_equal order.business, true
