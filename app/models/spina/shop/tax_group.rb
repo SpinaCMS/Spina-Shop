@@ -53,10 +53,17 @@ module Spina::Shop
       # 2. Match parent of zone
       # 3. Default zone
       def rate_by_order(o)
+        # tax_rates
+        #   .where(tax_rateable: [o.delivery_country, o.delivery_country.parent].compact)
+        #   .where(business: o.business? ? [true, false] : false)
+        #   .order(Arel.sql("business, CASE WHEN (tax_rateable_id = '#{o.delivery_country.id}') THEN 0 ELSE 1 END"))
+        #   .first || default_tax_rate
+
         tax_rates.where(tax_rateable: o.delivery_country, business: o.business).first || 
         tax_rates.where(tax_rateable: o.delivery_country.parent, business: o.business).first || 
         default_tax_rate
       end
+
 
   end
 end

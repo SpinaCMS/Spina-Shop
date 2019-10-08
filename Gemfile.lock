@@ -109,8 +109,8 @@ GEM
     erubi (1.7.1)
     erubis (2.7.0)
     execjs (2.7.0)
-    factory_girl (4.9.0)
-      activesupport (>= 3.0.0)
+    factory_bot (5.1.1)
+      activesupport (>= 4.2.0)
     fast_xs (0.8.0)
     ffi (1.9.25)
     formatador (0.2.5)
@@ -352,7 +352,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  factory_girl (~> 4.0)
+  factory_bot
   guard
   guard-minitest
   minitest-reporters
@@ -362,4 +362,4 @@ DEPENDENCIES
   spina-shop!
 
 BUNDLED WITH
-   1.16.2
+   1.17.2

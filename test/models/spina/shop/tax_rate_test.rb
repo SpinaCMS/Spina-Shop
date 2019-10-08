@@ -4,7 +4,7 @@ module Spina::Shop
   class TaxRateTest < ActiveSupport::TestCase
 
     setup do
-      @tax_group = FactoryGirl.create :tax_group
+      @tax_group = FactoryBot.create :tax_group
     end
 
     test "Default tax rate" do
@@ -16,7 +16,7 @@ module Spina::Shop
     end
 
     test "Tax groups multiple rates" do
-      assert_equal 3, @tax_group.tax_rates.count
+      assert_equal 5, @tax_group.tax_rates.count
     end
 
   end

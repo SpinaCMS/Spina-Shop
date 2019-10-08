@@ -5,7 +5,7 @@ module Spina
     class OrdersTest < ActionController::TestCase
       setup do
         @routes = ::Spina::Engine.routes
-        @order = FactoryGirl.create :order_with_order_items
+        @order = FactoryBot.create :order_with_order_items
       end
 
       test "Order has order items" do

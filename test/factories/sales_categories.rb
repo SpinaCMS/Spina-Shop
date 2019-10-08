@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sales_category, class: Spina::Shop::SalesCategory do
-    name 'Default'
+    name {'Default'}
   end
 end

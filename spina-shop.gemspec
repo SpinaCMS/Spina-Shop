@@ -35,7 +35,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rqrcode"
   s.add_dependency "pg_search"
 
-  s.add_development_dependency 'factory_girl', '~> 4.0'
   s.add_development_dependency 'minitest-reporters'
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-minitest'

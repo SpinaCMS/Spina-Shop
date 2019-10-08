@@ -4,12 +4,12 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../dummy/config/environment.rb", __FILE__)
 require "rails/test_help"
 require "minitest/reporters"
-require 'factory_girl'
+require 'factory_bot'
 
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
 
 class Minitest::Unit::TestCase
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 end
 
-FactoryGirl.find_definitions
+FactoryBot.find_definitions

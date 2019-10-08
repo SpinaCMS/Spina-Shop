@@ -4,7 +4,7 @@ module Spina::Shop
   class ProductTest < ActiveSupport::TestCase
     
     setup do
-      @product = FactoryGirl.create :product
+      @product = FactoryBot.create :product
     end
 
     test "Product can be created" do
