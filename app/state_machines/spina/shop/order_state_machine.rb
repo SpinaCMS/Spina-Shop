@@ -92,6 +92,10 @@ module Spina::Shop
       order.duplicate!
     end
 
+    guard_transition(to: :paid) do |order, transition|
+      !order.paid?
+    end
+
     before_transition(to: :paid) do |order, transition|
       # Update order to paid
       order.update_attributes!(paid_at: Time.zone.now)

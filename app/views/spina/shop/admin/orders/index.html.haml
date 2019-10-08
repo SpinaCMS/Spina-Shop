@@ -69,8 +69,8 @@
           %th= Spina::Shop::Order.human_attribute_name(:order_number)
           %th= Spina::Shop::Customer.model_name.human
           %th= Spina::Shop::Order.human_attribute_name(:received_at)
-          %th= Spina::Shop::Order.human_attribute_name(:shipped_at)
-          %th= Spina::Shop::Order.human_attribute_name(:paid_at)
+          %th= Spina::Shop::Order.human_attribute_name(:delivery_option)
+          %th.nowrap= Spina::Shop::Order.human_attribute_name(:shipped_at)
           %th.text-right= Spina::Shop::Order.human_attribute_name(:total)
           %th
 

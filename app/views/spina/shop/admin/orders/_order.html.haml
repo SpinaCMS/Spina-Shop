@@ -6,26 +6,21 @@
   - if Spina::Shop::Store.many?
     %td
       .store-badge{style: "background: #{order.store.color}"}= order.store.initials
-  %td
+  %td.nowrap
     = link_to order.number || "Concept", spina.shop_admin_order_path(order)
   %td.no-wrap
     = order.billing_name
     - if order.first_order_for_email?
       %label.label.label-primary{style: "padding: 4px; font-size: 10px; margin-left: 4px"} 
         =t 'spina.shop.orders.first_order_for_email'
-  %td
+  %td.nowrap
     - if order.received_at.present?
-      =l order.received_at, format: "%d %B %Y"
-      %small=l order.received_at, format: "%H:%M"
-  %td
+      %small=l order.received_at, format: "%d-%m-%Y (%H:%M)"
+  %td.nowrap
+    %small= order.delivery_option&.name
+  %td.nowrap
     - if order.shipped_at.present?
-      =l order.shipped_at, format: "%d %B %Y"
-      %small=l order.shipped_at, format: "%H:%M"
-    %small= order.delivery_option.try(:name)
-  %td
-    - if order.paid_at.present?
-      =l order.paid_at, format: "%d %B %Y"
-      %small=l order.paid_at, format: "%H:%M"
+      %small=l order.shipped_at, format: "%d-%m (%H:%M)"
   %td.nowrap.text-right
     = number_to_currency order.total
   %td{style: 'width: 200px'}

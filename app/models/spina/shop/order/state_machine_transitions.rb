@@ -55,7 +55,7 @@ module Spina::Shop
         80
       elsif order_prepared?
         60
-      elsif paid?
+      elsif paid? || (received? && payment_method == 'postpay')
         40
       elsif received?
         20
@@ -65,24 +65,27 @@ module Spina::Shop
     end
 
     def status_css_class
-      return 'success' if delivered? || picked_up?
-      case current_state
-      when 'preparing'
-        'primary'
-      when 'paid'
-        'primary'
-      when 'shipped'
-        'success'
-      when 'delivered'
-        'success'
-      when 'picked_up'
-        'success'
-      when 'failed'
-        'danger'
-      when 'cancelled'
+      if current_state.in? %w(failed cancelled)
         'danger'
       else
-        ''
+        case status_progress
+        when 100
+          'success'
+        when 80
+          'success'
+        when 60
+          'primary'
+        when 40
+          'primary'
+        when 20
+          if payment_method == 'postpay'
+            'primary'
+          else
+            ''
+          end
+        else
+          ''
+        end
       end
     end
 
