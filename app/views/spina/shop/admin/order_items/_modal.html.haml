@@ -1,4 +1,4 @@
-.modal
+.modal.modal-medium
   %header
     = link_to '#', data: {dismiss: "modal"} do
       = icon('cross')
@@ -8,8 +8,15 @@
     = f.hidden_field :orderable_type, value: "Spina::Shop::Product"
 
     %section
-      = f.select :quantity, options_for_select(1..100), {}, class: 'select2'
-      = f.select :orderable_id, options_for_select([[f.object.orderable.try(:name), f.object.orderable.try(:id)]], f.object.orderable_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
+      .form-group
+        .input-group
+          .select-dropdown= f.select :quantity, options_for_select(1..100)
+          .select-dropdown{style: "flex: 3"}
+            = f.select :orderable_id, options_for_select([[f.object.orderable.try(:name), f.object.orderable.try(:id)]], f.object.orderable_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
+      .form-group
+        .form-label=t "spina.shop.order_items.optional_unit_price"
+        .form-control{data: {form_prepend: "€"}}
+          = f.text_field :unit_price, value: nil, placeholder: Spina::Shop::OrderItem.human_attribute_name(:unit_price)
     
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

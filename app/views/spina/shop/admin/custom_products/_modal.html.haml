@@ -1,0 +1,34 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.orders.add_custom_product'
+
+  = form_for @order_item, url: spina.shop_admin_order_custom_products_path(@order) do |f|
+    %section
+      = f.fields_for :orderable do |ff|
+        .form-group
+          .input-group
+            .select-dropdown
+              = f.select :quantity, options_for_select(1..100), {include_blank: t("spina.shop.order_items.choose_quantity")}, class: 'select2'
+            .form-control{data: {form_prepend: "€"}}
+              = ff.text_field :price
+            .select-dropdown= ff.select :tax_group_id, options_for_select(Spina::Shop::TaxGroup.pluck(:name, :id))
+        
+        .form-group
+          .form-label
+            = Spina::Shop::Product.human_attribute_name(:description)
+          .form-control
+            = ff.text_field :name, placeholder: Spina::Shop::CustomProduct.human_attribute_name(:name)
+        
+        .form-group{style: 'margin-bottom: 0'}
+          .form-label
+            = Spina::Shop::Product.human_attribute_name(:sales_category)
+          .form-control
+            .select-dropdown{style: "width: 100%"}= ff.select :sales_category_id, options_for_select(Spina::Shop::SalesCategory.pluck(:name, :id))
+
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.save'

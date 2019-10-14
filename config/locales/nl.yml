@@ -35,6 +35,8 @@ nl:
         email: Email
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
+      spina/shop/custom_product:
+        name: Naam
       spina/shop/discount:
         code: Kortingscode
         description: Omschrijving
@@ -77,6 +79,7 @@ nl:
         billing_postal_code: Postcode
         billing_street1: Straat
         billing_street2: Straat 2
+        business: Zakelijke bestelling
         company: Bedrijf
         date_of_birth: Geboortedatum
         delivered_at: Geleverd op
@@ -106,6 +109,7 @@ nl:
         paid_at: Betaald op
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
+        prices_include_tax: Bedragen inclusief btw
         phone: Telefoon
         received_at: Besteldatum
         reference: Referentie
@@ -113,12 +117,17 @@ nl:
         shipped_at: Verzonden op
         store: Winkel
         sub_total: Subtotaal
+        tax_amount: Btw
         to_be_paid: Te betalen
         total: Totaal
+        total_including_tax: Totaal incl. btw
         total_excluding_tax: Totaal excl. btw
       spina/shop/order_item:
         price: Prijs
         total: Totaal
+        tax_rate: Btw
+        quantity: Aantal
+        unit_price: Stukprijs
       spina/shop/ordered_stock:
         quantity: Aantal
         received: Ontvangen
@@ -377,13 +386,18 @@ nl:
         no_invoices: Geen facturen beschikbaar
         unpaid: Onbetaalde facturen
       next: Volgende
+      order_items:
+        choose_quantity: Kies een aantal
+        optional_unit_price: Afwijkende stukprijs (optioneel)
       orders:
         actions: Acties
         add_product: Voeg product toe
+        add_custom_product: Voeg een losse regel toe
         all_stores: Alle winkels
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         cancel_order_html: Annuleren
         concepts: Concepten
+        confirm_failed: Bestelling plaatsen mislukt
         confirm_order: Bestelling plaatsen
         confirm_order_html: Weet je zeker dat je de bestelling wilt plaatsen?
         download_attachments_html: Download <strong>bijlagen</strong>

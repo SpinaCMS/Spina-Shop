@@ -24,6 +24,8 @@ module Spina::Shop
     scope :product_bundles, -> { where(orderable_type: "Spina::Shop::ProductBundle") }
     scope :roots, -> { where(parent_id: nil) }
 
+    accepts_nested_attributes_for :orderable
+
     def unit_price
       read_attribute(:unit_price) || orderable.price_for_order(order) || BigDecimal(0)
     end
@@ -70,7 +72,10 @@ module Spina::Shop
     end
 
     def in_stock?
-      if is_product_bundle?
+      # Custom products are always "in stock"
+      if is_custom_product?
+        true
+      elsif is_product_bundle?
         orderable.bundled_products.all?{|p| product_in_stock?(p.product_id)}
       else
         product_in_stock?(orderable_id)
@@ -83,6 +88,10 @@ module Spina::Shop
 
     def is_product_bundle?
       orderable_type == "Spina::Shop::ProductBundle"
+    end
+
+    def is_custom_product?
+      orderable_type == "Spina::Shop::CustomProduct"
     end
 
     def allocated_stock(product_id)

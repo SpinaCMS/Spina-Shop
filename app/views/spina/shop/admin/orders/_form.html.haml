@@ -17,6 +17,19 @@
           .sidebar-form-control
             = f.select :customer_id, options_for_select([[f.object.customer&.name, f.object.customer&.id]], f.object.customer_id), {include_blank: "Nieuwe klant"}, style: 'width: 100%', data: {controller: 'customer-select', target: "order-form.customerId"}
 
+        - if f.object.building?
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Order.human_attribute_name :business
+            .sidebar-form-control
+              = f.check_box :business, data: {switch: true}
+
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Order.human_attribute_name :prices_include_tax
+            .sidebar-form-control
+              = f.check_box :prices_include_tax, data: {switch: true}
+
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name(:delivery_option)

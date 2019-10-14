@@ -20,7 +20,7 @@ module Spina::Shop
             order_item.orderable.bundled_products.map do |bundled_product|
               params_for_order_item(order_item, bundled_product.product_id)
             end
-          else
+          elsif order_item.is_product?
             params_for_order_item(order_item, order_item.orderable_id)
           end
         end.flatten.compact

@@ -27,8 +27,12 @@ module Spina::Shop
 
       def confirm
         @order = Order.find(params[:id])
-        @order.transition_to!(:confirming, user: current_spina_user.name, ip_address: request.remote_ip)
-        @order.transition_to!(:received, user: current_spina_user.name, ip_address: request.remote_ip)
+        @order.transition_to(:confirming, user: current_spina_user.name, ip_address: request.remote_ip)
+        @order.transition_to(:received, user: current_spina_user.name, ip_address: request.remote_ip)
+        if @order.errors.any?
+          flash[:alert] = t("spina.shop.orders.confirm_failed")
+          flash[:alert_small] = @order.errors.full_messages.join("<br />")
+        end
         redirect_to spina.shop_admin_order_path(@order)
       end
 

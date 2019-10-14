@@ -25,7 +25,7 @@ module Spina::Shop
       private
 
         def order_item_params
-          params.require(:order_item).permit(:orderable_id, :orderable_type, :quantity)
+          params.require(:order_item).permit(:orderable_id, :orderable_type, :quantity, :unit_price)
         end
 
         def set_order
