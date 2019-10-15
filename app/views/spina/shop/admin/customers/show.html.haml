@@ -54,6 +54,11 @@
           %th= Spina::Shop::Customer.human_attribute_name(:email)
           %td= mail_to @customer.email, @customer.email
 
+        - if @customer.billing_email.present?
+          %tr
+            %th= Spina::Shop::Customer.human_attribute_name(:billing_email)
+            %td= mail_to @customer.billing_email, @customer.billing_email
+
         %tr
           %th= Spina::Shop::Customer.human_attribute_name(:phone)
           %td= @customer.phone
