@@ -17,6 +17,7 @@ nl:
         street1: Straat
         street2: Straat 2
       spina/shop/customer:
+        billing_email: Factuur email
         company: Bedrijf
         country: Land
         created_at: Aangemaakt op

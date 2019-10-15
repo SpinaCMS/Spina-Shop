@@ -40,6 +40,13 @@
 
         .sidebar-form-group
           .sidebar-form-label
+            = Spina::Shop::Customer.human_attribute_name :billing_email
+
+          .sidebar-form-control
+            = f.text_field :billing_email, placeholder: Spina::Shop::Customer.human_attribute_name(:billing_email)
+
+        .sidebar-form-group
+          .sidebar-form-label
             = Spina::Shop::Customer.human_attribute_name :phone
 
           .sidebar-form-control
