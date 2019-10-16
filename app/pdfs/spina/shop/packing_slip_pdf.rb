@@ -76,6 +76,10 @@ module Spina::Shop
         end
       end.flatten
 
+      products = products + @order.order_items.custom_products.includes(:orderable).map do |order_item|
+        {location: nil, quantity: order_item.quantity, description: order_item.description}
+      end
+
       products.sort_by{|p| (p[:location].present? ? "0" : "1") + p[:location].to_s}.each do |product|
         lines << ["#{product[:quantity]} x", product[:description], product[:location], ""]
       end

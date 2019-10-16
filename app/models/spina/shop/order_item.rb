@@ -22,6 +22,7 @@ module Spina::Shop
     scope :ordered, -> { order(:created_at) }
     scope :products, -> { where(orderable_type: "Spina::Shop::Product") }
     scope :product_bundles, -> { where(orderable_type: "Spina::Shop::ProductBundle") }
+    scope :custom_products, -> { where(orderable_type: "Spina::Shop::CustomProduct") }
     scope :roots, -> { where(parent_id: nil) }
 
     accepts_nested_attributes_for :orderable
