@@ -20,6 +20,29 @@ module Spina::Shop
         send_data pdf.render, filename: @invoice.filename, type: "application/pdf"
       end
 
+      def credit
+        @invoice = Invoice.find(params[:id])
+        @credit_invoice = @invoice.dup
+        @credit_invoice.order = @invoice.order
+        @credit_invoice.customer = @invoice.customer
+        @credit_invoice.country = @invoice.country
+        @credit_invoice.paid = false
+        @credit_invoice.date = Date.today
+        @credit_invoice.exported = false
+        @credit_invoice.number = InvoiceNumberGenerator.generate!(@invoice.order)
+
+        # Copy invoice lines
+        @invoice.invoice_lines.each do |invoice_line|
+          credit_invoice_line = invoice_line.dup
+          credit_invoice_line.unit_price = credit_invoice_line.unit_price * -1
+          @credit_invoice.invoice_lines << credit_invoice_line
+        end
+
+        @credit_invoice.save
+
+        redirect_to spina.shop_admin_order_path(@invoice.order)
+      end
+
       private
 
         def set_breadcrumbs

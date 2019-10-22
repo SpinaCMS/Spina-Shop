@@ -17,7 +17,7 @@ module Spina::Shop
     transition from: :building,   to: :confirming
     transition from: :confirming, to: [:received, :cancelled, :failed]
     transition from: :received,   to: [:paid, :preparing, :cancelled, :failed]
-    transition from: :paid,       to: [:preparing, :shipped, :picked_up]
+    transition from: :paid,       to: [:preparing, :shipped, :picked_up, :refunded]
     transition from: :preparing,  to: [:paid, :shipped, :picked_up]
     transition from: :shipped,    to: [:paid, :delivered, :refunded]
     transition from: :picked_up,  to: [:paid, :refunded]
@@ -98,7 +98,7 @@ module Spina::Shop
 
     before_transition(to: :paid) do |order, transition|
       # Update order to paid
-      order.update_attributes!(paid_at: Time.zone.now)
+      order.update!(paid_at: Time.zone.now)
     end
 
     after_transition(to: :preparing) do |order, transition|

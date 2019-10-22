@@ -49,5 +49,9 @@ module Spina::Shop
 
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
     end
+
+    def credit?
+      total < 0
+    end
   end
 end

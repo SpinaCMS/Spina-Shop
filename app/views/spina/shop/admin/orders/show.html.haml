@@ -66,6 +66,9 @@
           %li= link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
           %li= link_to t('spina.shop.orders.payment_reminders.send_html'), spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
 
+        - if @order.sales_invoice.present? && @order.credit_invoice.blank?
+          %li= link_to t('spina.shop.orders.credit_invoice_html'), spina.credit_shop_admin_invoice_path(@order.sales_invoice), method: :post, data: {confirm: t('spina.shop.orders.credit_invoice_confirmation_html')}
+
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
   %nav#secondary.tabs
@@ -145,12 +148,17 @@
 
     .information-table
       %table
-        - if @order.invoices.any?
+        - if @order.sales_invoice.present?
           %tr
-            %th= Spina::Shop::Invoice.model_name.human count: @order.invoices.count
+            %th= Spina::Shop::Order.human_attribute_name(:sales_invoice)
             %td
-              - @order.invoices.each do |invoice|
-                = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
+              = link_to @order.sales_invoice.invoice_number, spina.shop_admin_invoice_path(@order.sales_invoice, format: :pdf)
+
+        - if @order.credit_invoice.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:credit_invoice)
+            %td
+              = link_to @order.credit_invoice.invoice_number, spina.shop_admin_invoice_path(@order.credit_invoice, format: :pdf)
 
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:billing_address)
