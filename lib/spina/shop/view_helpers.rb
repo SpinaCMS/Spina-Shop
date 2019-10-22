@@ -3,7 +3,7 @@ module Spina
     module ViewHelpers
 
       def to_process_order_count
-        @to_process_order_count ||= Order.in_state(:paid, :order_picking).count
+        @to_process_order_count ||= Order.to_process.count
       end
 
       def unapproved_shop_reviews_count
