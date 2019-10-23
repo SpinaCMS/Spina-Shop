@@ -118,10 +118,6 @@ module Spina::Shop
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
     end
 
-    def postpay?
-      payment_method == "postpay"
-    end
-
     # Get all invoices where the sum of all invoice lines is more than or equal to 0 (which is a SalesInvoice)
     def sales_invoices
       invoices.joins(:invoice_lines)
