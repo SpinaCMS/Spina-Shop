@@ -23,8 +23,10 @@
       = link_to Spina::Shop::GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
     %li{class: ('active' if controller_name == 'invoices'), style: 'margin-top: 20px'}
       = link_to Spina::Shop::Invoice.model_name.human(count: 2), spina.shop_admin_invoices_path
-    %li{class: ('active' if controller_name.in? %w(reports exports analytics))}
-      = link_to t('spina.shop.reports.title'), spina.shop_admin_reports_path
+
+    - if current_spina_user.admin?
+      %li{class: ('active' if controller_name.in? %w(reports exports analytics))}
+        = link_to t('spina.shop.reports.title'), spina.shop_admin_reports_path
 
     - Spina::Plugin.all.each do |plugin|
       - if current_theme.plugins.include? plugin.name
