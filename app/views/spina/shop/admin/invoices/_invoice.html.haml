@@ -14,4 +14,10 @@
         = link_to invoice.order.number, spina.shop_admin_order_path(invoice.order)
   %td.text-right= number_to_currency invoice.total
   %td.text-right
-    .status-dot{class: (invoice.order.paid? ? "status-dot-success" : "status-dot-warning"), data: {tooltip: invoice.order.paid? ? "Betaald" : "Openstaand"}}
+    - case invoice.status
+    - when "paid"
+      .status-dot.status-dot-success{data: {tooltip: "Betaald"}} 
+    - when "outstanding"
+      .status-dot.status-dot-warning{data: {tooltip: "Openstaand"}}
+    - when "overdue"
+      .status-dot.status-dot-danger{data: {tooltip: "Verlopen"}}
