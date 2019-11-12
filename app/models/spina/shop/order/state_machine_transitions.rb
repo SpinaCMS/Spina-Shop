@@ -1,6 +1,6 @@
 module Spina::Shop
   class Order < ApplicationRecord
-    extend Statesman::Adapters::ActiveRecordQueries[transition_class: OrderTransition, initial_state: :building]
+    include Statesman::Adapters::ActiveRecordQueries[transition_class: OrderTransition, initial_state: :building]
 
     delegate :can_transition_to?, :allowed_transitions, :history, :in_state?, :last_transition, :transition_to!, :transition_to, :current_state, to: :state_machine
 
