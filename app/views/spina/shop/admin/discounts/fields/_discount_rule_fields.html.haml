@@ -2,3 +2,6 @@
 - when 'Spina::Shop::Discounts::Rules::Collection'
   .sidebar-form-group
     = f.select :product_collection_id, options_for_select(Spina::Shop::ProductCollection.pluck(:name, :id), f.object.product_collection_id), {include_blank: "Kies"}, class: 'select2', style: 'width: 100%'
+- when 'Spina::Shop::Discounts::Rules::Categories'
+  .sidebar-form-group
+    = f.select :product_category_ids, options_for_select(Spina::Shop::ProductCategory.pluck(:name, :id), f.object.product_category_ids), {include_blank: "Kies"}, class: 'select2', multiple: true, style: 'width: 100%', placeholder: "Selecteer categorieën"

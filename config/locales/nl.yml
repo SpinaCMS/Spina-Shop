@@ -261,6 +261,7 @@ nl:
       spina/shop/discounts/rules/all_orders: 
       spina/shop/discounts/rules/all_products: Alle producten
       spina/shop/discounts/rules/collection: Producten uit collectie
+      spina/shop/discounts/rules/categories: Producten uit categorie
       spina/shop/discounts/rules/order_total: 
       spina/shop/gift_card:
         one: Cadeaubon

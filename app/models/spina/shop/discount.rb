@@ -16,6 +16,7 @@ module Spina::Shop
     scope :one_off, -> { where(usage_limit: 1) }
     scope :auto, -> { where(auto: true) }
     scope :active, -> { where('starts_at <= :date AND (expires_at IS NULL OR expires_at >= :date)', date: Date.today) }
+    scope :ordered, -> { order("CASE WHEN expires_at IS NULL OR expires_at >= NOW() AND starts_at <= NOW() THEN 0 ELSE 1 END") }
 
     accepts_nested_attributes_for :discount_rule, :discount_action, :discount_requirement
 
