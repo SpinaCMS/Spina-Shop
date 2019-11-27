@@ -6,27 +6,45 @@
 
   %ul
     %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
-      = link_to Spina::Shop::Order.model_name.human(count: 2), spina.shop_admin_orders_path
+      = link_to spina.shop_admin_orders_path do
+        = image_tag 'spina/shop/orders.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        = Spina::Shop::Order.model_name.human(count: 2)
     %li{class: ('active' if controller_name.in? %w(products properties product_bundles stock_level_adjustments))}
-      = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
+      = link_to spina.shop_admin_products_path do
+        = image_tag 'spina/shop/products.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        = Spina::Shop::Product.model_name.human(count: 2)
 
     %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders))}
-      = link_to "Voorraad", spina.shop_admin_stock_forecast_path
+      = link_to spina.shop_admin_stock_forecast_path do
+        = image_tag 'spina/shop/stock.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        Voorraad
 
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts customer_groups))}
-      = link_to Spina::Shop::Customer.model_name.human(count: 2), spina.shop_admin_customers_path 
+      = link_to spina.shop_admin_customers_path do
+        = image_tag 'spina/shop/customers.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        = Spina::Shop::Customer.model_name.human(count: 2)
     %li{class: ('active' if controller_name.in? %w(product_reviews shop_reviews)), data: {badge: (unapproved_shop_reviews_count if unapproved_shop_reviews_count > 0)}}
-      = link_to Spina::Shop::ProductReview.model_name.human(count: 2), spina.shop_admin_product_reviews_path
+      = link_to spina.shop_admin_product_reviews_path do
+        = image_tag 'spina/shop/reviews.svg', width: 14, style: "vertical-align: sub; margin-right: 6px; margin-left: 3px"
+        = Spina::Shop::ProductReview.model_name.human(count: 2)
     %li{class: ('active' if controller_name == 'discounts'), style: 'margin-top: 20px'}
-      = link_to Spina::Shop::Discount.model_name.human(count: 2), spina.shop_admin_discounts_path
+      = link_to spina.shop_admin_discounts_path do
+        = image_tag 'spina/shop/discounts.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        = Spina::Shop::Discount.model_name.human(count: 2)
     %li{class: ('active' if controller_name == 'gift_cards')}
-      = link_to Spina::Shop::GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
+      = link_to spina.shop_admin_gift_cards_path do
+        = image_tag 'spina/shop/giftcards.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+        = Spina::Shop::GiftCard.model_name.human(count: 2)
     %li{class: ('active' if controller_name == 'invoices'), style: 'margin-top: 20px'}
-      = link_to Spina::Shop::Invoice.model_name.human(count: 2), spina.shop_admin_invoices_path
+      = link_to spina.shop_admin_invoices_path do
+        = image_tag 'spina/shop/invoices.svg', width: 14, style: "vertical-align: sub; margin-right: 7px; margin-left: 2px"
+        = Spina::Shop::Invoice.model_name.human(count: 2)
 
     - if current_spina_user.admin?
       %li{class: ('active' if controller_name.in? %w(reports exports analytics))}
-        = link_to t('spina.shop.reports.title'), spina.shop_admin_reports_path
+        = link_to spina.shop_admin_reports_path do
+          = image_tag 'spina/shop/reports.svg', width: 18, style: "vertical-align: sub; margin-right: 5px"
+          = t('spina.shop.reports.title')
 
     - Spina::Plugin.all.each do |plugin|
       - if current_theme.plugins.include? plugin.name
