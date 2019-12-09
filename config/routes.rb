@@ -12,6 +12,7 @@ Spina::Engine.routes.draw do
           member do
             post :confirm
             post :cancel
+            post :refund
             post :pay
             post :receive
             post :order_picked_up
@@ -50,9 +51,6 @@ Spina::Engine.routes.draw do
 
         # Invoices
         resources :invoices do
-          member do
-            post :credit
-          end
           get :unpaid, on: :collection
         end
 

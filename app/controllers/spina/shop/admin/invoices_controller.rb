@@ -20,26 +20,15 @@ module Spina::Shop
         send_data pdf.render, filename: @invoice.filename, type: "application/pdf"
       end
 
+      # The credit invoice generator is straightforward:
+      # - Grab an invoice
+      # - Copy most attributes (i.e. customer/order/address details)
+      # - Set new date & number
+      # - Copy all lines and multiply with -1
+      # - Save as new invoice
       def credit
         @invoice = Invoice.find(params[:id])
-        @credit_invoice = @invoice.dup
-        @credit_invoice.order = @invoice.order
-        @credit_invoice.customer = @invoice.customer
-        @credit_invoice.country = @invoice.country
-        @credit_invoice.paid = false
-        @credit_invoice.date = Date.today
-        @credit_invoice.exported = false
-        @credit_invoice.number = InvoiceNumberGenerator.generate!(@invoice.order)
-
-        # Copy invoice lines
-        @invoice.invoice_lines.each do |invoice_line|
-          credit_invoice_line = invoice_line.dup
-          credit_invoice_line.unit_price = credit_invoice_line.unit_price * -1
-          @credit_invoice.invoice_lines << credit_invoice_line
-        end
-
-        @credit_invoice.save
-
+        @credit_invoice = CreditInvoiceGenerator.new(@invoice).generate!
         redirect_to spina.shop_admin_order_path(@invoice.order)
       end
 

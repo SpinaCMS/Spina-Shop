@@ -11,7 +11,7 @@ module Spina::Shop
     end
 
     def invoice_name
-      "#{invoice.credit? ? Order.human_attribute_name(:credit_invoice) : Invoice.model_name.human}: #{invoice_number}"
+      "#{invoice.credit? ? Order.human_attribute_name(:credit_invoice) : Invoice.model_name.human} #{invoice_number}"
     end
 
     def sub_total

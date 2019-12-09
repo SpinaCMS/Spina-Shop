@@ -1,11 +1,14 @@
 %tr
-  %td= link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
+  %td
+    = link_to spina.shop_admin_invoice_path(invoice, format: :pdf) do
+      = Spina::Shop::InvoicePresenter.new(invoice, self).invoice_name
   %td=l invoice.date, format: '%d-%m-%Y'
   %td
-    - if invoice.order.payment_reminder_sent_at.present?
-      =l invoice.order.payment_reminder_sent_at, format: '%d-%m-%Y'
-    - elsif !invoice.paid?
-      = link_to Spina::Shop::Order.human_attribute_name(:payment_reminder_sent_at), spina.shop_admin_order_payment_reminder_path(invoice.order), method: :post, class: 'button button-mini', data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
+    - if !invoice.credit?
+      - if invoice.order.payment_reminder_sent_at.present?
+        =l invoice.order.payment_reminder_sent_at, format: '%d-%m-%Y'
+      - elsif !invoice.paid?
+        = link_to Spina::Shop::Order.human_attribute_name(:payment_reminder_sent_at), spina.shop_admin_order_payment_reminder_path(invoice.order), method: :post, class: 'button button-mini', data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
   %td
     = link_to invoice.receiver, spina.shop_admin_customer_path(invoice.customer)
     - if invoice.order.present?

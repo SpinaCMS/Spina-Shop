@@ -10,18 +10,18 @@ module Spina::Shop
     state :shipped
     state :picked_up
     state :delivered
-    state :failed
-    state :cancelled
-    state :refunded
+    state :failed # Final state
+    state :cancelled # Final state
+    state :refunded # Final state
 
     transition from: :building,   to: :confirming
     transition from: :confirming, to: [:received, :cancelled, :failed]
-    transition from: :received,   to: [:paid, :preparing, :cancelled, :failed]
+    transition from: :received,   to: [:paid, :preparing, :cancelled, :failed, :refunded]
     transition from: :paid,       to: [:preparing, :shipped, :picked_up, :refunded]
-    transition from: :preparing,  to: [:paid, :shipped, :picked_up]
-    transition from: :shipped,    to: [:paid, :delivered, :refunded]
-    transition from: :picked_up,  to: [:paid, :refunded]
-    transition from: :delivered,  to: [:paid, :refunded]
+    transition from: :preparing,  to: [:paid, :shipped, :picked_up, :refunded, :cancelled]
+    transition from: :shipped,    to: [:paid, :delivered, :refunded, :cancelled]
+    transition from: :picked_up,  to: [:paid, :refunded, :cancelled]
+    transition from: :delivered,  to: [:paid, :refunded, :cancelled]
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right? Do we even have any order items?
@@ -49,6 +49,10 @@ module Spina::Shop
 
       # Confirm order
       order.update_attributes!(confirming_at: Time.zone.now)
+    end
+
+    guard_transition(to: :cancelled) do |order, transition|
+      order.sales_invoice.blank?
     end
 
     before_transition(to: :cancelled) do |order, transition|
@@ -88,7 +92,6 @@ module Spina::Shop
     end
 
     after_transition(to: :failed) do |order, transition|
-      # Order duplicate
       order.duplicate!
     end
 
@@ -97,12 +100,11 @@ module Spina::Shop
     end
 
     before_transition(to: :paid) do |order, transition|
-      # Update order to paid
       order.update!(paid_at: Time.zone.now)
     end
 
     after_transition(to: :preparing) do |order, transition|
-      order.update_attributes!(order_prepared_at: Time.zone.now)
+      order.update!(order_prepared_at: Time.zone.now)
     end
 
     guard_transition(to: :shipped) do |order, transition|
@@ -114,13 +116,24 @@ module Spina::Shop
     end
 
     after_transition(to: :shipped) do |order, transition|
-      # Set shipped_at and send mail
       order.update_attributes!(shipped_at: Time.zone.now)
     end
 
     after_transition(to: :delivered) do |order, transition|
-      # Pakketje is afgeleverd, review inplannen?
       order.update_attributes!(delivered_at: Time.zone.now)
     end
+
+    guard_transition(to: :refunded) do |order, transition|
+      order.sales_invoice.present?
+    end
+
+    before_transition(to: :refunded) do |order, transition|
+      CreditInvoiceGenerator.new(order.sales_invoice).generate!
+    end
+
+    after_transition(to: :refunded) do |order, transition|
+      order.update!(refunded_at: Time.zone.now)
+    end
+
   end
 end

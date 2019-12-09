@@ -7,7 +7,7 @@ module Spina::Shop
     has_many :invoice_lines, dependent: :destroy
 
     def status
-      if order.paid?
+      if paid?
         "paid"
       elsif Date.today > date + Spina::Shop.config.invoice_payment_term
         "overdue"

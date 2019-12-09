@@ -82,6 +82,8 @@ nl:
         billing_street2: Straat 2
         business: Zakelijke bestelling
         company: Bedrijf
+        credit_invoice: Credit
+        sales_invoice: Factuur
         date_of_birth: Geboortedatum
         delivered_at: Geleverd op
         delivery_address: Verzendadres
@@ -404,6 +406,8 @@ nl:
         confirm_failed: Bestelling plaatsen mislukt
         confirm_order: Bestelling plaatsen
         confirm_order_html: Weet je zeker dat je de bestelling wilt plaatsen?
+        credit_invoice_html: <strong>Crediteer</strong> verkoopfactuur
+        credit_invoice_confirmation_html: Weet je zeker dat je de <strong>volledige factuur</strong> wilt <strong>crediteren</strong>?
         download_attachments_html: Download <strong>bijlagen</strong>
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
@@ -455,7 +459,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Teruggegeven
+          refunded: Terugbetaald
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken
