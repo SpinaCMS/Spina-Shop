@@ -81,6 +81,10 @@
           %th= Spina::Shop::StockOrder.human_attribute_name(:order_value)
           %td= number_to_currency @stock_order.order_value
 
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name(:received_value)
+          %td= number_to_currency @stock_order.received_value
+
     .information-table
       %table
         %tr

@@ -6,6 +6,16 @@ module Spina::Shop
 
     has_many :invoice_lines, dependent: :destroy
 
+    def status
+      if order.paid?
+        "paid"
+      elsif Date.today > date + Spina::Shop.config.invoice_payment_term
+        "overdue"
+      else
+        "outstanding"
+      end
+    end
+
     def filename
       "inv_#{invoice_number}.pdf"
     end

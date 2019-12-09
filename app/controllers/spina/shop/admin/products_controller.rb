@@ -109,6 +109,7 @@ module Spina::Shop
       def archive
         @product = Product.find(params[:id])
         @product.update_attributes(archived: true)
+        @product.children.update_all(archived: true)
         redirect_to spina.shop_admin_product_path(@product)
       end
 

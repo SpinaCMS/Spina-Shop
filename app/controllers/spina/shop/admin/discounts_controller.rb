@@ -15,6 +15,8 @@ module Spina::Shop
           @scope = "multiple_use"
           @discounts = Discount.multiple_use
         end
+        
+        @discounts = @discounts.ordered
       end
 
       def new

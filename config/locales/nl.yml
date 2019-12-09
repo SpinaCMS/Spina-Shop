@@ -222,6 +222,8 @@ nl:
         ordered_stock: Producten
         reference: Referentie
         supplier: Leverancier
+        order_value: Totaal leveringsorder
+        received_value: Totaal ontvangen
       spina/shop/supplier:
         contact_name: Contactpersoon
         email: Email
@@ -261,6 +263,7 @@ nl:
       spina/shop/discounts/rules/all_orders: 
       spina/shop/discounts/rules/all_products: Alle producten
       spina/shop/discounts/rules/collection: Producten uit collectie
+      spina/shop/discounts/rules/categories: Producten uit categorie
       spina/shop/discounts/rules/order_total: 
       spina/shop/gift_card:
         one: Cadeaubon
