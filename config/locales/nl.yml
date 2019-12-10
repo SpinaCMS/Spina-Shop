@@ -115,6 +115,7 @@ nl:
         prices_include_tax: Bedragen inclusief btw
         phone: Telefoon
         received_at: Besteldatum
+        refund_method: Terugbetaling
         reference: Referentie
         separate_delivery_address: Ander afleveradres
         shipped_at: Verzonden op
@@ -391,6 +392,7 @@ nl:
         all: Alle facturen
         no_invoices: Geen facturen beschikbaar
         unpaid: Onbetaalde facturen
+        credit: Creditfacturen
       next: Volgende
       order_items:
         choose_quantity: Kies een aantal
@@ -459,7 +461,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Terugbetaald
+          refunded: Restitutie
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken

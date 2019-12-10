@@ -138,7 +138,7 @@
               =l @order.received_at, format: '%d %B %Y'
               %br/
               =l @order.received_at, format: '%H:%M'
-              %small.text-muted=l @order.received_at, format: '%Z'
+              %small.text-error=l @order.received_at, format: '%Z'
 
         - if @order.ip_address.present?
           %tr
@@ -148,18 +148,6 @@
 
     .information-table
       %table
-        - if @order.sales_invoice.present?
-          %tr
-            %th= Spina::Shop::Order.human_attribute_name(:sales_invoice)
-            %td
-              = link_to @order.sales_invoice.invoice_number, spina.shop_admin_invoice_path(@order.sales_invoice, format: :pdf)
-
-        - if @order.credit_invoice.present?
-          %tr
-            %th= Spina::Shop::Order.human_attribute_name(:credit_invoice)
-            %td
-              = link_to @order.credit_invoice.invoice_number, spina.shop_admin_invoice_path(@order.credit_invoice, format: :pdf)
-
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:billing_address)
           %td
@@ -186,12 +174,17 @@
             %th= Spina::Shop::Order.human_attribute_name(:payment_method)
             %td 
               =t "spina.shop.orders.payment_methods.#{@order.payment_method}"
-              - if @order.paid_at.present?
-                %br/
-                =l @order.paid_at, format: "%d %B %Y"
-                %br/
-                =l @order.paid_at, format: "%H:%M"
-                %small.text-muted=l @order.paid_at, format: '%Z'
+
+
+        - if @order.paid_at.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:paid_at)
+            %td=l @order.paid_at, format: "%d-%m-%Y – %H:%M"
+
+        - if @order.refund_method.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:refund_method)
+            %td=t "spina.shop.orders.refund_methods.#{@order.refund_method}"
 
         - if @order.reference.present?
           %tr
@@ -215,6 +208,17 @@
               %br/
               =l @order.failed_at, format: "%H:%M"
               %small.text-muted=l @order.failed_at, format: '%Z'
+
+        - if @order.invoices.any?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:sales_invoice)
+        
+          - @order.invoices.order(:number).each do |invoice|
+            %tr
+              %td{colspan: 2}
+                .status-dot{class: "status-dot-#{invoice.paid? ? 'success' : 'warning'}", style: "width: 10px; height: 10px"}
+                = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
+                %small.text-muted{style: "vertical-align: middle"}= number_to_currency invoice.total
 
     .information-table
       %table

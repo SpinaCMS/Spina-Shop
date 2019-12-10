@@ -5,11 +5,16 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @invoices = Invoice.order(date: :desc, number: :desc).page(params[:page]).per(25)
+        @invoices = Invoice.order(date: :desc, number: :desc).includes(:order).page(params[:page]).per(25)
       end
 
       def unpaid
-        @invoices = Invoice.order(date: :desc, number: :desc).joins(:order).where(spina_shop_orders: {paid_at: nil}).page(params[:page]).per(25)
+        @invoices = Invoice.order(date: :desc, number: :desc).where(paid: false).includes(:order).page(params[:page]).per(25)
+        render :index
+      end
+
+      def credit
+        @invoices = Invoice.order(date: :desc, number: :desc).joins(:invoice_lines).group("spina_shop_invoices.id").having("SUM(quantity * unit_price - discount) < 0").page(params[:page]).per(25)
         render :index
       end
 
@@ -18,18 +23,6 @@ module Spina::Shop
         presenter = InvoicePresenter.new(@invoice, view_context)
         pdf = InvoicePdf.new(presenter)
         send_data pdf.render, filename: @invoice.filename, type: "application/pdf"
-      end
-
-      # The credit invoice generator is straightforward:
-      # - Grab an invoice
-      # - Copy most attributes (i.e. customer/order/address details)
-      # - Set new date & number
-      # - Copy all lines and multiply with -1
-      # - Save as new invoice
-      def credit
-        @invoice = Invoice.find(params[:id])
-        @credit_invoice = CreditInvoiceGenerator.new(@invoice).generate!
-        redirect_to spina.shop_admin_order_path(@invoice.order)
       end
 
       private
