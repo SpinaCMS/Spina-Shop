@@ -2,16 +2,12 @@ module Spina::Shop
   class InvoicePresenter
     attr_accessor :invoice, :view_context
 
-    delegate :customer_name, :company_name, :address_1, :postal_code, :city, :number, :customer_number, :date, :identity_name, :invoice_number, :identity_details, :country_name, :vat_id, :reference, :credit?, to: :invoice
+    delegate :customer_name, :company_name, :address_1, :postal_code, :city, :number, :customer_number, :date, :identity_name, :invoice_number, :identity_details, :country_name, :vat_id, :reference, :credit?, :invoice_name, to: :invoice
     delegate :number_to_currency, :number_with_precision, to: :view_context
 
     def initialize(invoice, view_context)
       @invoice = invoice
       @view_context = view_context
-    end
-
-    def invoice_name
-      "#{invoice.credit? ? Order.human_attribute_name(:credit_invoice) : Invoice.model_name.human} #{invoice_number}"
     end
 
     def sub_total

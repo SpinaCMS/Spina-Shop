@@ -16,6 +16,10 @@ module Spina::Shop
       end
     end
 
+    def invoice_name
+      "#{credit? ? Order.human_attribute_name(:credit_invoice) : Invoice.model_name.human} #{invoice_number}"
+    end
+
     def filename
       "inv_#{invoice_number}.pdf"
     end

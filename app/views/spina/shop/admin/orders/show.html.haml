@@ -148,6 +148,14 @@
 
     .information-table
       %table
+        - if @order.invoices.any?        
+          - @order.invoices.order(:number).each do |invoice|
+            %tr
+              %td{colspan: 2}
+                %small.pull-right.text-muted{style: "vertical-align: middle"}= number_to_currency invoice.total
+                .status-dot{class: "status-dot-#{invoice.paid? ? 'success' : 'warning'}", style: "width: 10px; height: 10px"}
+                = link_to invoice.invoice_name, spina.shop_admin_invoice_path(invoice, format: :pdf)
+
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:billing_address)
           %td
@@ -208,17 +216,6 @@
               %br/
               =l @order.failed_at, format: "%H:%M"
               %small.text-muted=l @order.failed_at, format: '%Z'
-
-        - if @order.invoices.any?
-          %tr
-            %th= Spina::Shop::Order.human_attribute_name(:sales_invoice)
-        
-          - @order.invoices.order(:number).each do |invoice|
-            %tr
-              %td{colspan: 2}
-                .status-dot{class: "status-dot-#{invoice.paid? ? 'success' : 'warning'}", style: "width: 10px; height: 10px"}
-                = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
-                %small.text-muted{style: "vertical-align: middle"}= number_to_currency invoice.total
 
     .information-table
       %table
