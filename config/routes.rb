@@ -12,7 +12,6 @@ Spina::Engine.routes.draw do
           member do
             post :confirm
             post :cancel
-            post :refund
             post :pay
             post :receive
             post :order_picked_up
@@ -26,6 +25,7 @@ Spina::Engine.routes.draw do
           scope module: :orders do
             resource :packing_slip, only: [:show, :create]
             resource :shipping_label, only: [:show, :create]
+            resource :refund, only: [:new, :create]
             resource :payment_reminder, only: [:create]
           end
         end

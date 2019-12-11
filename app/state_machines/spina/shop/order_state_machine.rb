@@ -128,7 +128,11 @@ module Spina::Shop
     end
 
     before_transition(to: :refunded) do |order, transition|
-      CreditInvoiceGenerator.new(order.sales_invoice).generate!
+      generator = CreditInvoiceGenerator.new(order.sales_invoice)
+      generator.generate!
+
+      # Deallocate stock if necessary
+      DeallocateStock.new(order).deallocate if order.deallocate_stock_after_refund
     end
 
     after_transition(to: :refunded) do |order, transition|

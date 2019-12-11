@@ -115,6 +115,7 @@ nl:
         prices_include_tax: Bedragen inclusief btw
         phone: Telefoon
         received_at: Besteldatum
+        refund_reason: Reden
         refund_method: Terugbetaling
         reference: Referentie
         separate_delivery_address: Ander afleveradres
@@ -428,6 +429,7 @@ nl:
           send_html: Verzend <strong>betaalherinnering</strong>
         receive_order_confirmation_html: Weet je zeker dat je deze bestelling <strong>definitief</strong> wilt maken? <strong>Deze actie is niet terug te draaien.</strong>
         receive_order_html: Definitief maken
+        refund_order_html: Bestelling crediteren
         save: Save order
         save_order: Bestelling opslaan
         search_results: 'Resultaten: %{count}'
@@ -461,7 +463,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Restitutie
+          refunded: Gecrediteerd
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken
@@ -522,6 +524,9 @@ nl:
           add: Toevoegen
       receive_products:
         create: Voorraad bijwerken
+      refunds:
+        new: Bestelling crediteren
+        create_refund: Crediteren
       reports:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
         title: Rapportages

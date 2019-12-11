@@ -66,12 +66,6 @@ module Spina::Shop
         redirect_to spina.shop_admin_order_path(@order)
       end
 
-      def refund
-        @order = Order.find(params[:id])
-        @order.transition_to!(:refunded, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
-
       def index
         @orders = Order.confirmed.includes(:order_items, :order_transitions).sorted
         filter_orders

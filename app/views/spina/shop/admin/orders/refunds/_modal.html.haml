@@ -1,0 +1,53 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.refunds.new'
+
+  = form_with url: spina.shop_admin_order_refund_path(@order) do |f|
+    %section
+      Hele bestelling crediteren of losse regels kiezen?
+      = f.select :refund_entire_order, options_for_select([["Hele bestelling", true], ["Zelf regels kiezen", false]])
+      %br/
+      Voorraad terugboeken
+      = f.check_box :deallocate_stock_after_refund, data: {switch: true}
+
+      %table
+        %thead
+          %tr
+            %th= check_box_tag :check_all
+            %th Aantal
+            %th Omschrijving
+            %th Prijs
+            %th.text-right Totaal
+            %th Voorraad terugdraaien
+
+        %tbody
+          - @order.order_items.each do |order_item|
+            %tr
+              %td
+                = f.check_box :invoice_line_id, value: order_item.id
+              %td
+                = f.select :quantity, options_for_select(1..order_item.quantity, order_item.quantity)
+                &times;
+              %td
+                = order_item.description
+              %td
+                = f.text_field :unit_price, value: order_item.unit_price
+              %td.text-right
+                = number_to_currency order_item.total
+              %td
+                - if order_item.orderable&.stock_enabled?
+                  = f.check_box :stock
+
+      %label= Spina::Shop::Order.human_attribute_name(:refund_reason)
+      = f.select :refund_reason, Spina::Shop.config.refund_reasons
+
+      %label= Spina::Shop::Order.human_attribute_name(:refund_method)
+      = f.select :refund_method, Spina::Shop.config.refund_methods
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.refunds.create_refund'
