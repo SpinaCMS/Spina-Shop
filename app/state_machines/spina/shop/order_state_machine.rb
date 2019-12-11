@@ -132,7 +132,7 @@ module Spina::Shop
       generator.generate!
 
       # Deallocate stock if necessary
-      DeallocateStock.new(order).deallocate if order.deallocate_stock_after_refund
+      DeallocateStock.new(order).deallocate if transition.metadata["deallocate_stock_after_refund"]
     end
 
     after_transition(to: :refunded) do |order, transition|

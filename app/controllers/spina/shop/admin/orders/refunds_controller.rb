@@ -10,14 +10,11 @@ module Spina::Shop
 
         def create
           @order.transaction do
-            # Set deallocate stock if necessary
-            @order.deallocate_stock_after_refund = params[:deallocate_stock_after_refund] == "1"
-
             # Update refund params
             @order.update!(refund_params)
 
             # Transition to refunded
-            @order.transition_to!(:refunded, user: current_spina_user.name, ip_address: request.remote_ip)
+            @order.transition_to!(:refunded, user: current_spina_user.name, ip_address: request.remote_ip, deallocate_stock_after_refund: params[:deallocate_stock_after_refund] == "1")
           end
           redirect_to spina.shop_admin_order_path(@order)
         end
