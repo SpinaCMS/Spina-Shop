@@ -1,53 +1,58 @@
-.modal.modal-large
+.modal
   %header
     = link_to '#', data: {dismiss: "modal"} do
       = icon('cross')
     %h3=t 'spina.shop.refunds.new'
 
-  = form_with url: spina.shop_admin_order_refund_path(@order) do |f|
-    %section
-      Hele bestelling crediteren of losse regels kiezen?
-      = f.select :refund_entire_order, options_for_select([["Hele bestelling", true], ["Zelf regels kiezen", false]])
-      %br/
-      Voorraad terugboeken
-      = f.check_box :deallocate_stock_after_refund, data: {switch: true}
+  = form_with url: spina.shop_admin_order_refund_path(@order), data: {controller: "refund"} do |f|
+    %section{style: "padding-top: 0"}
+      .permanent-notice.permanent-notice-info
+        %p 
+          Let op! Deze actie is niet ongedaan te maken.
+          %small Er wordt meteen een creditfactuur gegenereerd.
 
-      %table
-        %thead
-          %tr
-            %th= check_box_tag :check_all
-            %th Aantal
-            %th Omschrijving
-            %th Prijs
-            %th.text-right Totaal
-            %th Voorraad terugdraaien
+      .horizontal-form
+        .horizontal-form-group
+          .horizontal-form-label 
+            Volledige bestelling crediteren
+            %small Als je niet alles wilt crediteren volgt hierna een scherm waar je specifieke regels kunt kiezen
+          .horizontal-form-content
+            .form-checkbox
+              = f.check_box :entire_order, {data: {action: "refund#toggleEntireOrder"}}, true, nil
+              %label{for: :entire_order}
 
-        %tbody
-          - @order.order_items.each do |order_item|
-            %tr
-              %td
-                = f.check_box :invoice_line_id, value: order_item.id
-              %td
-                = f.select :quantity, options_for_select(1..order_item.quantity, order_item.quantity)
-                &times;
-              %td
-                = order_item.description
-              %td
-                = f.text_field :unit_price, value: order_item.unit_price
-              %td.text-right
-                = number_to_currency order_item.total
-              %td
-                - if order_item.orderable&.stock_enabled?
-                  = f.check_box :stock
+        .horizontal-form-group{style: "display: none", data: {target: "refund.deallocateStock"}}
+          .horizontal-form-label 
+            Voorraad terugdraaien
+            %small Alle voorraad kan automatisch worden opgeboekt
+          .horizontal-form-content
+            .form-checkbox
+              = f.check_box :deallocate_stock, {checked: true}, true, nil
+              %label{for: :deallocate_stock}
 
-      %label= Spina::Shop::Order.human_attribute_name(:refund_reason)
-      = f.select :refund_reason, Spina::Shop.config.refund_reasons
+        .horizontal-form-group
+          .horizontal-form-label
+            = Spina::Shop::Order.human_attribute_name(:refund_reason)
+            %small Wat is de reden dat deze bestelling wordt gecrediteerd?
+          .horizontal-form-content
+            .input-group
+              .select-dropdown= f.select :refund_reason, Spina::Shop.config.refund_reasons
 
-      %label= Spina::Shop::Order.human_attribute_name(:refund_method)
-      = f.select :refund_method, Spina::Shop.config.refund_methods
+        .horizontal-form-group
+          .horizontal-form-label
+            = Spina::Shop::Order.human_attribute_name(:refund_method)
+            %small Op welke manier wordt de klant terugbetaald?
+          .horizontal-form-content
+            .input-group
+              .select-dropdown= f.select :refund_method, Spina::Shop.config.refund_methods
   
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
       = button_tag type: :submit, class: 'primary' do
-        %i.icon.icon-plus{style: 'margin-right: 4px'}
-        =t 'spina.shop.refunds.create_refund'
+        %span{style: "display: none", data: {target: "refund.createRefund"}}
+          %i.icon.icon-plus
+          =t "spina.shop.refunds.create_refund"
+
+        %span{style: "display: block", data: {target: "refund.chooseLines"}}
+          =t "spina.shop.refunds.choose_lines"
+          %i.icon.icon-chevron-right

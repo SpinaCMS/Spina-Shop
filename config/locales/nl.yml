@@ -526,7 +526,8 @@ nl:
         create: Voorraad bijwerken
       refunds:
         new: Bestelling crediteren
-        create_refund: Crediteren
+        create_refund: Maak creditfactuur
+        choose_lines: Kies regels
       reports:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
         title: Rapportages

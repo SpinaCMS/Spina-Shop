@@ -125,13 +125,7 @@ module Spina::Shop
     end
 
     def products
-      order_items.map do |order_item|
-        if order_item.is_product_bundle?
-          order_item.orderable.products
-        else
-          order_item.orderable
-        end
-      end.flatten.uniq
+      order_items.map(&:products).flatten.uniq
     end
 
     def first_order_for_email?

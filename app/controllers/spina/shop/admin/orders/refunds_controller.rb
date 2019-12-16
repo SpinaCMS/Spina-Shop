@@ -9,13 +9,13 @@ module Spina::Shop
         end
 
         def create
-          @order.transaction do
-            # Update refund params
-            @order.update!(refund_params)
+          render :choose_lines and return if not_the_entire_order?
 
-            # Transition to refunded
-            @order.transition_to!(:refunded, user: current_spina_user.name, ip_address: request.remote_ip, deallocate_stock_after_refund: params[:deallocate_stock_after_refund] == "1")
+          @order.transaction do
+            @order.update!(refund_params)
+            @order.transition_to!(:refunded, refund_transition_params)
           end
+
           redirect_to spina.shop_admin_order_path(@order)
         end
 
@@ -25,8 +25,16 @@ module Spina::Shop
             @order = Order.find(params[:order_id])
           end
 
+          def not_the_entire_order?
+            params[:entire_order].blank? && params[:refund_lines].blank?
+          end
+
           def refund_params
             params.permit(:refund_reason, :refund_method)
+          end
+
+          def refund_transition_params
+            params.permit(:entire_order, :deallocate_stock, refund_lines: [:id, :quantity, :stock, :unit_price]).merge(user: current_spina_user.name, ip_address: request.remote_ip)
           end
 
       end

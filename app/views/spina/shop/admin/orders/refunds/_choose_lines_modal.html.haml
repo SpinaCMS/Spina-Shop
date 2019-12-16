@@ -1,0 +1,55 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Kies regels om te crediteren
+
+  = form_with url: spina.shop_admin_order_refund_path(@order) do |f|
+    = f.hidden_field :entire_order, value: params[:entire_order]
+    = f.hidden_field :deallocate_stock, value: params[:deallocate_stock]
+    = f.hidden_field :refund_reason, value: params[:refund_reason]
+    = f.hidden_field :refund_method, value: params[:refund_method]
+
+    %section{style: "padding-top: 0; padding-bottom: 0"}
+      .permanent-notice.permanent-notice-info{style: 'margin-bottom: 0'}
+        %p 
+          Let op! Deze actie is niet ongedaan te maken.
+          %small Er wordt meteen een creditfactuur gegenereerd.
+
+    %table.table.table-clickable{style: "margin-bottom: 0"}
+      %thead
+        %tr
+          %th
+          %th Aantal
+          %th Omschrijving
+          %th{style: "width: 120px"} Stukprijs
+          %th.text-right Totaal
+          %th.text-right Voorraad terugdraaien
+
+      %tbody
+        - @order.order_items.each do |order_item|
+          / = f.fields_for "refund_lines[]", order_item do |ff|
+          %tr
+            %td{style: "width: 20px"}
+              .form-checkbox
+                = f.check_box "refund_lines[][id]", {checked: true}, order_item.id, nil
+                %label
+            %td
+              .select-dropdown
+                = f.select "refund_lines[][quantity]", options_for_select(1..order_item.quantity, order_item.quantity)
+            %td
+              = order_item.description
+            %td{style: "width: 100px"}
+              .form-control{data: {form_prepend: '€'}}
+                = f.text_field "refund_lines[][unit_price]", value: number_to_currency(order_item.unit_price, unit: '')
+            %td.text-right
+              = number_to_currency order_item.total
+            %td
+              - if order_item.orderable&.stock_enabled?
+                .pull-right= f.check_box "refund_lines[][stock]", {checked: true, data: {switch: true}}, true, nil
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.refunds.create_refund'

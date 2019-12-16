@@ -113,6 +113,10 @@ module Spina::Shop
       limit == 0 || quantity <= limit
     end
 
+    def products
+      is_product_bundle? ? orderable.products : [orderable]
+    end
+
     private
 
       def product_in_stock?(product_id)
