@@ -16,6 +16,8 @@ nl:
         postal_code: Postcode
         street1: Straat
         street2: Straat 2
+      spina/shop/custom_product:
+        name: Naam
       spina/shop/customer:
         billing_email: Factuur email
         company: Bedrijf
@@ -36,8 +38,6 @@ nl:
         email: Email
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
-      spina/shop/custom_product:
-        name: Naam
       spina/shop/discount:
         code: Kortingscode
         description: Omschrijving
@@ -110,8 +110,8 @@ nl:
         paid_at: Betaald op
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
-        prices_include_tax: Bedragen inclusief btw
         phone: Telefoon
+        prices_include_tax: Bedragen inclusief btw
         received_at: Besteldatum
         reference: Referentie
         separate_delivery_address: Ander afleveradres
@@ -121,13 +121,13 @@ nl:
         tax_amount: Btw
         to_be_paid: Te betalen
         total: Totaal
-        total_including_tax: Totaal incl. btw
         total_excluding_tax: Totaal excl. btw
+        total_including_tax: Totaal incl. btw
       spina/shop/order_item:
         price: Prijs
-        total: Totaal
-        tax_rate: Btw
         quantity: Aantal
+        tax_rate: Btw
+        total: Totaal
         unit_price: Stukprijs
       spina/shop/ordered_stock:
         quantity: Aantal
@@ -218,12 +218,12 @@ nl:
         expected_delivery: Verwacht
         id: Nummer
         note: Notitie
+        order_value: Totaal leveringsorder
         ordered_at: Order geplaatst
         ordered_stock: Producten
+        received_value: Totaal ontvangen
         reference: Referentie
         supplier: Leverancier
-        order_value: Totaal leveringsorder
-        received_value: Totaal ontvangen
       spina/shop/supplier:
         contact_name: Contactpersoon
         email: Email
@@ -260,11 +260,11 @@ nl:
         other: Kortingscodes
       spina/shop/discounts/requirements/all_orders: Alle bestellingen
       spina/shop/discounts/requirements/order_total: Bestellingen vanaf
-      spina/shop/discounts/rules/all_orders: 
+      spina/shop/discounts/rules/all_orders: Alle bestellingen
       spina/shop/discounts/rules/all_products: Alle producten
-      spina/shop/discounts/rules/collection: Producten uit collectie
       spina/shop/discounts/rules/categories: Producten uit categorie
-      spina/shop/discounts/rules/order_total: 
+      spina/shop/discounts/rules/collection: Producten uit collectie
+      spina/shop/discounts/rules/order_total: Ordertotaal
       spina/shop/gift_card:
         one: Cadeaubon
         other: Cadeaubonnen
@@ -313,10 +313,6 @@ nl:
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen
-  number:
-    currency:
-      format:
-        unit: Unit
   spina:
     shop:
       addresses:
@@ -395,8 +391,8 @@ nl:
         optional_unit_price: Afwijkende stukprijs (optioneel)
       orders:
         actions: Acties
-        add_product: Voeg product toe
         add_custom_product: Voeg een losse regel toe
+        add_product: Voeg product toe
         all_stores: Alle winkels
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         cancel_order_html: Annuleren
@@ -474,7 +470,7 @@ nl:
         save: Save variant
         stock_history: History
       product_reviews:
-        no_reviews: 
+        no_reviews: Geen reviews
         title: Productbeoordelingen
       products:
         adjust_stock: Aanpassen

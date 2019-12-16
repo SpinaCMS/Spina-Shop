@@ -16,12 +16,15 @@ fr:
         postal_code: Code postal
         street1: Rue
         street2: rue 2
+      spina/shop/custom_product:
+        name: 
       spina/shop/customer:
+        billing_email: 
         company: affaires
         country: pays
         created_at: créé sur
         date_of_birth: date de naissance
-        email: "émail"
+        email: émail
         first_name: prénom
         full_name: nom et prénom
         ip_addresses: adresses IP
@@ -32,7 +35,7 @@ fr:
         postpay_allowed: 
         vat_id: N ° de TVA
       spina/shop/customer_account:
-        email: "émail"
+        email: émail
         password: mot de passe
         password_confirmation: confirmer le mot de passe
       spina/shop/discount:
@@ -50,10 +53,10 @@ fr:
         code: code
         created_at: créé sur
         expires_at: arrive à expiration
-        remaining_balance: "équilibre"
+        remaining_balance: équilibre
         value: valeur
       spina/shop/in_stock_reminder:
-        email: "émail"
+        email: émail
       spina/shop/invoice:
         customer: 
         customer_number: numéro de client
@@ -77,6 +80,7 @@ fr:
         billing_postal_code: Code postal
         billing_street1: Rue
         billing_street2: rue 2
+        business: 
         company: affaires
         date_of_birth: date de naissance
         delivered_at: rendu le
@@ -96,7 +100,7 @@ fr:
         delivery_street2: rue 2
         delivery_tracking_ids: Track & Trace
         discount: Réduction
-        email: "émail"
+        email: émail
         first_name: prénom
         ip_address: adresse IP
         last_name: nom de famille
@@ -107,18 +111,24 @@ fr:
         payment_method: paiement
         payment_reminder_sent_at: 
         phone: téléphone
+        prices_include_tax: 
         received_at: Date de commande
         reference: référence
         separate_delivery_address: autre adresse
         shipped_at: envoyé sur
         store: 
         sub_total: total
+        tax_amount: 
         to_be_paid: 
         total: total
         total_excluding_tax: Total hors. TVA
+        total_including_tax: 
       spina/shop/order_item:
         price: prix
+        quantity: 
+        tax_rate: 
         total: total
+        unit_price: 
       spina/shop/ordered_stock:
         quantity: 
         received: 
@@ -196,7 +206,7 @@ fr:
         review_cons: Amélioration ou conseils
         review_pros: positifs
         score: figure
-        score_communication: "Évaluation de la communication"
+        score_communication: Évaluation de la communication
         score_speed: débit numérique / Livraison
       spina/shop/stock_level_adjustment:
         adjustment: 
@@ -208,8 +218,10 @@ fr:
         expected_delivery: 
         id: 
         note: 
+        order_value: 
         ordered_at: 
         ordered_stock: 
+        received_value: 
         reference: 
         supplier: 
       spina/shop/supplier:
@@ -250,6 +262,7 @@ fr:
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: toutes les commandes
       spina/shop/discounts/rules/all_products: 
+      spina/shop/discounts/rules/categories: 
       spina/shop/discounts/rules/collection: Produits de la collection
       spina/shop/discounts/rules/order_total: Les commandes sur le montant
       spina/shop/gift_card:
@@ -272,7 +285,7 @@ fr:
         other: Catégories de produits
       spina/shop/product_collection: 
       spina/shop/product_item:
-        one: "élément de produit"
+        one: élément de produit
         other: articles de ce produit
       spina/shop/product_review:
         one: examen
@@ -288,10 +301,6 @@ fr:
       spina/shop/tax_group:
         one: Groupe TVA
         other: groupes de TVA
-  number:
-    currency:
-      format:
-        unit: unité
   spina:
     shop:
       addresses:
@@ -346,7 +355,7 @@ fr:
       gift_cards:
         all: tous les certificats-cadeaux
         delete: supprimer cadeau
-        delete_confirmation: "Êtes-vous sûr de vouloir supprimer le don <strong> </ strong>?"
+        delete_confirmation: Êtes-vous sûr de vouloir supprimer le don <strong> </ strong>?
         delete_restriction_error: "<Strong> Cadeau </ strong> ne peut pas être enlevé"
         delete_restriction_error_explanation: Est déjà utilisé pour
         expired: expiré
@@ -365,13 +374,18 @@ fr:
         no_invoices: 
         unpaid: 
       next: 
+      order_items:
+        choose_quantity: 
+        optional_unit_price: 
       orders:
         actions: actes
+        add_custom_product: 
         add_product: Ajouter le produit
         all_stores: 
         cancel_order_confirmation_html: Etes - vous sûr de vouloir <strong>annuler</strong> cette commande? <strong>Cette action est irréversible.</strong>
         cancel_order_html: annuler
         concepts: 
+        confirm_failed: 
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 
@@ -450,13 +464,13 @@ fr:
         adjust_stock: stock réglage
         almost_expired: Le produit est sur le point d'expirer
         archive: produit Archive
-        archive_confirmation: "Êtes-vous sûr <strong> %{name} </ strong> pour archiver?"
+        archive_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour archiver?
         archived_title: archives
         batches:
           updating_html: 
         choose_customer_group: Sélectionner un groupe de clients
         delete: Retirer le produit
-        delete_confirmation: "Êtes-vous sûr <strong> %{name} </ strong> pour supprimer?"
+        delete_confirmation: Êtes-vous sûr <strong> %{name} </ strong> pour supprimer?
         delete_restriction_error: "<Strong> %{name} </ strong> ne peut pas être enlevé"
         delete_restriction_error_explanation: Survient sur commande ou groupe de produits
         duplicate: 
