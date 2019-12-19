@@ -239,7 +239,7 @@ GEM
     public_suffix (4.0.1)
     puma (4.3.1)
       nio4r (~> 2.0)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-rewrite (1.5.1)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
