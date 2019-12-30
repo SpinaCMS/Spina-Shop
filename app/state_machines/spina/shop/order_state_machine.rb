@@ -129,7 +129,7 @@ module Spina::Shop
 
     before_transition(to: :refunded) do |order, transition|
       generator = CreditInvoiceGenerator.new(order.sales_invoice)
-      generator.generate!
+      generator.generate!(transition.metadata["refund_lines"])
 
       # Deallocate stock if necessary
       DeallocateStock.new(order).deallocate(transition.metadata["refund_lines"]) if transition.metadata["deallocate_stock"]
