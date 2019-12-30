@@ -6,8 +6,8 @@ module Spina::Shop
     end
 
     def deallocate(order_item_params = [])
-      deallocate_all and return if order_item_params.empty?
-        
+      deallocate_all and return unless order_item_params.present?
+      
       order_item_params.each do |params|
         next unless params["stock"]
         sla = StockLevelAdjustment.find_by(order_item_id: params["id"])

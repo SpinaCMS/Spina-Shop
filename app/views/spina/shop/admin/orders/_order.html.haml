@@ -23,10 +23,13 @@
       %small=l order.shipped_at, format: "%d-%m (%H:%M)"
   %td.nowrap.text-right
     = number_to_currency order.total
-  %td{style: 'width: 200px'}
-    .progress{class: "progress-bar-#{order.status_css_class}"}
-      .progress-bar
-        - 5.times do
-          .progress-bar-divider
-        .progress-bar-inner{style: "width: #{order.status_progress}%"}
-      .progress-label=t "spina.shop.orders.states.#{order.current_state}"
+  %td{style: 'min-width: 200px; width: 200px'}
+    - if order.failed? || order.cancelled? || order.refunded?
+      .text-center.text-muted{style: "font-weight: 500"}=t "spina.shop.orders.states.#{order.current_state}"
+    - else
+      .progress{class: "progress-bar-#{order.status_css_class}"}
+        .progress-bar
+          - 5.times do
+            .progress-bar-divider
+          .progress-bar-inner{style: "width: #{order.status_progress}%"}
+        .progress-label=t "spina.shop.orders.states.#{order.current_state}"
