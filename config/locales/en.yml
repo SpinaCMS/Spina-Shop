@@ -510,6 +510,12 @@ en:
         cannot_be_undone_warning_html: 
         choose_lines: 
         create_refund: 
+        methods:
+          banktransfer: 
+          cash: 
+          giftcard: 
+          mollie: 
+          other_method: 
         new: 
         reasons:
           cancellation: 

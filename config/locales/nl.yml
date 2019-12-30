@@ -457,7 +457,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Teruggegeven
+          refunded: Gecrediteerd
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken
@@ -524,6 +524,12 @@ nl:
           <small>Er wordt meteen een creditfactuur gegenereerd.</small>
         choose_lines: Kies regels
         create_refund: Crediteren
+        methods:
+          banktransfer: Overschrijving
+          cash: Contant
+          giftcard: Cadeaubon
+          mollie: Mollie
+          other_method: Anders
         new: Crediteren
         reasons:
           cancellation: Annulering
