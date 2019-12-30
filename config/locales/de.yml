@@ -16,7 +16,10 @@ de:
         postal_code: Postleitzahl
         street1: Straße
         street2: Straße 2
+      spina/shop/custom_product:
+        name: 
       spina/shop/customer:
+        billing_email: 
         company: Firmenname
         country: Land
         created_at: erstellt auf
@@ -77,7 +80,9 @@ de:
         billing_postal_code: Postleitzahl
         billing_street1: Straße
         billing_street2: Straße 2
+        business: 
         company: Unternehmen
+        credit_invoice: 
         date_of_birth: Geburtsdatum
         delivered_at: geliefert auf
         delivery_address: Lieferadresse
@@ -107,18 +112,26 @@ de:
         payment_method: Zahlung
         payment_reminder_sent_at: 
         phone: Telefon
+        prices_include_tax: 
         received_at: Bestelldatum
         reference: Referenz
+        refund_method: 
+        refund_reason: 
         separate_delivery_address: abweichende Lieferanschrift
         shipped_at: geschickt
         store: 
         sub_total: Zwischensumme
+        tax_amount: 
         to_be_paid: Zu zahlen
         total: Gesamt
         total_excluding_tax: Gesamt exkl. MwSt
+        total_including_tax: 
       spina/shop/order_item:
         price: Preis
+        quantity: 
+        tax_rate: 
         total: Gesamt
+        unit_price: 
       spina/shop/ordered_stock:
         quantity: 
         received: 
@@ -208,8 +221,10 @@ de:
         expected_delivery: 
         id: 
         note: 
+        order_value: 
         ordered_at: 
         ordered_stock: 
+        received_value: 
         reference: 
         supplier: 
       spina/shop/supplier:
@@ -250,6 +265,7 @@ de:
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: Bestellungen
       spina/shop/discounts/rules/all_products: 
+      spina/shop/discounts/rules/categories: 
       spina/shop/discounts/rules/collection: Produkte aus der Sammlung
       spina/shop/discounts/rules/order_total: Bestellungen über den Betrag,
       spina/shop/gift_card:
@@ -288,10 +304,6 @@ de:
       spina/shop/tax_group:
         one: MwSt-Gruppe
         other: Mehrwertsteuergruppen
-  number:
-    currency:
-      format:
-        unit: Einheit
   spina:
     shop:
       addresses:
@@ -362,16 +374,23 @@ de:
         used: gebraucht
       invoices:
         all: 
+        mark_as_paid: 
+        mark_as_paid_confirmation_html: 
         no_invoices: 
         unpaid: 
       next: 
+      order_items:
+        choose_quantity: 
+        optional_unit_price: 
       orders:
         actions: Aktionen
+        add_custom_product: 
         add_product: Produkt hinzufügen
         all_stores: 
         cancel_order_confirmation_html: Sind Sie sicher , dass Sie diese Bestellung <strong>stornieren?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         cancel_order_html: stornieren
         concepts: 
+        confirm_failed: 
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 
@@ -392,6 +411,7 @@ de:
           send_html: 
         receive_order_confirmation_html: Sind Sie sicher , dass Sie diesen Auftrag <strong>abzuschließen?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         receive_order_html: zum Abschluss bringen
+        refund_order_html: 
         save: Speichern Sie bestellen
         save_order: speichern bestellen
         search_results: 
@@ -486,6 +506,18 @@ de:
           add: hinzufügen
       receive_products:
         create: 
+      refunds:
+        cannot_be_undone_warning_html: 
+        choose_lines: 
+        create_refund: 
+        new: 
+        reasons:
+          cancellation: 
+          defect: 
+          not_delivered: 
+          other_reason: 
+          returned: 
+          wrong: 
       reports:
         start_exporting_html: Der <strong>Bericht</strong> wird erzeugt. Sie werden automatisch eine E-Mail erhalten.
         title: Berichte

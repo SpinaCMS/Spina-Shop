@@ -1,3 +1,4 @@
+.localeapp
 .bundle/
 log/*.log
 pkg/

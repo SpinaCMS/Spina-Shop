@@ -7,9 +7,7 @@
   = form_with url: spina.shop_admin_order_refund_path(@order), data: {controller: "refund"} do |f|
     %section{style: "padding-top: 0"}
       .permanent-notice.permanent-notice-info
-        %p 
-          Let op! Deze actie is niet ongedaan te maken.
-          %small Er wordt meteen een creditfactuur gegenereerd.
+        %p=t "spina.shop.refunds.cannot_be_undone_warning_html"
 
       .horizontal-form
         .horizontal-form-group
@@ -36,7 +34,7 @@
             %small Wat is de reden dat deze bestelling wordt gecrediteerd?
           .horizontal-form-content
             .input-group
-              .select-dropdown= f.select :refund_reason, Spina::Shop.config.refund_reasons
+              .select-dropdown= f.select :refund_reason, options_for_select(Spina::Shop.config.refund_reasons.map{|reason| [t("spina.shop.refunds.reasons.#{reason}"), reason]})
 
         .horizontal-form-group
           .horizontal-form-label
@@ -44,7 +42,7 @@
             %small Op welke manier wordt de klant terugbetaald?
           .horizontal-form-content
             .input-group
-              .select-dropdown= f.select :refund_method, Spina::Shop.config.refund_methods
+              .select-dropdown= f.select :refund_method, options_for_select(Spina::Shop.config.refund_methods.map{|refund_method| [t("spina.shop.refunds.methods.#{refund_method}"), refund_method]})
   
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

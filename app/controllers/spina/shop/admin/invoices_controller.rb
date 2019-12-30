@@ -18,6 +18,12 @@ module Spina::Shop
         render :index
       end
 
+      def mark_as_paid
+        @invoice = Invoice.find(params[:id])
+        @invoice.update(paid: true)
+        redirect_back fallback_location: spina.shop_admin_order_path(@invoice.order)
+      end
+
       def show
         @invoice = Invoice.find(params[:id])
         presenter = InvoicePresenter.new(@invoice, view_context)

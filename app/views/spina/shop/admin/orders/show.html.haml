@@ -149,14 +149,6 @@
 
     .information-table
       %table
-        - if @order.invoices.any?        
-          - @order.invoices.order(:number).each do |invoice|
-            %tr
-              %td{colspan: 2}
-                .status-dot{class: "status-dot-#{invoice.paid? ? 'success' : 'warning'}", style: "width: 10px; height: 10px"}
-                = link_to invoice.invoice_name, spina.shop_admin_invoice_path(invoice, format: :pdf)
-                %small.text-muted{style: "vertical-align: middle"}= number_to_currency invoice.total
-
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:billing_address)
           %td
@@ -279,6 +271,21 @@
     = preserve "<p style='white-space: pre'>#{@order.note}</p>".html_safe
     .divider-container
       %hr.divider/
+
+  - if @order.invoices.any?
+    .table-container
+      %table.table
+        %thead
+          %tr
+            %th= Spina::Shop::Invoice.model_name.human
+            %th= Spina::Shop::Invoice.human_attribute_name(:date)
+            %th
+            %th
+            %th.text-right= Spina::Shop::Invoice.human_attribute_name(:total)
+            %th
+
+        %tbody
+          = render partial: "spina/shop/admin/invoices/invoice", collection: @order.invoices.order(:number)
 
   .table-container
     %table.table

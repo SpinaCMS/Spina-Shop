@@ -51,6 +51,9 @@ Spina::Engine.routes.draw do
 
         # Invoices
         resources :invoices do
+          member do
+            post :mark_as_paid
+          end
           collection do
             get :unpaid
             get :credit

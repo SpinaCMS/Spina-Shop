@@ -16,6 +16,8 @@ nl:
         postal_code: Postcode
         street1: Straat
         street2: Straat 2
+      spina/shop/custom_product:
+        name: Naam
       spina/shop/customer:
         billing_email: Factuur email
         company: Bedrijf
@@ -36,8 +38,6 @@ nl:
         email: Email
         password: Wachtwoord
         password_confirmation: Wachtwoord bevestigen
-      spina/shop/custom_product:
-        name: Naam
       spina/shop/discount:
         code: Kortingscode
         description: Omschrijving
@@ -82,8 +82,7 @@ nl:
         billing_street2: Straat 2
         business: Zakelijke bestelling
         company: Bedrijf
-        credit_invoice: Credit
-        sales_invoice: Factuur
+        credit_invoice: Creditfactuur
         date_of_birth: Geboortedatum
         delivered_at: Geleverd op
         delivery_address: Verzendadres
@@ -112,12 +111,12 @@ nl:
         paid_at: Betaald op
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
-        prices_include_tax: Bedragen inclusief btw
         phone: Telefoon
+        prices_include_tax: Bedragen inclusief btw
         received_at: Besteldatum
-        refund_reason: Reden
-        refund_method: Terugbetaling
         reference: Referentie
+        refund_method: Betaalmethode creditering
+        refund_reason: Reden voor creditering
         separate_delivery_address: Ander afleveradres
         shipped_at: Verzonden op
         store: Winkel
@@ -125,13 +124,13 @@ nl:
         tax_amount: Btw
         to_be_paid: Te betalen
         total: Totaal
-        total_including_tax: Totaal incl. btw
         total_excluding_tax: Totaal excl. btw
+        total_including_tax: Totaal incl. btw
       spina/shop/order_item:
         price: Prijs
-        total: Totaal
-        tax_rate: Btw
         quantity: Aantal
+        tax_rate: Btw
+        total: Totaal
         unit_price: Stukprijs
       spina/shop/ordered_stock:
         quantity: Aantal
@@ -222,12 +221,12 @@ nl:
         expected_delivery: Verwacht
         id: Nummer
         note: Notitie
+        order_value: Totaal leveringsorder
         ordered_at: Order geplaatst
         ordered_stock: Producten
+        received_value: Totaal ontvangen
         reference: Referentie
         supplier: Leverancier
-        order_value: Totaal leveringsorder
-        received_value: Totaal ontvangen
       spina/shop/supplier:
         contact_name: Contactpersoon
         email: Email
@@ -264,11 +263,11 @@ nl:
         other: Kortingscodes
       spina/shop/discounts/requirements/all_orders: Alle bestellingen
       spina/shop/discounts/requirements/order_total: Bestellingen vanaf
-      spina/shop/discounts/rules/all_orders: 
+      spina/shop/discounts/rules/all_orders: Alle bestellingen
       spina/shop/discounts/rules/all_products: Alle producten
-      spina/shop/discounts/rules/collection: Producten uit collectie
       spina/shop/discounts/rules/categories: Producten uit categorie
-      spina/shop/discounts/rules/order_total: 
+      spina/shop/discounts/rules/collection: Producten uit collectie
+      spina/shop/discounts/rules/order_total: Ordertotaal
       spina/shop/gift_card:
         one: Cadeaubon
         other: Cadeaubonnen
@@ -317,10 +316,6 @@ nl:
       spina/shop/tax_group:
         one: Btw-groep
         other: Btw-groepen
-  number:
-    currency:
-      format:
-        unit: Unit
   spina:
     shop:
       addresses:
@@ -391,17 +386,18 @@ nl:
         used: Gebruikt
       invoices:
         all: Alle facturen
+        mark_as_paid: Markeer als betaald
+        mark_as_paid_confirmation_html: Weet je zeker dat je deze factuur wilt <strong>markeren als betaald</strong>?
         no_invoices: Geen facturen beschikbaar
         unpaid: Onbetaalde facturen
-        credit: Creditfacturen
       next: Volgende
       order_items:
         choose_quantity: Kies een aantal
         optional_unit_price: Afwijkende stukprijs (optioneel)
       orders:
         actions: Acties
-        add_product: Voeg product toe
         add_custom_product: Voeg een losse regel toe
+        add_product: Voeg product toe
         all_stores: Alle winkels
         cancel_order_confirmation_html: Weet je zeker dat je deze bestelling wilt <strong>annuleren</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         cancel_order_html: Annuleren
@@ -409,8 +405,6 @@ nl:
         confirm_failed: Bestelling plaatsen mislukt
         confirm_order: Bestelling plaatsen
         confirm_order_html: Weet je zeker dat je de bestelling wilt plaatsen?
-        credit_invoice_html: <strong>Crediteer</strong> verkoopfactuur
-        credit_invoice_confirmation_html: Weet je zeker dat je de <strong>volledige factuur</strong> wilt <strong>crediteren</strong>?
         download_attachments_html: Download <strong>bijlagen</strong>
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
@@ -429,7 +423,7 @@ nl:
           send_html: Verzend <strong>betaalherinnering</strong>
         receive_order_confirmation_html: Weet je zeker dat je deze bestelling <strong>definitief</strong> wilt maken? <strong>Deze actie is niet terug te draaien.</strong>
         receive_order_html: Definitief maken
-        refund_order_html: Bestelling crediteren
+        refund_order_html: Bestelling <strong>crediteren</strong>
         save: Save order
         save_order: Bestelling opslaan
         search_results: 'Resultaten: %{count}'
@@ -463,7 +457,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Gecrediteerd
+          refunded: Teruggegeven
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken
@@ -482,7 +476,7 @@ nl:
         save: Save variant
         stock_history: History
       product_reviews:
-        no_reviews: 
+        no_reviews: Geen reviews
         title: Productbeoordelingen
       products:
         adjust_stock: Aanpassen
@@ -525,9 +519,19 @@ nl:
       receive_products:
         create: Voorraad bijwerken
       refunds:
-        new: Bestelling crediteren
-        create_refund: Maak creditfactuur
+        cannot_be_undone_warning_html: |-
+          Let op! Deze actie is niet ongedaan te maken.
+          <small>Er wordt meteen een creditfactuur gegenereerd.</small>
         choose_lines: Kies regels
+        create_refund: Crediteren
+        new: Crediteren
+        reasons:
+          cancellation: Annulering
+          defect: Defect product
+          not_delivered: Niet geleverd
+          other_reason: Anders
+          returned: Retour
+          wrong: Verkeerd product
       reports:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
         title: Rapportages

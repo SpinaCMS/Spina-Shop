@@ -16,7 +16,10 @@ en:
         postal_code: Postal code
         street1: Street
         street2: Street 2
+      spina/shop/custom_product:
+        name: Name
       spina/shop/customer:
+        billing_email: Billing email
         company: Company
         country: Country
         created_at: Created at
@@ -29,7 +32,7 @@ en:
         name: Name
         number: Customer number
         phone: Phone
-        postpay_allowed: 
+        postpay_allowed: Postpay allowed
         vat_id: VAT ID
       spina/shop/customer_account:
         email: Email
@@ -38,7 +41,7 @@ en:
       spina/shop/discount:
         code: Discount code
         description: Description
-        discount_requirement: 
+        discount_requirement: Discount requirement
         discount_rule: Valid for
         expires_at: Expires at
         optional: Optional
@@ -55,7 +58,7 @@ en:
       spina/shop/in_stock_reminder:
         email: Email
       spina/shop/invoice:
-        customer: 
+        customer: Customer
         customer_number: Customer number
         date: Invoice date
         reference: Reference
@@ -77,17 +80,19 @@ en:
         billing_postal_code: Postal code
         billing_street1: Street
         billing_street2: Street 2
+        business: Business order
         company: Company
+        credit_invoice: 
         date_of_birth: Date of birth
         delivered_at: Delivered at
         delivery_address: Delivery address
         delivery_city: City
-        delivery_company: 
+        delivery_company: Company
         delivery_country: Country
-        delivery_first_name: 
+        delivery_first_name: First name
         delivery_house_number: House number
         delivery_house_number_addition: Addition
-        delivery_last_name: 
+        delivery_last_name: Last name
         delivery_name: Name
         delivery_option: Delivery option
         delivery_postal_code: Postal code
@@ -103,48 +108,56 @@ en:
         note: Note
         order_attachments: Attachments
         order_number: Order number
-        paid_at: 
+        paid_at: Paid at
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder
         phone: Phone
+        prices_include_tax: Prices include tax
         received_at: Order date
         reference: Reference
+        refund_method: 
+        refund_reason: 
         separate_delivery_address: Separate delivery address
         shipped_at: Shipped at
-        store: 
+        store: Store
         sub_total: Sub total
+        tax_amount: Tax
         to_be_paid: To pay
         total: Total
         total_excluding_tax: Total excl. tax
+        total_including_tax: Total including tax
       spina/shop/order_item:
         price: Price
+        quantity: Quantity
+        tax_rate: Tax rate
         total: Total
+        unit_price: Unit price
       spina/shop/ordered_stock:
-        quantity: 
-        received: 
+        quantity: Quantity
+        received: Received
       spina/shop/product:
         active: Available in webshop
-        available_at_supplier: 
+        available_at_supplier: Available at supplier
         base_price: Price
         can_expire: Has an expiration date
         cost_price: Cost price
-        created_at: 
+        created_at: Created at
         description: Description
         ean: EAN
         expiration_date: Expiration date
-        extended_description: 
-        limit: 
+        extended_description: Extended description
+        limit: Limit
         limit_per_order: Limit per order
         location: Location
         materialized_path: Materialized path
         must_be_of_age_to_buy: Only for 18+
         name: Name
-        price: 
+        price: Price
         price_exceptions: Price exceptions
-        product_category: 
+        product_category: Product category
         product_collections: Collections
         promotional_price: Promotional price
-        reference: 
+        reference: Reference
         related_products: Related products
         sales_category: Sales category
         seo_description: SEO description
@@ -153,19 +166,19 @@ en:
         stock_enabled: Stock management
         stock_level: Stock level
         supplier: Supplier
-        supplier_packing_unit: 
+        supplier_packing_unit: Supplier packing unit
         supplier_reference: Supplier reference
         weight: Weight
       spina/shop/product_bundle:
-        active: 
-        description: 
-        materialized_path: 
+        active: Available in webshop
+        description: Description
+        materialized_path: URL
         name: Name
-        original_price: 
+        original_price: Original price
         price: Price
         sales_category: Sales category
-        seo_description: 
-        seo_title: 
+        seo_description: SEO description
+        seo_title: SEO title
       spina/shop/product_item:
         active: Active
         can_expire: Has an expiration date
@@ -190,26 +203,28 @@ en:
         business: Business
         code: Code
       spina/shop/shop_review:
-        approved: 
-        author: 
-        email: 
+        approved: Approved
+        author: Author
+        email: Email
         review_cons: Cons
         review_pros: Pros
         score: Score
         score_communication: Score communication
         score_speed: Score speed
       spina/shop/stock_level_adjustment:
-        adjustment: 
-        created_at: 
-        note: 
+        adjustment: Adjustment
+        created_at: Created at
+        note: Note
       spina/shop/stock_order:
-        closed_at: 
+        closed_at: Closed at
         delivery_tracking_url: 
         expected_delivery: 
         id: 
         note: 
+        order_value: 
         ordered_at: 
         ordered_stock: 
+        received_value: 
         reference: 
         supplier: 
       spina/shop/supplier:
@@ -250,6 +265,7 @@ en:
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: All orders
       spina/shop/discounts/rules/all_products: 
+      spina/shop/discounts/rules/categories: 
       spina/shop/discounts/rules/collection: Products from collection
       spina/shop/discounts/rules/order_total: Order total more than
       spina/shop/gift_card:
@@ -288,10 +304,6 @@ en:
       spina/shop/tax_group:
         one: Tax group
         other: Tax groups
-  number:
-    currency:
-      format:
-        unit: Unit
   spina:
     shop:
       addresses:
@@ -362,16 +374,23 @@ en:
         used: Used
       invoices:
         all: 
+        mark_as_paid: 
+        mark_as_paid_confirmation_html: 
         no_invoices: 
         unpaid: 
       next: 
+      order_items:
+        choose_quantity: 
+        optional_unit_price: 
       orders:
         actions: Actions
+        add_custom_product: 
         add_product: Add product
         all_stores: 
         cancel_order_confirmation_html: Are you sure you want to <strong>cancel</strong> this order? <strong>This action is irreversable.</strong>
         cancel_order_html: "<strong>Cancel</strong> order"
         concepts: Concepts
+        confirm_failed: 
         confirm_order: 
         confirm_order_html: 
         download_attachments_html: 
@@ -392,6 +411,7 @@ en:
           send_html: 
         receive_order_confirmation_html: Are you sure you want to mark this invoice as <strong>final</strong>?<strong>This action is irreversable.</strong>
         receive_order_html: Mark as final
+        refund_order_html: 
         save: Save order
         save_order: Save order
         search_results: 
@@ -486,6 +506,18 @@ en:
           add: Add
       receive_products:
         create: 
+      refunds:
+        cannot_be_undone_warning_html: 
+        choose_lines: 
+        create_refund: 
+        new: 
+        reasons:
+          cancellation: 
+          defect: 
+          not_delivered: 
+          other_reason: 
+          returned: 
+          wrong: 
       reports:
         start_exporting_html: The <strong>report</strong> is generated. You will automatically receive an email.
         title: Reports
