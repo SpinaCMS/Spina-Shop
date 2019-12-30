@@ -27,26 +27,26 @@
           %th.text-right Voorraad terugdraaien
 
       %tbody
-        - @order.order_items.each do |order_item|
-          / = f.fields_for "refund_lines[]", order_item do |ff|
-          %tr
-            %td{style: "width: 20px"}
-              .form-checkbox
-                = f.check_box "refund_lines[][id]", {checked: true}, order_item.id, nil
-                %label
-            %td
-              .select-dropdown
-                = f.select "refund_lines[][quantity]", options_for_select(1..order_item.quantity, order_item.quantity)
-            %td
-              = order_item.description
-            %td{style: "width: 100px"}
-              .form-control{data: {form_prepend: '€'}}
-                = f.text_field "refund_lines[][unit_price]", value: number_to_currency(order_item.unit_price, unit: '')
-            %td.text-right
-              = number_to_currency order_item.total
-            %td
-              - if order_item.orderable&.stock_enabled?
-                .pull-right= f.check_box "refund_lines[][stock]", {checked: true, data: {switch: true}}, true, nil
+        - @order.order_items.each_with_index do |order_item, index|
+          = f.fields_for "refund_lines[]", order_item do |ff|
+            %tr
+              %td{style: "width: 20px"}
+                .form-checkbox
+                  = ff.check_box :refund, {checked: true}, true, nil
+                  %label
+              %td
+                .select-dropdown
+                  = ff.select :quantity, options_for_select(1..order_item.quantity, order_item.quantity)
+              %td
+                = order_item.description
+              %td{style: "width: 100px"}
+                .form-control{data: {form_prepend: '€'}}
+                  = ff.text_field :unit_price, value: nil, placeholder: number_to_currency(order_item.unit_price, unit: '')
+              %td.text-right
+                = number_to_currency order_item.total
+              %td
+                - if order_item.orderable&.stock_enabled?
+                  .pull-right= ff.check_box :stock, {checked: true, data: {switch: true}}, true, nil
   
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

@@ -34,7 +34,7 @@ module Spina::Shop
           end
 
           def refund_transition_params
-            params.permit(:entire_order, :deallocate_stock, refund_lines: [:id, :quantity, :stock, :unit_price]).merge(user: current_spina_user.name, ip_address: request.remote_ip)
+            params.permit(:entire_order, :deallocate_stock, refund_lines: [:id, :refund, :quantity, :stock, :unit_price]).merge(user: current_spina_user.name, ip_address: request.remote_ip)
           end
 
       end

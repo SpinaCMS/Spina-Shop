@@ -8,9 +8,9 @@ module Spina::Shop
     def deallocate(order_item_params = [])
       deallocate_all and return unless order_item_params.present?
       
-      order_item_params.each do |params|
-        next unless params["stock"]
-        sla = StockLevelAdjustment.find_by(order_item_id: params["id"])
+      order_item_params.each do |id, params|
+        next unless params["stock"] && params["refund"]
+        sla = StockLevelAdjustment.find_by(order_item_id: id)
         sla&.update(adjustment: sla.adjustment + params["quantity"].to_i)
 
         order_item = OrderItem.find_by(id: params["id"])
