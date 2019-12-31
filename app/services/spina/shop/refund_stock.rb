@@ -12,17 +12,17 @@ module Spina::Shop
     private
 
       def params_for_order_item(order_item, product_id)
-        refund_line = get_refund_line(order_item)
+        quantity = get_quantity(order_item)
+        return nil if quantity.zero?
         return nil if Product.where(id: product_id, stock_enabled: true).none?
-        return nil if refund_line.nil?
-        stock = order_item.product_quantity(product_id, refund_line["quantity"])
+        stock = order_item.product_quantity(product_id, quantity)
         { order_item_id: order_item.id, product_id: product_id, adjustment: stock, description: "Refund #{@order.number}" }
       end
 
-      def get_refund_line(order_item)
-        return {refund: true, stock: true, quantity: order_item.quantity} if @refund_lines.empty?
+      def get_quantity(order_item)
+        return order_item.quantity unless @refund_lines.present?
         refund_line = @refund_lines[order_item.id.to_s]
-        refund_line["refund"] && refund_line["stock"] ? refund_line : nil
+        refund_line["refund"] && refund_line["stock"] ? refund_line["quantity"].to_i : 0
       end
 
   end
