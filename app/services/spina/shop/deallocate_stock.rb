@@ -5,15 +5,15 @@ module Spina::Shop
       @order = order
     end
 
-    def deallocate(order_item_params = [])
-      deallocate_all and return unless order_item_params.present?
+    def deallocate(refund_lines = [])
+      deallocate_all and return unless refund_lines.present?
       
-      order_item_params.each do |id, params|
+      refund_lines.each do |id, params|
         next unless params["stock"] && params["refund"]
         sla = StockLevelAdjustment.find_by(order_item_id: id)
         sla&.update(adjustment: sla.adjustment + params["quantity"].to_i)
 
-        order_item = OrderItem.find_by(id: params["id"])
+        order_item = OrderItem.find_by(id: id)
         order_item&.products&.each(&:cache_stock_level)
       end
     end

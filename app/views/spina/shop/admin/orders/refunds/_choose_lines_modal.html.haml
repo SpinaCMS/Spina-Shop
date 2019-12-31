@@ -6,8 +6,7 @@
 
   = form_with url: spina.shop_admin_order_refund_path(@order) do |f|
     %section{style: "padding-top: 0px"}
-      = f.hidden_field :entire_order, value: params[:entire_order]
-      = f.hidden_field :deallocate_stock, value: params[:deallocate_stock]
+      = f.hidden_field :deallocate_stock, value: true
       = f.hidden_field :refund_reason, value: params[:refund_reason]
       = f.hidden_field :refund_method, value: params[:refund_method]
 

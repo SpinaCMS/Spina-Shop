@@ -12,7 +12,7 @@ module Spina::Shop
       @invoice = invoice
     end
 
-    def generate!(order_item_params = [])
+    def generate!(refund_lines = [])
       raise InvoiceAlreadyCreditedError if @invoice.credit?
 
       # Generate a new unique number for the sequence
@@ -26,8 +26,8 @@ module Spina::Shop
         @credit_invoice.date = Date.today
         @credit_invoice.paid = false
 
-        if order_item_params.present?
-          order_item_params.each do |id, params|
+        if refund_lines.present?
+          refund_lines.each do |id, params|
             next unless params["refund"]
             order_item = @invoice.order.order_items.find(id)
             quantity = params["quantity"].to_i
