@@ -126,6 +126,7 @@ en:
         total: Total
         total_excluding_tax: Total excl. tax
         total_including_tax: Total including tax
+        weight: 
       spina/shop/order_item:
         price: Price
         quantity: Quantity

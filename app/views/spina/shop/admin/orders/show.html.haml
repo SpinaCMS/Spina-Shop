@@ -185,12 +185,12 @@
         - if @order.refund_method.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:refund_method)
-            %td=t "spina.shop.orders.refund_methods.#{@order.refund_method}"
+            %td=t "spina.shop.refunds.methods.#{@order.refund_method}"
 
         - if @order.refund_reason.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:refund_reason)
-            %td=t "spina.shop.orders.refund_reasons.#{@order.refund_reason}"
+            %td=t "spina.shop.refunds.reasons.#{@order.refund_reason}"
 
         - if @order.reference.present?
           %tr
@@ -248,7 +248,8 @@
                 = link_to tracker[:code], tracker[:url], target: :blank
                 %br/
         %tr
-          %th= Spina::Shop::Order.human_attribute_name(:weight)
+          %th
+            = Spina::Shop::Order.human_attribute_name(:weight)
           %td
             = @order.total_weight
             gr

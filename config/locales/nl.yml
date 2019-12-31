@@ -126,6 +126,7 @@ nl:
         total: Totaal
         total_excluding_tax: Totaal excl. btw
         total_including_tax: Totaal incl. btw
+        weight: Gewicht
       spina/shop/order_item:
         price: Prijs
         quantity: Aantal

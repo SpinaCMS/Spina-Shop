@@ -126,6 +126,7 @@ fr:
         total: total
         total_excluding_tax: Total hors. TVA
         total_including_tax: 
+        weight: 
       spina/shop/order_item:
         price: prix
         quantity: 
