@@ -108,6 +108,7 @@ en:
         note: Note
         order_attachments: Attachments
         order_number: Order number
+        order_total: 
         paid_at: Paid at
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder

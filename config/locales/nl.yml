@@ -108,6 +108,7 @@ nl:
         note: Notitie
         order_attachments: Bijlagen
         order_number: Ordernummer
+        order_total: Subtotaal
         paid_at: Betaald op
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering

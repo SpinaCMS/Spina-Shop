@@ -108,6 +108,7 @@ de:
         note: Notiz
         order_attachments: Zubehör
         order_number: Bestellnummer
+        order_total: 
         paid_at: 
         payment_method: Zahlung
         payment_reminder_sent_at: 
