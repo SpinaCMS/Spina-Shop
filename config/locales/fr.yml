@@ -82,6 +82,7 @@ fr:
         billing_street2: rue 2
         business: 
         company: affaires
+        credit_invoice: 
         date_of_birth: date de naissance
         delivered_at: rendu le
         delivery_address: Adresse de livraison
@@ -107,6 +108,7 @@ fr:
         note: note
         order_attachments: pièces jointes
         order_number: numéro de commande
+        order_total: 
         paid_at: 
         payment_method: paiement
         payment_reminder_sent_at: 
@@ -114,6 +116,8 @@ fr:
         prices_include_tax: 
         received_at: Date de commande
         reference: référence
+        refund_method: 
+        refund_reason: 
         separate_delivery_address: autre adresse
         shipped_at: envoyé sur
         store: 
@@ -123,6 +127,7 @@ fr:
         total: total
         total_excluding_tax: Total hors. TVA
         total_including_tax: 
+        weight: 
       spina/shop/order_item:
         price: prix
         quantity: 
@@ -371,6 +376,8 @@ fr:
         used: d'occasion
       invoices:
         all: 
+        mark_as_paid: 
+        mark_as_paid_confirmation_html: 
         no_invoices: 
         unpaid: 
       next: 
@@ -406,6 +413,7 @@ fr:
           send_html: 
         receive_order_confirmation_html: Etes - vous sûr de vouloir <strong>finaliser</strong> cet ordre? <strong>Cette action est irréversible.</strong>
         receive_order_html: finaliser
+        refund_order_html: 
         save: pour sauver
         save_order: ordre de sauvegarde
         search_results: 
@@ -500,6 +508,24 @@ fr:
           add: ajouter
       receive_products:
         create: 
+      refunds:
+        cannot_be_undone_warning_html: 
+        choose_lines: 
+        create_refund: 
+        methods:
+          banktransfer: 
+          cash: 
+          giftcard: 
+          mollie: 
+          other_method: 
+        new: 
+        reasons:
+          cancellation: 
+          defect: 
+          not_delivered: 
+          other_reason: 
+          returned: 
+          wrong: 
       reports:
         start_exporting_html: Le <strong>rapport</strong> est généré. Vous recevrez automatiquement un e-mail.
         title: rapports

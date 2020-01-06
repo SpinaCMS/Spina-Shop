@@ -6,10 +6,7 @@ module Spina::Shop
     end
 
     def deallocate
-      # Delete StockLevelAdjustments
       StockLevelAdjustment.where(order_item: @order.order_items).delete_all
-
-      # Cache all products involved
       @order.products.each(&:cache_stock_level)
     end
 

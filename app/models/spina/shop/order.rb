@@ -38,6 +38,7 @@ module Spina::Shop
     scope :shipped, -> { where.not(shipped_at: nil) }
     scope :paid, -> { where.not(paid_at: nil) }
     scope :building, -> { in_state(:building) }
+    scope :refunded, -> { where.not(refunded_at: nil) }
     scope :concept, -> { building.where(manual_entry: true) }
     scope :to_process, -> { received.where(cancelled_at: nil, failed_at: nil, shipped_at: nil, picked_up_at: nil).where("paid_at IS NOT NULL OR payment_method = 'postpay'") }
 
@@ -125,13 +126,7 @@ module Spina::Shop
     end
 
     def products
-      order_items.map do |order_item|
-        if order_item.is_product_bundle?
-          order_item.orderable.products
-        else
-          order_item.orderable
-        end
-      end.flatten.uniq
+      order_items.map(&:products).flatten.uniq
     end
 
     def first_order_for_email?

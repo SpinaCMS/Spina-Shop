@@ -25,6 +25,7 @@ Spina::Engine.routes.draw do
           scope module: :orders do
             resource :packing_slip, only: [:show, :create]
             resource :shipping_label, only: [:show, :create]
+            resource :refund, only: [:new, :create]
             resource :payment_reminder, only: [:create]
           end
         end
@@ -50,7 +51,13 @@ Spina::Engine.routes.draw do
 
         # Invoices
         resources :invoices do
-          get :unpaid, on: :collection
+          member do
+            post :mark_as_paid
+          end
+          collection do
+            get :unpaid
+            get :credit
+          end
         end
 
         # Products

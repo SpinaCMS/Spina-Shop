@@ -100,17 +100,24 @@ module Spina::Shop
     end
 
     def unallocated_stock(product_id)
-      multiplier = if is_product_bundle? 
-        orderable.bundled_products.find_by(product_id: product_id).try(:quantity).to_i 
+      product_quantity(product_id, quantity) - allocated_stock(product_id)
+    end
+
+    def product_quantity(product_id, quantity)
+      if is_product_bundle?
+        quantity * orderable.bundled_products.find_by(product_id: product_id).try(:quantity).to_i
       else
-        orderable_id == product_id ? 1 : 0
+        orderable_id == product_id ? quantity : 0
       end
-      quantity * multiplier - allocated_stock(product_id)
     end
 
     def below_limit?
       limit = orderable.limit_per_order.to_i
       limit == 0 || quantity <= limit
+    end
+
+    def products
+      is_product_bundle? ? orderable.products : [orderable]
     end
 
     private

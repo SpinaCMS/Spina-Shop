@@ -26,45 +26,49 @@
                   .pull-right= number_to_human_size order_attachment.attachment_size
                   = order_attachment.attachment_content_type
 
-    %div{style: 'display: inline-block', data: {dropdown: true}}
-      = link_to '#', class: 'button button-primary', data: {trigger: 'dropdown', target: '#actions'} do
-        Acties
-        %i.icon.icon-caret-down{style: 'margin-right: 0'}
+    - unless @order.in_final_state?
+      %div{style: 'display: inline-block', data: {dropdown: true}}
+        = link_to '#', class: 'button button-primary', data: {trigger: 'dropdown', target: '#actions'} do
+          Acties
+          %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
-      %ul#actions.align-right
-        - if @order.in_state?(:building)
-          %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
+        %ul#actions.align-right
+          - if @order.in_state?(:building)
+            %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
 
-        - if @order.in_state?(:confirming, :received) && @order.invoices.none?
-          %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+          - if @order.in_state?(:confirming, :received) && @order.invoices.none?
+            %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
 
-        - if @order.in_state?(:confirming)
-          %li= link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
+          - if @order.in_state?(:confirming)
+            %li= link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
 
-        - if @order.in_state?(:received)
-          %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
+          - if @order.in_state?(:received)
+            %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
 
-        - if @order.in_state?(:paid)
-          - if @order.order_prepared?
+          - if @order.in_state?(:paid)
+            - if @order.order_prepared?
+              - if @order.requires_shipping?
+                %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+              - else
+                %li= link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post
+            - else
+              %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
+
+          - if @order.in_state?(:preparing)
             - if @order.requires_shipping?
               %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
             - else
               %li= link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post
-          - else
-            %li= link_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order), method: :post
 
-        - if @order.in_state?(:preparing)
-          - if @order.requires_shipping?
-            %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
-          - else
-            %li= link_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order), method: :post
+          - if @order.in_state?(:shipped)
+            %li= link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post
 
-        - if @order.in_state?(:shipped)
-          %li= link_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order), method: :post
+          - if @order.received? && !@order.paid?
+            %li= link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
+            %li= link_to t('spina.shop.orders.payment_reminders.send_html'), spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
 
-        - if @order.received? && !@order.paid?
-          %li= link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
-          %li= link_to t('spina.shop.orders.payment_reminders.send_html'), spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
+          - if @order.sales_invoice.present? && !@order.refunded?
+            %li= link_to t('spina.shop.orders.refund_order_html'), spina.new_shop_admin_order_refund_path(@order), remote: true
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
@@ -135,7 +139,7 @@
               =l @order.received_at, format: '%d %B %Y'
               %br/
               =l @order.received_at, format: '%H:%M'
-              %small.text-muted=l @order.received_at, format: '%Z'
+              %small.text-error=l @order.received_at, format: '%Z'
 
         - if @order.ip_address.present?
           %tr
@@ -145,13 +149,6 @@
 
     .information-table
       %table
-        - if @order.invoices.any?
-          %tr
-            %th= Spina::Shop::Invoice.model_name.human count: @order.invoices.count
-            %td
-              - @order.invoices.each do |invoice|
-                = link_to invoice.invoice_number, spina.shop_admin_invoice_path(invoice, format: :pdf)
-
         %tr
           %th= Spina::Shop::Order.human_attribute_name(:billing_address)
           %td
@@ -178,12 +175,22 @@
             %th= Spina::Shop::Order.human_attribute_name(:payment_method)
             %td 
               =t "spina.shop.orders.payment_methods.#{@order.payment_method}"
-              - if @order.paid_at.present?
-                %br/
-                =l @order.paid_at, format: "%d %B %Y"
-                %br/
-                =l @order.paid_at, format: "%H:%M"
-                %small.text-muted=l @order.paid_at, format: '%Z'
+
+
+        - if @order.paid_at.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:paid_at)
+            %td=l @order.paid_at, format: "%d-%m-%Y – %H:%M"
+
+        - if @order.refund_method.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:refund_method)
+            %td=t "spina.shop.refunds.methods.#{@order.refund_method}"
+
+        - if @order.refund_reason.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:refund_reason)
+            %td=t "spina.shop.refunds.reasons.#{@order.refund_reason}"
 
         - if @order.reference.present?
           %tr
@@ -241,7 +248,8 @@
                 = link_to tracker[:code], tracker[:url], target: :blank
                 %br/
         %tr
-          %th= Spina::Shop::Order.human_attribute_name(:weight)
+          %th
+            = Spina::Shop::Order.human_attribute_name(:weight)
           %td
             = @order.total_weight
             gr
@@ -264,6 +272,21 @@
     = preserve "<p style='white-space: pre'>#{@order.note}</p>".html_safe
     .divider-container
       %hr.divider/
+
+  - if @order.invoices.any?
+    .table-container
+      %table.table
+        %thead
+          %tr
+            %th= Spina::Shop::Invoice.model_name.human
+            %th= Spina::Shop::Invoice.human_attribute_name(:date)
+            %th
+            %th
+            %th.text-right= Spina::Shop::Invoice.human_attribute_name(:total)
+            %th
+
+        %tbody
+          = render partial: "spina/shop/admin/invoices/invoice", collection: @order.invoices.order(:number)
 
   .table-container
     %table.table

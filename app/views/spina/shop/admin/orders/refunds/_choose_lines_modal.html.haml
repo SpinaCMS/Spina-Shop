@@ -1,0 +1,53 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.refunds.choose_lines'
+
+  = form_with url: spina.shop_admin_order_refund_path(@order) do |f|
+    %section{style: "padding-top: 0px"}
+      = f.hidden_field :deallocate_stock, value: true
+      = f.hidden_field :refund_reason, value: params[:refund_reason]
+      = f.hidden_field :refund_method, value: params[:refund_method]
+
+      .permanent-notice.permanent-notice-info{style: 'margin-bottom: 0'}
+        %p=t "spina.shop.refunds.cannot_be_undone_warning_html"
+
+      .table-container
+        %table.table.table-clickable{style: "margin-bottom: 0"}
+          %thead
+            %tr
+              %th
+              %th Aantal
+              %th Omschrijving
+              %th{style: "width: 120px"} Stukprijs
+              %th.text-right Totaal
+              %th.text-right Voorraad terugdraaien
+
+          %tbody
+            - @order.order_items.each_with_index do |order_item, index|
+              = f.fields_for "refund_lines[]", order_item do |ff|
+                %tr
+                  %td{style: "width: 20px"}
+                    .form-checkbox
+                      = ff.check_box :refund, {checked: true}, true, nil
+                      %label
+                  %td
+                    .select-dropdown
+                      = ff.select :quantity, options_for_select(1..order_item.quantity, order_item.quantity)
+                  %td
+                    = order_item.description
+                  %td{style: "width: 100px"}
+                    .form-control{data: {form_prepend: '€'}}
+                      = ff.text_field :unit_price, value: nil, placeholder: number_to_currency(order_item.unit_price, unit: '')
+                  %td.text-right
+                    = number_to_currency order_item.total
+                  %td
+                    - if order_item.orderable&.stock_enabled?
+                      .pull-right= ff.check_box :stock, {checked: true, data: {switch: true}}, true, nil
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus{style: 'margin-right: 4px'}
+        =t 'spina.shop.refunds.create_refund'

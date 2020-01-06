@@ -28,14 +28,8 @@ module Spina::Shop
 
       def params_for_order_item(order_item, product_id)
         return nil if Product.where(id: product_id, stock_enabled: true).none?
-        if (stock = order_item.unallocated_stock(product_id)) > 0
-          {
-            order_item_id: order_item.id,
-            product_id: product_id,
-            adjustment: -stock, 
-            description: "Bestelling #{@order.number}"
-          }
-        end
+        stock = order_item.unallocated_stock(product_id) * -1
+        { order_item_id: order_item.id, product_id: product_id, adjustment: stock, description: "Order #{@order.number}" }
       end
 
   end

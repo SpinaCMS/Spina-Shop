@@ -82,6 +82,7 @@ en:
         billing_street2: Street 2
         business: Business order
         company: Company
+        credit_invoice: 
         date_of_birth: Date of birth
         delivered_at: Delivered at
         delivery_address: Delivery address
@@ -107,6 +108,7 @@ en:
         note: Note
         order_attachments: Attachments
         order_number: Order number
+        order_total: 
         paid_at: Paid at
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder
@@ -114,6 +116,8 @@ en:
         prices_include_tax: Prices include tax
         received_at: Order date
         reference: Reference
+        refund_method: 
+        refund_reason: 
         separate_delivery_address: Separate delivery address
         shipped_at: Shipped at
         store: Store
@@ -123,6 +127,7 @@ en:
         total: Total
         total_excluding_tax: Total excl. tax
         total_including_tax: Total including tax
+        weight: 
       spina/shop/order_item:
         price: Price
         quantity: Quantity
@@ -371,6 +376,8 @@ en:
         used: Used
       invoices:
         all: 
+        mark_as_paid: 
+        mark_as_paid_confirmation_html: 
         no_invoices: 
         unpaid: 
       next: 
@@ -406,6 +413,7 @@ en:
           send_html: 
         receive_order_confirmation_html: Are you sure you want to mark this invoice as <strong>final</strong>?<strong>This action is irreversable.</strong>
         receive_order_html: Mark as final
+        refund_order_html: 
         save: Save order
         save_order: Save order
         search_results: 
@@ -500,6 +508,24 @@ en:
           add: Add
       receive_products:
         create: 
+      refunds:
+        cannot_be_undone_warning_html: 
+        choose_lines: 
+        create_refund: 
+        methods:
+          banktransfer: 
+          cash: 
+          giftcard: 
+          mollie: 
+          other_method: 
+        new: 
+        reasons:
+          cancellation: 
+          defect: 
+          not_delivered: 
+          other_reason: 
+          returned: 
+          wrong: 
       reports:
         start_exporting_html: The <strong>report</strong> is generated. You will automatically receive an email.
         title: Reports

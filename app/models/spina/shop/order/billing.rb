@@ -118,8 +118,28 @@ module Spina::Shop
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
     end
 
-    def postpay?
-      payment_method == "postpay"
+    # Get all invoices where the sum of all invoice lines is more than or equal to 0 (which is a SalesInvoice)
+    def sales_invoices
+      invoices.joins(:invoice_lines)
+        .having("SUM(spina_shop_invoice_lines.quantity * spina_shop_invoice_lines.unit_price - spina_shop_invoice_lines.discount) >= 0")
+        .group("spina_shop_invoices.id")
+    end
+
+    # "The" SalesInvoice (singular) is just the first of potentially multiple sales invoices
+    def sales_invoice
+      sales_invoices.order(:date, :id).first
+    end
+
+    # Get all invoices where the sum of all invoice lines is less than 0 (which is a CreditInvoice)
+    def credit_invoices
+      invoices.joins(:invoice_lines)
+        .having("SUM(spina_shop_invoice_lines.quantity * spina_shop_invoice_lines.unit_price - spina_shop_invoice_lines.discount) < 0")
+        .group("spina_shop_invoices.id")
+    end
+
+    # "The" CreditInvoice (singular) is just the first of potentially multiple credit invoices
+    def credit_invoice
+      credit_invoices.order(:date, :id).first
     end
 
   end

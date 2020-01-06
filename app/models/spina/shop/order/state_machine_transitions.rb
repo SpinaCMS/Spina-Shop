@@ -20,6 +20,10 @@ module Spina::Shop
       confirming_at.present?
     end
 
+    def refunded?
+      refunded_at.present?
+    end
+
     def paid?
       paid_at.present?
     end
@@ -49,7 +53,7 @@ module Spina::Shop
     end
 
     def status_progress
-      if delivered? || picked_up?
+      if delivered? || picked_up? || refunded?
         100
       elsif shipped?
         80
@@ -64,9 +68,15 @@ module Spina::Shop
       end
     end
 
+    def in_final_state?
+      current_state.in? admin_transitions_final
+    end
+
     def status_css_class
       if current_state.in? %w(failed cancelled)
         'danger'
+      elsif current_state == "refunded"
+        'info'
       else
         case status_progress
         when 100
@@ -87,6 +97,10 @@ module Spina::Shop
           ''
         end
       end
+    end
+
+    def admin_transitions_final
+      %w(cancelled failed refunded)
     end
 
     def admin_transitions_done

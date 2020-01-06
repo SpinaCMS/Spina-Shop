@@ -5,7 +5,7 @@ module Spina::Shop
       @account = Spina::Account.first
     end
 
-    def generate!(date: Date.today)
+    def generate!(date: Date.today, paid: true)
       @customer = @order.customer
 
       # Generate a new unique number for the sequence
@@ -31,7 +31,8 @@ module Spina::Shop
         date: date,
         reference: @order.reference,
         identity_name: identity_name,
-        identity_details: identity_details
+        identity_details: identity_details,
+        paid: paid
       )
 
       @order.order_items.each do |order_item|

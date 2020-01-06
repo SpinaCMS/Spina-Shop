@@ -11,6 +11,9 @@
         %li{class: ("active" if action_name == "unpaid")}
           = link_to spina.unpaid_shop_admin_invoices_path do
             =t 'spina.shop.invoices.unpaid'
+        %li{class: ("active" if action_name == "credit")}
+          = link_to spina.credit_shop_admin_invoices_path do
+            =t 'spina.shop.invoices.credit'
 
   = yield
 

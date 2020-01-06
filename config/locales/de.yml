@@ -82,6 +82,7 @@ de:
         billing_street2: Straße 2
         business: 
         company: Unternehmen
+        credit_invoice: 
         date_of_birth: Geburtsdatum
         delivered_at: geliefert auf
         delivery_address: Lieferadresse
@@ -107,6 +108,7 @@ de:
         note: Notiz
         order_attachments: Zubehör
         order_number: Bestellnummer
+        order_total: 
         paid_at: 
         payment_method: Zahlung
         payment_reminder_sent_at: 
@@ -114,6 +116,8 @@ de:
         prices_include_tax: 
         received_at: Bestelldatum
         reference: Referenz
+        refund_method: 
+        refund_reason: 
         separate_delivery_address: abweichende Lieferanschrift
         shipped_at: geschickt
         store: 
@@ -123,6 +127,7 @@ de:
         total: Gesamt
         total_excluding_tax: Gesamt exkl. MwSt
         total_including_tax: 
+        weight: 
       spina/shop/order_item:
         price: Preis
         quantity: 
@@ -371,6 +376,8 @@ de:
         used: gebraucht
       invoices:
         all: 
+        mark_as_paid: 
+        mark_as_paid_confirmation_html: 
         no_invoices: 
         unpaid: 
       next: 
@@ -406,6 +413,7 @@ de:
           send_html: 
         receive_order_confirmation_html: Sind Sie sicher , dass Sie diesen Auftrag <strong>abzuschließen?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         receive_order_html: zum Abschluss bringen
+        refund_order_html: 
         save: Speichern Sie bestellen
         save_order: speichern bestellen
         search_results: 
@@ -500,6 +508,24 @@ de:
           add: hinzufügen
       receive_products:
         create: 
+      refunds:
+        cannot_be_undone_warning_html: 
+        choose_lines: 
+        create_refund: 
+        methods:
+          banktransfer: 
+          cash: 
+          giftcard: 
+          mollie: 
+          other_method: 
+        new: 
+        reasons:
+          cancellation: 
+          defect: 
+          not_delivered: 
+          other_reason: 
+          returned: 
+          wrong: 
       reports:
         start_exporting_html: Der <strong>Bericht</strong> wird erzeugt. Sie werden automatisch eine E-Mail erhalten.
         title: Berichte

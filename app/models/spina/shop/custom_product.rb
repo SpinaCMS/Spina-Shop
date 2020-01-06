@@ -27,6 +27,10 @@ module Spina::Shop
       false
     end
 
+    def stock_enabled?
+      false
+    end
+
     # Calculate the price based on this order
     def price_for_order(order)
       price

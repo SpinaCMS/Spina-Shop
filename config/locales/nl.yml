@@ -82,6 +82,7 @@ nl:
         billing_street2: Straat 2
         business: Zakelijke bestelling
         company: Bedrijf
+        credit_invoice: Creditfactuur
         date_of_birth: Geboortedatum
         delivered_at: Geleverd op
         delivery_address: Verzendadres
@@ -107,6 +108,7 @@ nl:
         note: Notitie
         order_attachments: Bijlagen
         order_number: Ordernummer
+        order_total: Subtotaal
         paid_at: Betaald op
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
@@ -114,6 +116,8 @@ nl:
         prices_include_tax: Bedragen inclusief btw
         received_at: Besteldatum
         reference: Referentie
+        refund_method: Betaalmethode creditering
+        refund_reason: Reden voor creditering
         separate_delivery_address: Ander afleveradres
         shipped_at: Verzonden op
         store: Winkel
@@ -123,6 +127,7 @@ nl:
         total: Totaal
         total_excluding_tax: Totaal excl. btw
         total_including_tax: Totaal incl. btw
+        weight: Gewicht
       spina/shop/order_item:
         price: Prijs
         quantity: Aantal
@@ -383,6 +388,8 @@ nl:
         used: Gebruikt
       invoices:
         all: Alle facturen
+        mark_as_paid: Markeer als betaald
+        mark_as_paid_confirmation_html: Weet je zeker dat je deze factuur wilt <strong>markeren als betaald</strong>?
         no_invoices: Geen facturen beschikbaar
         unpaid: Onbetaalde facturen
       next: Volgende
@@ -418,6 +425,7 @@ nl:
           send_html: Verzend <strong>betaalherinnering</strong>
         receive_order_confirmation_html: Weet je zeker dat je deze bestelling <strong>definitief</strong> wilt maken? <strong>Deze actie is niet terug te draaien.</strong>
         receive_order_html: Definitief maken
+        refund_order_html: Bestelling <strong>crediteren</strong>
         save: Save order
         save_order: Bestelling opslaan
         search_results: 'Resultaten: %{count}'
@@ -451,7 +459,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           received: Bestelling
-          refunded: Teruggegeven
+          refunded: Gecrediteerd
           shipped: Zending aangemaakt
         title: Alle bestellingen
         to_process: Te verwerken
@@ -512,6 +520,26 @@ nl:
           add: Toevoegen
       receive_products:
         create: Voorraad bijwerken
+      refunds:
+        cannot_be_undone_warning_html: |-
+          Let op! Deze actie is niet ongedaan te maken.
+          <small>Er wordt meteen een creditfactuur gegenereerd.</small>
+        choose_lines: Kies regels
+        create_refund: Crediteren
+        methods:
+          banktransfer: Overschrijving
+          cash: Contant
+          giftcard: Cadeaubon
+          mollie: Mollie
+          other_method: Anders
+        new: Crediteren
+        reasons:
+          cancellation: Annulering
+          defect: Defect product
+          not_delivered: Niet geleverd
+          other_reason: Anders
+          returned: Retour
+          wrong: Verkeerd product
       reports:
         start_exporting_html: De <strong>rapportage</strong> wordt gegenereerd. Je ontvangt automatisch een email.
         title: Rapportages

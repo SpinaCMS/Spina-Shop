@@ -1,0 +1,56 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3=t 'spina.shop.refunds.new'
+
+  = form_with url: spina.shop_admin_order_refund_path(@order), data: {controller: "refund"} do |f|
+    %section{style: "padding-top: 0"}
+      .permanent-notice.permanent-notice-info
+        %p=t "spina.shop.refunds.cannot_be_undone_warning_html"
+
+      .horizontal-form
+        .horizontal-form-group
+          .horizontal-form-label 
+            Volledige bestelling crediteren
+            %small Als je niet alles wilt crediteren volgt hierna een scherm waar je specifieke regels kunt kiezen
+          .horizontal-form-content
+            .form-checkbox
+              = f.check_box :entire_order, {data: {action: "refund#toggleEntireOrder"}}, true, nil
+              %label{for: :entire_order}
+
+        .horizontal-form-group{style: "display: none", data: {target: "refund.deallocateStock"}}
+          .horizontal-form-label 
+            Voorraad terugdraaien
+            %small Alle voorraad kan automatisch worden opgeboekt
+          .horizontal-form-content
+            .form-checkbox
+              = f.check_box :deallocate_stock, {checked: true}, true, nil
+              %label{for: :deallocate_stock}
+
+        .horizontal-form-group
+          .horizontal-form-label
+            = Spina::Shop::Order.human_attribute_name(:refund_reason)
+            %small Wat is de reden dat deze bestelling wordt gecrediteerd?
+          .horizontal-form-content
+            .input-group
+              .select-dropdown= f.select :refund_reason, options_for_select(Spina::Shop.config.refund_reasons.map{|reason| [t("spina.shop.refunds.reasons.#{reason}"), reason]})
+
+        .horizontal-form-group
+          .horizontal-form-label
+            = Spina::Shop::Order.human_attribute_name(:refund_method)
+            %small Op welke manier wordt de klant terugbetaald?
+          .horizontal-form-content
+            .input-group
+              .select-dropdown= f.select :refund_method, options_for_select(Spina::Shop.config.refund_methods.map{|refund_method| [t("spina.shop.refunds.methods.#{refund_method}"), refund_method]})
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %span{style: "display: none", data: {target: "refund.createRefund"}}
+          %i.icon.icon-plus
+          =t "spina.shop.refunds.create_refund"
+
+        %span{style: "display: block", data: {target: "refund.chooseLines"}}
+          =t "spina.shop.refunds.choose_lines"
+          %i.icon.icon-chevron-right

@@ -5,12 +5,23 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @invoices = Invoice.order(date: :desc, number: :desc).page(params[:page]).per(25)
+        @invoices = Invoice.order(date: :desc, number: :desc).includes(:order).page(params[:page]).per(25)
       end
 
       def unpaid
-        @invoices = Invoice.order(date: :desc, number: :desc).joins(:order).where(spina_shop_orders: {paid_at: nil}).page(params[:page]).per(25)
+        @invoices = Invoice.order(date: :desc, number: :desc).where(paid: false).includes(:order).page(params[:page]).per(25)
         render :index
+      end
+
+      def credit
+        @invoices = Invoice.order(date: :desc, number: :desc).joins(:invoice_lines).group("spina_shop_invoices.id").having("SUM(quantity * unit_price - discount) < 0").page(params[:page]).per(25)
+        render :index
+      end
+
+      def mark_as_paid
+        @invoice = Invoice.find(params[:id])
+        @invoice.update(paid: true)
+        redirect_back fallback_location: spina.shop_admin_order_path(@invoice.order)
       end
 
       def show

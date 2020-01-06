@@ -7,13 +7,17 @@ module Spina::Shop
     has_many :invoice_lines, dependent: :destroy
 
     def status
-      if order.paid?
+      if paid?
         "paid"
       elsif Date.today > date + Spina::Shop.config.invoice_payment_term
         "overdue"
       else
         "outstanding"
       end
+    end
+
+    def invoice_name
+      "#{credit? ? Order.human_attribute_name(:credit_invoice) : Invoice.model_name.human} #{invoice_number}"
     end
 
     def filename
@@ -58,6 +62,10 @@ module Spina::Shop
       end
 
       rates.sort{|x, y| y[0] <=> x[0]}.to_h
+    end
+
+    def credit?
+      total < 0
     end
   end
 end
