@@ -16,8 +16,8 @@
             %small Als je niet alles wilt crediteren volgt hierna een scherm waar je specifieke regels kunt kiezen
           .horizontal-form-content
             .form-checkbox
-              = f.check_box :entire_order, {data: {action: "refund#toggleEntireOrder"}}, true, nil
-              %label{for: :entire_order}
+              = f.check_box :entire_order, {id: "entire_order", data: {action: "refund#toggleEntireOrder"}}, true, nil
+              %label{for: "entire_order"}
 
         .horizontal-form-group{style: "display: none", data: {target: "refund.deallocateStock"}}
           .horizontal-form-label 
@@ -25,7 +25,7 @@
             %small Alle voorraad kan automatisch worden opgeboekt
           .horizontal-form-content
             .form-checkbox
-              = f.check_box :deallocate_stock, {checked: true}, true, nil
+              = f.check_box :deallocate_stock, {id: "deallocate_stock", checked: true}, true, nil
               %label{for: :deallocate_stock}
 
         .horizontal-form-group
