@@ -12,7 +12,8 @@
       - products = Spina::Shop::Product.where(id: object.properties[property.name])
       = f.select property.name, options_for_select(products.map{|p| [p.name, p.id]}, (object.properties[property.name] if object.properties.present?)), {}, class: 'select-products', multiple: property.multiple, style: 'width: 100%'
     - when 'textarea'
-      %trix-toolbar.clearfix{ id: "#{property.name}_toolbar", data: { trix_editor_id: "#{property.name}_editor" }}
+      = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
+      .spina-trix-toolbar{id: "#{property.name}_toolbar", style: "margin-top: 10px"}
         .button-groups
           .button-group
             %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bold', data: { trix_attribute: 'bold', trix_key: 'b' }}
@@ -21,8 +22,9 @@
               .icon.icon-italic
             %button.button.button-small{ type: 'button', tabindex: -1, title: 'Bullets', data: { trix_attribute: 'bullet' }}
               .icon.icon-list-ul
-        %trix-editor.text-input{input: property.name, toolbar: "#{property.name}_toolbar", id: "#{property.name}_editor", placeholder: property.label}
-        = f.hidden_field property.name, id: property.name, value: object.properties.try(property.name)
+
+      %trix-editor.text-input.trix-content{input: property.name, toolbar: "#{property.name}_toolbar", id: "#{property.name}_editor", placeholder: property.label}
+
     - when 'image'
       - image = Spina::Image.find_by(id: object.properties.try(property.name))
       = link_to spina.admin_media_picker_path(property.name, selected_image_id: object.properties.try(property.name), hidden_field_id: "#{property.name}_image_id"), remote: true, class: 'media_picker clearfix' do

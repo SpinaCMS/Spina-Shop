@@ -155,7 +155,7 @@
                           %button.button.button-default.icon-only.button-small.trix-button.trix-button--dialog{type: 'button', value: "Unlink", data: {trix_method: "removeAttribute"}}
                             %i.icon.icon-cross
 
-                %trix-editor.text-input{input: "product_extended_description", toolbar: "product_extended_description_toolbar"}
+                %trix-editor.text-input.trix-content{input: "product_extended_description", toolbar: "product_extended_description_toolbar"}
         
         - if @product.product_category.present?
           - if !@product.has_children? || @product.variant?
