@@ -10,14 +10,14 @@ module Spina::Shop
       
       # Base font size
       font_families.update(
-        "Montserrat" => {
-          normal: "#{Spina::Shop.root}/app/assets/fonts/montserrat-regular.ttf",
-          semibold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-semibold.ttf",
-          bold: "#{Spina::Shop.root}/app/assets/fonts/montserrat-bold.ttf",
-          italic: "#{Spina::Shop.root}/app/assets/fonts/montserrat-italic.ttf"
+        "Metropolis" => {
+          normal: "#{Spina::Shop.root}/app/assets/fonts/Metropolis-Regular.ttf",
+          semibold: "#{Spina::Shop.root}/app/assets/fonts/Metropolis-SemiBold.ttf",
+          bold: "#{Spina::Shop.root}/app/assets/fonts/Metropolis-Bold.ttf",
+          italic: "#{Spina::Shop.root}/app/assets/fonts/Metropolis-RegularItalic.ttf"
         }
       )
-      font "Montserrat"
+      font "Metropolis"
       font_size 9
       default_leading 3
 

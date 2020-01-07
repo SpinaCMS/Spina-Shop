@@ -43,23 +43,23 @@
 
           .sidebar-form-control
             - if f.object.new_record?
-              = f.select :payment_method, options_for_select(Spina::Shop.config.payment_methods_for_manual_orders, f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
+              = f.select :payment_method, options_for_select(Spina::Shop.config.payment_methods_for_manual_orders.map{|payment_method| [t("spina.shop.orders.payment_methods.#{payment_method}"), payment_method]}, f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
             - else
-              = f.object.payment_method
+              %p{style: "padding-left: 10px"}=t "spina.shop.orders.payment_methods.#{f.object.payment_method}"
 
         .sidebar-form-group
-          .sidebar-form-label
+          .sidebar-form-label{style: "white-space: nowrap"}
             = Spina::Shop::Order.human_attribute_name(:refund_method)
 
           .sidebar-form-control
-            = f.select :refund_method, options_for_select(Spina::Shop.config.refund_methods, f.object.refund_method), {include_blank: true}, class: 'select2', style: 'width: 100%'
+            = f.select :refund_method, options_for_select(Spina::Shop.config.refund_methods.map{|refund_method| [t("spina.shop.refunds.methods.#{refund_method}"), refund_method]}, f.object.refund_method), {include_blank: true}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label
             = Spina::Shop::Order.human_attribute_name(:refund_reason)
 
           .sidebar-form-control
-            = f.select :refund_reason, options_for_select(Spina::Shop.config.refund_reasons, f.object.refund_reason), {include_blank: true}, class: 'select2', style: 'width: 100%'
+            = f.select :refund_reason, options_for_select(Spina::Shop.config.refund_reasons.map{|refund_reason| [t("spina.shop.refunds.reasons.#{refund_reason}"), refund_reason]}, f.object.refund_reason), {include_blank: true}, class: 'select2', style: 'width: 100%'
 
         .sidebar-form-group
           .sidebar-form-label

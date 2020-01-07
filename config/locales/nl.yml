@@ -532,6 +532,7 @@ nl:
           giftcard: Cadeaubon
           mollie: Mollie
           other_method: Anders
+          settlement: Verrekenen met factuur
         new: Crediteren
         reasons:
           cancellation: Annulering

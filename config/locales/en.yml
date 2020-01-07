@@ -518,6 +518,7 @@ en:
           giftcard: 
           mollie: 
           other_method: 
+          settlement: 
         new: 
         reasons:
           cancellation: 
