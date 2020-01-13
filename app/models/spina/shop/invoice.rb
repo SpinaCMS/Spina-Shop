@@ -9,11 +9,15 @@ module Spina::Shop
     def status
       if paid?
         "paid"
-      elsif Date.today > date + Spina::Shop.config.invoice_payment_term
+      elsif Date.today > date + payment_term
         "overdue"
       else
         "outstanding"
       end
+    end
+
+    def payment_term
+      Spina::Shop.config.invoice_payment_term
     end
 
     def invoice_name
