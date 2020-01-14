@@ -12,7 +12,7 @@ module Spina::Shop
       @invoice = invoice
     end
 
-    def generate!(refund_lines = [])
+    def generate!(refund_lines = [], refund_delivery_costs = false)
       raise InvoiceAlreadyCreditedError if @invoice.credit?
 
       # Generate a new unique number for the sequence
@@ -47,6 +47,19 @@ module Spina::Shop
               credit_line.description = "#{quantity} x #{credit_line.description}" unless quantity == 1
               credit_line.quantity = -1
             end
+
+            @credit_invoice.invoice_lines << credit_line
+          end
+
+          # Refund delivery costs
+          if refund_delivery_costs
+            credit_line = InvoiceLine.new(
+              quantity: -1,
+              description: Spina::Shop::Order.human_attribute_name(:delivery_price),
+              unit_price: @invoice.order.delivery_price,
+              tax_rate: @invoice.vat_reverse_charge? ? BigDecimal(0) : @invoice.order.delivery_tax_rate,
+              metadata: @invoice.order.delivery_metadata
+            )
 
             @credit_invoice.invoice_lines << credit_line
           end

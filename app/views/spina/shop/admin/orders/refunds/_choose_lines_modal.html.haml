@@ -45,6 +45,18 @@
                   %td
                     - if order_item.orderable&.stock_enabled?
                       .pull-right= ff.check_box :stock, {checked: true, data: {switch: true}}, true, nil
+
+            - if @order.delivery_price > BigDecimal(0)
+              %tr
+                %td{style: "width: 20px"}
+                  .form-checkbox
+                    = f.check_box :refund_delivery_costs, {checked: false}, true, nil
+                    %label
+                %td
+                %td= Spina::Shop::Order.human_attribute_name(:delivery_price)
+                %td
+                %td.text-right= number_to_currency @order.delivery_price
+                %td
   
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
