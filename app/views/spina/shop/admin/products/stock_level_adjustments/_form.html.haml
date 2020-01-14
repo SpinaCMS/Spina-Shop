@@ -38,7 +38,7 @@
         .form-title.text-muted= Spina::Shop::StockLevelAdjustment.human_attribute_name(:category)
         %br/
 
-        .select-dropdown{style: "width: 100%"}= f.select :category, Spina::Shop.config.stock_level_adjustment_categories.map{|category| [t("spina.shop.stock_level_adjustments.categories.#{category}"), category]}
+        .select-dropdown{style: "width: 100%"}= f.select :category, Spina::Shop.config.stock_level_adjustment_categories.map{|category| [t("spina.shop.stock_level_adjustments.categories.#{category}"), category]}, {include_blank: t("spina.shop.stock_level_adjustments.choose_category")}, {required: true}
 
       .form-group{style: "margin-bottom: 0"}
         .form-title.text-muted= Spina::Shop::StockLevelAdjustment.human_attribute_name(:description)
