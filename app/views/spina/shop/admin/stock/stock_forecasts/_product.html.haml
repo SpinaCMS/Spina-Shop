@@ -1,8 +1,9 @@
 %tr
   %td.align-center{style: 'width: 20px'}
-    .form-checkbox{style: 'width: 20px'}
-      = check_box_tag 'product_ids[]', product.id
-      %label
+    - if product.available_at_supplier?
+      .form-checkbox{style: 'width: 20px'}
+        = check_box_tag 'product_ids[]', product.id
+        %label
   %td
     = link_to spina.shop_admin_product_path(product) do
       = product.full_name
@@ -20,7 +21,11 @@
       %span.text-danger= product.stock_level
     - else
       %span.text-success= product.stock_level
-    %small{style: 'display: inline'} / #{product.optimal_stock}
+    - if product.available_at_supplier?
+      %small{style: 'display: inline'} / #{product.optimal_stock}
+    - else
+      %small{style: 'display: inline'} / #{t("spina.shop.stock.discontinued")}
+
     - if product.stock_orders.open.any?
       %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
         %i.icon.icon-document

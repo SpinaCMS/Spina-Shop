@@ -538,6 +538,10 @@ de:
         save: 
         title: 
       stock:
+        all_products: 
+        discontinued: 
+        discontinued_products: 
+        products_available_at_supplier: 
         reset_stock: 
       stock_order_products:
         choose_stock_order: 

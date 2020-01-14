@@ -552,6 +552,10 @@ nl:
         save: Winkelbeoordeling opslaan
         title: Winkelbeoordelingen
       stock:
+        all_products: Alle producten
+        discontinued: uitlopend
+        discontinued_products: Uitlopende producten
+        products_available_at_supplier: Na te bestellen producten
         reset_stock: Voorraad resetten...
       stock_order_products:
         choose_stock_order: Kies leveringsorder
