@@ -8,6 +8,7 @@ module Spina::Shop
         product_id: @product.id,
         order_item_id: params[:order_item_id],
         adjustment: params[:adjustment],
+        category: params[:category],
         expiration_year: params[:expiration_year],
         expiration_month: params[:expiration_month],
         description: params[:description],

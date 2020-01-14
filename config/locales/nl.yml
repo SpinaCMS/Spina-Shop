@@ -215,7 +215,9 @@ nl:
         score_speed: Cijfer snelheid / levertijd
       spina/shop/stock_level_adjustment:
         adjustment: Aantal
+        category: Reden
         created_at: Aangemaakt op
+        description: Notitie
         note: Notitie
       spina/shop/stock_order:
         closed_at: Gesloten

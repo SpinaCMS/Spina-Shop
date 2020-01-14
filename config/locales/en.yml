@@ -215,7 +215,9 @@ en:
         score_speed: Score speed
       spina/shop/stock_level_adjustment:
         adjustment: Adjustment
+        category: 
         created_at: Created at
+        description: 
         note: Note
       spina/shop/stock_order:
         closed_at: Closed at

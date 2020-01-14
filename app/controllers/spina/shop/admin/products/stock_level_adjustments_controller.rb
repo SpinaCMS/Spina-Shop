@@ -29,7 +29,7 @@ module Spina::Shop
           end
 
           def stock_level_adjustment_params
-            params.require(:stock_level_adjustment).permit(:adjustment, :description, :expiration_month, :expiration_year).merge(actor: current_spina_user.name)
+            params.require(:stock_level_adjustment).permit(:adjustment, :description, :expiration_month, :expiration_year, :category).merge(actor: current_spina_user.name)
           end
       end
     end

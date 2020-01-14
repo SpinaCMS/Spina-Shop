@@ -215,7 +215,9 @@ fr:
         score_speed: débit numérique / Livraison
       spina/shop/stock_level_adjustment:
         adjustment: 
+        category: 
         created_at: 
+        description: 
         note: 
       spina/shop/stock_order:
         closed_at: 

@@ -34,8 +34,14 @@
             .select-dropdown
               = f.select :expiration_year, options_for_select(Date.today.year..8.years.from_now.year), prompt: "Kies een jaar"
 
+      .form-group
+        .form-title.text-muted= Spina::Shop::StockLevelAdjustment.human_attribute_name(:category)
+        %br/
+
+        .select-dropdown{style: "width: 100%"}= f.select :category, Spina::Shop.config.stock_level_adjustment_categories.map{|category| [t("spina.shop.stock_level_adjustments.categories.#{category}"), category]}
+
       .form-group{style: "margin-bottom: 0"}
-        .form-title.text-muted Notitie
+        .form-title.text-muted= Spina::Shop::StockLevelAdjustment.human_attribute_name(:description)
         %br/
 
         .input-group= f.text_field :description, placeholder: "Notitie"

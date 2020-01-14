@@ -30,6 +30,7 @@
     %thead
       %tr
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:adjustment)
+        %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:category)
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:note)
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:created_at)
         %th= Spina::Shop::StockLevelAdjustment.human_attribute_name(:actor)
@@ -45,6 +46,9 @@
             - else
               .text-danger= adjustment.adjustment
 
+          %td
+            - if adjustment.category.present?
+              =t "spina.shop.stock_level_adjustments.categories.#{adjustment.category}"
           %td= adjustment.description
           %td=l adjustment.created_at, format: "%d-%m-%Y"
           %td= adjustment.actor
