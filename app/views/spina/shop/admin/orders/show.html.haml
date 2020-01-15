@@ -70,6 +70,8 @@
           - if @order.sales_invoice.present? && !@order.refunded?
             %li= link_to t('spina.shop.orders.refund_order_html'), spina.new_shop_admin_order_refund_path(@order), remote: true
 
+          %li= link_to t('spina.shop.orders.duplicate_order_html'), spina.duplicate_shop_admin_order_path(@order), data: {method: :post, confirm: t('spina.shop.orders.duplicate_order_confirmation_html')}
+
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
   %nav#secondary.tabs

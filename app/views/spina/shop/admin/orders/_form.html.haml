@@ -42,7 +42,7 @@
             = Spina::Shop::Order.human_attribute_name(:payment_method)
 
           .sidebar-form-control
-            - if f.object.new_record?
+            - if f.object.new_record? || f.object.building?
               = f.select :payment_method, options_for_select(Spina::Shop.config.payment_methods_for_manual_orders.map{|payment_method| [t("spina.shop.orders.payment_methods.#{payment_method}"), payment_method]}, f.object.payment_method), {}, class: 'select2', style: 'width: 100%'
             - else
               %p{style: "padding-left: 10px"}=t "spina.shop.orders.payment_methods.#{f.object.payment_method}"

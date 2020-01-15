@@ -400,6 +400,8 @@ fr:
         download_attachments_html: 
         download_invoice: Télécharger facture %{number}
         download_packing_slip: télécharger la liste d'emballage
+        duplicate_order_confirmation_html: 
+        duplicate_order_html: 
         failed: manqué
         first_order_for_email: 
         history: histoire

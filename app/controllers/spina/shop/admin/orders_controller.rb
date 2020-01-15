@@ -89,6 +89,12 @@ module Spina::Shop
         render :index
       end
 
+      def duplicate
+        @order = Order.find(params[:id])
+        @duplicate = DuplicateOrder.new(@order).duplicate!
+        redirect_to spina.shop_admin_order_path(@duplicate)
+      end
+
       def show
         @order = Order.includes(order_items: :orderable).find(params[:id])
         add_breadcrumb @order.number || 'Concept'

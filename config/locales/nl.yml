@@ -412,6 +412,8 @@ nl:
         download_attachments_html: Download <strong>bijlagen</strong>
         download_invoice: Download factuur %{number}
         download_packing_slip: Download pakbon
+        duplicate_order_confirmation_html: Weet je zeker dat je deze order wilt <strong>dupliceren</strong>?
+        duplicate_order_html: "<strong>Dupliceer</strong> bestelling"
         failed: Mislukt
         first_order_for_email: NIEUW
         history: Historie

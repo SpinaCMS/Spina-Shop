@@ -400,6 +400,8 @@ en:
         download_attachments_html: 
         download_invoice: Download invoice %{number}
         download_packing_slip: Download packing slip
+        duplicate_order_confirmation_html: 
+        duplicate_order_html: 
         failed: Failed
         first_order_for_email: 
         history: History

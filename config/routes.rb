@@ -16,6 +16,7 @@ Spina::Engine.routes.draw do
             post :receive
             post :order_picked_up
             post :delivered
+            post :duplicate
           end
           collection do
             get :concepts
