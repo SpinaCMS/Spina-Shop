@@ -23,6 +23,7 @@ module Spina::Shop
     end
 
     def gift_card_amount
+      return BigDecimal(0) if credit?
       invoice.order.gift_card_amount
     end
 
