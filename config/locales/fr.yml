@@ -41,6 +41,7 @@ fr:
       spina/shop/discount:
         code: code de réduction
         description: description
+        discount_action: 
         discount_requirement: 
         discount_rule: valable pour
         expires_at: fini
@@ -266,6 +267,8 @@ fr:
       spina/shop/discount:
         one: code de réduction
         other: Codes de réduction
+      spina/shop/discounts/actions/free_delivery: 
+      spina/shop/discounts/actions/percent_off: 
       spina/shop/discounts/requirements/all_orders: 
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: toutes les commandes

@@ -41,6 +41,7 @@ de:
       spina/shop/discount:
         code: Rabatt-Code
         description: Definition
+        discount_action: 
         discount_requirement: 
         discount_rule: gültig für
         expires_at: Beendet
@@ -266,6 +267,8 @@ de:
       spina/shop/discount:
         one: Rabatt-Code
         other: Rabatt-Codes
+      spina/shop/discounts/actions/free_delivery: 
+      spina/shop/discounts/actions/percent_off: 
       spina/shop/discounts/requirements/all_orders: 
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: Bestellungen

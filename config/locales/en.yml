@@ -41,6 +41,7 @@ en:
       spina/shop/discount:
         code: Discount code
         description: Description
+        discount_action: 
         discount_requirement: Discount requirement
         discount_rule: Valid for
         expires_at: Expires at
@@ -266,6 +267,8 @@ en:
       spina/shop/discount:
         one: Discount
         other: Discounts
+      spina/shop/discounts/actions/free_delivery: 
+      spina/shop/discounts/actions/percent_off: 
       spina/shop/discounts/requirements/all_orders: 
       spina/shop/discounts/requirements/order_total: 
       spina/shop/discounts/rules/all_orders: All orders

@@ -41,6 +41,7 @@ nl:
       spina/shop/discount:
         code: Kortingscode
         description: Omschrijving
+        discount_action: Korting
         discount_requirement: Van toepassing op
         discount_rule: Geldig voor
         expires_at: Einddatum
@@ -266,6 +267,8 @@ nl:
       spina/shop/discount:
         one: Kortingscode
         other: Kortingscodes
+      spina/shop/discounts/actions/free_delivery: Gratis verzending
+      spina/shop/discounts/actions/percent_off: Kortingspercentage
       spina/shop/discounts/requirements/all_orders: Alle bestellingen
       spina/shop/discounts/requirements/order_total: Bestellingen vanaf
       spina/shop/discounts/rules/all_orders: Alle bestellingen
