@@ -248,6 +248,7 @@ nl:
         spina/shop/order:
           attributes:
             base:
+              item_limit_exceeded: Maximum per bestelling overschreden
               shopping_cart_empty: Winkelmand is leeg
               stock_level_not_sufficient: Niet alle producten zijn op voorraad
             date_of_birth:

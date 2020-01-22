@@ -248,6 +248,7 @@ fr:
         spina/shop/order:
           attributes:
             base:
+              item_limit_exceeded: 
               shopping_cart_empty: 
               stock_level_not_sufficient: 
             date_of_birth:
