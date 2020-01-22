@@ -31,6 +31,11 @@ module Spina::Shop
       false
     end
 
+    # 0 means no limit
+    def limit_per_order
+      0
+    end
+
     # Calculate the price based on this order
     def price_for_order(order)
       price
