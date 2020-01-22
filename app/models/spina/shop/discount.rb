@@ -50,6 +50,11 @@ module Spina::Shop
       discount_action.compute(order_item)
     end
 
+    def free_delivery?(order)
+      return false unless order_eligible?(order)
+      discount_action.is_a? Discounts::Actions::FreeDelivery
+    end
+
     def self.first_eligible(order)
       auto.active.find{ |discount| discount.order_eligible?(order) }
     end

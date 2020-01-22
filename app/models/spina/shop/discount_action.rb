@@ -4,8 +4,9 @@ module Spina::Shop
 
     belongs_to :discount
 
+    # Default discount is 0
     def compute(order_item)
-      true
+      BigDecimal(0)
     end
   end
 end

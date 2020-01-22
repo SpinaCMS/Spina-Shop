@@ -22,7 +22,7 @@ module Spina::Shop
       def new
         @discount = Discount.new(starts_at: Date.today)
         @discount.build_discount_requirement(type: 'Spina::Shop::Discounts::Requirements::AllOrders')
-        @discount.build_discount_action(type: 'Spina::Shop::Discounts::Actions::PercentOff')
+        @discount.build_discount_action
         @discount.build_discount_rule(type: 'Spina::Shop::Discounts::Rules::AllProducts')
         add_breadcrumb t('spina.shop.discounts.new')
       end

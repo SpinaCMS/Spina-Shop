@@ -34,7 +34,12 @@
 
       .well
         = f.fields_for :discount_action do |action_fields|
-          = action_fields.hidden_field :type
+          .sidebar-form-group
+            .sidebar-form-label
+              = Spina::Shop::Discount.human_attribute_name :discount_action
+
+            .sidebar-form-control
+              = action_fields.select :type, options_for_select(Spina::Shop::DiscountAction.descendants.map(&:model_name).map{|r| [r.human, r]}, action_fields.object.type), {}, class: "select2", style: 'width: 100%'
 
           = render partial: "spina/shop/admin/discounts/fields/discount_action_fields", locals: {f: action_fields}
 
