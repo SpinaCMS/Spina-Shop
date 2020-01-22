@@ -36,6 +36,11 @@ module Spina::Shop
       0
     end
 
+    # No product images
+    def product_images
+      []
+    end
+
     # Calculate the price based on this order
     def price_for_order(order)
       price
