@@ -7,7 +7,7 @@
   %ul
     %li{class: ('active' if controller_name == 'orders'), data: {badge: (to_process_order_count if to_process_order_count > 0)}}
       = link_to Spina::Shop::Order.model_name.human(count: 2), spina.shop_admin_orders_path
-    %li{class: ('active' if controller_name.in? %w(products properties product_bundles stock_level_adjustments))}
+    %li{class: ('active' if (!request.path.include?("analytics") && controller_name.in?(%w(products properties product_bundles stock_level_adjustments))))}
       = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
 
     %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders))}
@@ -25,8 +25,8 @@
       = link_to Spina::Shop::Invoice.model_name.human(count: 2), spina.shop_admin_invoices_path
 
     - if current_spina_user.admin?
-      %li{class: ('active' if controller_name.in? %w(reports exports analytics))}
-        = link_to t('spina.shop.reports.title'), spina.shop_admin_reports_path
+      %li{class: ('active' if request.path.include?("analytics"))}
+        = link_to t('spina.shop.analytics.title'), spina.shop_admin_analytics_exports_path
 
     - Spina::Plugin.all.each do |plugin|
       - if current_theme.plugins.include? plugin.name

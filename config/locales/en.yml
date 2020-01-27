@@ -317,6 +317,9 @@ en:
       addresses:
         add_address: Add address
       analytics:
+        exports: 
+        orders: 
+        stock_level_adjustments: 
         title: 
       approve_selected: 
       customer_accounts:

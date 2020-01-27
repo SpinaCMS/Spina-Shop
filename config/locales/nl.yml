@@ -329,6 +329,9 @@ nl:
       addresses:
         add_address: Adres toevoegen
       analytics:
+        exports: Exports
+        orders: Bestellingen
+        stock_level_adjustments: Voorraadwijzigingen
         title: Statistieken
       approve_selected: Goedkeuren
       customer_accounts:

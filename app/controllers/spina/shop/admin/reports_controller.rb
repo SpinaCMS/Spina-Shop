@@ -22,13 +22,13 @@ module Spina::Shop
         end
 
         flash[:success] = t('spina.shop.reports.start_exporting_html')
-        redirect_to spina.shop_admin_reports_path
+        redirect_to spina.shop_admin_analytics_exports_path
       end
 
       private
 
         def set_breadcrumbs
-          add_breadcrumb t('spina.shop.reports.title'), spina.shop_admin_reports_path
+          add_breadcrumb t('spina.shop.analytics.title')
         end
 
     end

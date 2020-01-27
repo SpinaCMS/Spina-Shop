@@ -1,0 +1,31 @@
+.sidebar-form
+  .sidebar-form-content
+    .well
+      #analytics_graph{style: 'margin-right: -20px'}
+
+  .sidebar-form-sidebar
+    = form_with url: spina.shop_admin_analytics_stock_level_adjustments_path, method: :get, data: {remote: true} do |f|
+      %div{style: "height: 1px; background: #ddd; border: none; margin: 50px 0 20px 0; display: flex; align-items: center; justify-content: flex-start"}
+        %label{style: "background: rgb(245, 245, 250); padding-right:10px; font-weight: 600; font-size: 14px; color: rgb(51, 51, 51); cursor: pointer"} Periode
+
+      .grouped-form-groups
+        .form-group
+          .input-group
+            .form-label Begindatum
+            .form-control{style: "flex: 1.5"}= f.text_field :start_date, class: 'datepicker', placeholder: "Datum", value: @start_date
+
+        .form-group
+          .input-group
+            .form-label Einddatum
+            .form-control{style: "flex: 1.5"}= f.text_field :end_date, class: 'datepicker', placeholder: "Datum", value: @end_date
+
+        / .form-group
+        /   .input-group
+        /     .form-label Weergave
+        /     .form-control{style: "flex: 1.5"}
+        /       .select-dropdown{style: 'width: 100%; z-index: 0'}= f.select :period, options_for_select([['Week', 'week'], ['Maand', 'month'], ['Jaar', 'year']], @interval)
+
+      = f.submit "Toon resultaten", class: 'button button-primary', style: 'width: 100%'
+
+.well
+  #analytics_table= render 'analytics_table'

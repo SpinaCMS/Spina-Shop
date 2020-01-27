@@ -135,10 +135,12 @@ Spina::Engine.routes.draw do
         # Discounts
         resources :discounts
 
-        # Reports
-        resources :reports
-        resource :analytics
-        resources :exports
+        # Analytics
+        namespace :analytics do
+          resources :stock_level_adjustments
+          resources :exports
+          resources :orders
+        end
 
         # Gift Cards
         resources :gift_cards do

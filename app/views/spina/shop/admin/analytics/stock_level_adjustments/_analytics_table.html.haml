@@ -1,0 +1,17 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th
+        - (@start_date.cweek..@end_date.cweek).each do |i|
+          %th= i
+        %th Totaal
+
+    %tbody
+      - Spina::Shop.config.stock_level_adjustment_categories.each do |category|
+        %tr
+          %th=t "spina.shop.stock_level_adjustments.categories.#{category}"
+          - (@start_date.cweek..@end_date.cweek).each do |i|
+            %td= @stock_level_adjustments.find{|sla| sla.weekly == i && sla.category == category}&.total
+          %th
+            = @stock_level_adjustments.to_a.keep_if{|sla| sla.category == category}.map(&:total).inject(0){|t, i| t = t + i}
