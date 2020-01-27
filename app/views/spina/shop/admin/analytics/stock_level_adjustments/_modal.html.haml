@@ -1,0 +1,29 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3
+      Week #{params[:id]}
+      – 
+      =t "spina.shop.stock_level_adjustments.categories.#{params[:category]}"
+
+  %section
+    .table-container
+      %table.table
+        %thead
+          %tr
+            %th Product
+            %th Wijziging
+            %th Omschrijving
+
+        %tbody
+          - @stock_level_adjustments.each do |sla|
+            %tr
+              %td
+                = link_to sla.product.full_name, spina.shop_admin_product_path(sla.product), class:  'table-link'
+              %td
+                = sla.adjustment
+
+              %td
+                = sla.description
+                %small.text-muted{style: "display: inline-block"}= "– #{sla.actor}"

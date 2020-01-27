@@ -12,6 +12,12 @@
         %tr
           %th=t "spina.shop.stock_level_adjustments.categories.#{category}"
           - (@start_date.cweek..@end_date.cweek).each do |i|
-            %td= @stock_level_adjustments.find{|sla| sla.weekly == i && sla.category == category}&.total
+            %td
+              - total = @stock_level_adjustments.find{|sla| sla.weekly == i && sla.category == category}&.total
+
+              - if total
+                = link_to total, spina.shop_admin_analytics_stock_level_adjustment_path(i, category: category), class: 'table-link', data: {remote: true}
+              - else
+                .text-muted –
           %th
             = @stock_level_adjustments.to_a.keep_if{|sla| sla.category == category}.map(&:total).inject(0){|t, i| t = t + i}
