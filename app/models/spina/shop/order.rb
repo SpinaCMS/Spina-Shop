@@ -26,6 +26,9 @@ module Spina::Shop
     has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
 
+    # Duplicate orders
+    has_one :original_order, class_name: "Spina::Shop::Order", foreign_key: :duplicate_id
+
     has_one :discounts_order, class_name: "Spina::Shop::DiscountsOrder"
     has_one :discount, through: :discounts_order, class_name: "Spina::Shop::Discount"
     has_many :gift_cards_orders, class_name: "Spina::Shop::GiftCardsOrder"

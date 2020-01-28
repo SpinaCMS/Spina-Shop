@@ -102,6 +102,7 @@ en:
         delivery_street2: Street 2
         delivery_tracking_ids: Delivery tracking IDs
         discount: Discount
+        duplicate: 
         email: Email
         first_name: First name
         ip_address: IP address
@@ -110,6 +111,7 @@ en:
         order_attachments: Attachments
         order_number: Order number
         order_total: 
+        original_order: 
         paid_at: Paid at
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder

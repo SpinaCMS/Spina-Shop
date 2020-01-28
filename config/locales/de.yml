@@ -102,6 +102,7 @@ de:
         delivery_street2: Straße 2
         delivery_tracking_ids: Track & Trace
         discount: Rabatt
+        duplicate: 
         email: Email
         first_name: Vorname
         ip_address: IP-Adresse
@@ -110,6 +111,7 @@ de:
         order_attachments: Zubehör
         order_number: Bestellnummer
         order_total: 
+        original_order: 
         paid_at: 
         payment_method: Zahlung
         payment_reminder_sent_at: 

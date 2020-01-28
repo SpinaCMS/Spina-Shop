@@ -143,6 +143,16 @@
               =l @order.received_at, format: '%H:%M'
               %small.text-error=l @order.received_at, format: '%Z'
 
+        - if @order.original_order.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:original_order)
+            %td= link_to @order.original_order.number, spina.shop_admin_order_path(@order.original_order)
+
+        - if @order.duplicate.present?
+          %tr
+            %th= Spina::Shop::Order.human_attribute_name(:duplicate)
+            %td= link_to @order.duplicate.number, spina.shop_admin_order_path(@order.duplicate)
+
         - if @order.ip_address.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:ip_address)
@@ -177,7 +187,6 @@
             %th= Spina::Shop::Order.human_attribute_name(:payment_method)
             %td 
               =t "spina.shop.orders.payment_methods.#{@order.payment_method}"
-
 
         - if @order.paid_at.present?
           %tr

@@ -102,6 +102,7 @@ fr:
         delivery_street2: rue 2
         delivery_tracking_ids: Track & Trace
         discount: Réduction
+        duplicate: 
         email: émail
         first_name: prénom
         ip_address: adresse IP
@@ -110,6 +111,7 @@ fr:
         order_attachments: pièces jointes
         order_number: numéro de commande
         order_total: 
+        original_order: 
         paid_at: 
         payment_method: paiement
         payment_reminder_sent_at: 
