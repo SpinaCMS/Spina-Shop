@@ -138,7 +138,10 @@ module Spina::Shop
           end
 
           # Search
-          @orders = @orders.search(params[:search]) if params[:search].present?
+          if params[:search].present?
+            params[:search].gsub!(/\A0+/, "")
+            @orders = @orders.search(params[:search])
+          end
 
           # Totaal
           @orders_count = @orders.count
