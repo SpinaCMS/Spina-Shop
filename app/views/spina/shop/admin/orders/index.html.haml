@@ -41,6 +41,13 @@
             = ff.text_field :received_at_gteq, value: params.dig(:advanced_filters, :received_at_gteq), placeholder: 'min', class: 'datepicker'
             = ff.text_field :received_at_lteq, value: params.dig(:advanced_filters, :received_at_lteq), placeholder: 'max', class: 'datepicker'
 
+      .filter-form-advanced-group
+        .filter-form-label= t("spina.shop.orders.online_or_offline_orders")
+
+        .filter-form-control
+          .input-group
+            = ff.select :pos, options_for_select([[t("spina.shop.orders.offline_orders_only"), true], [t("spina.shop.orders.online_orders_only"), false]], params.dig(:advanced_filters, :pos)), {include_blank: t("spina.shop.orders.online_and_offline_orders")}, class: 'select2', style: "width: 100%"
+
 - if @advanced_filter || params[:search].present?
   %small.text-muted{style: "margin-top: 10px; display: block"}
     =t 'spina.shop.orders.search_results', count: @orders_count

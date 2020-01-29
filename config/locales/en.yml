@@ -116,6 +116,7 @@ en:
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder
         phone: Phone
+        pos: 
         prices_include_tax: Prices include tax
         received_at: Order date
         reference: Reference
@@ -416,6 +417,10 @@ en:
         history: History
         new: New order
         no_orders: No orders
+        offline_orders_only: 
+        online_and_offline_orders: 
+        online_or_offline_orders: 
+        online_orders_only: 
         order_picked_up: Order picked up
         pay_order_confirmation_html: Are you sure you want to mark this order as <strong>paid</strong>? <strong>This action is irreversable.</strong>
         pay_order_html: Mark as paid

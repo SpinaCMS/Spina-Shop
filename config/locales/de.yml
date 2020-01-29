@@ -116,6 +116,7 @@ de:
         payment_method: Zahlung
         payment_reminder_sent_at: 
         phone: Telefon
+        pos: 
         prices_include_tax: 
         received_at: Bestelldatum
         reference: Referenz
@@ -416,6 +417,10 @@ de:
         history: Geschichte
         new: neue Ordnung
         no_orders: keine Aufträge
+        offline_orders_only: 
+        online_and_offline_orders: 
+        online_or_offline_orders: 
+        online_orders_only: 
         order_picked_up: Bestellungen abgeholt
         pay_order_confirmation_html: Sind Sie sicher , dass Sie diese markieren , um als <strong>bezahlt?</strong> <strong>Diese Aktion ist nicht umkehrbar.</strong>
         pay_order_html: Mark als bezahlt

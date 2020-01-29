@@ -132,6 +132,11 @@ module Spina::Shop
             @orders = @orders.where(received_at: start_date..end_date)
           end
 
+          # POS
+          if advanced_filters[:pos].present?
+            @orders = @orders.where(pos: advanced_filters[:pos])
+          end
+
           # Search
           @orders = @orders.search(params[:search]) if params[:search].present?
 

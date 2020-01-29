@@ -116,6 +116,7 @@ nl:
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
         phone: Telefoon
+        pos: Bestelling in winkel
         prices_include_tax: Bedragen inclusief btw
         received_at: Besteldatum
         reference: Referentie
@@ -428,6 +429,10 @@ nl:
         history: Historie
         new: Nieuwe bestelling
         no_orders: Geen bestellingen
+        offline_orders_only: Alleen winkel
+        online_and_offline_orders: Webshop en winkel
+        online_or_offline_orders: Bestelling in winkel of webshop
+        online_orders_only: Alleen webshop
         order_picked_up: Order picked up
         pay_order_confirmation_html: Weet je zeker dat je deze bestelling wilt markeren als <strong>betaald</strong>? <strong>Deze actie is niet terug te draaien.</strong>
         pay_order_html: Markeren als betaald
