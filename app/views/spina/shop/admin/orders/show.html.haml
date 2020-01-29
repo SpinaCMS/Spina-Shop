@@ -299,6 +299,13 @@
         %tbody
           = render partial: "spina/shop/admin/invoices/invoice", collection: @order.invoices.order(:number)
 
+          - if @order.credit_invoice.present? && @order.invoices.map(&:total).reduce(:+) > 0
+            %tr
+              %td{colspan: 6}
+                = link_to spina.new_shop_admin_order_refund_path(@order), class: 'table-link text-center', data: {remote: true} do
+                  %i.icon.icon-plus
+                  =t "spina.shop.refunds.create_another_refund"
+
   .table-container
     %table.table
       %thead

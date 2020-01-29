@@ -529,7 +529,11 @@ fr:
       refunds:
         cannot_be_undone_warning_html: 
         choose_lines: 
+        create_another_refund: 
         create_refund: 
+        credit_limit_reached_error: 
+        failed_to_generate_credit_invoice: 
+        invoice_already_credited_error: 
         methods:
           banktransfer: 
           cash: 

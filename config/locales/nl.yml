@@ -543,7 +543,11 @@ nl:
           Let op! Deze actie is niet ongedaan te maken.
           <small>Er wordt meteen een creditfactuur gegenereerd.</small>
         choose_lines: Kies regels
+        create_another_refund: Nogmaals crediteren
         create_refund: Crediteren
+        credit_limit_reached_error: Je kunt niet meer crediteren dan de verkoopfactuur
+        failed_to_generate_credit_invoice: Crediteren mislukt
+        invoice_already_credited_error: Creditfacturen kunnen niet gecrediteerd worden
         methods:
           banktransfer: Overschrijving
           cash: Contant

@@ -11,9 +11,14 @@ module Spina::Shop
         def create
           render :choose_lines and return if not_the_entire_order?
 
-          @order.transaction do
-            @order.update!(refund_params)
-            @order.transition_to!(:refunded, refund_transition_params)
+          begin
+            @order.transaction do
+              @order.update!(refund_params)
+              @order.transition_to!(:refunded, refund_transition_params)
+            end
+          rescue CreditInvoiceGenerator::CreditLimitReachedError => e
+            flash[:alert] = t("spina.shop.refunds.failed_to_generate_credit_invoice")
+            flash[:alert_small] = e.message
           end
 
           redirect_to spina.shop_admin_order_path(@order)

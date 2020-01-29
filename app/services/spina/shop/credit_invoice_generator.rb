@@ -4,7 +4,13 @@ module Spina::Shop
     # Domain specific exception
     class InvoiceAlreadyCreditedError < StandardError
       def message
-        "Credit invoices cannot be credited"
+        I18n.t("spina.shop.refunds.invoice_already_credited_error")
+      end
+    end
+
+    class CreditLimitReachedError < StandardError
+      def message
+        I18n.t("spina.shop.refunds.credit_limit_reached_error")
       end
     end
 
@@ -81,11 +87,17 @@ module Spina::Shop
           end
         end
 
+        raise CreditLimitReachedError if (@credit_invoice.total * -1) > total_creditable
+
         @credit_invoice.save!
       end
     end
 
     private
+
+      def total_creditable
+        @invoice.order.invoices.map(&:total).reduce(:+)
+      end
 
       def copyable_attributes_from_invoice
         copyable_attributes.map do |attribute|
