@@ -60,6 +60,10 @@
             = link_to 'Excel download', spina.shop_admin_stock_order_path(@stock_order, format: :xlsx)
             %br/
             = link_to 'PDF download', spina.shop_admin_stock_order_path(@stock_order, format: :pdf)
+        %tr
+          %th Inboekers
+          %td
+            != Spina::Shop::StockLevelAdjustment.where(description: "StockOrder ##{@stock_order.id}").pluck(:actor).uniq.join("<br />")
 
     .information-table
       %table
