@@ -9,6 +9,12 @@
       = @ordered_stock.product.name
       %small= @ordered_stock.product.variant_name
 
+  - if @ordered_stock.new_product?
+    %span.text-muted
+      ⭐️
+      Nieuw product
+    %br/
+
   %strong Locatie:
   = @ordered_stock.product.location
 

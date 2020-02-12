@@ -40,14 +40,35 @@ module Spina::Shop
           move_down 2.mm
         end
 
+        text_indent = 0
+
+        float do
+          if ordered.new_product?
+            fill_color 'E28760'
+            fill do
+              rounded_rectangle [0, cursor], 1.5.cm, 0.5.cm, 0.25.cm
+            end
+            fill_color 'ffffff'
+            indent 2.mm do
+              move_down 1.mm
+              text "NIEUW", style: :bold
+            end
+            fill_color '000000'
+            text_indent = 1.75.cm
+          end
+        end
+
         font("Metropolis", style: :semibold, size: 12) do
-          text ordered.product.location.presence || "Geen locatie"
+          indent text_indent do
+            text ordered.product.location.presence || "Geen locatie"
+          end
         end
 
         font_size(12) do
           text ordered.product.name
           text ordered.product.variant_name
         end
+
       end
     end
 

@@ -9,5 +9,10 @@ module Spina::Shop
 
     scope :processed, -> { where('received >= quantity') }
     scope :unprocessed, -> { where('received < quantity') }
+
+    def new_product?
+      product.stock_level_adjustments.additions.where.not(description: "StockOrder ##{stock_order.id}").none?
+    end
+
   end
 end
