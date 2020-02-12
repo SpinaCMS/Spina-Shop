@@ -8,6 +8,6 @@
   .text-right
     %strong{style: "white-space: nowrap"}
       = ordered_stock.product.location
-    .text-muted 
+    .text-muted{class: ('text-danger' if ordered_stock.received > ordered_stock.quantity)}
       #{ordered_stock.received}/#{ordered_stock.quantity} 
       verwerkt

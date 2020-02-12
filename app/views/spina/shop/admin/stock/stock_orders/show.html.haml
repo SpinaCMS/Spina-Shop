@@ -140,7 +140,7 @@
             %small= number_to_currency ordered.quantity * ordered.product.cost_price
 
           %td.text-right{style: 'width: 150px'}
-            .progress.progress-bar-primary
+            .progress.progress-bar-primary{class: ("progress-bar-danger" if ordered.received > ordered.quantity.to_d)}
               .progress-bar
                 - 5.times do
                   .progress-bar-divider
