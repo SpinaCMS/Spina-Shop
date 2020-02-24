@@ -34,7 +34,7 @@
           if (customer.company) {
             return `<div class='select-products-result'><span>${customer.company} <small>${customer.full_name}</small></span></div>` 
           } else {
-            return `<div class='select-products-result'><span>${customer.full_name}</span></div>`
+            return `<div class='select-products-result'><span>${customer.full_name} <small>${customer.id}</small></span></div>`
           }
         },
         templateSelection: function(customer) {
