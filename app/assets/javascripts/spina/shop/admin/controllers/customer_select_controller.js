@@ -14,7 +14,7 @@
           delay: 250,
           dataType: 'json',
           data: function(params) {
-            return {q: {full_name_or_company_cont: params.term}, page: params.page}
+            return {q: {full_name_or_email_or_company_cont: params.term}, page: params.page}
           },
           processResults: function(data, params) {
             params.page = params.page || 1
