@@ -1,7 +1,5 @@
-.horizontal-form-label
-  = f.object.title
-  
-.horizontal-form-content
+.page-form-label= f.object.title
+.page-form-content
   = f.fields_for :partable, f.object.partable do |ff|
     .select-dropdown{style: 'width: 100%'}
       = ff.select :content, options_for_select([["Prijs", "price"]] + Spina::Shop::ProductCategoryProperty.order(:label).pluck(:label, :name).uniq, ff.object.content), include_blank: t('spina.shop.product_category_property.select_blank'), style: 'width: 100%'
