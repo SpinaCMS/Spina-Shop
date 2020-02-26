@@ -110,6 +110,13 @@
   .information-tables
     .information-table
       %table
+        - if @order.store.present?
+          %tr
+            %th= Spina::Shop::Store.model_name.human
+            %td
+              .store-badge{style: "background: #{@order.store.color}"}
+                = @order.store.initials
+              = @order.store.name
         - if @order.billing_name.present?
           %tr
             %th= Spina::Shop::Order.human_attribute_name(:billing_name)
