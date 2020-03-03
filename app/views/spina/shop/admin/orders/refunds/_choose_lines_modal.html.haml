@@ -44,7 +44,7 @@
                     = number_to_currency order_item.total
                   %td
                     - if order_item.orderable&.stock_enabled?
-                      .pull-right= ff.check_box :stock, {checked: true, data: {switch: true}}, true, nil
+                      .pull-right= ff.check_box :stock, {checked: false, data: {switch: true}}, true, nil
 
             - if @order.delivery_price > BigDecimal(0)
               %tr
