@@ -1,7 +1,26 @@
 %header#header
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
+- if @product.recounts.any?
+  %h2{style: "margin-top: 30px"} Laatste 5 hertellingen
+
+  .table-container
+    %table.table
+      %thead
+        %tr 
+          %th Verschil
+          %th= Spina::Shop::Recount.human_attribute_name(:actor)
+          %th= Spina::Shop::Recount.human_attribute_name(:created_at)
+      %tbody
+        - @product.recounts.limit(5).order(created_at: :desc).each do |recount|
+          %tr
+            %td= recount.difference
+            %td= recount.actor
+            %td=l recount.created_at, format: :long
+
 - if @product.stock_orders.open.any?
+  %h2{style: "margin-top: 30px"} Leveringsorders
+
   .table-container
     %table.table
       %thead
@@ -24,6 +43,8 @@
             %td
               - if ordered.stock_order.expected_delivery.present?
                 =l ordered.stock_order.expected_delivery, format: '%d %B %Y'
+
+%h2{style: "margin-top: 30px"} Historie
 
 .table-container
   %table.table

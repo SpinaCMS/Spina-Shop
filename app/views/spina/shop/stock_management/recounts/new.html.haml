@@ -21,17 +21,18 @@
   - if @product.stock_enabled?
     = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
 
-      .select-dropdown
-        %label Voorraad
-        = f.number_field :stock_level
+      %div{style: "margin-left: 60px; margin-bottom: 30px"}
+        %label Huidige voorraad:
+        %strong= @product.stock_level
 
-      - if @product.can_expire?    
-        .input-group
-          .select-dropdown
-            = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}, f.object.expiration_month), include_blank: "Kies een maand"
-          .select-dropdown
-            = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year, f.object.expiration_year), include_blank: "Kies een jaar"
+      = button_tag "✏️ Voorraad aanpassen", type: :button, class: 'button button-block', id: "edit_stock"
+      %div{style: "display: none"}
+        #stock_expiration_fields= render partial: "stock_expiration_fields"
+            
+        - if @product.can_expire?
+          = link_to  "➕ Extra verloopdatum", spina.new_shop_stock_management_product_recount_path, class: 'button button-block', data: {remote: true}
               
+      %div{style: "clear: both"}
       = button_tag type: :submit, class: 'button button-primary button-block', style: 'margin-top: 40px', data: {disable_with: "Opslaan..."} do
         💾 Opslaan en volgende
 
