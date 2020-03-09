@@ -56,6 +56,7 @@ module Spina::Shop
           @product.recounts.create({difference: 0, actor: current_spina_user&.name})
         end
 
+        @product.cache_stock_level
         redirect_to spina.new_shop_stock_management_product_recount_path(@next_product)
       end
 
