@@ -120,6 +120,7 @@
           %th= Spina::Shop::Product.human_attribute_name(:name)
           %th= Spina::Shop::Product.human_attribute_name(:location)
           %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:quantity)
+          %th.text-right= Spina::Shop::Product.human_attribute_name(:expiration_date)
           %th.text-right= Spina::Shop::OrderedStock.human_attribute_name(:received)
           - if @stock_order.concept?
             %th
@@ -142,6 +143,11 @@
             - if ordered.product.supplier_packing_unit > 1
               = "(colli: #{(ordered.quantity / ordered.product.supplier_packing_unit).ceil})"
             %small= number_to_currency ordered.quantity * ordered.product.cost_price
+
+          %td.text-right
+            - ordered.product.stock_level_adjustments.where(description: "StockOrder ##{@stock_order.id}").group("expiration_month, expiration_year").pluck("expiration_month, expiration_year").map{|tht| Date.parse("1-#{tht[0]}-#{tht[1]}")}.sort.each do |date|
+              =l date, format: "%b '%y"
+              %br/
 
           %td.text-right{style: 'width: 150px'}
             .progress.progress-bar-primary{class: ("progress-bar-danger" if ordered.received > ordered.quantity.to_d)}
