@@ -16,6 +16,9 @@
         %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
   %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
     %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}= product.past_90_days
+  %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
+    %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}
+      = product.past_365_days
   %td.text-right
     - if product.stock_level < 4
       %span.text-danger= product.stock_level
@@ -40,13 +43,13 @@
       %span.text-success= "+#{product.stock_difference}"
   %td.text-right.nowrap
     - if product.recount_created_at.present?
-      %span{style: "font-size: 13px", class: ('text-danger' unless product.recount_difference.in? -10..10)}
+      %span{style: "font-size: 13px"}
+        =l product.recount_created_at, format: "%d-%m-%y"
+      %span{style: "display: block; font-size: 12px", class: ('text-danger' unless product.recount_difference.in? -10..10)}
         - if product.recount_difference > 0
           = "+#{product.recount_difference}"
         - else
           = product.recount_difference
-      %small
-        =l product.recount_created_at, format: "%d-%m-%y"
   %td.text-right.text-muted
     = product.in_stock_reminders_count
     %i.icon.icon-mail{style: 'font-size: 11px'}
