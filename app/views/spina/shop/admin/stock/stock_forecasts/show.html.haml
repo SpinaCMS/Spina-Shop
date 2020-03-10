@@ -11,6 +11,11 @@
 
   .filter-form-advanced
     .filter-form-advanced-group
+      .filter-form-label= Spina::Shop::ProductCategory.model_name.human(count: 2)
+      .filter-form-control
+        - options = Spina::Shop::ProductCategory.pluck(:name, :id)
+        = f.select :product_category_id_in, options, {}, class: 'select2', style: 'width: 100%', multiple: true
+    .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Product.human_attribute_name :location
       .filter-form-control
         = f.select :location_start, @locations, {include_blank: "Alle locaties"}, class: 'select2', style: 'width: 100%'
@@ -28,7 +33,7 @@
       .filter-form-control
         = f.select :available_at_supplier_eq, [[t("spina.shop.stock.products_available_at_supplier"), true], [t("spina.shop.stock.discontinued_products"), false]], {include_blank: t("spina.shop.stock.all_products")}, class: 'select2', style: 'width: 100%'
 
-- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_or_translations_variant_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start: params[:q].try(:[], :location_start), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq), available_at_supplier_eq: params[:q].try(:[], :available_at_supplier_eq)}}
+- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_or_translations_variant_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start: params[:q].try(:[], :location_start), product_category_id_in: params[:q].try(:[], :product_category_id_in), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq), available_at_supplier_eq: params[:q].try(:[], :available_at_supplier_eq)}}
 
 = form_with url: spina.new_shop_admin_stock_order_products_path(q: params.permit(q: {})[:q]), method: :get do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
