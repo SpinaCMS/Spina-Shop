@@ -13,7 +13,7 @@
           %th Besteld
           %th Ontvangen
 
-        - @ordered_stock.each do |ordered|
+        - @ordered_stock.includes(product: :product_translations).order("spina_shop_product_translations.name").each do |ordered|
           = f.hidden_field "ordered_stock[][id]", value: ordered.id
           %tr
             %td

@@ -125,7 +125,7 @@
           - if @stock_order.concept?
             %th
 
-      - @stock_order.ordered_stock.joins(:product).order('spina_shop_products.location').each do |ordered|
+      - @stock_order.ordered_stock.joins(:product).includes(product: :product_translations).order('spina_shop_product_translations.name').each do |ordered|
         %tr
           %td.align-center{style: 'width: 20px'}
             .form-checkbox{style: 'width: 20px'}
