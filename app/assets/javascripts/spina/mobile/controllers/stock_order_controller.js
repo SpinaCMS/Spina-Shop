@@ -3,29 +3,18 @@
 
   application.register("stock-order", class extends Stimulus.Controller {
     static get targets() {
-      return ["receivedField"]
+      return [ "orderedStock" ]
     }
 
-    connect() {
-      this.validateReceivedField()
-    }
-
-    validateReceivedField() {
-      if (this.receivedInput == this.shouldInput) {
-        this.receivedFieldTarget.classList.remove("warning")
-        this.receivedFieldTarget.classList.add("success")
-      } else {
-        this.receivedFieldTarget.classList.remove("success")
-        this.receivedFieldTarget.classList.add("warning")
-      }
-    }
-
-    get shouldInput() {
-      return parseInt(this.element.dataset.shouldReceive)
-    }
-
-    get receivedInput() {
-      return parseInt(this.receivedFieldTarget.value)
+    filter(e) {
+      let search = e.currentTarget.value.toLowerCase()
+      this.orderedStockTargets.forEach(function(orderedStock) {
+        if (orderedStock.dataset.name.toLowerCase().includes(search)) {
+          orderedStock.style.display = "flex"
+        } else {
+          orderedStock.style.display = "none"
+        }
+      })
     }
 
   })

@@ -1,4 +1,4 @@
-= link_to spina.new_shop_stock_management_stock_order_receive_products_path(@stock_order, ordered_stock_id: ordered_stock.id), class: 'list-item' do
+= link_to spina.new_shop_stock_management_stock_order_receive_products_path(@stock_order, ordered_stock_id: ordered_stock.id), class: 'list-item', data: {target: "stock-order.orderedStock", name: ordered_stock.product.name} do
   %div{style: 'width: 30px; margin-right: 10px'}
     - if ordered_stock.product.product_images.any? || ordered_stock.product.root.product_images.any?
       = image_tag main_app.url_for((ordered_stock.product.product_images.first || ordered_stock.product.root.product_images.first).file.variant(resize: '60x60')), style: 'display: block; width: 100%'

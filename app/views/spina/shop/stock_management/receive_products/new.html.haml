@@ -31,7 +31,7 @@
   = @ordered_stock.received
   %br/
   %br/
-  = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order), data: {controller: "stock-order", should_receive: @ordered_stock.quantity - @ordered_stock.received} do |f|
+  = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order), data: {controller: "receive-products", should_receive: @ordered_stock.quantity - @ordered_stock.received} do |f|
     = f.hidden_field :ordered_stock_id, value: @ordered_stock.id
     - if @ordered_stock.received > 0
       .text-danger{style: "margin-bottom: 20px"}
@@ -40,7 +40,7 @@
         %br/ 
         %br/
         Heb je meer ontvangen? Vul dan alleen de extra hoeveelheid in. Spina telt dit automatisch bij elkaar op.
-    .form-control= f.number_field :received, placeholder: "Ontvangen", pattern: "[0-9]*", data: {target: "stock-order.receivedField", action: "keyup->stock-order#validateReceivedField"}
+    .form-control= f.number_field :received, placeholder: "Ontvangen", pattern: "[0-9]*", data: {target: "receive-products.receivedField", action: "keyup->receive-products#validateReceivedField"}
 
     - if @ordered_stock.product.can_expire?
       .input-group

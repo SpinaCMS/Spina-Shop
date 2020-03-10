@@ -1,4 +1,4 @@
-.container
+.container{data: {controller: "stock-order"}}
   .pull-right
     - if @stock_order.delivery_tracking_url.present?
       = link_to @stock_order.delivery_tracking_url, target: :blank, class: 'button button-link' do
@@ -16,6 +16,9 @@
 
   - if @stock_order.note.present?
     %div{style: "white-space: pre; margin-bottom: 20px"}= @stock_order.note
+
+  .form-control
+    = text_field_tag :filter, nil, placeholder: "Filteren", data: {action: "keyup->stock-order#filter"}
 
   - if @stock_order.ordered_stock.unprocessed.size > 0
     .list-title Te verwerken
