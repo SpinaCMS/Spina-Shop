@@ -145,7 +145,7 @@
             %small= number_to_currency ordered.quantity * ordered.product.cost_price
 
           %td.text-right
-            - ordered.product.stock_level_adjustments.where(description: "StockOrder ##{@stock_order.id}").group("expiration_month, expiration_year").pluck("expiration_month, expiration_year").map{|tht| Date.parse("1-#{tht[0]}-#{tht[1]}")}.sort.each do |date|
+            - ordered.product.stock_level_adjustments.where(description: "StockOrder ##{@stock_order.id}").where("expiration_month IS NOT NULL AND expiration_year IS NOT NULL").group("expiration_month, expiration_year").pluck("expiration_month, expiration_year").map{|tht| Date.parse("1-#{tht[0]}-#{tht[1]}")}.sort.each do |date|
               =l date, format: "%b '%y"
               %br/
 
