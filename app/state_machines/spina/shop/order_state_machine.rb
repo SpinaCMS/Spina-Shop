@@ -8,21 +8,23 @@ module Spina::Shop
     state :paid
     state :preparing
     state :shipped
+    state :ready_for_pickup
     state :picked_up
     state :delivered
     state :failed # Final state
     state :cancelled # Final state
     state :refunded # Final state
 
-    transition from: :building,   to: :confirming
-    transition from: :confirming, to: [:received, :cancelled, :failed]
-    transition from: :received,   to: [:paid, :preparing, :cancelled, :failed, :refunded]
-    transition from: :paid,       to: [:preparing, :shipped, :picked_up, :refunded]
-    transition from: :preparing,  to: [:paid, :shipped, :picked_up, :refunded, :cancelled]
-    transition from: :shipped,    to: [:paid, :delivered, :refunded, :cancelled]
-    transition from: :picked_up,  to: [:paid, :refunded, :cancelled]
-    transition from: :delivered,  to: [:paid, :refunded, :cancelled]
-    transition from: :refunded,   to: [:refunded]
+    transition from: :building,         to: :confirming
+    transition from: :confirming,       to: [:received, :cancelled, :failed]
+    transition from: :received,         to: [:paid, :preparing, :cancelled, :failed, :refunded]
+    transition from: :paid,             to: [:preparing, :shipped, :picked_up, :refunded]
+    transition from: :preparing,        to: [:paid, :shipped, :picked_up, :ready_for_pickup, :refunded, :cancelled]
+    transition from: :shipped,          to: [:paid, :delivered, :refunded, :cancelled]
+    transition from: :ready_for_pickup, to: [:paid, :picked_up, :refunded, :cancelled]
+    transition from: :picked_up,        to: [:paid, :refunded, :cancelled]
+    transition from: :delivered,        to: [:paid, :refunded, :cancelled]
+    transition from: :refunded,         to: [:refunded]
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right? Do we even have any order items?
@@ -110,6 +112,10 @@ module Spina::Shop
 
     guard_transition(to: :shipped) do |order, transition|
       order.requires_shipping?
+    end
+
+    guard_transition(to: :ready_for_pickup) do |order, transition|
+      !order.requires_shipping?
     end
 
     after_transition(to: :picked_up) do |order, transition|

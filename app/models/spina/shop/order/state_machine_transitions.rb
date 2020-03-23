@@ -52,10 +52,14 @@ module Spina::Shop
       current_state == 'confirming'
     end
 
+    def ready_for_pickup?
+      current_state == 'ready_for_pickup'
+    end
+
     def status_progress
       if delivered? || picked_up? || refunded?
         100
-      elsif shipped?
+      elsif shipped? || ready_for_pickup?
         80
       elsif order_prepared?
         60
@@ -123,7 +127,7 @@ module Spina::Shop
         if pos?
           ["received", "paid", "picked_up"]
         else
-          ["received", "paid", "preparing", "picked_up"]
+          ["received", "paid", "preparing", "ready_for_pickup", "picked_up"]
         end
       end
     end

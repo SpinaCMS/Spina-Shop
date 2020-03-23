@@ -451,6 +451,7 @@ en:
           paid: 
           picked_up: 
           preparing: 
+          ready_for_pickup: 
           received: 
           shipped: 
         states:
@@ -464,6 +465,7 @@ en:
           paid: Paid
           picked_up: Picked up
           preparing: 
+          ready_for_pickup: 
           received: Received
           refunded: Refunded
           shipped: Shipped

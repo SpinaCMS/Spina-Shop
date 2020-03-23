@@ -451,6 +451,7 @@ de:
           paid: 
           picked_up: 
           preparing: 
+          ready_for_pickup: 
           received: 
           shipped: 
         states:
@@ -464,6 +465,7 @@ de:
           paid: bezahlt
           picked_up: abgerufen
           preparing: 
+          ready_for_pickup: 
           received: bestellen
           refunded: gerendert
           shipped: erstellte Mission

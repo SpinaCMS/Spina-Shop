@@ -463,6 +463,7 @@ nl:
           paid: dots
           picked_up: shop
           preparing: dots
+          ready_for_pickup: dots
           received: shop
           shipped: mail
         states:
@@ -476,6 +477,7 @@ nl:
           paid: Betaald
           picked_up: Opgehaald
           preparing: Voorbereiden
+          ready_for_pickup: Gereed voor ophalen
           received: Bestelling
           refunded: Gecrediteerd
           shipped: Zending aangemaakt

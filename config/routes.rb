@@ -15,6 +15,7 @@ Spina::Engine.routes.draw do
             post :pay
             post :receive
             post :order_picked_up
+            post :ready_for_pickup
             post :delivered
             post :duplicate
           end
