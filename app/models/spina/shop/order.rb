@@ -204,7 +204,7 @@ module Spina::Shop
     end
 
     def of_age?
-      age >= 18 if age
+      date_of_birth.year.to_i > 1900 && (age >= 18 if age)
     end
 
     def remove_discount!
