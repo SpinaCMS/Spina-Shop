@@ -1,0 +1,23 @@
+= link_to "Load graph", spina.shop_admin_analytics_customers_path, data: {remote: true}
+
+#analytics_graph
+
+
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Jaar
+        %th Maand
+        %th Totaal orders
+        %th Eerste bestellers
+        %th Percentage herhaalbestellingen
+    - @total_orders.each do |order|
+      - first_orders_count = @first_orders.find{|f| f.month == order.month}&.count
+      - herhaalbestellingen = order.count - first_orders_count
+      %tr
+        %td=l order.month, format: "%Y"
+        %td=l order.month, format: "%B"
+        %td= order.count
+        %td= first_orders_count
+        %td= (herhaalbestellingen / order.count.to_f * 100).round.to_s + "%"
