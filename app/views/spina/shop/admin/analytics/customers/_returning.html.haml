@@ -1,0 +1,16 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Klant
+        %th Laatste bestelling
+        %th.text-right Bestellingen
+        %th.text-right Totaal uitgegeven
+
+    %tbody
+      - @orders.each do |order|
+        %tr
+          %td= order.email
+          %td=l order.paid_at, format: "%d-%m-%Y %H:%M"
+          %td.text-right= order.order_count
+          %td.text-right= number_to_currency order.sql_order_total

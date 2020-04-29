@@ -1,0 +1,14 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Klant
+        %th Bestelling
+        %th.text-right Bestelwaarde
+
+    %tbody
+      - @orders.each do |order|
+        %tr
+          %td= order.full_name
+          %td=l order.paid_at, format: "%d-%m-%Y %H:%M"
+          %td.text-right= number_to_currency order.sql_order_total
