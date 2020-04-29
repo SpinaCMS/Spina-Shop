@@ -1,37 +1,29 @@
 // Graph render
-document.getElementById('analytics_graph').innerHTML = "<canvas id='analytics' height='200'></canvas>"
-
-
-
+document.getElementById('analytics_graph').innerHTML = "<canvas id='analytics' height='500'></canvas>"
+document.getElementById('analytics_table').innerHTML = "<%=j render 'first_time_vs_returning' %>"
 
 let context = document.getElementById('analytics').getContext('2d')
 let chart = new Chart(context, {
   type: 'bar',
   data: {
-    labels: JSON.parse("<%=j @total_orders.map(&:month).to_json.html_safe %>"),
+    labels: JSON.parse("<%=j @total_orders.map{|o| I18n.l(o.month, format: '%B %Y')}.to_json.html_safe %>"),
     datasets: [{
       label: "Eerste bestellingen",
       backgroundColor: '#36375a',
       borderColor: '#232343',
       borderWidth: 1,
-      data: JSON.parse("<%=j @first_orders.map(&:count).to_json.html_safe %>")
+      data: JSON.parse("<%=j @first_orders.map(&:total_orders).to_json.html_safe %>")
     }, {
-      label: "Totale orders",
+      label: "Alle bestellingen",
       backgroundColor: '#6E6BB0',
       hoverBackgroundColor: '#46456E',
       borderColor: '#38375E',
       borderWidth: 1,
-      data: JSON.parse("<%=j @total_orders.map(&:count).to_json.html_safe %>")
+      data: JSON.parse("<%=j @total_orders.map(&:total_orders).to_json.html_safe %>")
     }]
   },
   options: {
-    legend: false,
-    layout: {
-      padding: {
-        top: 20,
-        bottom: 20
-      }
-    },
+    maintainAspectRatio: false,
     gridLines: {
       yAxes: [{
         display: false
@@ -46,8 +38,9 @@ let chart = new Chart(context, {
       }],
       yAxes: [{
         ticks: {
+          min: 0,
           callback: function(value, index, values) {
-            return value
+            return `€${value / 1000}k`
           }
         }
       }]

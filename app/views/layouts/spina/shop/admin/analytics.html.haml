@@ -15,6 +15,10 @@
           = link_to spina.shop_admin_analytics_orders_path do
             =t 'spina.shop.analytics.orders'
 
+        %li{class: ("active" if controller_name == "customers")}
+          = link_to spina.shop_admin_analytics_customers_path do
+            Klanten
+
         %li{class: ("active" if controller_name == "stock_level_adjustments")}
           = link_to spina.shop_admin_analytics_stock_level_adjustments_path do
             =t 'spina.shop.analytics.stock_level_adjustments'

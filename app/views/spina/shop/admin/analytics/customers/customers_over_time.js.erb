@@ -1,0 +1,46 @@
+// Graph render
+document.getElementById('analytics_graph').innerHTML = "<canvas id='analytics' height='500'></canvas>"
+document.getElementById('analytics_table').innerHTML = "<%=j render 'customers_over_time' %>"
+
+let context = document.getElementById('analytics').getContext('2d')
+let chart = new Chart(context, {
+  type: 'bar',
+  data: {
+    labels: JSON.parse("<%=j @total_customers.map{|o| I18n.l(o.month, format: '%B %Y')}.to_json.html_safe %>"),
+    datasets: [{
+      label: "Nieuwe klanten",
+      backgroundColor: '#36375a',
+      borderColor: '#232343',
+      borderWidth: 1,
+      data: JSON.parse("<%=j @first_orders.map(&:count).to_json.html_safe %>")
+    }, {
+      label: "Alle klanten",
+      backgroundColor: '#6E6BB0',
+      hoverBackgroundColor: '#46456E',
+      borderColor: '#38375E',
+      borderWidth: 1,
+      data: JSON.parse("<%=j @total_customers.map(&:count).to_json.html_safe %>")
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    gridLines: {
+      yAxes: [{
+        display: false
+      }]
+    },
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          display: false
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0
+        }
+      }]
+    }
+  }
+})
