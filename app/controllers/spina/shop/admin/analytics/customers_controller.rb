@@ -53,7 +53,7 @@ module Spina::Shop
             .having("COUNT(id) = 1")
             .select("MIN(id) as id")
 
-          @orders = Spina::Shop::Order.where(id: order_ids).joins(:order_items).group("spina_shop_orders.id").order("paid_at DESC").select("SUM(quantity * unit_price - discount_amount) as sql_order_total, first_name, last_name, paid_at, company")
+          @orders = Spina::Shop::Order.where(id: order_ids).joins(:order_items).group("spina_shop_orders.id").order("paid_at DESC").select("SUM(quantity * unit_price - discount_amount) as sql_order_total, first_name, last_name, paid_at, company").limit(100)
           render :one_time
         end
 
@@ -64,7 +64,7 @@ module Spina::Shop
             .joins(:order_items)
             .having("COUNT(spina_shop_orders.id) > 1")
             .select("DISTINCT email, MAX(paid_at) as paid_at, SUM(quantity * unit_price - discount_amount) as sql_order_total, COUNT(DISTINCT spina_shop_orders.id) as order_count")
-            .order("sql_order_total DESC")
+            .order("sql_order_total DESC").limit(100)
           render :returning
         end
 
