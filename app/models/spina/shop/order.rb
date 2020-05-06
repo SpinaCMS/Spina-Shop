@@ -183,6 +183,7 @@ module Spina::Shop
 
     def merge!(order)
       raise Error if confirmed? || order.confirmed?
+      return if order == self # Can't merge with itself, that would destroy all order items
 
       transaction do
         order.order_items.where(orderable: order_items.map(&:orderable)).each do |duplicate|
