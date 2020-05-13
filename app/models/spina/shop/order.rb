@@ -117,6 +117,10 @@ module Spina::Shop
       DeliveryOption.all
     end
 
+    def payment_methods
+      Spina::Shop.config.payment_methods
+    end
+
     def soonest_delivery_date
       delivery_option.try(:soonest_delivery_date_for_order, self)
     end
