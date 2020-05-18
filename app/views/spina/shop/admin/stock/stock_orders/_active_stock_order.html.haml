@@ -31,7 +31,8 @@
         = active_stock_order.received_percentage
         \/
         = active_stock_order.ordered_stock.sum(:quantity)
-
+  %td.text-right
+    = number_to_currency active_stock_order.received_value
   %td.text-right
     = number_to_currency active_stock_order.order_value
   %td.text-right

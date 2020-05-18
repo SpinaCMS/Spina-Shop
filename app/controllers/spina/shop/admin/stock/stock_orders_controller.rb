@@ -8,7 +8,7 @@ module Spina::Shop
 
         def index
           @stock_orders = StockOrder.active
-          @closed_stock_orders = StockOrder.closed.order(closed_at: :desc, created_at: :desc)
+          @closed_stock_orders = StockOrder.closed.order(closed_at: :desc, created_at: :desc).limit(50)
         end
 
         def show

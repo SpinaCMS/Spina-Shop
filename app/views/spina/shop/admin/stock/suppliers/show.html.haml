@@ -46,6 +46,7 @@
           %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
           %th= Spina::Shop::StockOrder.human_attribute_name :expected_delivery
           %th
+          %th.text-right= Spina::Shop::StockOrder.human_attribute_name :received_value
           %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
           %th
 
