@@ -4,7 +4,9 @@
       = "##{stock_order.id}"
       - if stock_order.feedback.present?
         %i.icon.icon-pencil
-  %td= link_to stock_order.supplier.name, spina.shop_admin_supplier_path(stock_order.supplier), class: 'table-link'
+  %td
+    = link_to stock_order.supplier.name, spina.shop_admin_supplier_path(stock_order.supplier), class: 'table-link'
+    %small= stock_order.reference
   %td
     - if stock_order.ordered_at.present?
       =l stock_order.ordered_at, format: "%d-%m-%Y"
