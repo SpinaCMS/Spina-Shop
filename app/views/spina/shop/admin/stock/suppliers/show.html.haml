@@ -52,3 +52,20 @@
 
       %tbody
         = render partial: "spina/shop/admin/stock/stock_orders/active_stock_order", collection: @supplier.stock_orders.active
+
+- if @supplier.stock_orders.closed.any?
+  %h3{style: "margin-top: 60px"} Gesloten leveringen
+  .table-container.infinite-table
+    %table.table
+      %thead
+        %tr
+          %th= Spina::Shop::StockOrder.human_attribute_name :id
+          %th= Spina::Shop::StockOrder.human_attribute_name :supplier
+          %th= Spina::Shop::StockOrder.human_attribute_name :ordered_at
+          %th= Spina::Shop::StockOrder.human_attribute_name :closed_at
+          %th
+          %th.text-right= Spina::Shop::StockOrder.human_attribute_name :received_value
+          %th.text-right= Spina::Shop::StockOrder.human_attribute_name :order_value
+
+      %tbody
+        = render partial: "spina/shop/admin/stock/stock_orders/stock_order", collection: @supplier.stock_orders.closed.order(closed_at: :desc, created_at: :desc)
