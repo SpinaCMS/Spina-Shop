@@ -139,7 +139,8 @@ module Spina::Shop
       generator.generate!(transition.metadata["refund_lines"], transition.metadata["refund_delivery_costs"])
 
       # Refund stock if necessary
-      RefundStock.new(order).allocate(transition.metadata["refund_lines"]) if transition.metadata["deallocate_stock"]
+      refunder = RefundStock.new(order, category: order.refund_reason)
+      refunder.allocate(transition.metadata["refund_lines"]) if transition.metadata["deallocate_stock"]
     end
 
     after_transition(to: :refunded) do |order, transition|
