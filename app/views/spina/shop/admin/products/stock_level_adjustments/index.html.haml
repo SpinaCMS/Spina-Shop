@@ -71,7 +71,7 @@
             - if adjustment.category.present?
               =t "spina.shop.stock_level_adjustments.categories.#{adjustment.category}"
           %td= adjustment.description
-          %td=l adjustment.created_at, format: "%d-%m-%Y"
+          %td=l adjustment.created_at, format: "%d-%m-%Y %H:%M:%S"
           %td= adjustment.actor
 
           - if @product.can_expire?

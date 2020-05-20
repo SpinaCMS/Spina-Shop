@@ -14,7 +14,7 @@ module Spina::Shop
         # Set received and change the stock level
         @ordered_stock.transaction do
           @ordered_stock.received = @ordered_stock.received + params["received"].to_i
-          @ordered_stock.save
+          @ordered_stock.save!
 
           # Change stock level
           ChangeStockLevel.new(@ordered_stock.product, {
