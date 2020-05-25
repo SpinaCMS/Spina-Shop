@@ -1,0 +1,22 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Maand
+        %th.text-right Eerste bestelling
+        %th.text-right Terugkerende bestellingen
+        %th.text-right Totaal bestellingen
+
+    %tbody
+      - @total_orders.reverse.each do |month|
+        - new_orders = @first_orders.to_a.find{|o| o.month == month.month}&.total_orders
+        - percentage_new = ((new_orders / month.total_orders.to_f) * 100).round
+        %tr
+          %td=l month.month, format: "%B '%y"
+          %td.text-right
+            = number_to_currency new_orders
+            %small{style: "display: inline"}= "(#{percentage_new}%)"
+          %td.text-right
+            = number_to_currency month.total_orders - new_orders
+            %small{style: "display: inline"}= "(#{100 - percentage_new}%)"
+          %td.text-right= number_to_currency month.total_orders

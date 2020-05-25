@@ -1,0 +1,22 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Maand
+        %th.text-right Nieuwe klanten
+        %th.text-right Terugkerende klanten
+        %th.text-right Totaal unieke klanten
+
+    %tbody
+      - @total_customers.reverse.each do |month|
+        - new_customers = @first_orders.to_a.find{|o| o.month == month.month}&.count
+        - percentage_new = ((new_customers / month.count.to_f) * 100).round
+        %tr
+          %td=l month.month, format: "%B '%y"
+          %td.text-right
+            = new_customers
+            %small{style: "display: inline"}= "(#{percentage_new}%)"
+          %td.text-right
+            = month.count - new_customers
+            %small{style: "display: inline"}= "(#{100 - percentage_new}%)"
+          %td.text-right= month.count

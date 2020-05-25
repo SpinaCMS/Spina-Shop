@@ -141,6 +141,7 @@ Spina::Engine.routes.draw do
           resources :stock_level_adjustments
           resources :exports
           resources :orders
+          resources :customers
         end
 
         # Gift Cards

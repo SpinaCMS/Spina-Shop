@@ -1,0 +1,17 @@
+= form_with url: spina.shop_admin_analytics_customers_path, method: :get, class: 'filter-form' do |f|
+  .filter-form-simple
+    .filter-form-input
+      .select-dropdown= f.select :view, views
+      per 
+      .select-dropdown= f.select :group, [['maand', 'month']]
+      tussen
+      .select-dropdown= f.select :start_date, options_for_select((48.times.map{|i| (Date.today - i.months).beginning_of_month}.map{|d| [l(d, format: "%B '%y"), l(d, format: "%d-%m-%Y")]}), l((Date.today - 1.year).beginning_of_month, format: "%d-%m-%Y"))
+      en
+      .select-dropdown= f.select :end_date, 48.times.map{|i| (Date.today - i.months).end_of_month}.map{|d| [l(d, format: "%B '%y"), l(d, format: "%d-%m-%Y")]}
+    
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      %i.icon.icon-search
+
+#analytics_graph
+
+#analytics_table
