@@ -9,7 +9,7 @@
 
     %tbody
       - @total_customers.reverse.each do |month|
-        - new_customers = @first_orders.to_a.find{|o| o.month == month.month}&.count
+        - new_customers = @first_orders.to_a.find{|o| o.month == month.month}&.count || 0
         - percentage_new = ((new_customers / month.count.to_f) * 100).round
         %tr
           %td=l month.month, format: "%B '%y"
