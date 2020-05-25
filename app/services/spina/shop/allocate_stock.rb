@@ -1,8 +1,9 @@
 module Spina::Shop
   class AllocateStock
 
-    def initialize(order)
+    def initialize(order, category: nil)
       @order = order
+      @category = category
     end
 
     def allocate
@@ -29,7 +30,7 @@ module Spina::Shop
       def params_for_order_item(order_item, product_id)
         return nil if Product.where(id: product_id, stock_enabled: true).none?
         stock = order_item.unallocated_stock(product_id) * -1
-        { order_item_id: order_item.id, product_id: product_id, adjustment: stock, description: "Order #{@order.number}" }
+        { order_item_id: order_item.id, product_id: product_id, adjustment: stock, category: @category, description: "Order #{@order.number}" }
       end
 
   end

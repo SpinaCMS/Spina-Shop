@@ -16,7 +16,7 @@ module Spina::Shop
         return nil if quantity.zero?
         return nil if Product.where(id: product_id, stock_enabled: true).none?
         stock = order_item.product_quantity(product_id, quantity)
-        { order_item_id: order_item.id, product_id: product_id, adjustment: stock, description: "Refund #{@order.number}" }
+        { order_item_id: order_item.id, product_id: product_id, adjustment: stock, category: @category, description: "Refund #{@order.number}" }
       end
 
       def get_quantity(order_item)
