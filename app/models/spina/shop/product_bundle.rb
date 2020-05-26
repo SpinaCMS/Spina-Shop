@@ -50,6 +50,10 @@ module Spina::Shop
       description
     end
 
+    def stock_enabled?
+      bundled_products.joins(:product).where(spina_shop_products: {stock_enabled: true}).any?
+    end
+
     def stock_level
       bundled_products.joins(:product).pluck("MIN(stock_level / quantity)")[0].to_i
     end
