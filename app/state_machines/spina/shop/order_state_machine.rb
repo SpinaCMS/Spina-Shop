@@ -66,14 +66,14 @@ module Spina::Shop
 
       # Remove gift card
       order.remove_gift_cards! if order.gift_cards.any?
-
-      # Remove discount
-      order.remove_discount! if order.discount.present?
     end
 
     after_transition(to: :cancelled) do |order, transition|
       # Duplicate order voor nieuw winkelmandje
       order.duplicate!
+
+      # Remove discount (after copying it to the new duplicated order)
+      order.remove_discount! if order.discount.present?
     end
 
     after_transition(to: :received) do |order, transition|
