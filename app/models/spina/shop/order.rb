@@ -67,7 +67,6 @@ module Spina::Shop
 
     # Validate Stock
     validate :items_must_be_in_stock, if: -> { validate_stock }
-    validate :items_must_be_live, if: -> { validate_stock }
     validate :must_have_at_least_one_item, if: -> { validate_stock }
     validate :items_must_be_below_limit, if: -> { validate_stock }
     before_validation :validate_stock_for_order_items, if: -> { validate_stock }
@@ -249,10 +248,6 @@ module Spina::Shop
 
       def items_must_be_in_stock
         errors.add(:base, :stock_level_not_sufficient) unless order_items.all?(&:in_stock?)
-      end
-
-      def items_must_be_live
-        errors.add(:base, :item_not_live) unless order_items.all?(&:live?)
       end
 
       def items_must_be_below_limit
