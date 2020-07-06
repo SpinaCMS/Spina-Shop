@@ -83,6 +83,10 @@ module Spina::Shop
       end
     end
 
+    def live?
+      orderable.live?
+    end
+
     def is_product?
       orderable_type == "Spina::Shop::Product"
     end

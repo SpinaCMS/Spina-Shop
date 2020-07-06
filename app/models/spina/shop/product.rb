@@ -45,6 +45,7 @@ module Spina::Shop
 
     # Active product
     scope :active, -> { where(active: true, archived: false) }
+    scope :live, -> { where(active: true, archived: false) }
 
     # Postgres-specific queries for the jsonb column
     scope :where_any_tags, -> (key, value) do
@@ -70,6 +71,10 @@ module Spina::Shop
 
     def to_s
       name
+    end
+
+    def live?
+      active && !archived
     end
 
     # All properties are dynamically stored using jsonb

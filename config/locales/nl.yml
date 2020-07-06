@@ -253,6 +253,7 @@ nl:
           attributes:
             base:
               item_limit_exceeded: Maximum per bestelling overschreden
+              item_not_live: Niet alle producten zijn beschikbaar
               shopping_cart_empty: Winkelmand is leeg
               stock_level_not_sufficient: Niet alle producten zijn op voorraad
             date_of_birth:

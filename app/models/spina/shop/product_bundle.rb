@@ -27,6 +27,7 @@ module Spina::Shop
 
     # Active product bundles
     scope :active, -> { where(active: true, archived: false) }
+    scope :live, -> { where(active: true, archived: false) }
 
     # Mobility translates
     translates :name, :description, :materialized_path
@@ -35,6 +36,10 @@ module Spina::Shop
 
     def to_s
       name
+    end
+
+    def live?
+      active && !archived
     end
 
     def full_name

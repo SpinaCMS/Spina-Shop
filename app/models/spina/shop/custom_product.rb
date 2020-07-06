@@ -15,6 +15,10 @@ module Spina::Shop
       name
     end
 
+    def live?
+      true
+    end
+
     def weight
       0
     end
