@@ -34,7 +34,7 @@ module Spina::Shop
     has_many :gift_cards_orders, class_name: "Spina::Shop::GiftCardsOrder"
     has_many :gift_cards, through: :gift_cards_orders, class_name: "Spina::Shop::GiftCard"
 
-    scope :sorted, -> { order(order_number: :desc, id: :desc) }
+    scope :sorted, -> { order(order_number: :desc) }
     scope :received, -> { where.not(received_at: nil) }
     scope :prepared, -> { where.not(order_prepared_at: nil) }
     scope :confirmed, -> { where.not(confirming_at: nil) }

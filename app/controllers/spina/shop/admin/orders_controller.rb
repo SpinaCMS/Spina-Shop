@@ -73,7 +73,7 @@ module Spina::Shop
       end
 
       def index
-        @orders = Order.confirmed.includes(:order_items, :order_transitions).sorted
+        @orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
         filter_orders
       end
 
