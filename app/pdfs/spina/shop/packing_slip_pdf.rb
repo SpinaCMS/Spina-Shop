@@ -80,8 +80,10 @@ module Spina::Shop
         {location: nil, quantity: order_item.quantity, description: order_item.description}
       end
 
+      checkbox = make_table([[" "]], width: 1.cm, position: :right, cell_style: {border_width: 1.5, border_color: "cccccc", height: 0.5.cm})
+
       products.sort_by{|p| (p[:location].present? ? "0" : "1") + p[:location].to_s}.each do |product|
-        lines << ["#{product[:quantity]} x", product[:description], product[:location], ""]
+        lines << ["#{product[:quantity]} x", product[:description], product[:location], checkbox]
       end
 
       table lines, header: true, column_widths: {0 => 2.cm, 1 => 10.cm}, width: bounds.width, cell_style: {borders: [:top], border_color: "DDDDDD", padding: 10} do |t|
@@ -91,8 +93,15 @@ module Spina::Shop
           page.row(1).border_top_width = 2
           page.column(0).align = :right
           page.column(3).align = :right
+          page.column(3).padding_right = 0
         end
       end
+
+      move_down 1.cm
+
+      fill_color "aaaaaa"
+      table [["Orderpicker", "Controle"]], position: :right, cell_style: {width: 4.cm, height: 2.5.cm, border_width: 1.5, border_color: "cccccc", padding: 10, font_style: :semibold}
+      fill_color "000000"
     end
   end
 end
