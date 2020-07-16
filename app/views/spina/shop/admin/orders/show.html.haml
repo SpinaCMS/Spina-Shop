@@ -335,6 +335,8 @@
             %td
               - if order_item.is_product?
                 = link_to order_item.description, spina.shop_admin_product_path(order_item.orderable), class: 'table-link'
+              - elsif order_item.is_product_bundle?
+                = link_to order_item.description, spina.shop_admin_product_bundle_path(order_item.orderable), class: 'table-link'
               - else
                 = order_item.description
 
