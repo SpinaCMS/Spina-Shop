@@ -10,3 +10,22 @@
 
 // Vendor stuff
 @import spina_shop/select2
+
+// Fix buttons in dropdowns
+[data-dropdown]
+  ul li a, ul li button, ul li input[type="submit"]
+    background: none
+    color: #333
+    display: block
+    font-size: 14px
+    padding: 8px 16px
+    text-align: left
+    text-decoration: none
+    width: 100%
+
+  ul li a:hover, ul li button:hover, ul li input[type="submit"]:hover
+    background-color: $primary-color
+    color: #fff
+
+  ul li a:before, ul li button:before, ul li input[type="submit"]:before
+    margin-right: 8px
