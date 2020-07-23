@@ -253,7 +253,6 @@ nl:
           attributes:
             base:
               item_limit_exceeded: Maximum per bestelling overschreden
-              item_not_live: Niet alle producten zijn beschikbaar
               shopping_cart_empty: Winkelmand is leeg
               stock_level_not_sufficient: Niet alle producten zijn op voorraad
             date_of_birth:
@@ -404,6 +403,7 @@ nl:
         mark_as_paid: Markeer als betaald
         mark_as_paid_confirmation_html: Weet je zeker dat je deze factuur wilt <strong>markeren als betaald</strong>?
         no_invoices: Geen facturen beschikbaar
+        not_exported: Niet geëxporteerd
         unpaid: Onbetaalde facturen
       next: Volgende
       order_items:
