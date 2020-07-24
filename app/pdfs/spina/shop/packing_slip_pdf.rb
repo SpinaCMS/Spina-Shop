@@ -96,12 +96,6 @@ module Spina::Shop
           page.column(3).padding_right = 0
         end
       end
-
-      move_down 1.cm
-
-      fill_color "aaaaaa"
-      table [["Orderpicker", "Controle"]], position: :right, cell_style: {width: 4.cm, height: 2.5.cm, border_width: 1.5, border_color: "cccccc", padding: 10, font_style: :semibold}
-      fill_color "000000"
     end
   end
 end
