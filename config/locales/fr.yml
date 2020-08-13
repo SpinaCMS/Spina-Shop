@@ -113,6 +113,7 @@ fr:
         order_total: 
         original_order: 
         paid_at: 
+        payment_issuer: 
         payment_method: paiement
         payment_reminder_sent_at: 
         phone: téléphone

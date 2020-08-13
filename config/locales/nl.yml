@@ -113,6 +113,7 @@ nl:
         order_total: Subtotaal
         original_order: Origineel
         paid_at: Betaald op
+        payment_issuer: Bank
         payment_method: Betaalmethode
         payment_reminder_sent_at: Betalingsherinnering
         phone: Telefoon
