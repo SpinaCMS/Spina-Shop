@@ -113,6 +113,7 @@ en:
         order_total: 
         original_order: 
         paid_at: Paid at
+        payment_issuer: 
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder
         phone: Phone
@@ -391,6 +392,7 @@ en:
         mark_as_paid: 
         mark_as_paid_confirmation_html: 
         no_invoices: 
+        not_exported: Not exported
         unpaid: 
       next: 
       order_items:

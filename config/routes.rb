@@ -59,6 +59,7 @@ Spina::Engine.routes.draw do
           collection do
             get :unpaid
             get :credit
+            get :not_exported
           end
         end
 

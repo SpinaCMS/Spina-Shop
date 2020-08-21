@@ -14,6 +14,9 @@
         %li{class: ("active" if action_name == "credit")}
           = link_to spina.credit_shop_admin_invoices_path do
             =t 'spina.shop.invoices.credit'
+        %li{class: ("active" if action_name == "not_exported")}
+          = link_to spina.not_exported_shop_admin_invoices_path do
+            =t 'spina.shop.invoices.not_exported'
 
   = yield
 

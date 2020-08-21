@@ -18,6 +18,11 @@ module Spina::Shop
         render :index
       end
 
+      def not_exported
+        @invoices = Invoice.order(date: :desc, number: :desc).where(exported: false).includes(:order).page(params[:page]).per(25)
+        render :index
+      end
+
       def mark_as_paid
         @invoice = Invoice.find(params[:id])
         @invoice.update(paid: true)
