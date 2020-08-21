@@ -9,6 +9,9 @@
       = product.full_name
     %small= product.supplier&.name
   %td= product.location
+  %td= product.hobbelen_30_days
+  %td= product.hobbelen_90_days
+  %td= product.hobbelen_365_days
   %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px; position: relative'}
     %span{style: "font-size: 12px; font-weight: 500; color: #7070B3"}= product.past_30_days
     %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
@@ -33,14 +36,15 @@
       %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
         %i.icon.icon-document
   %td.text-right
-    = product.coming_30_days
-  %td.text-right
     - if product.stock_difference < 0
       %span.text-danger= product.stock_difference
     - elsif product.stock_difference == 0
       %span.text-success 0
     - else
       %span.text-success= "+#{product.stock_difference}"
+  %td.text-right
+    = product.lead_time.round
+    dagen
   %td.text-right.nowrap
     - if product.recount_created_at.present?
       %span{style: "font-size: 13px"}
