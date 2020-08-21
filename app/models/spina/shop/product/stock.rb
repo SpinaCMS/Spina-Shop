@@ -24,11 +24,11 @@ module Spina::Shop
 
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_365_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as hobbelen_30_days,
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as order_picking_30_days,
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as hobbelen_90_days, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as order_picking_90_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as hobbelen_365_days, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as order_picking_365_days, 
 
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * (CASE WHEN lead_time IS NULL THEN 1 ELSE lead_time END) AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as optimal_stock, 
 
