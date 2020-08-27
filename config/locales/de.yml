@@ -287,7 +287,7 @@ de:
         one: Rechnung
         other: Rechnungen
       spina/shop/order:
-        one: bestellen
+        one: Auftrag
         other: Aufträge
       spina/shop/product:
         one: Produkt
