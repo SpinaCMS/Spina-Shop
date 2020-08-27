@@ -12,6 +12,8 @@
           = link_to Spina::Shop::TaxGroup.model_name.human(count: 2), spina.shop_admin_settings_tax_groups_path
         %li{class: ('active' if controller_name == 'sales_categories')}
           = link_to Spina::Shop::SalesCategory.model_name.human(count: 2), spina.shop_admin_settings_sales_categories_path
+        %li{class: ('active' if controller_name == 'locations')}
+          = link_to Spina::Shop::Location.model_name.human(count: 2), spina.shop_admin_settings_locations_path
         %li{class: ('active' if controller_name == 'tags')}
           = link_to Spina::Shop::Tag.model_name.human(count: 2), spina.shop_admin_settings_tags_path
 

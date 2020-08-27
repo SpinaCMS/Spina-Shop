@@ -1,0 +1,18 @@
+= form_with model: @location, url: @location.new_record? ? spina.shop_admin_settings_location_path : spina.shop_admin_settings_location_path(@location) do |f|
+  %header#header
+    .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
+
+    #header_actions
+      %button.button.button-primary{type: 'submit'}
+        = icon('check')
+        =t 'spina.save'
+
+  .sidebar-form
+    .sidebar-form-content
+      .well
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Location.human_attribute_name :name
+
+          .sidebar-form-control
+            = f.text_field :name, placeholder: Spina::Shop::Location.human_attribute_name(:name)
