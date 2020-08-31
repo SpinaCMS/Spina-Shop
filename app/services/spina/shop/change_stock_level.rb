@@ -1,7 +1,7 @@
 module Spina::Shop
   class ChangeStockLevel
 
-    def initialize(product, params, send_in_stock_reminders: false)
+    def initialize(product, params, send_in_stock_reminders: true)
       @product = product
       @send_in_stock_reminders = send_in_stock_reminders
       @params = {
