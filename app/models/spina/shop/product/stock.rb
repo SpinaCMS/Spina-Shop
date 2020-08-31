@@ -8,6 +8,11 @@ module Spina::Shop
       has_many :stock_level_adjustments, dependent: :destroy
       has_many :in_stock_reminders, as: :orderable, dependent: :destroy
 
+      has_many :product_locations, dependent: :restrict_with_exception
+      has_many :locations, through: :product_locations
+
+      accepts_nested_attributes_for :product_locations, allow_destroy: true
+
       has_many :recounts, dependent: :destroy
       
       has_many :ordered_stock, dependent: :destroy
