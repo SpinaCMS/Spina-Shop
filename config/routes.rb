@@ -66,7 +66,9 @@ Spina::Engine.routes.draw do
 
         # Products
         namespace :products do
-          resource :batch, only: [:edit, :update]
+          resource :batch, only: [:edit, :update] do
+            post :edit
+          end
         end
 
         resources :products do
