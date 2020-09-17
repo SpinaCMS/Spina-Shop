@@ -5,21 +5,29 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @invoices = Invoice.order(date: :desc, number: :desc).includes(:order).page(params[:page]).per(25)
+        @search_path = spina.shop_admin_invoices_path
+        @q = Invoice.order(date: :desc, number: :desc).includes(:order).ransack(params[:q])
+        @invoices = @q.result(distinct: true).page(params[:page]).per(25)
       end
 
       def unpaid
-        @invoices = Invoice.order(date: :desc, number: :desc).where(paid: false).includes(:order).page(params[:page]).per(25)
+        @search_path = spina.unpaid_shop_admin_invoices_path
+        @q = Invoice.order(date: :desc, number: :desc).where(paid: false).includes(:order).ransack(params[:q])
+        @invoices = @q.result(distinct: true).page(params[:page]).per(25)
         render :index
       end
 
       def credit
-        @invoices = Invoice.order(date: :desc, number: :desc).joins(:invoice_lines).group("spina_shop_invoices.id").having("SUM(quantity * unit_price - discount) < 0").page(params[:page]).per(25)
+        @search_path = spina.credit_shop_admin_invoices_path
+        @q = Invoice.order(date: :desc, number: :desc).joins(:invoice_lines).group("spina_shop_invoices.id").having("SUM(quantity * unit_price - discount) < 0").ransack(params[:q])
+        @invoices = @q.result(distinct: true).page(params[:page]).per(25)
         render :index
       end
 
       def not_exported
-        @invoices = Invoice.order(date: :desc, number: :desc).where(exported: false).includes(:order).page(params[:page]).per(25)
+        @search_path = spina.not_exported_shop_admin_invoices_path
+        @q = Invoice.order(date: :desc, number: :desc).where(exported: false).includes(:order).ransack(params[:q])
+        @invoices = @q.result(distinct: true).page(params[:page]).per(25)
         render :index
       end
 
