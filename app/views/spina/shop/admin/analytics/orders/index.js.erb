@@ -4,8 +4,8 @@ document.getElementById('analytics_table').innerHTML = "<%=j render 'table' %>"
 // Graph render
 document.getElementById('analytics_graph').innerHTML = "<canvas id='analytics' height='200'></canvas>"
 
-let context = document.getElementById('analytics').getContext('2d')
-let chart = new Chart(context, {
+var context = document.getElementById('analytics').getContext('2d')
+var chart = new Chart(context, {
   type: 'bar',
   data: {
     labels: JSON.parse("<%=j @labels_json.html_safe %>"),
