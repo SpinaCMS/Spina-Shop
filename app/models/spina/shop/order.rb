@@ -83,7 +83,6 @@ module Spina::Shop
         using: {
           tsearch: {prefix: true}
         },
-        ignoring: :accents,
         order_within_rank: "order_number DESC, id DESC"
 
     # Override addresses if necessary

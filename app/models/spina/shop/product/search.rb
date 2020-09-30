@@ -17,7 +17,6 @@ module Spina::Shop
           tsearch: {prefix: true, any_word: true},
           trigram: {only: [:name], threshold: 0.2}
         },
-        ignoring: :accents,
         ranked_by: "(:trigram) + (:tsearch / 2.0)"
     end
 
