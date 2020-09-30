@@ -5,6 +5,7 @@ module Spina::Shop
 
     validates :street1, :postal_code, :city, presence: true
 
+    scope :general, -> { where.not(address_type: %w(billing delivery)) }
     scope :billing, -> { where(address_type: 'billing') }
     scope :delivery, -> { where(address_type: 'delivery') }
 

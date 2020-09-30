@@ -43,7 +43,11 @@ module Spina::Shop
     # A customer's default address is it's first billing address
     # with a fallback to the billing address
     def default_address
-      billing_address || delivery_address
+      billing_address || general_address || delivery_address
+    end
+
+    def general_address
+      addresses.general.first
     end
 
     def billing_address
