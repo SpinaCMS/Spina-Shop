@@ -23,11 +23,11 @@ module Spina::Shop
       scope :stock_forecast, -> { select('
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_30_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'60 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_60_days, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'60 days\' AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_60_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_90_days, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'90 days\' AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_90_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_365_days, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_365_days, 
 
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as order_picking_30_days,
 
@@ -35,9 +35,9 @@ module Spina::Shop
 
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN 1 ELSE 0 END) as order_picking_365_days, 
 
-        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * (CASE WHEN lead_time IS NULL THEN 1 ELSE lead_time END) AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as optimal_stock, 
+        SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * (CASE WHEN lead_time IS NULL THEN 1 ELSE lead_time END) AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as optimal_stock, 
 
-        stock_level - (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * (CASE WHEN lead_time IS NULL THEN 1 ELSE lead_time END) AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1) as stock_difference, 
+        stock_level - (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'42 days\' - interval \'1 day\' * (CASE WHEN lead_time IS NULL THEN 1 ELSE lead_time END) AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1) as stock_difference, 
 
         stock_level * cost_price AS stock_value, (SELECT COUNT(*) FROM spina_shop_in_stock_reminders WHERE orderable_type = \'Spina::Shop::Product\' AND orderable_id = spina_shop_products.id) as in_stock_reminders_count, 
 
@@ -45,8 +45,8 @@ module Spina::Shop
 
         (SELECT created_at FROM spina_shop_recounts WHERE product_id = spina_shop_products.id ORDER BY created_at DESC LIMIT 1) as recount_created_at, spina_shop_products.*, 
 
-        CASE WHEN (cost_price > 0 AND SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 > 0) THEN
-          ((SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" < current_date - interval \'365 days\' THEN "adjustment" ELSE 0 END) + stock_level) / 2 * cost_price) * 365 / (cost_price * (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1)) 
+        CASE WHEN (cost_price > 0 AND SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 > 0) THEN
+          ((SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" < current_date - interval \'365 days\' THEN "adjustment" ELSE 0 END) + stock_level) / 2 * cost_price) * 365 / (cost_price * (SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'365 days\' AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1)) 
         ELSE 0 END as lead_time'
       ).purchasable
        .where(stock_enabled: true, archived: false)
