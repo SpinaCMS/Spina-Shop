@@ -1,0 +1,36 @@
+.modal.modal-large
+  = form_with url: spina.shop_admin_product_labels_path, local: true do |f|
+    %header
+      = link_to '#', data: {dismiss: "modal"} do
+        = icon('cross')
+      %h3 Labels genereren
+  
+    %section{style: "padding-top: 0"}
+      .table-container
+        %table.table{style: "margin: 0"}
+          %thead
+            %tr
+              %th
+              %th= Spina::Shop::Product.human_attribute_name(:name)
+              %th= Spina::Shop::Product.human_attribute_name(:expiration_date)
+              %th= Spina::Shop::Product.human_attribute_name(:location)
+
+          - @product_labels.each do |product_label|
+            - product = product_label[:product]
+            %tr
+              %td{style: "width: 50px"}
+                - if product.root.product_images.any?
+                  = image_tag main_app.url_for(product.root.product_images.first.file.variant(resize: '60x60')), width: 30
+              %td
+                = f.hidden_field "product_labels[][name]", value: product_label[:name]
+                = product_label[:name]
+              %td{style: "width: 150px"}
+                = f.text_field "product_labels[][tht]", value: product_label[:tht]
+              %td{style: "width: 150px"}
+                .select-dropdown{style: "width: 100%"}= f.select "product_labels[][location]", options_for_select(product_label[:locations], product_label[:location])
+
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-check
+        Genereer labels

@@ -104,6 +104,7 @@ Spina::Engine.routes.draw do
         scope module: :stock do
           resource :stock_forecast
           resources :suppliers
+          resource :product_labels
           resources :stock_orders do
             member do
               post :place_order
