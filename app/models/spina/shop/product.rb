@@ -81,6 +81,10 @@ module Spina::Shop
       translations.where.not(description: [nil, ""]).none?
     end
 
+    def missing_cost_price?
+      cost_price.nil? || cost_price.zero?
+    end
+
     # All properties are dynamically stored using jsonb
     def properties
       decorate_with_methods(read_attribute(:properties))

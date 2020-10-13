@@ -506,6 +506,7 @@ fr:
         duplicate: 
         expired: Le Produit a expiré
         in_stock_reminders: 
+        missing_cost_price: 
         missing_description: 
         new: nouveau produit
         new_by_category_title_html: Choisissez une <strong>catégorie</strong>
