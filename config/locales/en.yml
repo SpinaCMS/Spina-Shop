@@ -506,7 +506,7 @@ en:
         duplicate: 
         expired: Product has expired
         in_stock_reminders: 
-        missing_cost_price: 
+        missing_cost_price: Missing cost price
         missing_description: Missing description
         new: New product
         new_by_category_title_html: Choose a <strong>category</strong>

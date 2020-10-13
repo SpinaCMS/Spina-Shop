@@ -518,7 +518,7 @@ nl:
         duplicate: Dupliceren
         expired: Product is verlopen
         in_stock_reminders: Herinneren
-        missing_cost_price: Ontbrekende kostprijs
+        missing_cost_price: Kostprijs ontbreekt
         missing_description: Geen beschrijving
         new: Nieuw product
         new_by_category_title_html: Kies een <strong>categorie</strong>
