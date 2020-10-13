@@ -77,6 +77,10 @@ module Spina::Shop
       active && !archived
     end
 
+    def missing_description?
+      translations.where.not(description: [nil, ""]).none?
+    end
+
     # All properties are dynamically stored using jsonb
     def properties
       decorate_with_methods(read_attribute(:properties))

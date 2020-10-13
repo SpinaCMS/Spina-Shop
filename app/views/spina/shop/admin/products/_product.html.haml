@@ -16,7 +16,7 @@
             %small= product.product_category.name
         - if product.variant?
           %span.product-variant-name= product.variant_name || "–"
-      - if !product.variant? && product.description.blank?
+      - if !product.variant? && product.missing_description?
         .text-danger{style: "color: orange"} 
           ⚠️ 
           =t "spina.shop.products.missing_description"
