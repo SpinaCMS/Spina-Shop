@@ -506,6 +506,7 @@ de:
         duplicate: 
         expired: Produkt ist abgelaufen
         in_stock_reminders: 
+        missing_description: 
         new: neues Produkt
         new_by_category_title_html: Wählen Sie eine <strong>Kategorie</strong>
         new_copy: 

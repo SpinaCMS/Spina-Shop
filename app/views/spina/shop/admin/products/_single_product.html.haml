@@ -9,6 +9,10 @@
         = image_tag main_app.url_for(single_product.product_images.first.file.variant(resize: '60x60')), style: 'vertical-align: middle; margin: -10px 0; max-width: 30px; max-height: 30px'
     %td
       = link_to single_product.name, spina.shop_admin_product_path(single_product)
+      - if !product.variant? && product.description.blank?
+        .text-danger{style: "color: orange"} 
+          ⚠️ 
+          =t "spina.shop.products.missing_description"
       - if !single_product.variant?
         - if single_product.product_category.present? 
           %small= single_product.product_category.name

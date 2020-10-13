@@ -16,6 +16,10 @@
             %small= product.product_category.name
         - if product.variant?
           %span.product-variant-name= product.variant_name || "–"
+      - if !product.variant? && product.description.blank?
+        .text-danger{style: "color: orange"} 
+          ⚠️ 
+          =t "spina.shop.products.missing_description"
       %small= product.product_collections.pluck(:name).join(", ").html_safe
 
     - if stores.any?

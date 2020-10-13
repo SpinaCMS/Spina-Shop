@@ -518,6 +518,7 @@ nl:
         duplicate: Dupliceren
         expired: Product is verlopen
         in_stock_reminders: Herinneren
+        missing_description: Geen beschrijving
         new: Nieuw product
         new_by_category_title_html: Kies een <strong>categorie</strong>
         new_copy: Nieuwe kopie
