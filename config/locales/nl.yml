@@ -127,6 +127,7 @@ nl:
         shipped_at: Verzonden op
         store: Winkel
         sub_total: Subtotaal
+        sub_total_excl_tax: Subtotaal excl. btw
         tax_amount: Btw
         to_be_paid: Te betalen
         total: Totaal

@@ -127,6 +127,7 @@ de:
         shipped_at: geschickt
         store: 
         sub_total: Zwischensumme
+        sub_total_excl_tax: Zwischensumme
         tax_amount: 
         to_be_paid: Zu zahlen
         total: Gesamt

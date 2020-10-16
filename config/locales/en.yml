@@ -127,6 +127,7 @@ en:
         shipped_at: Shipped at
         store: Store
         sub_total: Sub total
+        sub_total_excl_tax: Sub total excl. VAT
         tax_amount: Tax
         to_be_paid: To pay
         total: Total

@@ -126,7 +126,8 @@ fr:
         separate_delivery_address: autre adresse
         shipped_at: envoyé sur
         store: 
-        sub_total: total
+        sub_total: Sous-total
+        sub_total_excl_tax: Sous-total
         tax_amount: 
         to_be_paid: 
         total: total
