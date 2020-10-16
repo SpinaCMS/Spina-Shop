@@ -321,11 +321,11 @@ fr:
       addresses:
         add_address: Ajouter une adresse
       analytics:
-        exports: 
+        exports: Exports
         orders: 
         stock_level_adjustments: 
         title: 
-      approve_selected: 
+      approve_selected: Approuver
       customer_accounts:
         edit: Modifier le compte
         forgot_password:
@@ -396,7 +396,7 @@ fr:
         no_invoices: 
         not_exported: 
         unpaid: 
-      next: 
+      next: Prochain
       order_items:
         choose_quantity: 
         optional_unit_price: 
@@ -562,7 +562,7 @@ fr:
         title: rapports
       sales_categories:
         default_sales_category_code: catégorie standard chiffre d'affaires
-      save: 
+      save: Sauver
       settings: Préférences webshop
       shop_reviews:
         save: 

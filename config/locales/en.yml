@@ -325,11 +325,11 @@ en:
       addresses:
         add_address: Add address
       analytics:
-        exports: 
+        exports: Exports
         orders: 
         stock_level_adjustments: 
         title: 
-      approve_selected: 
+      approve_selected: Approve
       customer_accounts:
         edit: Edit account
         forgot_password:
@@ -400,7 +400,7 @@ en:
         no_invoices: 
         not_exported: Not exported
         unpaid: 
-      next: 
+      next: Next
       order_items:
         choose_quantity: 
         optional_unit_price: 
@@ -566,7 +566,7 @@ en:
         title: Reports
       sales_categories:
         default_sales_category_code: Standard turnover category
-      save: 
+      save: Save
       settings: Shop settings
       shop_reviews:
         save: 

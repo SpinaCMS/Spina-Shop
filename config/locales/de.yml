@@ -321,11 +321,11 @@ de:
       addresses:
         add_address: Adresse hinzufügen
       analytics:
-        exports: 
+        exports: Exports
         orders: 
         stock_level_adjustments: 
         title: 
-      approve_selected: 
+      approve_selected: Genehmigen
       customer_accounts:
         edit: Konto bearbeiten
         forgot_password:
@@ -396,7 +396,7 @@ de:
         no_invoices: 
         not_exported: 
         unpaid: 
-      next: 
+      next: Nächster
       order_items:
         choose_quantity: 
         optional_unit_price: 
@@ -562,7 +562,7 @@ de:
         title: Berichte
       sales_categories:
         default_sales_category_code: Standard Umsatz Kategorie
-      save: 
+      save: Speichern
       settings: webshop Vorl
       shop_reviews:
         save: 
