@@ -349,7 +349,9 @@ nl:
       customer_groups:
         delete: Verwijder klantgroep
         delete_confirmation: Weet je zeker dat je <strong>%{name}</strong> wilt verwijderen?
+        guest: Gast
         new: Nieuwe klantgroep
+        registered: Geregistreerd
         save: Klantgroep opslaan
         title: Klantgroepen
       customers:
@@ -375,9 +377,9 @@ nl:
         usage_limit_0: Stel 0 in voor onbeperkt
       emails:
         exported_title: Export staat klaar voor download
-        forgot_password_title: Forgot password title
+        forgot_password_title: Wachtwoord vergeten
         in_stock_reminder_title: In stock reminder title
-        order_confirmation_title: Your order was confirmed
+        order_confirmation_title: Uw bestelling is bevestigd
         order_shipped_title: Your order was shipped
         welcome_email_title: Welcome email title
       exports:

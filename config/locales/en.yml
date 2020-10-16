@@ -41,7 +41,7 @@ en:
       spina/shop/discount:
         code: Discount code
         description: Description
-        discount_action: 
+        discount_action: Discount
         discount_requirement: Discount requirement
         discount_rule: Valid for
         expires_at: Expires at
@@ -83,7 +83,7 @@ en:
         billing_street2: Street 2
         business: Business order
         company: Company
-        credit_invoice: 
+        credit_invoice: Credit invoice
         date_of_birth: Date of birth
         delivered_at: Delivered at
         delivery_address: Delivery address
@@ -102,7 +102,7 @@ en:
         delivery_street2: Street 2
         delivery_tracking_ids: Delivery tracking IDs
         discount: Discount
-        duplicate: 
+        duplicate: Duplicate
         email: Email
         first_name: First name
         ip_address: IP address
@@ -110,19 +110,19 @@ en:
         note: Note
         order_attachments: Attachments
         order_number: Order number
-        order_total: 
-        original_order: 
+        order_total: Sub total
+        original_order: Original order
         paid_at: Paid at
-        payment_issuer: 
+        payment_issuer: Bank
         payment_method: Payment method
         payment_reminder_sent_at: Payment reminder
         phone: Phone
-        pos: 
+        pos: POS order
         prices_include_tax: Prices include tax
         received_at: Order date
         reference: Reference
-        refund_method: 
-        refund_reason: 
+        refund_method: Refund method
+        refund_reason: Refund reason
         separate_delivery_address: Separate delivery address
         shipped_at: Shipped at
         store: Store
@@ -132,7 +132,7 @@ en:
         total: Total
         total_excluding_tax: Total excl. tax
         total_including_tax: Total including tax
-        weight: 
+        weight: Weight
       spina/shop/order_item:
         price: Price
         quantity: Quantity
@@ -220,30 +220,30 @@ en:
         score_speed: Score speed
       spina/shop/stock_level_adjustment:
         adjustment: Adjustment
-        category: 
+        category: Category
         created_at: Created at
-        description: 
+        description: Note
         note: Note
       spina/shop/stock_order:
         closed_at: Closed at
-        delivery_tracking_url: 
-        expected_delivery: 
-        id: 
-        note: 
-        order_value: 
-        ordered_at: 
-        ordered_stock: 
-        received_value: 
-        reference: 
-        supplier: 
+        delivery_tracking_url: Delivery tracking URL
+        expected_delivery: Expected
+        id: ID
+        note: Note
+        order_value: Order value
+        ordered_at: Ordered at
+        ordered_stock: Ordered
+        received_value: Received value
+        reference: Reference
+        supplier: Supplier
       spina/shop/supplier:
-        contact_name: 
-        email: 
-        lead_time: 
-        name: 
-        note: 
-        phone: 
-        stock_orders: 
+        contact_name: Contact
+        email: Email
+        lead_time: Lead time
+        name: name
+        note: Note
+        phone: Phone
+        stock_orders: Stock orders
       spina/shop/tax_rate:
         business: Business
         code: Code
@@ -253,9 +253,9 @@ en:
         spina/shop/order:
           attributes:
             base:
-              item_limit_exceeded: 
-              shopping_cart_empty: 
-              stock_level_not_sufficient: 
+              item_limit_exceeded: Item limit exceeded
+              shopping_cart_empty: Shopping cart is empty
+              stock_level_not_sufficient: Stock level is not sufficient
             date_of_birth:
               not_of_age: must be of age
     models:
@@ -271,13 +271,13 @@ en:
       spina/shop/discount:
         one: Discount
         other: Discounts
-      spina/shop/discounts/actions/free_delivery: 
-      spina/shop/discounts/actions/percent_off: 
-      spina/shop/discounts/requirements/all_orders: 
-      spina/shop/discounts/requirements/order_total: 
+      spina/shop/discounts/actions/free_delivery: Free delivery
+      spina/shop/discounts/actions/percent_off: Percent off
+      spina/shop/discounts/requirements/all_orders: All orders
+      spina/shop/discounts/requirements/order_total: Orders from
       spina/shop/discounts/rules/all_orders: All orders
-      spina/shop/discounts/rules/all_products: 
-      spina/shop/discounts/rules/categories: 
+      spina/shop/discounts/rules/all_products: All products
+      spina/shop/discounts/rules/categories: Products from category
       spina/shop/discounts/rules/collection: Products from collection
       spina/shop/discounts/rules/order_total: Order total more than
       spina/shop/gift_card:
@@ -298,7 +298,9 @@ en:
       spina/shop/product_category:
         one: Product category
         other: Product categories
-      spina/shop/product_collection: 
+      spina/shop/product_collection:
+        one: Collection
+        other: Collections
       spina/shop/product_item:
         one: Product item
         other: Product items
@@ -308,7 +310,9 @@ en:
       spina/shop/sales_category:
         one: Sales category
         other: Sales categories
-      spina/shop/shop_review: 
+      spina/shop/shop_review:
+        one: Shop review
+        other: Shop reviews
       spina/shop/stock_order: 
       spina/shop/store: 
       spina/shop/supplier: 
@@ -337,7 +341,9 @@ en:
       customer_groups:
         delete: 
         delete_confirmation: 
+        guest: Guest
         new: 
+        registered: Registered
         save: 
         title: Customer groups
       customers:
@@ -363,7 +369,7 @@ en:
         usage_limit_0: Enter 0 for no usage limit
       emails:
         exported_title: Export is ready for download
-        forgot_password_title: Forgot password title
+        forgot_password_title: Forgot password
         in_stock_reminder_title: In stock reminder title
         order_confirmation_title: Your order was confirmed
         order_shipped_title: Your order was shipped
@@ -600,7 +606,7 @@ en:
       tax:
         no_tax: No tax
         rate: "%{rate}% btw"
-        vat_reverse_charge: VAT shifted
+        vat_reverse_charge: VAT reverse charge
       tax_groups:
         default_tax_rate: Default tax rate
         new: New tax group

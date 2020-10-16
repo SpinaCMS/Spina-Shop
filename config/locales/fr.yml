@@ -337,7 +337,9 @@ fr:
       customer_groups:
         delete: 
         delete_confirmation: 
+        guest: Invité
         new: 
+        registered: Inscrit
         save: 
         title: Groupes de clients
       customers:
@@ -363,7 +365,7 @@ fr:
         usage_limit_0: Mettre à 0 pour un nombre illimité
       emails:
         exported_title: Export prêt pour le téléchargement
-        forgot_password_title: Titre de mot de passe oublié
+        forgot_password_title: Mot de passe oublié
         in_stock_reminder_title: En titre de rappel stock
         order_confirmation_title: Votre commande a été confirmée
         order_shipped_title: Votre commande a été expédiée
@@ -604,4 +606,4 @@ fr:
       tax_groups:
         default_tax_rate: taux normal de TVA
         new: groupe fiscal Nouveau
-      title: boutique en ligne
+      title: Boutique en ligne

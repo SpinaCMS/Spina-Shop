@@ -337,7 +337,9 @@ de:
       customer_groups:
         delete: 
         delete_confirmation: 
+        guest: Gast
         new: 
+        registered: Registriert
         save: 
         title: Kundengruppen
       customers:
@@ -363,7 +365,7 @@ de:
         usage_limit_0: Auf 0 für unbegrenzt
       emails:
         exported_title: Export zum Download bereit
-        forgot_password_title: Passwort vergessen Titel
+        forgot_password_title: Passwort vergessen
         in_stock_reminder_title: Auf Lager Erinnerung Titel
         order_confirmation_title: Ihre Bestellung wurde bestätigt
         order_shipped_title: Ihre Bestellung wurde versandt
