@@ -5,7 +5,7 @@
   %td=l invoice.date, format: '%d-%m-%Y'
   %td.nowrap
     - if !invoice.paid? && invoice.order.credit_invoice.present?
-      = link_to spina.mark_as_paid_shop_admin_invoice_path(invoice), method: :post, class: 'button button-mini button-primary', data: {confirm: t('spina.shop.invoices.mark_as_paid_confirmation_html')} do
+      = button_to spina.mark_as_paid_shop_admin_invoice_path(invoice), class: 'button button-mini button-primary', data: {confirm: t('spina.shop.invoices.mark_as_paid_confirmation_html')} do
         %i.icon.icon-check{style: "margin-right: 4px"}
         = t('spina.shop.invoices.mark_as_paid')
 
@@ -13,7 +13,7 @@
       - if invoice.order.payment_reminder_sent_at.present?
         =l invoice.order.payment_reminder_sent_at, format: '%d-%m-%Y'
       - elsif !invoice.paid?
-        = link_to spina.shop_admin_order_payment_reminder_path(invoice.order), method: :post, class: 'button button-mini', data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
+        = button_to spina.shop_admin_order_payment_reminder_path(invoice.order), class: 'button button-mini', data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
           %i.icon.icon-mail{style: 'margin-right: 4px'}
           = Spina::Shop::Order.human_attribute_name(:payment_reminder_sent_at)
   %td

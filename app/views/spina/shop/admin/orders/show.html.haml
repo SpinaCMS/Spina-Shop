@@ -34,31 +34,47 @@
 
         %ul#actions.align-right
           - if @order.in_state?(:building)
-            %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
+            %li= button_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.confirm_order_html')}
 
           - if @order.in_state?(:confirming, :received) && @order.invoices.none?
-            %li= link_to t('spina.shop.orders.cancel_order_html'), spina.cancel_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')}
+            %li
+              = button_to spina.cancel_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.cancel_order_confirmation_html')} do
+                = t('spina.shop.orders.cancel_order_html')
 
           - if @order.in_state?(:confirming)
-            %li= link_to t('spina.shop.orders.receive_order_html'), spina.receive_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')}
+            %li
+              = button_to spina.receive_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')} do
+                = t('spina.shop.orders.receive_order_html')
 
           - if @order.in_state?(:received)
-            %li= button_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order)
+            %li
+              = button_to spina.shop_admin_order_packing_slip_path(@order) do
+                = t('spina.shop.orders.start_preparing_html')
 
           - if @order.in_state?(:paid)
             - if @order.order_prepared?
               - if @order.requires_shipping?
-                %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+                %li
+                  = button_to spina.shop_admin_order_shipping_label_path(@order), data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
+                    = t('spina.shop.orders.ship_order_html')
               - else
-                %li= button_to t('spina.shop.orders.states.ready_for_pickup'), spina.ready_for_pickup_shop_admin_order_path(@order)
+                %li
+                  = button_to spina.ready_for_pickup_shop_admin_order_path(@order) do
+                    = t('spina.shop.orders.states.ready_for_pickup')
             - else
-              %li= button_to t('spina.shop.orders.start_preparing_html'), spina.shop_admin_order_packing_slip_path(@order)
+              %li
+                = button_to spina.shop_admin_order_packing_slip_path(@order) do
+                  = t('spina.shop.orders.start_preparing_html')
 
           - if @order.in_state?(:preparing)
             - if @order.requires_shipping?
-              %li= link_to t('spina.shop.orders.ship_order_html'), spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')}
+              %li
+                = button_to spina.shop_admin_order_shipping_label_path(@order), data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
+                  = t('spina.shop.orders.ship_order_html')
             - else
-              %li= button_to t('spina.shop.orders.states.ready_for_pickup'), spina.ready_for_pickup_shop_admin_order_path(@order)
+              %li
+                = button_to spina.ready_for_pickup_shop_admin_order_path(@order) do
+                  = t('spina.shop.orders.states.ready_for_pickup')
 
           - if @order.in_state?(:ready_for_pickup)
             %li= button_to t('spina.shop.orders.order_picked_up'), spina.order_picked_up_shop_admin_order_path(@order)
@@ -67,13 +83,19 @@
             %li= button_to t('spina.shop.orders.states.delivered'), spina.delivered_shop_admin_order_path(@order)
 
           - if @order.received? && !@order.paid?
-            %li= link_to t('spina.shop.orders.pay_order_html'), spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')}
-            %li= link_to t('spina.shop.orders.payment_reminders.send_html'), spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')}
+            %li
+              = button_to spina.pay_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')} do
+                = t('spina.shop.orders.pay_order_html')
+            %li
+              = button_to spina.shop_admin_order_payment_reminder_path(@order), data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
+                = t('spina.shop.orders.payment_reminders.send_html')
 
           - if @order.sales_invoice.present? && !@order.refunded?
             %li= link_to t('spina.shop.orders.refund_order_html'), spina.new_shop_admin_order_refund_path(@order), remote: true
 
-          %li= link_to t('spina.shop.orders.duplicate_order_html'), spina.duplicate_shop_admin_order_path(@order), data: {method: :post, confirm: t('spina.shop.orders.duplicate_order_confirmation_html')}
+          %li
+            = button_to spina.duplicate_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
+              = t('spina.shop.orders.duplicate_order_html')
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
 
