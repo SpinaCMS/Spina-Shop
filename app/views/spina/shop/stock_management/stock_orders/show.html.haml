@@ -25,7 +25,7 @@
     .list
       = render partial: 'ordered_stock', collection: @stock_order.ordered_stock.unprocessed.sort_by{|o|o.product.full_name}
   - else
-    = link_to spina.close_order_shop_stock_management_stock_order_path(@stock_order), class: 'button button-block button-primary', style: "margin-bottom: 20px", data: {method: :post, confirm: "Weet je het zeker? Na sluiten kun je niks meer wijzigen."} do
+    = button_to spina.close_order_shop_stock_management_stock_order_path(@stock_order), class: 'button button-block button-primary', style: "margin-bottom: 20px", data: {confirm: "Weet je het zeker? Na sluiten kun je niks meer wijzigen."} do
       🤙 Leveringsorder sluiten
 
   - if @stock_order.ordered_stock.processed.size > 0
@@ -34,5 +34,5 @@
       = render partial: 'ordered_stock', collection: @stock_order.ordered_stock.processed.sort_by{|o|o.product.full_name}
 
   - if @stock_order.ordered_stock.unprocessed.size > 0
-    = link_to spina.close_order_shop_stock_management_stock_order_path(@stock_order), class: 'button button-block', style: "margin-bottom: 20px", data: {method: :post, confirm: "Weet je het zeker? Nog niet alles is binnen. Na sluiten kun je niks meer wijzigen."} do
+    = button_to spina.close_order_shop_stock_management_stock_order_path(@stock_order), class: 'button button-block', style: "margin-bottom: 20px", data: {confirm: "Weet je het zeker? Nog niet alles is binnen. Na sluiten kun je niks meer wijzigen."} do
       🤙 Leveringsorder sluiten
