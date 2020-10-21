@@ -472,9 +472,9 @@
 
           .text-center
             - if @product.archived?
-              = button_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), class: 'button button-link'
+              = link_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), class: 'button button-link', data: {method: :post}
             - else
-              = button_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), class: 'button button-link', data: {confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
+              = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), class: 'button button-link', data: {method: :post, confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
 
             - if @product.deletable
               = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}
