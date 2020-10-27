@@ -130,8 +130,8 @@ module Spina::Shop
       order.update_attributes!(delivered_at: Time.zone.now)
     end
 
-    guard_transition(to: :refunded) do |order, transition|
-      order.sales_invoice.present?
+    guard_transition(to: :refunded) do |order, transition, metadata|
+      order.sales_invoice.present? && (metadata["entire_order"] || metadata["refund_lines"].to_h.any?{|id, line| line["refund"]})
     end
 
     before_transition(to: :refunded) do |order, transition|
