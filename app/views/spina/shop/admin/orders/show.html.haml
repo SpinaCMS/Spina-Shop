@@ -34,16 +34,16 @@
 
         %ul#actions.align-right
           - if @order.in_state?(:building)
-            %li= button_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.confirm_order_html')}
+            %li= link_to t('spina.shop.orders.confirm_order'), spina.confirm_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.confirm_order_html')}
 
           - if @order.in_state?(:confirming, :received) && @order.invoices.none?
             %li
-              = button_to spina.cancel_shop_admin_order_path(@order), data: {remote: true, confirm: t('spina.shop.orders.cancel_order_confirmation_html')} do
+              = link_to spina.cancel_shop_admin_order_path(@order), method: :post, data: {remote: true, confirm: t('spina.shop.orders.cancel_order_confirmation_html')} do
                 = t('spina.shop.orders.cancel_order_html')
 
           - if @order.in_state?(:confirming)
             %li
-              = button_to spina.receive_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')} do
+              = link_to spina.receive_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.receive_order_confirmation_html')} do
                 = t('spina.shop.orders.receive_order_html')
 
           - if @order.in_state?(:received)
@@ -55,7 +55,7 @@
             - if @order.order_prepared?
               - if @order.requires_shipping?
                 %li
-                  = button_to spina.shop_admin_order_shipping_label_path(@order), data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
+                  = link_to spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
                     = t('spina.shop.orders.ship_order_html')
               - else
                 %li
@@ -69,7 +69,7 @@
           - if @order.in_state?(:preparing)
             - if @order.requires_shipping?
               %li
-                = button_to spina.shop_admin_order_shipping_label_path(@order), data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
+                = link_to spina.shop_admin_order_shipping_label_path(@order), method: :post, data: {confirm: t('spina.shop.orders.ship_order_confirmation_html')} do
                   = t('spina.shop.orders.ship_order_html')
             - else
               %li
@@ -84,17 +84,17 @@
 
           - if @order.received? && !@order.paid?
             %li
-              = button_to spina.pay_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')} do
+              = link_to spina.pay_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.pay_order_confirmation_html')} do
                 = t('spina.shop.orders.pay_order_html')
             %li
-              = button_to spina.shop_admin_order_payment_reminder_path(@order), data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
+              = link_to spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
                 = t('spina.shop.orders.payment_reminders.send_html')
 
           - if @order.sales_invoice.present? && !@order.refunded?
             %li= link_to t('spina.shop.orders.refund_order_html'), spina.new_shop_admin_order_refund_path(@order), remote: true
 
           %li
-            = button_to spina.duplicate_shop_admin_order_path(@order), data: {confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
+            = link_to spina.duplicate_shop_admin_order_path(@order), method: :post, data: {confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
               = t('spina.shop.orders.duplicate_order_html')
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
