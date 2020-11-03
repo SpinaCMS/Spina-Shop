@@ -45,6 +45,10 @@ module Spina::Shop
       []
     end
 
+    def cache_stock_level
+      true
+    end
+
     # Calculate the price based on this order
     def price_for_order(order)
       price
