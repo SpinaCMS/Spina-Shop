@@ -1,0 +1,37 @@
+.container
+  = link_to "⇤ Orders", spina.shop_stock_management_orders_path, class: 'button button-link', style: 'position: relative; z-index: 10'
+  
+  - order_items = @orders.map(&:order_items).flatten.sort_by{|o| o.orderable.location}
+  %div{data: {controller: "order-picking", index: 0}}
+    - order_items.each.with_index do |order_item, index|
+      %div.text-center{data: {target: "order-picking.orderItem", index: index}}
+        %h1{style: 'font-weight: 500; position: fixed; top: 0; width: 100%; left: 0; margin: 12px 0'}
+          = index + 1
+          %span{style: "opacity: .5"}
+            \/
+            = order_items.size
+          
+        .text-center{style: 'height: 280px; margin-top: 40px'}
+          - if order_item.orderable.root.product_images.any?
+            = image_tag main_app.url_for(order_item.orderable.root.product_images.ordered.first.file.variant(resize: '500x500')), style: 'max-width: 100%; height: 100%'
+          
+        %div{style: "font-size: 24px; font-weight: 600"}
+          = order_item.orderable.name
+          %small{style: "display: block; font-size: 18px; opacity: .5"}= order_item.orderable.variant_name
+          
+        .text-center{style: "margin-top: 10px"}
+          %span{style: 'background: black; color: white; font-weight: 700; font-size: 24px; padding: 2px 8px; border-radius: 4px'}= order_item.orderable.location
+        
+        .slide-to-unlock{style: "position: fixed; bottom: 0; width: 100%; left: 0; padding: 20px; box-sizing: border-box", data: {controller: "slide-to-unlock"}}
+          %input.slideToUnlock{type: "range", value: 0, max: 100, data: {target: "slide-to-unlock.range", action: "touchend->order-picking#unlock touchstart->order-picking#clearInterval input->slide-to-unlock#renderLabel"}}
+          
+          .slide-to-unlock-label{style: "font-size: 26px; width: 80px; display: flex; justify-content: center; align-items: center; color: white; font-weight: 500; position: absolute; top: 27px; left: 0px", data: {target: "slide-to-unlock.label"}}
+            = order_item.quantity
+            %span{style: "font-size: 18px; font-weight: 400"} &times;
+          
+          %div{style: "display: flex; align-items: center; justify-content: center; position: absolute; right: 28px; top: 25px"}
+            %span{style: "font-size: 48px"} 
+              📦
+            %span{style: "font-size: 32px; font-weight: 600; margin-left: 3px; color: white; position: absolute; margin: 0px; text-shadow: 0 0 5px rgba(0, 0, 0, .5)"}
+              = ("A".."Z").to_a[@orders.index(order_item.order)]
+          

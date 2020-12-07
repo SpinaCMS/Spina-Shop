@@ -167,6 +167,9 @@ Spina::Engine.routes.draw do
       get :logout, to: 'sessions#destroy'
 
       resources :locations
+      
+      resources :orders
+      resource :order_picking, controller: "order_picking"
 
       resources :stock_orders do
         member do

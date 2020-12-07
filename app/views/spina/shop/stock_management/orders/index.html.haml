@@ -1,0 +1,23 @@
+.container
+  = link_to "⇤ Dashboard", spina.shop_stock_management_root_path, class: 'button button-link', style: 'margin-bottom: 10px'
+  .page-title.page-title-large 👟 Orderpicken
+  
+  = form_with url: spina.shop_stock_management_order_picking_path, local: true, method: :get do |f|
+    .list-title Voorbereiden
+    .list
+      - @orders.each do |order|
+        = label_tag nil, class: "list-item" do
+          %div
+            = f.check_box :order_id, {multiple: true}, order.id, nil
+            %strong= order.number
+          
+          .text-right
+            =l order.received_at, format: "%d-%m-%Y %H:%M"
+            .text-muted
+              = order.order_items.sum(:quantity)
+              producten
+  
+    %div{style: "position: fixed; bottom: 0px; padding: 10px; left: 0px; width: 100%; box-sizing: border-box"}
+      = button_tag type: :submit, class: 'button button-primary button-block' do
+        Start orderpicken
+        🏃

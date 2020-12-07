@@ -1,0 +1,40 @@
+.slide-to-unlock
+  input[type="range"]
+    appearance: none
+    -webkit-appearance: none
+    background: #E8E8EC
+    border: 2px solid #D0D0D0
+    border-radius: 14px
+    box-sizing: border-box
+    padding: 5px
+    position: relative
+    width: 100%
+    
+  input[type="range"]::-webkit-slider-thumb
+    appearance: none
+    -webkit-appearance: none
+    background: none
+    border: none
+    height: 50px
+    width: 80px
+    position: relative
+    z-index: 10
+  
+  input[type="range"]:before
+    content: "slide"
+    color: #bbb
+    font-size: 32px
+    position: absolute
+    left: 50%
+    transform: translateX(-50%)
+    top: 10px
+    z-index: 1
+
+.slide-to-unlock-label
+  background: linear-gradient(#585858, black)
+  border-radius: 9px
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .25)
+  color: white
+  height: 50px
+  width: 80px
+  z-index: 5
