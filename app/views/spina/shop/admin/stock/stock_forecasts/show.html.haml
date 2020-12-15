@@ -18,7 +18,7 @@
     .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Product.human_attribute_name :location
       .filter-form-control
-        = f.select :location_start, @locations, {include_blank: "Alle locaties"}, class: 'select2', style: 'width: 100%'
+        = f.select :location_start_any, @locations, {}, class: 'select2', multiple: true, style: 'width: 100%'
     .filter-form-advanced-group
       .filter-form-label Hertelling vanaf
       .filter-form-control= f.text_field :recounts_created_at_gteq, class: "datepicker", value: (I18n.l(f.object.recounts_created_at_gteq, format: "%d-%m-%Y") if f.object.recounts_created_at_gteq.present?)
