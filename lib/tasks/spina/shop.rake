@@ -7,6 +7,16 @@ namespace :spina_shop do
     products = Spina::Shop::Product.where(stock_enabled: true)
     products.each do |product|
       adjustments = product.stock_level_adjustments.sales.where('spina_shop_stock_level_adjustments.created_at > ?', 90.days.ago).order(:created_at)
+      # 
+      # sum_array = []
+      # (-90..0).each.with_index do |day, index|
+      #   sales = product.stock_level_adjustments.sales.where('DATE(spina_shop_stock_level_adjustments.created_at) = ?', (day * -1).days.ago).sum(:adjustment) * -1
+      #   
+      #   sum_array << [index, sales]
+      # end
+      # 
+      # sum_array
+      # 
 
       if adjustments.any?
         total = 0

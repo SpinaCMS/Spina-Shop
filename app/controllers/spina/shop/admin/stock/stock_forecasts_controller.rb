@@ -23,7 +23,7 @@ module Spina::Shop
             format.html
             format.csv do
               data = CSV.generate do |csv|
-                csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
+                csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Trend Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
                 @products = @q.result.page(params[:page]).per(5000)
                 @products.each.each do |product|
                   csv << [product.id, 
@@ -35,6 +35,7 @@ module Spina::Shop
                     product.past_30_days,
                     product.past_90_days,
                     product.past_365_days,
+                    product.trend,
                     product.stock_level,
                     product.optimal_stock,
                     product.stock_difference,
