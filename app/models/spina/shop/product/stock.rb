@@ -76,22 +76,35 @@ module Spina::Shop
     def expiration_year
       expiration_date.try(:year)
     end
-
-    def earliest_expiration_date
+    
+    # All additions
+    def active_adjustments
       offset = 0
       sum = 0
       adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+      adjustments = [adjustment]
       while sum < stock_level && adjustment.present? do
         adjustment = stock_level_adjustments.ordered.additions.offset(offset).first
+        adjustments << adjustment
         offset = offset.next
-        sum = sum + adjustment.try(:adjustment).to_i
-      end 
-
-      if adjustment.try(:expiration_year).present?
-        Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
-      else
-        nil
+        sum = sum + adjustment&.adjustment.to_i
       end
+      adjustments
+    end
+    
+    # Expiration dates that are in currently available as stock
+    def active_expiration_dates
+      active_adjustments.map do |adjustment|
+        if adjustment&.expiration_year.present?
+          Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
+        end
+      end.compact.uniq.sort
+    end
+    
+    def earliest_expiration_date
+      adjustment = active_adjustments.last
+      return nil unless adjustment&.expiration_year.present?
+      Date.new.change(day: 1, month: adjustment.expiration_month || 1, year: adjustment.expiration_year)
     end
 
     private
