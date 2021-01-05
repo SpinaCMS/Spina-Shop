@@ -22,6 +22,7 @@ Spina::Engine.routes.draw do
           collection do
             get :concepts
             get :to_process
+            get :ready_for_pickup_orders
             get :failed
           end
           scope module: :orders do

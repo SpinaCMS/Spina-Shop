@@ -117,6 +117,10 @@ module Spina::Shop
     guard_transition(to: :ready_for_pickup) do |order, transition|
       !order.requires_shipping?
     end
+    
+    after_transition(to: :ready_for_pickup) do |order, transition|
+      order.update!(ready_for_pickup_at: Time.zone.now)
+    end
 
     after_transition(to: :picked_up) do |order, transition|
       order.update_attributes!(picked_up_at: Time.zone.now)

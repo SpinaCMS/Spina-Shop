@@ -88,6 +88,12 @@ module Spina::Shop
         filter_orders
         render :index
       end
+      
+      def ready_for_pickup_orders
+        @orders = Order.in_state(:ready_for_pickup).includes(:order_items, :order_transitions).sorted
+        filter_orders
+        render :index
+      end
 
       def failed
         @orders = Order.in_state(:failed).includes(:order_items, :order_transitions).sorted
