@@ -87,6 +87,12 @@
           %th.text-right{style: 'min-width: 100px; white-space: nowrap'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_level', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Voorraad<br/><small>nu / optimaal</small>
+
+          %th.text-right
+            Veiligheidsvoorraad
+          %th.text-right
+            Bestelpunt
+              
           %th.text-right{style: 'min-width: 60px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Inkoop<br /><small>voorraadverschil</small>

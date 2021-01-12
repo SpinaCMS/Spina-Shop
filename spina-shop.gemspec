@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "zip-zip"
   s.add_dependency "rqrcode"
   s.add_dependency "pg_search"
+  s.add_dependency "descriptive_statistics"
 
   s.add_development_dependency 'minitest-reporters'
   s.add_development_dependency 'guard'

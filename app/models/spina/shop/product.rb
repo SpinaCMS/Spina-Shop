@@ -1,6 +1,6 @@
 module Spina::Shop
   class Product < ApplicationRecord
-    include Variants, Pricing, Stock, Search
+    include Variants, Pricing, Stock, Search, Statistics
 
     # Stores the old path when generating a new materialized_path
     attr_accessor :old_path, :files

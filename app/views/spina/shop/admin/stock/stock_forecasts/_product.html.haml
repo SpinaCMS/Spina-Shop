@@ -35,6 +35,15 @@
     - if product.stock_orders.open.any?
       %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
         %i.icon.icon-document
+  
+  %td.text-right
+    = product.safety_stock
+    %span.text-muted{style: "display: block; font-size: 12px"} 99.98%
+
+  %td.text-right
+    %span{class: ("text-danger" if product.reorder_point > product.stock_level)}
+      = product.reorder_point
+        
   %td.text-right
     - if product.stock_difference < 0
       %span.text-danger= product.stock_difference
