@@ -241,6 +241,7 @@ nl:
         contact_name: Contactpersoon
         email: Email
         lead_time: Levertijd
+        lead_time_standard_deviation: Levertijd standaardafwijking
         name: Naam
         note: Notitie
         phone: Telefoon

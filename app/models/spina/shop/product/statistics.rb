@@ -5,10 +5,12 @@ module Spina::Shop
     extend ActiveSupport::Concern
     
     def weekly_sales_mean
+      return 0 if sales_per_week.blank?
       sales_per_week.values.mean
     end
     
     def weekly_sales_standard_deviation
+      return 0 if sales_per_week.blank?
       sales_per_week.values.standard_deviation
     end
     
@@ -20,29 +22,36 @@ module Spina::Shop
       weekly_sales_standard_deviation / BigDecimal(7)
     end
     
-    # At least 3 days
-    def lead_time
-      [supplier.lead_time, 3].max
-    end
-    
-    # Should be calculated
-    def lead_time_standard_deviation
-      2
-    end
-    
     def lead_time_demand
-      daily_sales_mean * lead_time
+      daily_sales_mean * supplier&.lead_time.to_i
     end
     
     def lead_time_demand_standard_deviation
-      daily_sales_standard_deviation * lead_time_standard_deviation
+      daily_sales_standard_deviation * supplier&.lead_time_standard_deviation.to_i
     end
     
     def safety_stock
       (Math.sqrt(
-        weekly_sales_standard_deviation**2 * lead_time / BigDecimal(7) +
-        (lead_time_standard_deviation / BigDecimal(7))**2 * weekly_sales_mean**2
+        weekly_sales_standard_deviation**2 * supplier&.lead_time.to_i / BigDecimal(7) +
+        (supplier&.lead_time_standard_deviation.to_i / BigDecimal(7))**2 * weekly_sales_mean**2
       ) * z_score).round
+    end
+    
+    def holding_cost
+      cost_price * (Spina::Shop.config.holding_cost_percentage / BigDecimal(100))
+    end
+    
+    def stock_order_cost
+      Spina::Shop.config.default_stock_order_cost
+    end
+    
+    # Economic order quantity
+    def eoq
+      return 0 if holding_cost.zero?
+      Math.sqrt(
+        (2 * weekly_sales_mean * 52 * stock_order_cost) /
+        holding_cost
+      ).round
     end
     
     def reorder_point
@@ -58,6 +67,7 @@ module Spina::Shop
     def sales_per_week
       return @sales_per_week if @sales_per_week.present?
       first_sale = stock_level_adjustments.sales.order(:created_at).first
+      return {} unless first_sale.present?
       days_since_first_sale = (Date.today - first_sale.created_at.to_date).to_i
       weeks_since_first_sale = days_since_first_sale / 7
       

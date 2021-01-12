@@ -23,6 +23,12 @@
 
           .sidebar-form-control
             = f.number_field :lead_time, placeholder: Spina::Shop::Supplier.human_attribute_name(:lead_time)
+            
+        .sidebar-form-group
+          .sidebar-form-label
+  
+          .sidebar-form-control
+            = f.number_field :lead_time_standard_deviation, placeholder: Spina::Shop::Supplier.human_attribute_name(:lead_time_standard_deviation)
 
       .well{style: "margin-right: -20px"}
         .sidebar-form-group

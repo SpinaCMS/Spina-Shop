@@ -64,7 +64,7 @@ module Spina::Shop
           end
 
           def supplier_params
-            params.require(:supplier).permit(:name, :lead_time, :contact_name, :email, :phone, :note)
+            params.require(:supplier).permit(:name, :lead_time, :lead_time_standard_deviation, :contact_name, :email, :phone, :note)
           end
 
       end

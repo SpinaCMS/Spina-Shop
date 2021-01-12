@@ -241,6 +241,7 @@ en:
         contact_name: Contact
         email: Email
         lead_time: Lead time
+        lead_time_standard_deviation: 
         name: name
         note: Note
         phone: Phone

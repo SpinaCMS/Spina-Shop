@@ -67,45 +67,53 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Lopen
               %small 30 dagen
-          %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
-            = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Lopen
-              %small 90 dagen
+          - if false
+            %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
+              = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                Lopen
+                %small 90 dagen
           %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_365_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Lopen
               %small 365 dagen
-          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
+          %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>30 dagen</small>
-          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
-            = link_to spina.shop_admin_stock_forecast_path({order: 'past_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Verkoop<br /><small>90 dagen</small>
-          %th{style: 'text-align: center; white-space: nowrap; min-width: 60px'} 
+          - if false
+            %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
+              = link_to spina.shop_admin_stock_forecast_path({order: 'past_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                Verkoop<br /><small>90 dagen</small>
+          %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_365_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>365 dagen</small>
+              
+          %th{style: 'width: 250px'}
+            Veiligheidsvoorraad / bestelpunt
+            %br/
+            %small &nbsp;
+              
           %th.text-right{style: 'min-width: 100px; white-space: nowrap'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_level', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Voorraad<br/><small>nu / optimaal</small>
-
-          %th.text-right
-            Veiligheidsvoorraad
-          %th.text-right
-            Bestelpunt
+              Voorraad
+              %br/
+              %small / max
+              - if false
+                <br/><small>nu / EOQ</small>
               
-          %th.text-right{style: 'min-width: 60px'}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Inkoop<br /><small>voorraadverschil</small>
-          %th.text-right{style: "min-widh: 60px"}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'lead_time', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Doorlooptijd
-              %br/
-              %small in dagen
-          %th.text-right{style: 'min-width: 60px'}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'recount_created_at', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Hertelling
-              %br/
-              %small verschil
+          - if false
+            %th.text-right{style: 'min-width: 60px'}
+              = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                Inkoop<br /><small>voorraadverschil</small>
+            %th.text-right{style: "min-widh: 60px"}
+              = link_to spina.shop_admin_stock_forecast_path({order: 'lead_time', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                Doorlooptijd
+                %br/
+                %small in dagen
+            %th.text-right{style: 'min-width: 60px'}
+              = link_to spina.shop_admin_stock_forecast_path({order: 'recount_created_at', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                Hertelling
+                %br/
+                %small verschil
           %th.text-right{style: 'min-width: 120px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'in_stock_reminders_count', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Herinneren<br /><small>nieuwe voorraad</small>

@@ -14,7 +14,12 @@
         %td= @supplier.name
       %tr
         %th= Spina::Shop::Supplier.human_attribute_name :lead_time
-        %td=t "spina.shop.suppliers.lead_time_in_days", days: @supplier.lead_time
+        %td
+          =t "spina.shop.suppliers.lead_time_in_days", days: @supplier.lead_time
+          .text-muted
+            standaardafwijking:
+            =t "spina.shop.suppliers.lead_time_in_days", days: @supplier.lead_time_standard_deviation
+          
       %tr
         %th= Spina::Shop::Supplier.human_attribute_name :products
         %td= @supplier.products.active.count

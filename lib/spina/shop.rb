@@ -13,7 +13,9 @@ module Spina
                     :invoice_payment_term, 
                     :refund_methods, 
                     :refund_reasons,
-                    :stock_level_adjustment_categories
+                    :stock_level_adjustment_categories,
+                    :holding_cost_percentage,
+                    :default_stock_order_cost
 
     # Default tax settings
     self.default_tax_rate = BigDecimal(0)
@@ -36,6 +38,12 @@ module Spina
 
     # Categories for manual stock level adjustments
     self.stock_level_adjustment_categories = []
+    
+    # Holding cost
+    self.holding_cost_percentage = 25
+    
+    # Default stock order cost
+    self.default_stock_order_cost = 5
 
     class << self
 
