@@ -99,11 +99,12 @@
               %small / max
               - if false
                 <br/><small>nu / EOQ</small>
+          
+          %th.text-right{style: 'min-width: 60px'}
+            = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+              Inkoop<br /><small>voorraadverschil</small>
               
           - if false
-            %th.text-right{style: 'min-width: 60px'}
-              = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-                Inkoop<br /><small>voorraadverschil</small>
             %th.text-right{style: "min-widh: 60px"}
               = link_to spina.shop_admin_stock_forecast_path({order: 'lead_time', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
                 Doorlooptijd
