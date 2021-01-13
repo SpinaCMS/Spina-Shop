@@ -1,0 +1,106 @@
+.modal.modal-large
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3
+      Berekening
+      = @product.full_name
+    
+  %table.table
+    %tr
+      %th Eigenschap
+      %th Berekening
+      %th.text-right Uitkomst
+      
+    %tr
+      %td Wekelijkse verkoop
+      %td Verkoopcijfers per week over aantal weken (max. 53)
+      %td.text-right
+        = @product.weekly_sales_mean.round
+        %span.text-muted= "(σ #{@product.weekly_sales_standard_deviation.round})"
+        
+    %tr
+      %td Dagelijkse verkoop
+      %td Wekelijkse verkoop / 7
+      %td.text-right
+        = @product.daily_sales_mean.round
+        %span.text-muted= "(σ #{@product.daily_sales_standard_deviation.round})"
+        
+    %tr
+      %td Inkoop levertijd
+      %td.text-muted Ingesteld bij #{@product.supplier&.name}
+      %td.text-right
+        = @product.supplier&.lead_time&.round
+        dagen
+        %span.text-muted= "(σ #{@product.supplier&.lead_time_standard_deviation&.round})"
+        
+    %tr
+      %td Verkoop tijdens levering
+      %td Dagelijkse verkoop x inkoop levertijd
+      %td.text-right
+        = @product.lead_time_demand.round
+        %span.text-muted= "(σ #{@product.lead_time_demand_standard_deviation.round})"
+        
+    %tr
+      %td Kosten per leveringsorder
+      %td.text-muted Globaal ingesteld
+      %td.text-right= number_to_currency @product.stock_order_cost
+      
+    %tr
+      %td Kosten magazijn
+      %td 25% van kostprijs
+      %td.text-right= number_to_currency @product.holding_cost
+      
+    %tr
+      %td Z-waarde
+      %td.text-muted Globaal ingesteld
+      %td.text-right 3,49
+      
+    %tr
+      %td Veiligheidsvoorraad
+      %td
+        WV = Wekelijkse verkoop
+        %br/
+        WVσ = Wekelijkse verkoop standaarddeviatie
+        %br/
+        IL = Inkoop levertijd
+        %br/
+        ILσ = Inkoop levertijd standaarddeviatie
+        %br/
+        %br/
+        
+        Z-waarde x √( WVσ<sup>2</sup> x IL/7 + (ILσ/7)<sup>2</sup> x WV<sup>2<sup>)
+      
+      %td.text-right= @product.safety_stock
+      
+    %tr
+      %td Bestelpunt
+      %td Veiligheidsvoorraad + verkoop tijdens levering
+      %td.text-right= @product.reorder_point
+    
+    %tr
+      %td EOQ
+      %td
+        WV = Wekelijkse verkoop
+        %br/
+        KL = Kosten leveringsorder
+        %br/
+        KM = Kosten magazijn
+        %br/
+        %br/
+      
+        √( (2 x WV x 52 x KL) / KM )
+      
+      %td.text-right= @product.eoq
+      
+    %tr
+      %td Max. voorraad
+      %td 
+        EOQ + bestelpunt
+      %td.text-right= @product.max_stock
+      
+    %tr
+      %td Voorraadverschil
+      %td 
+        Voorraad - max voorraad
+      %td.text-right= @product.stock_level - @product.max_stock

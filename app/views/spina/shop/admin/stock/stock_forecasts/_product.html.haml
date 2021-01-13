@@ -66,7 +66,10 @@
               %div{style: "height: 100%; width: #{current}%; background: orange; position: absolute; top: 0px; left: 0px"}
             
             // Reorder point
-            %div{style: "height: 100%; width: #{point}%; border-right: 2px solid white; position: absolute; left: 0px; top: 0px"}      
+            %div{style: "height: 100%; width: #{point}%; border-right: 2px solid white; position: absolute; left: 0px; top: 0px"} 
+            
+      = link_to 'berekening', spina.shop_admin_product_statistics_path(product), class: 'table-link', style: 'font-size: 12px; margin-top: -5px', data: {remote: true}
+             
     - else
       %em.text-muted Uitlopend
       

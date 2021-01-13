@@ -87,6 +87,7 @@ Spina::Engine.routes.draw do
           scope module: :products do
             resources :in_stock_reminders
             resources :stock_level_adjustments
+            resources :statistics
             resource :reset_stock, controller: "reset_stock"
           end
         end
