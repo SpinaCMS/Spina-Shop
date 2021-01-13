@@ -15,7 +15,18 @@ module Spina::Shop
             location.length > 2 ? '1' : '0' + location
           end
 
-          @q = Product.stock_forecast.joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id").ransack(params[:q])
+          products = Product.stock_forecast.joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
+          
+          if params[:order] == "statistics_safety_stock"
+            products = products.reorder("
+              CASE WHEN stock_level - statistics_safety_stock < 0 THEN stock_level - statistics_safety_stock ELSE 1 END,
+              CASE WHEN stock_level - statistics_reorder_point < 0 THEN stock_level - statistics_reorder_point ELSE 1 END
+            ")
+            products = products.where(available_at_supplier: true).where('statistics_reorder_point > 0')
+          end
+          
+          @q = products.ransack(params[:q])
+          
           @products = @q.result.page(params[:page]).per(50)
 
           respond_to do |format|

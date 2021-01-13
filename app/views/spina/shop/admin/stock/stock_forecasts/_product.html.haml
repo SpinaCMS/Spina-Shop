@@ -31,7 +31,7 @@
       
   %td
     - if product.available_at_supplier? && product.supplier.present?
-      - max = product.eoq + product.reorder_point
+      - max = product.max_stock
       - if max > 0
         - safe = ((product.safety_stock.to_i / BigDecimal(max)) * 100).round
         - point = ((product.reorder_point.to_i / BigDecimal(max)) * 100).round
@@ -40,8 +40,10 @@
         
         %div{style: 'position: relative'}
           %div{style: 'display: flex; justify-content: space-between; width: 100%'}
-            %small
-              %span{style: "color: orange; font-weight: 500; font-size: 12px"}= product.safety_stock
+            &nbsp;
+            
+          %div{style: "position: absolute; left: #{safe}%; top: 0px; transform: translateX(-100%)"}
+            %span{style: "color: orange; font-weight: 500; font-size: 12px"}= product.safety_stock
               
           %div{style: "position: absolute; left: #{point}%; top: 0px"}
             %div{style: "font-size: 12px; color: #7070B3; font-weight: 500"}= product.reorder_point
@@ -58,7 +60,10 @@
             %div{style: "height: 100%; background: #7070B3; width: #{current}%"}
               
             // Safety
-            %div{style: "height: 100%; width: #{safe}%; background: orange; position: absolute; top: 0px; left: 0px"}
+            %div{style: "height: 100%; width: #{safe}%; background: orange; position: absolute; top: 0px; left: 0px; #{product.stock_level < product.safety_stock ? 'opacity: .2' : ''}"}
+            
+            - if product.stock_level < product.safety_stock
+              %div{style: "height: 100%; width: #{current}%; background: orange; position: absolute; top: 0px; left: 0px"}
             
             // Reorder point
             %div{style: "height: 100%; width: #{point}%; border-right: 2px solid white; position: absolute; left: 0px; top: 0px"}      
@@ -70,7 +75,7 @@
       = product.stock_level
       %span.text-muted
         \/
-        = product.eoq + product.reorder_point
+        = product.max_stock
     
     - if false
       - if product.stock_level < 4
@@ -85,6 +90,14 @@
       - if product.stock_orders.open.any?
         %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
           %i.icon.icon-document
+  %td.text-right
+    - difference = product.stock_level.to_i - product.max_stock.to_i
+    - if product.stock_level < product.safety_stock
+      %span.text-danger= difference
+    - elsif product.stock_level < product.reorder_point
+      %span{style: "color: orange"}= difference
+    - else
+      %span= difference
   %td.text-right
     - if product.stock_difference < 0
       %span.text-danger= product.stock_difference

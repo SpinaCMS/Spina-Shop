@@ -2,6 +2,20 @@ namespace :spina_shop do
   task import_countries: :environment do
     Spina::Shop::CountryImporter.import
   end
+  
+  task cache_product_statistics: :environment do
+    products = Spina::Shop::Product.purchasable.active
+    bar = ProgressBar.create title: "Products", total: products.size
+    
+    products.each do |product|
+      product.update_columns(
+        statistics_eoq: product.eoq,
+        statistics_reorder_point: product.reorder_point,
+        statistics_safety_stock: product.safety_stock
+      )
+      bar.increment
+    end
+  end
 
   task calculate_trend: :environment do
     products = Spina::Shop::Product.where(stock_enabled: true)

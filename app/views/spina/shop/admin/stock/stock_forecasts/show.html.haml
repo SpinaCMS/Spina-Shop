@@ -88,21 +88,25 @@
               Verkoop<br /><small>365 dagen</small>
               
           %th{style: 'width: 250px'}
-            Veiligheidsvoorraad / bestelpunt
-            %br/
-            %small &nbsp;
+            = link_to spina.shop_admin_stock_forecast_path({order: 'statistics_safety_stock', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+              Veiligheidsvoorraad
+              %br/
+              %small / bestelpunt
               
           %th.text-right{style: 'min-width: 100px; white-space: nowrap'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_level', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Voorraad
               %br/
               %small / max
-              - if false
-                <br/><small>nu / EOQ</small>
+              
+          %th.text-right{style: 'min-width: 60px'}
+            Inkoop
+            %br/
+            %small voorraadverschil
           
           %th.text-right{style: 'min-width: 60px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              Inkoop<br /><small>voorraadverschil</small>
+              OUD<br /><small>voorraadverschil OUD</small>
               
           - if false
             %th.text-right{style: "min-widh: 60px"}

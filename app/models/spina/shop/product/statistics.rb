@@ -30,6 +30,10 @@ module Spina::Shop
       daily_sales_standard_deviation * supplier&.lead_time_standard_deviation.to_i
     end
     
+    def max_stock
+      eoq + reorder_point
+    end
+    
     def safety_stock
       (Math.sqrt(
         weekly_sales_standard_deviation**2 * supplier&.lead_time.to_i / BigDecimal(7) +
@@ -38,7 +42,7 @@ module Spina::Shop
     end
     
     def holding_cost
-      cost_price * (Spina::Shop.config.holding_cost_percentage / BigDecimal(100))
+      (cost_price || 0) * (Spina::Shop.config.holding_cost_percentage / BigDecimal(100))
     end
     
     def stock_order_cost
