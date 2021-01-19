@@ -47,7 +47,18 @@ module Spina::Shop
     end
     
     def holding_cost
-      (cost_price || 0) * (Spina::Shop.config.holding_cost_percentage / BigDecimal(100))
+      holding_cost_percentage = case xyz_analysis
+      when "x"
+        20
+      when "y"
+        40
+      when "z"
+        60
+      else
+        Spina::Shop.config.holding_cost_percentage
+      end
+      
+      (cost_price || 0) * (holding_cost_percentage / BigDecimal(100))
     end
     
     def stock_order_cost
