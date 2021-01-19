@@ -115,7 +115,7 @@
     %tr
       %td Aantal keer bestellen per jaar
       %td Wekelijkse verkoop x 52 / EOQ (afgerond naar boven)
-      %td.text-right= @product.order_quantity_per_year.ceil
+      %td.text-right= @product.stock_orders_per_year.ceil
       
     %tr
       %td Max. voorraad

@@ -63,7 +63,7 @@ module Spina::Shop
       ).round
     end
     
-    def order_quantity_per_year
+    def stock_orders_per_year
       weekly_sales_mean * 52 / eoq
     end
     
