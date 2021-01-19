@@ -68,7 +68,7 @@ module Spina::Shop
     end
     
     def service_level
-      case abc_analysis + xyz_analysis
+      case abc_analysis.to_s + xyz_analysis.to_s
       when "ax"
         98
       when "ay"
