@@ -79,6 +79,10 @@
       %span.text-muted
         \/
         = product.max_stock
+        
+    - if product.stock_orders.open.any?
+      %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
+        %i.icon.icon-document
     
     - if false
       - if product.stock_level < 4
