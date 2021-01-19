@@ -15,7 +15,8 @@ module Spina
                     :refund_reasons,
                     :stock_level_adjustment_categories,
                     :holding_cost_percentage,
-                    :default_stock_order_cost
+                    :default_stock_order_cost,
+                    :future_demand_factor
 
     # Default tax settings
     self.default_tax_rate = BigDecimal(0)
@@ -44,6 +45,15 @@ module Spina
     
     # Default stock order cost
     self.default_stock_order_cost = 5
+    
+    # Future demand factor
+    # Demand calculations are multiplied by this factor to 
+    # represent future demand
+    # 
+    # Example:
+    # If you expect the coming year to increase demand by 20%, 
+    # set this factor to 1.2
+    self.future_demand_factor = 1
 
     class << self
 

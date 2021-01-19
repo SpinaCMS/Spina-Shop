@@ -17,6 +17,36 @@ namespace :spina_shop do
     end
   end
   
+  task xyz_analysis: :environment do
+    date_range = 1.year.ago..Date.today
+    
+    products = Spina::Shop::Product.active
+      .joins(order_items: :order)
+      .where(spina_shop_orders: {paid_at: date_range})
+      
+    stale_products = Spina::Shop::Product.active.where.not(id: products.ids)
+    stale_products.update_all(xyz_analysis: :z)
+    
+    products = products.group("orderable_type, orderable_id").count    
+    products = products.sort_by(&:last).reverse
+
+    total_order_items = BigDecimal(products.map(&:last).reduce(&:+))
+    
+    cumulative_percentage = 0
+    products.each do |product_id, order_item_count|
+      percentage = (order_item_count / total_order_items * 100)
+      cumulative_percentage = percentage + cumulative_percentage
+      analysis = if cumulative_percentage <= 80
+        :x
+      elsif cumulative_percentage <= 95
+        :y
+      else
+        :z
+      end
+      Spina::Shop::Product.where(id: product_id).update_all(xyz_analysis: analysis)
+    end
+  end
+  
   task abc_analysis: :environment do
     date_range = 1.year.ago..Date.today
     
@@ -39,7 +69,7 @@ namespace :spina_shop do
     total_revenue = products.map(&:last).reduce(&:+)
     cumulative_percentage = 0
     
-    analyzed_products = products.each do |product_id, revenue|
+    products.each do |product_id, revenue|
       percentage = (revenue / total_revenue * 100)
       cumulative_percentage = percentage + cumulative_percentage
       analysis = if cumulative_percentage <= 80

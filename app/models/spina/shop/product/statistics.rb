@@ -6,16 +6,17 @@ module Spina::Shop
     
     included do
       enum abc_analysis: {a: 0, b: 1, c: 2}
+      enum xyz_analysis: {x: 0, y: 1, z: 2}
     end
     
     def weekly_sales_mean
       return 0 if sales_per_week.blank?
-      sales_per_week.values.mean
+      sales_per_week.values.mean * Spina::Shop.config.future_demand_factor
     end
     
     def weekly_sales_standard_deviation
       return 0 if sales_per_week.blank?
-      sales_per_week.values.standard_deviation
+      sales_per_week.values.standard_deviation * Spina::Shop.config.future_demand_factor
     end
     
     def daily_sales_mean
@@ -67,28 +68,41 @@ module Spina::Shop
     end
     
     def service_level
-      case abc_analysis
-      when "a"
-        "99,97%"
-      when "b"
-        "99%"
-      when "c"
-        "97,7%"        
+      case abc_analysis + xyz_analysis
+      when "ax"
+        98
+      when "ay"
+        96
+      when "az"
+        94
+      when "bx"
+        96
+      when "by"
+        94
+      when "bz"
+        92
+      when "cx"
+        94
+      when "cy"
+        92
+      when "cz"
+        90
       end
     end
 
-    # Z-score based on ABC-analysis
-    # A – 99,97% = 3,4
-    # B - 99% = 2,4
-    # C - 97,7% = 2,0
+    # Z-score based on servicelevel
     def z_score
-      case abc_analysis
-      when "a"
-        BigDecimal("3.4")
-      when "b"
-        BigDecimal("2.4")
-      when "c"
-        BigDecimal("2")
+      case service_level
+      when 98
+        BigDecimal("2.06")
+      when 96
+        BigDecimal("1.75")
+      when 94
+        BigDecimal("1.56")
+      when 92
+        BigDecimal("1.41")
+      when 90
+        BigDecimal("1.29")
       else
         BigDecimal("1")
       end

@@ -52,18 +52,23 @@
       
     %tr
       %td Kosten magazijn
-      %td 25% van kostprijs
+      %td.text-muted Globaal ingesteld
       %td.text-right= number_to_currency @product.holding_cost
       
     %tr
       %td ABC-analyse
-      %td.text-muted Geanalyseerd op basis van 80/20 Pareto-principe
+      %td.text-muted Geanalyseerd op basis van omzet 80/20 Pareto-principe
       %td.text-right= @product.abc_analysis.to_s.upcase
       
     %tr
-    %td Servicelevel
-    %td.text-muted Op basis van ABC-analyse
-    %td.text-right= @product.service_level
+      %td XYZ-analyse
+      %td.text-muted Geanalyseerd op basis van orderregels 80/20 Pareto-principe
+      %td.text-right= @product.xyz_analysis.to_s.upcase
+      
+    %tr
+      %td Servicelevel
+      %td.text-muted Op basis van ABC-analyse
+      %td.text-right= "#{@product.service_level}%"
       
     %tr
       %td Z-waarde
