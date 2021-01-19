@@ -28,7 +28,18 @@
   - if false
     %td.text-right= product.past_90_days
   %td.text-right= product.past_365_days
-      
+  %td.text-right
+    - bgcolor = case product.abc_analysis
+      - when "a"
+        - "#333"
+      - when "b"
+        - "#777"
+      - when "c"
+        - "#aaa"
+      - else
+        - "#ccc"
+    %div{style: "display: inline-block; width: 20px; height: 20px; background: #{bgcolor}; color: white; border-radius: 10px; text-align: center; line-height: 20px; font-weight: 600"}
+      = product.abc_analysis.to_s.upcase
   %td
     - if product.available_at_supplier? && product.supplier.present?
       - max = product.max_stock

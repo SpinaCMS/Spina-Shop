@@ -4,6 +4,10 @@ module Spina::Shop
   module Product::Statistics
     extend ActiveSupport::Concern
     
+    included do
+      enum abc_analysis: {a: 0, b: 1, c: 2}
+    end
+    
     def weekly_sales_mean
       return 0 if sales_per_week.blank?
       sales_per_week.values.mean
@@ -46,7 +50,7 @@ module Spina::Shop
     end
     
     def stock_order_cost
-      Spina::Shop.config.default_stock_order_cost
+      supplier&.average_stock_order_cost || Spina::Shop.config.default_stock_order_cost
     end
     
     # Economic order quantity
@@ -61,10 +65,33 @@ module Spina::Shop
     def reorder_point
       lead_time_demand.round + safety_stock
     end
+    
+    def service_level
+      case abc_analysis
+      when "a"
+        "99,97%"
+      when "b"
+        "99%"
+      when "c"
+        "97,7%"        
+      end
+    end
 
-    # Default Z-score – 99.98%
+    # Z-score based on ABC-analysis
+    # A – 99,97% = 3,4
+    # B - 99% = 2,4
+    # C - 97,7% = 2,0
     def z_score
-      BigDecimal("3.49")
+      case abc_analysis
+      when "a"
+        BigDecimal("3.4")
+      when "b"
+        BigDecimal("2.4")
+      when "c"
+        BigDecimal("2")
+      else
+        BigDecimal("1")
+      end
     end
     
     # Returns a hash of sales per week (max. 53 weeks)

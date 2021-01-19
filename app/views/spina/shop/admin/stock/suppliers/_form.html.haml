@@ -29,6 +29,13 @@
   
           .sidebar-form-control
             = f.number_field :lead_time_standard_deviation, placeholder: Spina::Shop::Supplier.human_attribute_name(:lead_time_standard_deviation)
+            
+        .sidebar-form-group
+          .sidebar-form-label
+            = Spina::Shop::Supplier.human_attribute_name :average_stock_order_cost
+  
+          .sidebar-form-control
+            = f.text_field :average_stock_order_cost, value: number_with_precision(f.object.average_stock_order_cost, precision: 2), placeholder: Spina::Shop::Supplier.human_attribute_name(:average_stock_order_cost)
 
       .well{style: "margin-right: -20px"}
         .sidebar-form-group

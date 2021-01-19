@@ -23,6 +23,10 @@
       %tr
         %th= Spina::Shop::Supplier.human_attribute_name :products
         %td= @supplier.products.active.count
+        
+      %tr
+      %th= Spina::Shop::Supplier.human_attribute_name :average_stock_order_cost
+      %td= number_to_currency @supplier.average_stock_order_cost
 
   .information-table
     %table

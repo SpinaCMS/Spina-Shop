@@ -16,6 +16,42 @@ namespace :spina_shop do
       bar.increment
     end
   end
+  
+  task abc_analysis: :environment do
+    date_range = 1.year.ago..Date.today
+    
+    products = Spina::Shop::Product.active
+      .joins(order_items: :order)
+      .where(spina_shop_orders: {paid_at: date_range})
+    
+    # Set stale products to C
+    stale_products = Spina::Shop::Product.active.where.not(id: products.ids)
+    stale_products.update_all(abc_analysis: :c)
+      
+    products = products.group("orderable_type, orderable_id").sum("CASE WHEN prices_include_tax = true THEN 
+              (unit_price * quantity - discount_amount) / ((tax_rate + 100) / 100.0) 
+            ELSE 
+              unit_price * quantity - discount_amount 
+            END")
+      
+    products = products.sort_by(&:last).reverse
+    
+    total_revenue = products.map(&:last).reduce(&:+)
+    cumulative_percentage = 0
+    
+    analyzed_products = products.each do |product_id, revenue|
+      percentage = (revenue / total_revenue * 100)
+      cumulative_percentage = percentage + cumulative_percentage
+      analysis = if cumulative_percentage <= 80
+        :a
+      elsif cumulative_percentage <= 95
+        :b
+      else
+        :c
+      end
+      Spina::Shop::Product.where(id: product_id).update_all(abc_analysis: analysis)
+    end
+  end
 
   task calculate_trend: :environment do
     products = Spina::Shop::Product.where(stock_enabled: true)

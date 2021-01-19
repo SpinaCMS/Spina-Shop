@@ -43,7 +43,11 @@
         
     %tr
       %td Kosten per leveringsorder
-      %td.text-muted Globaal ingesteld
+      %td.text-muted 
+        - if @product.supplier.average_stock_order_cost.present?
+          Ingesteld bij #{@product.supplier&.name}
+        - else
+          Globaal ingesteld
       %td.text-right= number_to_currency @product.stock_order_cost
       
     %tr
@@ -52,9 +56,19 @@
       %td.text-right= number_to_currency @product.holding_cost
       
     %tr
+      %td ABC-analyse
+      %td.text-muted Geanalyseerd op basis van 80/20 Pareto-principe
+      %td.text-right= @product.abc_analysis.to_s.upcase
+      
+    %tr
+    %td Servicelevel
+    %td.text-muted Op basis van ABC-analyse
+    %td.text-right= @product.service_level
+      
+    %tr
       %td Z-waarde
-      %td.text-muted Globaal ingesteld
-      %td.text-right 3,49
+      %td.text-muted Op basis van servicelevel
+      %td.text-right= number_with_precision @product.z_score, precision: 2, significant: true
       
     %tr
       %td Veiligheidsvoorraad

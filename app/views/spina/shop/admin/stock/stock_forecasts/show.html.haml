@@ -87,6 +87,10 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'past_365_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Verkoop<br /><small>365 dagen</small>
               
+          %th.text-right
+            ABC
+            %small analyse
+              
           %th{style: 'width: 250px'}
             = link_to spina.shop_admin_stock_forecast_path({order: 'statistics_safety_stock', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Veiligheidsvoorraad
