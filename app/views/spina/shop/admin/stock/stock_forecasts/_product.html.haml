@@ -41,9 +41,6 @@
       - when 90
         - "#FF0000"
     %span{style: "color: #{text_color}"}= "#{product.service_level}%"
-        
-    = product.lead_time.round
-    dagen
   %td
     - if product.available_at_supplier? && product.supplier.present?
       - max = product.max_stock
