@@ -113,6 +113,11 @@
       %td.text-right= @product.eoq
       
     %tr
+      %td Aantal keer bestellen per jaar
+      %td Wekelijkse verkoop x 52 / EOQ (afgerond naar boven)
+      %td.text-right= @product.order_quantity_per_year.ceil
+      
+    %tr
       %td Max. voorraad
       %td 
         EOQ + bestelpunt

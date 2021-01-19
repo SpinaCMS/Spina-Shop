@@ -63,6 +63,10 @@ module Spina::Shop
       ).round
     end
     
+    def order_quantity_per_year
+      weekly_sales_mean * 52 / eoq
+    end
+    
     def reorder_point
       lead_time_demand.round + safety_stock
     end
