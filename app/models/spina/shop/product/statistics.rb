@@ -49,11 +49,11 @@ module Spina::Shop
     def holding_cost
       holding_cost_percentage = case xyz_analysis
       when "x"
-        25
-      when "y"
         50
-      when "z"
+      when "y"
         75
+      when "z"
+        100
       else
         Spina::Shop.config.holding_cost_percentage
       end
