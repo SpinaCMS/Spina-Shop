@@ -117,14 +117,15 @@
       %span{style: "color: orange"}= difference
     - else
       %span= difference
-  %td.text-right
-    - if product.stock_difference < 0
-      %span.text-danger= product.stock_difference
-    - elsif product.stock_difference == 0
-      %span.text-success 0
-    - else
-      %span.text-success= "+#{product.stock_difference}"
   - if false
+    %td.text-right
+      - if product.stock_difference < 0
+        %span.text-danger= product.stock_difference
+      - elsif product.stock_difference == 0
+        %span.text-success 0
+      - else
+        %span.text-success= "+#{product.stock_difference}"
+      
     %td.text-right= product.lead_time.round
     %td.text-right.nowrap
       - if product.recount_created_at.present?

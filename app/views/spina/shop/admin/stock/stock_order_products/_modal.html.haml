@@ -34,11 +34,12 @@
               %small{style: "display: inline"}
                 \/
                 = product.max_stock
-                
-              %br/
-              %small.text-muted
-                Oud optim:
-                = product.optimal_stock
+              
+              - if false
+                %br/
+                %small.text-muted
+                  Oud optim:
+                  = product.optimal_stock
             %td
               - if false
                 - quantity_to_order = (product.stock_difference < 0 ? (product.stock_difference / product.supplier_packing_unit).ceil * product.supplier_packing_unit * -1 : 0)

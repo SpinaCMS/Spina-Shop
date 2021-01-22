@@ -107,12 +107,12 @@
             Inkoop
             %br/
             %small voorraadverschil
-          
-          %th.text-right{style: 'min-width: 60px'}
-            = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-              OUD<br /><small>voorraadverschil OUD</small>
               
           - if false
+            %th.text-right{style: 'min-width: 60px'}
+              = link_to spina.shop_admin_stock_forecast_path({order: 'stock_difference', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
+                OUD<br /><small>voorraadverschil OUD</small>
+                
             %th.text-right{style: "min-widh: 60px"}
               = link_to spina.shop_admin_stock_forecast_path({order: 'lead_time', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
                 Doorlooptijd
