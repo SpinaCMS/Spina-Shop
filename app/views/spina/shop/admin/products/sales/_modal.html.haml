@@ -1,0 +1,46 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Verkopen #{@product.name}
+    
+  %section
+    Verkopen afgelopen 365 dagen:
+    = @product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 1.year.ago..Date.today}).sum(:adjustment) * -1
+    %br/
+    Verkopen afgelopen 30 dagen:
+    = @product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 30.days.ago..Date.today}).sum(:adjustment) * -1
+    
+  %table.table
+    %thead
+      %tr
+        %th Jaar
+        %th Maand
+        %th Week
+        %th.text-right Verkopen
+        %th.text-right Verschil
+    %tbody
+      - @weekly_sales.each.with_index do |week, index|
+        - year = week.first.split("").first(4).join("").to_i
+        - weeknumber = week.first.split("").last(2).join("").to_i
+        %tr
+          %td= year
+          %td= Date::MONTHNAMES[Date.commercial(year, weeknumber).month]
+          %td= weeknumber
+          %td.text-right= week.last
+          %td.text-right
+            - previous_week = @weekly_sales[index + 1]&.last
+            - this_week = week.last
+            - if previous_week.to_i > 0
+              - verschil = this_week - previous_week
+              - percentage = (verschil / previous_week.to_f * 100).round
+              - label = "#{percentage}%"
+              - label = "+#{percentage}%" if percentage > 0
+              
+              - if percentage >= 20
+                %span.text-success= label
+              - elsif percentage <= -20
+                %span.text-danger= label
+              - else
+                %span.text-muted= label
+              

@@ -9,16 +9,18 @@
       = product.full_name
     %small= product.supplier&.name
   %td= product.location
-  %td{style: 'text-align: right'}= product.order_picking_30_days
   - if false
-    %td{style: 'text-align: right'}= product.order_picking_90_days
-  %td{style: 'text-align: right'}= product.order_picking_365_days
-  %td.text-right
-    = product.past_30_days
+    %td{style: 'text-align: right'}= product.order_picking_30_days
     - if false
-      %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
-        %div{style: "background: #D6D6E9; width: #{BigDecimal(product.past_60_days) / product.past_90_days * 100}%; height: 100%; border-radius: 4px"}
-          %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
+      %td{style: 'text-align: right'}= product.order_picking_90_days
+    %td{style: 'text-align: right'}= product.order_picking_365_days
+  - if false
+    %td.text-right
+      = product.past_30_days
+      - if false
+        %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
+          %div{style: "background: #D6D6E9; width: #{BigDecimal(product.past_60_days) / product.past_90_days * 100}%; height: 100%; border-radius: 4px"}
+            %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
   - if false
     %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
       %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}= product.past_90_days
@@ -27,7 +29,10 @@
         = product.past_365_days
   - if false
     %td.text-right= product.past_90_days
-  %td.text-right= product.past_365_days
+  - if false
+    %td.text-right= product.past_365_days
+  %td.text-right
+    = link_to product.statistics_weekly_sales || "?", spina.shop_admin_product_sales_path(product), data: {remote: true}
   %td.text-right
     - text_color = case product.service_level
       - when 98

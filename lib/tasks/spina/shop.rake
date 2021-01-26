@@ -9,6 +9,7 @@ namespace :spina_shop do
     
     products.each do |product|
       product.update_columns(
+        statistics_weekly_sales: product.weekly_sales_mean,
         statistics_eoq: product.eoq,
         statistics_reorder_point: product.reorder_point,
         statistics_safety_stock: product.safety_stock
