@@ -26,6 +26,8 @@
     %td.text-right= product.past_90_days
     %td.text-right= product.past_365_days
   %td.text-right
+    = product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 30.days.ago..Date.today}).sum(:adjustment) * -1
+  %td.text-right
     = link_to product.statistics_weekly_sales || "?", spina.shop_admin_product_sales_path(product), data: {remote: true}
   %td.text-right
     - text_color = case product.service_level
