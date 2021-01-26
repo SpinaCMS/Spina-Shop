@@ -59,6 +59,10 @@ module Spina::Shop
       return true unless stock_enabled?
       stock_level > 0
     end
+    
+    def stock_value
+      stock_level * (cost_price || 0)
+    end
 
     def cache_stock_level
       update_columns(

@@ -15,7 +15,7 @@ module Spina::Shop
             location.length > 2 ? '1' : '0' + location
           end
 
-          products = Product.joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
+          products = Product.joins("LEFT JOIN spina_shop_suppliers ON spina_shop_products.supplier_id = spina_shop_suppliers.id").where(stock_enabled: true, archived: false).joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
           
           if params[:order] == "statistics_safety_stock"
             products = products.reorder("
