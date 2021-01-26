@@ -1,4 +1,4 @@
-require 'descriptive_statistics'
+require 'descriptive_statistics/safe'
 
 module Spina::Shop
   module Product::Statistics
@@ -11,12 +11,12 @@ module Spina::Shop
     
     def weekly_sales_mean
       return 0 if sales_per_week.blank?
-      sales_per_week.values.mean * Spina::Shop.config.future_demand_factor
+      DescriptiveStatistics::Stats.new(sales_per_week.values).mean * Spina::Shop.config.future_demand_factor
     end
     
     def weekly_sales_standard_deviation
       return 0 if sales_per_week.blank?
-      sales_per_week.values.standard_deviation * Spina::Shop.config.future_demand_factor
+      DescriptiveStatistics::Stats.new(sales_per_week.values).standard_deviation * Spina::Shop.config.future_demand_factor
     end
     
     def daily_sales_mean
