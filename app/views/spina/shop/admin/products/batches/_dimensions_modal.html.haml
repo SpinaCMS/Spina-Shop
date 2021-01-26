@@ -1,0 +1,29 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3.text-center
+      %strong= @products.count
+      %strong= Spina::Shop::Product.model_name.human(count: @products.count).downcase 
+      aanpassen
+  
+  = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q], filters: params.permit(filters: {})[:filters]), method: :put do |f|
+    - if params[:select_all]
+      = f.hidden_field :select_all, value: params[:select_all]
+    - else
+      - @products.each do |product|
+        = f.hidden_field :product_ids, multiple: true, value: product.id
+  
+    %section
+      .form-control{data: {form_append: 'cm'}}
+        = f.text_field :length, placeholder: Spina::Shop::Product.human_attribute_name(:length)
+      .form-control{style: "margin-top: 10px", data: {form_append: 'cm'}}
+        = f.text_field :width, placeholder: Spina::Shop::Product.human_attribute_name(:width)
+      .form-control{style: "margin-top: 10px", data: {form_append: 'cm'}}
+        = f.text_field :height, placeholder: Spina::Shop::Product.human_attribute_name(:height)
+      
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-check{style: 'margin-right: 4px'}
+        =t 'spina.shop.save'

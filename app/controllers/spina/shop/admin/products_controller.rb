@@ -192,7 +192,7 @@ module Spina::Shop
 
         def product_params
           I18n.with_locale I18n.default_locale do
-            params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number)
+            params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number, length: :number, width: :number, height: :number)
           end
         end
 

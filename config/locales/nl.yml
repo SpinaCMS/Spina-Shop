@@ -154,6 +154,8 @@ nl:
         ean: EAN
         expiration_date: Verloopdatum
         extended_description: Uitgebreide beschrijving
+        height: Hoogte
+        length: Lengte
         limit: Limiet
         limit_per_order: Limiet per bestelling
         location: Locatie
@@ -177,6 +179,7 @@ nl:
         supplier_packing_unit: Verpakt per
         supplier_reference: Leverancier referentie
         weight: Gewicht
+        width: Breedte
       spina/shop/product_bundle:
         active: Beschikbaar in webshop
         description: Beschrijving

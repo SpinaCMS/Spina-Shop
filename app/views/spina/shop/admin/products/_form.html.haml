@@ -454,6 +454,30 @@
                   = Spina::Shop::Product.human_attribute_name :supplier_packing_unit
                 .form-control{style: "flex: 1.5"}
                   = f.text_field :supplier_packing_unit, placeholder: Spina::Shop::Product.human_attribute_name(:supplier_packing_unit)
+                  
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :length
+                
+                .form-control{style: "flex: 1.5", data: {form_append: 'cm'}}
+                  = f.text_field :length, value: number_with_precision(f.object.length, strip_insignificant_zeros: true)
+                  
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :width
+                
+                .form-control{style: "flex: 1.5", data: {form_append: 'cm'}}
+                  = f.text_field :width, value: number_with_precision(f.object.width, strip_insignificant_zeros: true)
+                  
+            .form-group
+              .input-group
+                .form-label
+                  = Spina::Shop::Product.human_attribute_name :height
+                
+                .form-control{style: "flex: 1.5", data: {form_append: 'cm'}}
+                  = f.text_field :height, value: number_with_precision(f.object.height, strip_insignificant_zeros: true)
 
             .form-group
               .input-group

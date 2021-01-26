@@ -154,6 +154,8 @@ en:
         ean: EAN
         expiration_date: Expiration date
         extended_description: Extended description
+        height: 
+        length: 
         limit: Limit
         limit_per_order: Limit per order
         location: Location
@@ -177,6 +179,7 @@ en:
         supplier_packing_unit: Supplier packing unit
         supplier_reference: Supplier reference
         weight: Weight
+        width: 
       spina/shop/product_bundle:
         active: Available in webshop
         description: Description
