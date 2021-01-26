@@ -63,6 +63,14 @@ module Spina::Shop
     def stock_value
       stock_level * (cost_price || 0)
     end
+    
+    def dimensions
+      "#{length}x#{width}x#{height} (LBH)"
+    end
+    
+    def volume
+      "#{(length * width * height / 1000.to_f).round(1)} L"
+    end
 
     def cache_stock_level
       update_columns(

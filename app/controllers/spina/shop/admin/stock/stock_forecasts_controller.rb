@@ -34,27 +34,24 @@ module Spina::Shop
             format.html
             format.csv do
               data = CSV.generate do |csv|
-                csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Trend Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
+                # csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Trend Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
+                
+                csv << %w(ID Product Locatie Formaat Inhoud Lopen30 Verkoop30 Wekelijkse\ verkoop Voorraad Max\ Voorraad Veiligheidsvoorraad Bestelpunt EOQ)
                 @products = @q.result.page(params[:page]).per(5000)
                 @products.each.each do |product|
                   csv << [product.id, 
                     product.full_name, 
                     product.location, 
-                    product.order_picking_30_days, 
-                    product.order_picking_90_days, 
-                    product.order_picking_365_days,
-                    product.past_30_days,
-                    product.past_90_days,
-                    product.past_365_days,
-                    product.trend,
+                    product.dimensions,
+                    product.volume,
+                    product.order_items.joins(:order).where(spina_shop_orders: {paid_at: 30.days.ago..Date.today}).count,
+                    product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 30.days.ago..Date.today}).sum(:adjustment) * -1,
+                    product.statistics_weekly_sales,
                     product.stock_level,
-                    product.optimal_stock,
-                    product.stock_difference,
-                    product.lead_time.round,
-                    product.in_stock_reminders_count,
-                    view_context.number_to_currency(product.base_price),
-                    view_context.number_to_currency(product.cost_price),
-                    view_context.number_to_currency(product.stock_value)
+                    product.statistics_max_stock,
+                    product.statistics_safety_stock,
+                    product.statistics_reorder_point,
+                    product.statistics_eoq
                   ]
                 end
               end
