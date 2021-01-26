@@ -39,6 +39,10 @@ module Spina::Shop
       eoq + reorder_point
     end
     
+    def statistics_max_stock
+      statistics_eoq + statistics_reorder_point
+    end
+    
     def safety_stock
       (Math.sqrt(
         weekly_sales_standard_deviation**2 * supplier&.lead_time.to_i / BigDecimal(7) +

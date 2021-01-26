@@ -11,25 +11,19 @@
   %td= product.location
   - if false
     %td{style: 'text-align: right'}= product.order_picking_30_days
-    - if false
-      %td{style: 'text-align: right'}= product.order_picking_90_days
+    %td{style: 'text-align: right'}= product.order_picking_90_days
     %td{style: 'text-align: right'}= product.order_picking_365_days
-  - if false
     %td.text-right
       = product.past_30_days
-      - if false
-        %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
-          %div{style: "background: #D6D6E9; width: #{BigDecimal(product.past_60_days) / product.past_90_days * 100}%; height: 100%; border-radius: 4px"}
-            %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
-  - if false
+      %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
+        %div{style: "background: #D6D6E9; width: #{BigDecimal(product.past_60_days) / product.past_90_days * 100}%; height: 100%; border-radius: 4px"}
+          %div{style: "background: #7070B3; width: #{BigDecimal(product.past_30_days) / product.past_60_days * 100}%; height: 100%; border-radius: 4px"}
     %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
       %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}= product.past_90_days
     %td.text-center{style: 'text-align: center; min-width: 100px; width: 100px'}
       %span{style: "font-size: 12px; font-weight: 500; color: #7070B3; opacity: .5"}
         = product.past_365_days
-  - if false
     %td.text-right= product.past_90_days
-  - if false
     %td.text-right= product.past_365_days
   %td.text-right
     = link_to product.statistics_weekly_sales || "?", spina.shop_admin_product_sales_path(product), data: {remote: true}
@@ -48,10 +42,10 @@
     %span{style: "color: #{text_color}"}= "#{product.service_level}%"
   %td
     - if product.available_at_supplier? && product.supplier.present?
-      - max = product.max_stock
+      - max = product.statistics_max_stock
       - if max > 0
-        - safe = ((product.safety_stock.to_i / BigDecimal(max)) * 100).round
-        - point = ((product.reorder_point.to_i / BigDecimal(max)) * 100).round
+        - safe = ((product.statistics_safety_stock.to_i / BigDecimal(max)) * 100).round
+        - point = ((product.statistics_reorder_point.to_i / BigDecimal(max)) * 100).round
         - current = ((product.stock_level / BigDecimal(max)) * 100).round
         - current = [current, 100].min
         
@@ -60,10 +54,10 @@
             &nbsp;
             
           %div{style: "position: absolute; left: #{safe}%; top: 0px; transform: translateX(-100%)"}
-            %span{style: "color: orange; font-weight: 500; font-size: 12px"}= product.safety_stock
+            %span{style: "color: orange; font-weight: 500; font-size: 12px"}= product.statistics_safety_stock
               
           %div{style: "position: absolute; left: #{point}%; top: 0px"}
-            %div{style: "font-size: 12px; color: #7070B3; font-weight: 500"}= product.reorder_point
+            %div{style: "font-size: 12px; color: #7070B3; font-weight: 500"}= product.statistics_reorder_point
           
           - if false
             %small{style: 'position: absolute; bottom: -20px; left: 0px'}
@@ -77,9 +71,9 @@
             %div{style: "height: 100%; background: #7070B3; width: #{current}%"}
               
             // Safety
-            %div{style: "height: 100%; width: #{safe}%; background: orange; position: absolute; top: 0px; left: 0px; #{product.stock_level < product.safety_stock ? 'opacity: .2' : ''}"}
+            %div{style: "height: 100%; width: #{safe}%; background: orange; position: absolute; top: 0px; left: 0px; #{product.stock_level < product.statistics_safety_stock ? 'opacity: .2' : ''}"}
             
-            - if product.stock_level < product.safety_stock
+            - if product.stock_level < product.statistics_safety_stock
               %div{style: "height: 100%; width: #{current}%; background: orange; position: absolute; top: 0px; left: 0px"}
             
             // Reorder point
@@ -91,11 +85,11 @@
       %em.text-muted Uitlopend
       
   %td.text-right
-    %span{class: ("text-danger" if product.available_at_supplier && product.supplier.present? && product.stock_level < product.reorder_point)}
+    %span{class: ("text-danger" if product.available_at_supplier && product.supplier.present? && product.stock_level < product.statistics_reorder_point)}
       = product.stock_level
       %span.text-muted
         \/
-        = product.max_stock
+        = product.statistics_max_stock
         
     - if product.stock_orders.open.any?
       %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
@@ -107,7 +101,7 @@
       - else
         %span.text-success= product.stock_level
       - if product.available_at_supplier?
-        %small{style: 'display: inline'} / #{product.eoq}
+        %small{style: 'display: inline'} / #{product.statistics_eoq}
       - else
         %small{style: 'display: inline'} / #{t("spina.shop.stock.discontinued")}
   
@@ -115,10 +109,10 @@
         %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
           %i.icon.icon-document
   %td.text-right
-    - difference = product.stock_level.to_i - product.max_stock.to_i
-    - if product.stock_level < product.safety_stock
+    - difference = product.stock_level.to_i - product.statistics_max_stock.to_i
+    - if product.stock_level < product.statistics_safety_stock
       %span.text-danger= difference
-    - elsif product.stock_level < product.reorder_point
+    - elsif product.stock_level < product.statistics_reorder_point
       %span{style: "color: orange"}= difference
     - else
       %span= difference
@@ -142,11 +136,11 @@
           - else
             = product.recount_difference
   %td.text-right.text-muted
-    = product.in_stock_reminders_count
+    = product.in_stock_reminders.count
     %i.icon.icon-mail{style: 'font-size: 11px'}
   %td.text-right
     %small= number_to_currency product.base_price
   %td.text-right
     %small= number_to_currency product.cost_price
   %td.text-right
-    %small= number_to_currency product.stock_value
+    %small= number_to_currency product.stock_level * product.cost_price

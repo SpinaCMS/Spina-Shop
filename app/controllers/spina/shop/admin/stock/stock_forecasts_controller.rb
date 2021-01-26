@@ -15,7 +15,7 @@ module Spina::Shop
             location.length > 2 ? '1' : '0' + location
           end
 
-          products = Product.stock_forecast.joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
+          products = Product.joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
           
           if params[:order] == "statistics_safety_stock"
             products = products.reorder("
