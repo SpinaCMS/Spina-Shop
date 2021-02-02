@@ -79,7 +79,8 @@ module Spina::Shop
     end
     
     def stock_orders_per_year
-      weekly_sales_mean * 52 / eoq
+      return 0 if eoq.zero?
+      (weekly_sales_mean * 52 / eoq).ceil
     end
     
     def reorder_point
