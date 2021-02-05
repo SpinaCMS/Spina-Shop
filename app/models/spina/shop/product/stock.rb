@@ -69,7 +69,7 @@ module Spina::Shop
     end
     
     def volume
-      "#{(length * width * height / 1000.to_f).round(1)} L"
+      (length * width * height / 1000.to_f).round(2)
     end
 
     def cache_stock_level
