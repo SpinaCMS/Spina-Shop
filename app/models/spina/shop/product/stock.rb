@@ -69,6 +69,7 @@ module Spina::Shop
     end
     
     def volume
+      return 0 unless length && width && height
       (length * width * height / 1000.to_f).round(2)
     end
 
