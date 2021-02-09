@@ -32,8 +32,12 @@
       .filter-form-label= Spina::Shop::Product.human_attribute_name(:available_at_supplier)
       .filter-form-control
         = f.select :available_at_supplier_eq, [[t("spina.shop.stock.products_available_at_supplier"), true], [t("spina.shop.stock.discontinued_products"), false]], {include_blank: t("spina.shop.stock.all_products")}, class: 'select2', style: 'width: 100%'
-
-- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_or_translations_variant_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start_any: params[:q].try(:[], :location_start_any), product_category_id_in: params[:q].try(:[], :product_category_id_in), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq), available_at_supplier_eq: params[:q].try(:[], :available_at_supplier_eq)}}
+    .filter-form-advanced-group
+      .filter-form-label
+        Gemiddelde verkoop = 0
+      .filter-form-control{style: "padding-top: 5px; padding-left: 5px"}
+        = f.check_box :statistics_weekly_sales_eq, {data: {switch: true}}, 0, nil
+- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_or_translations_variant_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start_any: params[:q].try(:[], :location_start_any), statistics_weekly_sales_eq: params[:q].try(:[], :statistics_weekly_sales_eq), product_category_id_in: params[:q].try(:[], :product_category_id_in), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq), available_at_supplier_eq: params[:q].try(:[], :available_at_supplier_eq)}}
 
 - if params[:q].present?
   .text-right{style: "margin: 15px -4px 0 0"}
