@@ -85,7 +85,7 @@
             
       = link_to 'berekening', spina.shop_admin_product_statistics_path(product), style: 'font-size: 12px; margin-top: 0; padding: 5px; margin-bottom: -10px; display: inline-block', data: {remote: true}
              
-    - else
+    - elsif !product.available_at_supplier?
       %em.text-muted Uitlopend
       
   %td.text-right
