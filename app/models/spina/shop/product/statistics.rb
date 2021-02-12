@@ -11,12 +11,16 @@ module Spina::Shop
     
     def weekly_sales_mean
       return 0 if sales_per_week.blank?
-      DescriptiveStatistics::Stats.new(sales_per_week.values).mean * Spina::Shop.config.future_demand_factor
+      DescriptiveStatistics::Stats.new(sales_per_week.values).mean
     end
     
     def weekly_sales_standard_deviation
       return 0 if sales_per_week.blank?
-      DescriptiveStatistics::Stats.new(sales_per_week.values).standard_deviation * Spina::Shop.config.future_demand_factor
+      DescriptiveStatistics::Stats.new(sales_per_week.values).standard_deviation
+    end
+    
+    def future_yearly_demand
+      weekly_sales_mean * 52 * Spina::Shop.config.future_demand_factor
     end
     
     def daily_sales_mean
@@ -73,14 +77,14 @@ module Spina::Shop
     def eoq
       return 0 if holding_cost.zero?
       Math.sqrt(
-        (2 * weekly_sales_mean * 52 * stock_order_cost) /
+        (2 * future_yearly_demand * stock_order_cost) /
         holding_cost
       ).round
     end
     
     def stock_orders_per_year
       return 0 if eoq.zero?
-      (weekly_sales_mean * 52 / eoq).ceil
+      (future_yearly_demand / eoq).ceil
     end
     
     def reorder_point
