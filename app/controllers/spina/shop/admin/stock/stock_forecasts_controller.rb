@@ -18,10 +18,7 @@ module Spina::Shop
           products = Product.joins("LEFT JOIN spina_shop_suppliers ON spina_shop_products.supplier_id = spina_shop_suppliers.id").where(stock_enabled: true, archived: false).joins(:translations).order("#{params[:order]} #{params[:direction]}").where(spina_shop_product_translations: {locale: I18n.locale}).group("spina_shop_products.id, spina_shop_product_translations.id")
           
           if params[:order] == "statistics_safety_stock"
-            products = products.reorder("
-              CASE WHEN stock_level - statistics_safety_stock < 0 THEN stock_level - statistics_safety_stock ELSE 1 END,
-              CASE WHEN stock_level - statistics_reorder_point < 0 THEN stock_level - statistics_reorder_point ELSE 1 END
-            ")
+            products = products.reorder(Arel.sql("CASE WHEN stock_level - statistics_safety_stock < 0 THEN stock_level - statistics_safety_stock ELSE 1 END, CASE WHEN stock_level - statistics_reorder_point < 0 THEN stock_level - statistics_reorder_point ELSE 1 END"))
             products = products.where(available_at_supplier: true).where('statistics_reorder_point > 0')
           end
           

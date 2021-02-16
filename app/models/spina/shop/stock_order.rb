@@ -6,7 +6,7 @@ module Spina::Shop
 
     scope :concept, -> { where(ordered_at: nil) }
     scope :open, -> { where(closed_at: nil).where.not(ordered_at: nil) }
-    scope :active, -> { where(closed_at: nil).joins(:supplier).order("CASE WHEN ordered_at IS NOT NULL THEN 1 ELSE 0 END", "CASE WHEN expected_delivery IS NOT NULL THEN expected_delivery ELSE ordered_at + (interval '1' day * lead_time) END", created_at: :desc) }
+    scope :active, -> { where(closed_at: nil).joins(:supplier).order(Arel.sql("CASE WHEN ordered_at IS NOT NULL THEN 1 ELSE 0 END, CASE WHEN expected_delivery IS NOT NULL THEN expected_delivery ELSE ordered_at + (interval '1' day * lead_time) END"), created_at: :desc) }
     scope :ordered, -> { where.not(ordered_at: nil) }
     scope :closed, -> { where.not(closed_at: nil) }
     scope :expected_today, -> { where(expected_delivery: Date.today) }
