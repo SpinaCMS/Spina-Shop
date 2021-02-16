@@ -32,7 +32,7 @@ module Spina::Shop
       def update
         @customer_group = CustomerGroup.find(params[:id])
 
-        if @customer_group.update_attributes(customer_group_params)
+        if @customer_group.update(customer_group_params)
           redirect_to spina.shop_admin_customer_groups_path
         else
           render :edit

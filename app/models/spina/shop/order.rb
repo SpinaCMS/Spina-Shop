@@ -212,7 +212,7 @@ module Spina::Shop
     end
 
     def remove_discount!
-      update_attributes!(discount: nil)
+      update!(discount: nil)
     end
 
     # This should be reversed
@@ -231,7 +231,7 @@ module Spina::Shop
             new_item.children.create!(child.attributes.reject{|key, value| key.in? %w(id created_at updated_at unit_price unit_cost_price discount_amount weight tax_rate order_id)}.merge(order_id: shopping_cart.id))
           end
         end
-        update_attributes!(duplicate: shopping_cart)
+        update!(duplicate: shopping_cart)
       end
     end
 

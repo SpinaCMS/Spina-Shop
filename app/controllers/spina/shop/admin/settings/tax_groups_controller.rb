@@ -28,7 +28,7 @@ module Spina::Shop
 
         def update
           @tax_group = TaxGroup.find(params[:id])
-          if @tax_group.update_attributes(tax_group_params)
+          if @tax_group.update(tax_group_params)
             redirect_to spina.shop_admin_settings_tax_groups_path
           else
             render :edit

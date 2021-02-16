@@ -120,7 +120,7 @@ module Spina::Shop
 
       def update
         @order = Order.find(params[:id])
-        if @order.update_attributes!(order_params)
+        if @order.update!(order_params)
           redirect_to spina.shop_admin_order_path(@order)
         else
           render :edit

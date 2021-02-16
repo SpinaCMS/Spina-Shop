@@ -60,7 +60,7 @@ module Spina::Shop
         def update
           @product_bundle = ProductBundle.find(params[:id])
           attach_product_images
-          if I18n.with_locale(@locale) { @product_bundle.update_attributes(product_bundle_params) }
+          if I18n.with_locale(@locale) { @product_bundle.update(product_bundle_params) }
             redirect_to spina.edit_shop_admin_product_bundle_path(@product_bundle, params: {locale: @locale})
           else
             render :edit
@@ -69,13 +69,13 @@ module Spina::Shop
 
         def archive
           @product_bundle = ProductBundle.find(params[:id])
-          @product_bundle.update_attributes(archived: true)
+          @product_bundle.update(archived: true)
           redirect_to spina.shop_admin_product_bundle_path(@product_bundle)
         end
 
         def unarchive
           @product_bundle = ProductBundle.find(params[:id])
-          @product_bundle.update_attributes(archived: false)
+          @product_bundle.update(archived: false)
           redirect_to spina.shop_admin_product_bundle_path(@product_bundle)
         end
 

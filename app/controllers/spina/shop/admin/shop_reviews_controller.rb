@@ -26,7 +26,7 @@ module Spina::Shop
 
       def update
         @shop_review = ShopReview.find(params[:id])
-        if @shop_review.update_attributes(shop_review_params)
+        if @shop_review.update(shop_review_params)
           redirect_to spina.shop_admin_shop_reviews_path
         else
           render :edit

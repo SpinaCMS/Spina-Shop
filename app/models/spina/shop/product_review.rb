@@ -16,7 +16,7 @@ module Spina::Shop
     private
 
       def cache_product_review_score
-        product.update_attributes(average_review_score: product.product_reviews.average(:score).try(:round, 1))
+        product.update(average_review_score: product.product_reviews.average(:score).try(:round, 1))
       end
   end
 end

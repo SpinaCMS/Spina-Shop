@@ -45,7 +45,7 @@ module Spina::Shop
       end
 
       def update
-        if @discount.update_attributes(discount_params)
+        if @discount.update(discount_params)
           redirect_to spina.shop_admin_discounts_path
         else
           flash.now[:alert] = "Discount could not be saved"

@@ -86,7 +86,7 @@ module Spina::Shop
         @product = Product.find(params[:id])
         attach_product_images
 
-        if I18n.with_locale(@locale) { @product.update_attributes(product_params) }
+        if I18n.with_locale(@locale) { @product.update(product_params) }
           # Save each locale for materialized_path
           Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
 
@@ -108,14 +108,14 @@ module Spina::Shop
 
       def archive
         @product = Product.find(params[:id])
-        @product.update_attributes(archived: true)
+        @product.update(archived: true)
         @product.children.update_all(archived: true)
         redirect_to spina.shop_admin_product_path(@product)
       end
 
       def unarchive
         @product = Product.find(params[:id])
-        @product.update_attributes(archived: false)
+        @product.update(archived: false)
         redirect_to spina.shop_admin_product_path(@product)
       end
 

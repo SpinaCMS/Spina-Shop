@@ -13,7 +13,7 @@ module Spina::Shop
 
       def close_order
         @stock_order = StockOrder.open.find(params[:id])
-        @stock_order.update_attributes(closed_at: Time.zone.now)
+        @stock_order.update(closed_at: Time.zone.now)
         redirect_to spina.shop_stock_management_stock_orders_path
       end
 
@@ -24,7 +24,7 @@ module Spina::Shop
       def update
         @stock_order = StockOrder.find(params[:id])
 
-        if @stock_order.update_attributes(stock_order_params)
+        if @stock_order.update(stock_order_params)
           redirect_to spina.shop_stock_management_stock_order_path(@stock_order)
         else
           render :edit

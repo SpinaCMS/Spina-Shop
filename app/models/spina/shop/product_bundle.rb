@@ -60,7 +60,7 @@ module Spina::Shop
     end
 
     def stock_level
-      bundled_products.joins(:product).pluck("MIN(stock_level / quantity)")[0].to_i
+      bundled_products.joins(:product).group(:product_id).minimum("stock_level / quantity").values.min.to_i
     end
 
     def in_stock?
@@ -82,7 +82,7 @@ module Spina::Shop
     private
 
       def rewrite_rule
-        Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
+        Spina::RewriteRule.where(old_path: old_path).first_or_create.update(new_path: materialized_path) if old_path != materialized_path
       end
 
       # Each product has a unique materialized path which can be used in URL's

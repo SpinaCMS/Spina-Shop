@@ -121,7 +121,7 @@ module Spina::Shop
       end
 
       def rewrite_rule
-        Spina::RewriteRule.where(old_path: old_path).first_or_create.update_attributes(new_path: materialized_path) if old_path != materialized_path
+        Spina::RewriteRule.where(old_path: old_path).first_or_create.update(new_path: materialized_path) if old_path != materialized_path
       end
 
       # Get all values for properties defined on the ProductCategory.

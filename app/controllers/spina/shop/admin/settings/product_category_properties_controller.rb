@@ -20,7 +20,7 @@ module Spina::Shop
 
         def update
           @product_category_property = @product_category.properties.find(params[:id])
-          @product_category_property.update_attributes(product_category_property_params)
+          @product_category_property.update(product_category_property_params)
           redirect_to spina.edit_options_shop_admin_settings_product_category_product_category_property_path(@product_category)
         end
 

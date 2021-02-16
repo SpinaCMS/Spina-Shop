@@ -35,7 +35,7 @@ module Spina::Shop
         def update
           @tag = Tag.find(params[:id])
 
-          if @tag.update_attributes(tag_params) 
+          if @tag.update(tag_params) 
             redirect_to spina.shop_admin_settings_tags_path
           else
             add_breadcrumb Spina::Shop::Tag.model_name.human(count: 2), spina.shop_admin_settings_tags_path

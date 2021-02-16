@@ -39,7 +39,7 @@ module Spina::Shop
 
         def update
           @supplier = Supplier.find(params[:id])
-          if @supplier.update_attributes(supplier_params)
+          if @supplier.update(supplier_params)
             redirect_to spina.shop_admin_supplier_path(@supplier)
           else
             render :edit

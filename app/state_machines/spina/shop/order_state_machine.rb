@@ -33,7 +33,7 @@ module Spina::Shop
 
     before_transition(to: :confirming) do |order, transition|
       # Generate order number
-      order.update_attributes!(order_number: OrderNumberGenerator.generate!)
+      order.update!(order_number: OrderNumberGenerator.generate!)
 
       # Allocate stock baby!
       AllocateStock.new(order).allocate
@@ -51,7 +51,7 @@ module Spina::Shop
       StoreAddress.new(order).store! if order.customer.addresses.none?
 
       # Confirm order
-      order.update_attributes!(confirming_at: Time.zone.now)
+      order.update!(confirming_at: Time.zone.now)
     end
 
     guard_transition(to: :cancelled) do |order, transition|
@@ -59,7 +59,7 @@ module Spina::Shop
     end
 
     before_transition(to: :cancelled) do |order, transition|
-      order.update_attributes!(cancelled_at: Time.zone.now)
+      order.update!(cancelled_at: Time.zone.now)
 
       # Stock weer terugzetten
       DeallocateStock.new(order).deallocate
@@ -78,11 +78,11 @@ module Spina::Shop
 
     after_transition(to: :received) do |order, transition|
       # Send mail and shit
-      order.update_attributes!(received_at: Time.zone.now)
+      order.update!(received_at: Time.zone.now)
     end
 
     before_transition(to: :failed) do |order, transition|
-      order.update_attributes!(failed_at: Time.zone.now)
+      order.update!(failed_at: Time.zone.now)
 
       # Stock weer terugzetten
       DeallocateStock.new(order).deallocate
@@ -123,15 +123,15 @@ module Spina::Shop
     end
 
     after_transition(to: :picked_up) do |order, transition|
-      order.update_attributes!(picked_up_at: Time.zone.now)
+      order.update!(picked_up_at: Time.zone.now)
     end
 
     after_transition(to: :shipped) do |order, transition|
-      order.update_attributes!(shipped_at: Time.zone.now)
+      order.update!(shipped_at: Time.zone.now)
     end
 
     after_transition(to: :delivered) do |order, transition|
-      order.update_attributes!(delivered_at: Time.zone.now)
+      order.update!(delivered_at: Time.zone.now)
     end
 
     guard_transition(to: :refunded) do |order, transition, metadata|

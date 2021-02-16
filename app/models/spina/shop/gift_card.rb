@@ -34,11 +34,11 @@ module Spina::Shop
     end
 
     def subtract!(value)
-      update_attributes!(remaining_balance: remaining_balance - value)
+      update!(remaining_balance: remaining_balance - value)
     end
 
     def add!(value)
-      update_attributes!(remaining_balance: remaining_balance + value)
+      update!(remaining_balance: remaining_balance + value)
     end
 
     private

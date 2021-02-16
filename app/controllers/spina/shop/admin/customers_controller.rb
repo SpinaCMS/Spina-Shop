@@ -76,7 +76,7 @@ module Spina::Shop
 
       def update
         @customer = Customer.find(params[:id])
-        if @customer.update_attributes(customer_params)
+        if @customer.update(customer_params)
           redirect_to spina.shop_admin_customer_path(@customer)
         else
           add_breadcrumb t('spina.edit')

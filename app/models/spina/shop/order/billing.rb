@@ -47,14 +47,14 @@ module Spina::Shop
         # Cache total before subtracting from gift cards
         total = total_gift_card_amount
         gift_card_usage_for_order.each{|g| g[:gift_card].subtract!(g[:usage_for_order])}
-        update_attributes!(gift_card_amount: total)
+        update!(gift_card_amount: total)
       end
     end
 
     def remove_gift_cards!
       transaction do
         gift_card_usage_for_order.each{|g| g[:gift_card].add!(g[:usage_for_order])}
-        update_attributes!(gift_card_amount: nil)
+        update!(gift_card_amount: nil)
       end
     end
 
