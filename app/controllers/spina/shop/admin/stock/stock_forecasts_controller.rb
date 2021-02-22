@@ -33,7 +33,7 @@ module Spina::Shop
               data = CSV.generate do |csv|
                 # csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Trend Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
                 
-                csv << %w(ID Product Locatie Formaat Inhoud Lopen30 Verkoop30 Wekelijkse\ verkoop Voorraad Max\ Voorraad Veiligheidsvoorraad Bestelpunt EOQ Inkooporders\ per\ jaar Leverancier Categorie Verpakkingseenheid Laatste\ hertelling THT Uitlopend)
+                csv << %w(ID Product Locatie Formaat Inhoud Lopen30 Verkoop30 Wekelijkse\ verkoop Voorraad Max\ Voorraad Veiligheidsvoorraad Bestelpunt EOQ Inkooporders\ per\ jaar Leverancier Categorie Verpakkingseenheid Laatste\ hertelling THT Uitlopend Verkoopprijs)
                 
                 @products = @q.result.page(params[:page]).per(5000)
                 
@@ -59,7 +59,8 @@ module Spina::Shop
                     product.supplier_packing_unit,
                     recount ? I18n.l(recount.created_at, format: "%d-%m-%Y") : "",
                     product.can_expire? && product.expiration_date ? I18n.l(product.expiration_date, format: "%m-%Y") : "",
-                    product.available_at_supplier? ? "" : "Uitlopend"
+                    product.available_at_supplier? ? "" : "Uitlopend",
+                    product.base_price
                   ]
                 end
               end

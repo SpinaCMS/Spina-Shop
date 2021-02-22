@@ -12,7 +12,6 @@
   - if false
     %td{style: 'text-align: right'}= product.order_picking_30_days
     %td{style: 'text-align: right'}= product.order_picking_90_days
-    %td{style: 'text-align: right'}= product.order_picking_365_days
     %td.text-right
       = product.past_30_days
       %div{style: "background: #F0F0F7; width: 160px; height: 10px; border-radius: 4px; position: absolute; left: 20px; margin-top: 5px"}
@@ -26,7 +25,10 @@
     %td.text-right= product.past_90_days
     %td.text-right= product.past_365_days
   
+  %td{style: 'text-align: right'}= product.order_items.joins(:order).where(spina_shop_orders: {paid_at: 365.days.ago..Date.today}).count
   %td.text-right= product.order_items.joins(:order).where(spina_shop_orders: {paid_at: 30.days.ago..Date.today}).count
+  %td.text-right
+    = product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 365.days.ago..Date.today}).sum(:adjustment) * -1
   %td.text-right
     = product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 30.days.ago..Date.today}).sum(:adjustment) * -1
   %td.text-right

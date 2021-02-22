@@ -77,16 +77,20 @@
               = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_90_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
                 Lopen
                 %small 90 dagen
-          - if false
-            %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
-              = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_365_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
-                Lopen
-                %small 365 dagen
+          %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
+            Aantal orders
+            %br/
+            %small 365 dagen
                 
           %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
             Aantal orders
             %br/
             %small 30 dagen
+            
+          %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
+            Verkoop
+            %br/
+            %small 365 dagen
           
           %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
             Verkoop
