@@ -94,10 +94,6 @@
       %span.text-muted
         \/
         = product.statistics_max_stock
-        
-    - if product.stock_orders.open.any?
-      %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
-        %i.icon.icon-document
     
     - if false
       - if product.stock_level < 4
@@ -112,6 +108,16 @@
       - if product.stock_orders.open.any?
         %span{data: {tooltip: product.stock_orders.open.pluck(:id).map{|id| "Leveringsorder ##{id}"}.join(', ')}}
           %i.icon.icon-document
+          
+  %td
+    - product.stock_orders.active.each do |stock_order|
+      - if stock_order.concept?
+        = link_to spina.shop_admin_stock_order_path(stock_order), class: 'text-muted', data: {tooltip: "Concept leveringsorder ##{stock_order.id}"} do
+          %i.icon.icon-document
+      - else
+        = link_to spina.shop_admin_stock_order_path(stock_order), data: {tooltip: "Leveringsorder ##{stock_order.id}"} do
+          %i.icon.icon-document
+          
   %td.text-right
     - difference = product.stock_level.to_i - product.statistics_max_stock.to_i
     - if product.stock_level < product.statistics_safety_stock
