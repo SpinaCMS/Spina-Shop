@@ -4,7 +4,7 @@
   application.register("order-form", class extends Stimulus.Controller {
 
     static get targets() {
-      return ["customerId", "firstName", "lastName", "email", "phone", "company", "billingStreet1", "billingStreet2", "billingHouseNumber", "billingHouseNumberAddition", "billingPostalCode", "billingCity", "billingCountry", "billingName"]
+      return ["customerId", "name", "firstName", "lastName", "email", "phone", "company", "billingStreet1", "billingStreet2", "billingHouseNumber", "billingHouseNumberAddition", "billingPostalCode", "billingCity", "billingCountry"]
     }
 
     copy_details() {
@@ -14,7 +14,7 @@
         json = JSON.parse(json)
 
         // Details
-        
+        if (this.hasNameTarget) this.nameTarget.value = `${json.first_name} ${json.last_name}`
         if (this.hasFirstNameTarget) this.firstNameTarget.value = json.first_name
         if (this.hasLastNameTarget) this.lastNameTarget.value = json.last_name
         if (this.hasEmailTarget) this.emailTarget.value = json.email
