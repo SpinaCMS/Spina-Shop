@@ -160,6 +160,13 @@ Spina::Engine.routes.draw do
         end
       end
     end
+    
+    # API
+    namespace :api do
+      resources :orders do
+        get :to_process, on: :collection
+      end
+    end
 
     # Stock Management
     namespace :stock_management, path: '/admin/stockapp' do

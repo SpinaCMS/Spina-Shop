@@ -16,7 +16,8 @@ module Spina
                     :stock_level_adjustment_categories,
                     :holding_cost_percentage,
                     :default_stock_order_cost,
-                    :future_demand_factor
+                    :future_demand_factor,
+                    :api_key
 
     # Default tax settings
     self.default_tax_rate = BigDecimal(0)
@@ -54,6 +55,9 @@ module Spina
     # If you expect the coming year to increase demand by 20%, 
     # set this factor to 1.2
     self.future_demand_factor = 1
+    
+    # API key for external plugins
+    self.api_key = nil
 
     class << self
 
