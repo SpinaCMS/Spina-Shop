@@ -1,6 +1,13 @@
 Spina::Engine.routes.draw do
   # Admin routes
   namespace :shop, path: '' do
+  
+    # API
+    namespace :api do
+      resources :orders do
+        get :to_process, on: :collection
+      end
+    end
 
     # Admin panel
     namespace :admin, path: Spina.config.backend_path do
@@ -158,13 +165,6 @@ Spina::Engine.routes.draw do
             get :unused
           end
         end
-      end
-    end
-    
-    # API
-    namespace :api do
-      resources :orders do
-        get :to_process, on: :collection
       end
     end
 
