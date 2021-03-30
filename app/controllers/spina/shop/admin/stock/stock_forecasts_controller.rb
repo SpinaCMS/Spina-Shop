@@ -33,7 +33,7 @@ module Spina::Shop
               data = CSV.generate do |csv|
                 # csv << %w(ID Product Locatie Lopen30 Lopen90 Lopen365 Verkoop30 Verkoop90 Verkoop365 Trend Voorraad Optimale\ voorraad Voorraadverschil Doorlooptijd Herinneren Verkoopprijs Kostprijs Voorraadwaarde)
                 
-                csv << %w(ID Product Locatie Formaat Inhoud Lopen30 Verkoop30 Wekelijkse\ verkoop Voorraad Max\ Voorraad Veiligheidsvoorraad Bestelpunt EOQ Inkooporders\ per\ jaar Leverancier Categorie Verpakkingseenheid Laatste\ hertelling THT Uitlopend Verkoopprijs Kostprijs XYZ Kosten\ per\ leveringsorder)
+                csv << %w(ID Product EAN Locatie Formaat Inhoud Lopen30 Lopen365 Verkoop30 Verkoop365 Wekelijkse\ verkoop Voorraad Max\ Voorraad Veiligheidsvoorraad Bestelpunt EOQ Inkooporders\ per\ jaar Leverancier Categorie Verpakkingseenheid Laatste\ hertelling THT Uitlopend Verkoopprijs Kostprijs XYZ Kosten\ per\ leveringsorder)
                 
                 @products = @q.result.page(params[:page]).per(5000)
                 
@@ -42,11 +42,14 @@ module Spina::Shop
                   
                   csv << [product.id, 
                     product.full_name, 
+                    product.ean,
                     product.location, 
                     product.dimensions,
                     product.volume,
                     product.order_items.joins(:order).where(spina_shop_orders: {paid_at: 30.days.ago..Date.today}).count,
+                    product.order_items.joins(:order).where(spina_shop_orders: {paid_at: 365.days.ago..Date.today}).count,
                     product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 30.days.ago..Date.today}).sum(:adjustment) * -1,
+                    product.stock_level_adjustments.sales.where(spina_shop_stock_level_adjustments: {created_at: 365.days.ago..Date.today}).sum(:adjustment) * -1,
                     product.statistics_weekly_sales,
                     product.stock_level,
                     product.statistics_max_stock,
