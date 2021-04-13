@@ -1,6 +1,5 @@
 json.(@order, :id, :billing_name, :received_at)
 json.label [@order.store&.initials, @order.number].compact.join("-")
-json.quantity_total @order.order_items.sum(:quantity)
 
 json.order_items @order.order_items do |order_item|
   json.(order_item, :id, :quantity, :order_id)
