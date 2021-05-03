@@ -6,6 +6,7 @@ Spina::Engine.routes.draw do
     namespace :api do
       resources :orders do
         get :to_process, on: :collection
+        post :start_preparing, on: :member
       end
     end
 

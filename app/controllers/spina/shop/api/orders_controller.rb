@@ -12,6 +12,12 @@ module Spina::Shop
         render :index
       end
       
+      def start_preparing
+        @order = Order.find(params[:id])
+        @order.transition_to(:preparing, user: params[:user])
+        head :ok
+      end
+      
       def show
         @order = Order.find(params[:id])
       end
