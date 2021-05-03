@@ -1,5 +1,6 @@
 json.(@order, :id, :billing_name, :received_at, :note, :delivery_name, :delivery_address, :delivery_postal_code, :delivery_city)
 json.label [@order.store&.initials, @order.number].compact.join("-")
+json.number @order.number
 
 json.store do
   json.initials @order.store&.initials
