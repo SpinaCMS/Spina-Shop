@@ -5,7 +5,7 @@ module Spina::Shop
 
         def create
           @order = Order.find(params[:order_id])
-          OrderMailer.payment_reminder(@order.id).deliver_later
+          OrderMailer.payment_reminder(@order).deliver_later
           @order.touch(:payment_reminder_sent_at)
           flash[:notice] = t('spina.shop.orders.payment_reminders.email_sent')
           flash[:notice_small] = t('spina.shop.orders.payment_reminders.customer_received_invoice')
