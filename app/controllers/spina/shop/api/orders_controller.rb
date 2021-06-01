@@ -3,6 +3,8 @@ module Spina::Shop
     class OrdersController < ApiController
       rescue_from ActiveRecord::RecordNotFound, with: :return_404
       
+      skip_before_action :verify_authenticity_token, only: [:transition]
+      
       def index
         render json: []  
       end
@@ -17,9 +19,9 @@ module Spina::Shop
         render :index
       end
       
-      def start_preparing
-        @order = Order.find(params[:id])
-        @order.transition_to(:preparing, user: params[:user])
+      def transition
+        @order = Order.find(params[:id])        
+        @order.transition_to(params[:transition_to], user: params[:user])
         head :ok
       end
       

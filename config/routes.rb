@@ -10,7 +10,7 @@ Spina::Engine.routes.draw do
           get :ready_for_pickup
         end
         
-        post :start_preparing, on: :member
+        post :transition, on: :member
       end
     end
 
