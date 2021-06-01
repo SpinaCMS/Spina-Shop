@@ -5,7 +5,11 @@ Spina::Engine.routes.draw do
     # API
     namespace :api do
       resources :orders do
-        get :to_process, on: :collection
+        collection do
+          get :to_process
+          get :ready_for_pickup
+        end
+        
         post :start_preparing, on: :member
       end
     end

@@ -12,6 +12,11 @@ module Spina::Shop
         render :index
       end
       
+      def ready_for_pickup
+        @orders = Order.in_state(:ready_for_pickup).order(:order_number)
+        render :index
+      end
+      
       def start_preparing
         @order = Order.find(params[:id])
         @order.transition_to(:preparing, user: params[:user])

@@ -242,6 +242,10 @@ module Spina::Shop
       self.validate_delivery = true
       valid?
     end
+    
+    def order_pick_list
+      OrderPickList.new(self)
+    end
 
     private
 
