@@ -67,6 +67,9 @@
             = link_to spina.shop_admin_stock_forecast_path({order: 'location', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do
               Locatie
               %small &nbsp;
+          %th
+            Oude locatie
+            %small &nbsp;
           - if false
             %th{style: 'text-align: right; white-space: nowrap; min-width: 60px'} 
               = link_to spina.shop_admin_stock_forecast_path({order: 'order_picking_30_days', direction: params[:direction] == 'asc' ? 'desc' : 'asc'}.merge(search_params)) do

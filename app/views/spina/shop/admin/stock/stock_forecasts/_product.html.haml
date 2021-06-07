@@ -8,6 +8,7 @@
       = product.full_name
     %small= product.supplier&.name
   %td= product.location
+  %td= product.product_locations.where(location: Spina::Shop::Location.find_by(name: "Oude locatie")).first&.location_code
   - if false
     %td{style: 'text-align: right'}= product.order_picking_30_days
     %td{style: 'text-align: right'}= product.order_picking_90_days
