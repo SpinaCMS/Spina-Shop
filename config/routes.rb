@@ -4,6 +4,7 @@ Spina::Engine.routes.draw do
   
     # API
     namespace :api do
+      resources :products
       resources :orders do
         collection do
           get :to_process

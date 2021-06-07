@@ -18,6 +18,16 @@ module Spina::Shop
           trigram: {only: [:name], threshold: 0.2}
         },
         ranked_by: "(:trigram) + (:tsearch / 2.0)"
+        
+      pg_search_scope :search_name,
+        associated_against: {
+          product_translations: :name
+        },
+        using: {
+          tsearch: {prefix: true, any_word: true},
+          trigram: {only: [:name], threshold: 0.2}
+        },
+        ranked_by: "(:trigram) + (:tsearch / 2.0)"
     end
 
   end
