@@ -23,10 +23,11 @@ module Spina::Shop
             location: order_item.orderable.location,
             ean: order_item.orderable.ean,
             locations: order_item.orderable.product_locations.joins(:location).map do |product_location|
+              next if product_location.location_code.blank?
               {
                 product_location.location.name => product_location.location_code
               }
-            end.reduce({}, :merge)
+            end.compact.reduce({}, :merge)
           )
         end.compact
       end
@@ -43,10 +44,11 @@ module Spina::Shop
               location: bundled_product.product.location,
               ean: bundled_product.product.ean,
               locations: bundled_product.product.product_locations.joins(:location).map do |product_location|
+                next if product_location.location_code.blank?
                 {
                   product_location.location.name => product_location.location_code
                 }
-              end.reduce({}, :merge)
+              end.compact.reduce({}, :merge)
             )
           end
         end.flatten.compact
