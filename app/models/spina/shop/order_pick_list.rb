@@ -14,27 +14,39 @@ module Spina::Shop
     
       def products
         order.order_items.products.includes(:orderable).map do |order_item|
+          next if order_item.orderable.nil?
           OpenStruct.new(
             order_id: order.id,
             id: order_item.id.to_s,
             quantity: order_item.quantity,
             name: order_item.description,
-            location: order_item.orderable&.location,
-            ean: order_item.orderable&.ean
+            location: order_item.orderable.location,
+            ean: order_item.orderable.ean,
+            locations: order_item.orderable.product_locations.joins(:location).map do |product_location|
+              {
+                product_location.location.name => product_location.location_code
+              }
+            end.reduce({}, :merge)
           )
-        end
+        end.compact
       end
       
       def product_bundles
         order.order_items.product_bundles.includes(:orderable).map do |order_item|
           order_item.orderable.bundled_products.map.with_index do |bundled_product, index|
+            next if bundled_product.product.nil?
             OpenStruct.new(
               order_id: order.id,
               id: "#{order_item.id}-#{index}",
               quantity: bundled_product.quantity * order_item.quantity,
-              name: bundled_product.product&.name,
-              location: bundled_product.product&.location,
-              ean: bundled_product.product&.ean
+              name: bundled_product.product.name,
+              location: bundled_product.product.location,
+              ean: bundled_product.product.ean,
+              locations: bundled_product.product.product_locations.joins(:location).map do |product_location|
+                {
+                  product_location.location.name => product_location.location_code
+                }
+              end.reduce({}, :merge)
             )
           end
         end.flatten.compact
@@ -48,7 +60,8 @@ module Spina::Shop
             quantity: order_item.quantity,
             name: order_item.description,
             location: nil,
-            ean: nil
+            ean: nil,
+            locations: []
           )
         end
       end
