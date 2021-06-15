@@ -4,4 +4,4 @@
       .form-label
         = Spina::Shop::Product.human_attribute_name :created_at
       .form-control{style: "flex: 1.5"}
-        = f.datetime_field :created_at, placeholder: Spina::Shop::Product.human_attribute_name(:created_at)
+        = f.text_field :created_at, placeholder: Spina::Shop::Product.human_attribute_name(:created_at)
