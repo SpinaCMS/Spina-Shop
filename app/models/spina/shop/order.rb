@@ -175,6 +175,10 @@ module Spina::Shop
     def total_items
       order_items.sum(:quantity)
     end
+    
+    def total_product_items
+      order_items.products.sum(:quantity) + order_items.product_bundles.joins("INNER JOIN spina_shop_product_bundles ON spina_shop_product_bundles.id = spina_shop_order_items.orderable_id INNER JOIN spina_shop_bundled_products ON spina_shop_bundled_products.product_bundle_id = spina_shop_product_bundles.id").sum("spina_shop_bundled_products.quantity * spina_shop_order_items.quantity")
+    end
 
     def total_weight
       order_items.inject(BigDecimal(0)) { |t, i| t + i.total_weight }
