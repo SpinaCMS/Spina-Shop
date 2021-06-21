@@ -43,6 +43,7 @@ Spina::Engine.routes.draw do
             resource :shipping_label, only: [:show, :create]
             resource :refund, only: [:new, :create]
             resource :payment_reminder, only: [:create]
+            resource :discount
           end
         end
 

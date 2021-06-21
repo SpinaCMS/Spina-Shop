@@ -1,0 +1,16 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Kortingscode instellen
+  
+  = form_with model: @order, url: spina.shop_admin_order_discount_path(@order) do |f|
+    %section{style: "padding-top: 0"}
+      = f.text_field :code, placeholder: "Kortingscode", value: @order.discount&.code
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus
+        Opslaan
+  

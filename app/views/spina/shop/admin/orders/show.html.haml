@@ -386,6 +386,11 @@
               = link_to spina.new_shop_admin_order_custom_product_path(@order), class: 'button button-link button-block text-center button-mini table-link', data: {remote: true} do
                 = icon('plus')
                 =t 'spina.shop.orders.add_custom_product'
+          %tr
+            %td{colspan: 6}
+              = link_to spina.edit_shop_admin_order_discount_path(@order), class: 'button button-link button-block text-center button-mini table-link', data: {remote: true} do
+                = icon('pencil')
+                Kortingscode instellen
 
         %tr
           %td.text-right{colspan: 5}
