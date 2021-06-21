@@ -17,13 +17,13 @@ module Spina::Shop
     private
     
       def order_pick_items
-        order.order_pick_items.joins(:product).map do |order_pick_item|
+        order.order_pick_items.joins(:product, :order_item).map do |order_pick_item|
           OpenStruct.new(
             id: order_pick_item.id,
             quantity: order_pick_item.quantity,
             order_id: order_pick_item.order_id,
             order_item_id: order_pick_item.order_item_id,
-            name: order_pick_item.product.name,
+            name: order_pick_item.order_item.description,
             ean: order_pick_item.product.ean,
             location: order_pick_item.product.location,
             locations: order_pick_item.product.product_locations.joins(:location).map do |product_location|
