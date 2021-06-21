@@ -25,6 +25,8 @@ module Spina::Shop
     has_many :invoices, dependent: :restrict_with_exception
     has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
+    
+    has_many :order_pick_items, dependent: :destroy
 
     # Duplicate orders
     has_one :original_order, class_name: "Spina::Shop::Order", foreign_key: :duplicate_id

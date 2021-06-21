@@ -9,6 +9,7 @@ module Spina::Shop
     has_many :children, class_name: "Spina::Shop::OrderItem", foreign_key: :parent_id, dependent: :destroy
 
     has_many :stock_level_adjustments, dependent: :nullify # Don't destroy the stock level adjustments automatically if an order is destroyed
+    has_many :order_pick_items, dependent: :destroy
 
     validates :unit_price, :unit_cost_price, :tax_rate, :weight, presence: true, if: -> { order.try(:received?) }
     validates :quantity, presence: true, numericality: {greater_than: 0, only_integer: true}

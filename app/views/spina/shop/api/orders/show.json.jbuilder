@@ -13,11 +13,11 @@ json.delivery_country do
 end
 
 json.order_pick_list @order.order_pick_list.items do |product|
-  json.(product, :id, :quantity, :order_id, :ean, :location, :name, :locations)
+  json.(product, :id, :quantity, :order_id, :order_item_id, :ean, :location, :name, :locations)
 end
 
 json.order_items @order.order_items do |order_item|
-  json.(order_item, :quantity, :description)
+  json.(order_item, :id, :quantity, :description)
   if order_item.is_product_bundle?
     json.bundled_products order_item.orderable.bundled_products do |bundled_product|
       json.quantity bundled_product.quantity
