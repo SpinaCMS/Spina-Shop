@@ -17,6 +17,9 @@
       %tr
         %th= Spina::Shop::Discount.human_attribute_name :code
         %th= Spina::Shop::Discount.human_attribute_name :description
+        - if @scope = "multiple_use"
+          %th.text-right Orders
+          %th.text-right Totaal korting
         %th= Spina::Shop::Discount.human_attribute_name :starts_at
         %th= Spina::Shop::Discount.human_attribute_name :expires_at
         %th
@@ -28,6 +31,12 @@
             = link_to discount.code, spina.edit_shop_admin_discount_path(discount), class: 'table-link'
           %td
             = discount.description
+          - if @scope = "multiple_use"
+            %td.text-right
+              = discount.orders.paid.count
+              orders
+            %td.text-right
+              = number_to_currency discount.orders.paid.joins(:order_items).sum("discount_amount")
           %td
             =l discount.starts_at, format: :long
           %td
