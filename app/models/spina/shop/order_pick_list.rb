@@ -23,7 +23,7 @@ module Spina::Shop
             quantity: order_pick_item.quantity,
             order_id: order_pick_item.order_id,
             order_item_id: order_pick_item.order_item_id,
-            name: order_pick_item.order_item.description,
+            name: order_pick_item.product.full_name,
             ean: order_pick_item.product.ean,
             location: order_pick_item.product.location,
             locations: order_pick_item.product.product_locations.joins(:location).map do |product_location|
