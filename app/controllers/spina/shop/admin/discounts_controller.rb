@@ -7,7 +7,7 @@ module Spina::Shop
       def index
         if params[:scope] == "one_off"
           @scope = "one_off"
-          @discounts = Discount.one_off
+          @discounts = Discount.one_off.limit(250)
         elsif params[:scope] == "auto"
           @scope = "auto"
           @discounts = Discount.auto
