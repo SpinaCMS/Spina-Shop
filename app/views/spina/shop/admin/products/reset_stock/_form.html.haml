@@ -28,6 +28,6 @@
             
     %footer
       = link_to 'Annuleren', '#', data: {dismiss: 'modal'}
-      = button_tag type: :submit, class: 'primary' do
+      = button_tag type: :submit, class: 'primary', data: {disable_with: "..."} do
         %i.icon.icon-plus{style: 'margin-right: 4px'}
         Voorraad resetten
