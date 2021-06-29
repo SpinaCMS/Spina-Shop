@@ -1,4 +1,4 @@
-json.(@order, :id, :number, :billing_name, :received_at, :note, :delivery_name, :delivery_address, :delivery_postal_code, :delivery_city, :allowed_transitions)
+json.(@order, :id, :number, :billing_name, :received_at, :note, :delivery_name, :delivery_first_name, :delivery_last_name, :delivery_full_name, :delivery_address, :delivery_postal_code, :delivery_city, :allowed_transitions)
 json.label [@order.store&.initials, @order.number].compact.join("-")
 json.delivery_option @order.delivery_option&.name
 json.current_state I18n.t("spina.shop.orders.states.#{@order.current_state}")

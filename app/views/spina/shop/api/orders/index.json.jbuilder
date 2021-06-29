@@ -1,6 +1,10 @@
 json.array! @orders do |order|
   json.id order.id
   json.billing_name order.billing_name
+  json.delivery_name order.delivery_name
+  json.delivery_first_name order.delivery_first_name
+  json.delivery_last_name order.delivery_last_name
+  json.delivery_full_name order.delivery_full_name
   json.number order.number
   json.received_at order.received_at
   json.store do
