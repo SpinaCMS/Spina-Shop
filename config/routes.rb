@@ -56,9 +56,7 @@ Spina::Engine.routes.draw do
           resources :tax_groups
           resources :sales_categories
           resources :shared_properties
-          resources :locations do
-            resources :location_codes
-          end
+          resources :locations
           resources :product_categories do
             resources :product_category_properties do
               member do
