@@ -104,6 +104,7 @@ Spina::Engine.routes.draw do
             resources :stock_level_adjustments
             resources :statistics
             resource :reset_stock, controller: "reset_stock"
+            resources :product_locations
           end
         end
         scope module: :products do
@@ -122,6 +123,9 @@ Spina::Engine.routes.draw do
           resource :stock_forecast
           resources :suppliers
           resource :product_labels
+          resources :locations do
+            resources :location_codes
+          end
           resources :stock_orders do
             member do
               post :place_order

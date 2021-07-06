@@ -10,7 +10,7 @@
     %li{class: ('active' if (!request.path.include?("analytics") && controller_name.in?(%w(products properties product_bundles stock_level_adjustments))))}
       = link_to Spina::Shop::Product.model_name.human(count: 2), spina.shop_admin_products_path
 
-    %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders))}
+    %li{class: ('active' if controller_name.in? %w(stock_forecasts suppliers stock_orders location_codes))}
       = link_to "Voorraad", spina.shop_admin_stock_forecast_path
 
     %li{class: ('active' if controller_name.in? %w(customers customer_accounts customer_groups))}
