@@ -15,6 +15,16 @@ module Spina::Shop
           
           not_empty_location_codes = @location.location_codes.joins(product_locations: :product).ids
           @empty_location_codes = @location.location_codes.where.not(id: not_empty_location_codes)
+          
+          respond_to do |format|
+            format.json do
+              results = @location_codes.map do |location_code|
+                { id: location_code.id, code: location_code.code, product_count: location_code.products.count }
+              end
+              render inline: {results: results, total_count: @q.result.count}.to_json
+            end
+            format.html
+          end
         end
         
         private

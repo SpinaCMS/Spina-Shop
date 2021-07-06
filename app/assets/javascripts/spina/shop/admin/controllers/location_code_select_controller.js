@@ -12,7 +12,7 @@
       
       $(this.element).select2({
         ajax: {
-          url: `/admin/shop/settings/locations/${location_id}/location_codes`,
+          url: `/admin/shop/locations/${location_id}/location_codes`,
           delay: 250,
           dataType: 'json',
           data: function(params) {
