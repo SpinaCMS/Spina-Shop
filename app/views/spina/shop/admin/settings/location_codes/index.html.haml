@@ -1,0 +1,17 @@
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Locatiecode
+        %th Producten
+        
+    - @location_codes.each do |location_code|
+      %tr
+        %th= location_code.code
+        %td
+          - location_code.products.each do |product|
+            = product.full_name
+            (#{product.stock_level})
+            %br/
+  
+= paginate @location_codes

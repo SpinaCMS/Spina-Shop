@@ -1,0 +1,58 @@
+= search_form_for @q, url: spina.shop_admin_location_location_codes_path(@location), html: {class: 'filter-form'} do |f|
+  .filter-form-simple
+    .filter-form-input
+      = f.text_field :code_start, style: 'box-sizing: border-box', placeholder: 'Filter op locatie'
+  
+    = button_tag type: :submit, class: 'button button-primary icon-only' do
+      = icon('search')
+
+- if @empty_location_codes.present?
+  %h3{style: "margin-top: 30px; margin-bottom: -10px"} Lege locaties
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th Locatiecode
+          %th Product
+          %th.text-right Voorraad
+      %tbody
+        - @empty_location_codes.each do |empty_location_code|
+          %tr
+            %td= empty_location_code.code
+            %td –
+            %td.text-right –
+
+%h3{style: "margin-top: 30px; margin-bottom: -10px"} Alle locaties
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Locatiecode
+        %th Product
+        %th.text-right Voorraad
+        
+    %tbody
+      - @location_codes.each do |location_code|
+        %tr
+          %td= location_code.code
+          %td
+            - location_code.products.each do |product|
+              = link_to product.full_name, spina.edit_shop_admin_product_path(product)
+              %br/
+          %td.text-right
+            - location_code.products.each do |product|
+              - if @location.primary?
+                - sum_stock_level = product.product_locations.sum(:stock_level)
+                - if sum_stock_level > 0
+                  = product.stock_level - product.product_locations.sum(:stock_level)
+                  \/
+                  = product.stock_level
+                - else
+                  = product.stock_level
+              - else
+                = product.product_locations.find_by(location: @location).stock_level
+                \/
+                = product.stock_level
+              %br/
+
+= paginate @location_codes

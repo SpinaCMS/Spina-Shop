@@ -4,7 +4,7 @@ json.name @product.name
 json.variant_name @product.variant_name
 json.description @product.description
 json.properties @product.properties
-json.locations @product.product_locations do |location|
+json.locations @product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}) do |location|
   json.name location.location.name
-  json.location_code location.location_code
+  json.location_code location.location_code.to_s
 end

@@ -26,9 +26,9 @@ module Spina::Shop
             name: order_pick_item.product.full_name,
             ean: order_pick_item.product.ean,
             location: order_pick_item.product.location,
-            locations: order_pick_item.product.product_locations.joins(:location).map do |product_location|
-              next if product_location.location_code.blank?
-              {product_location.location.name => product_location.location_code}
+            locations: order_pick_item.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
+              next if product_location.location_code.nil?
+              {product_location.location.name => product_location.location_code.to_s}
             end.compact.reduce({}, :merge)
           )
         end
@@ -45,10 +45,10 @@ module Spina::Shop
             location: order_item.orderable.location,
             ean: order_item.orderable.ean,
             order_item_id: nil,
-            locations: order_item.orderable.product_locations.joins(:location).map do |product_location|
-              next if product_location.location_code.blank?
+            locations: order_item.orderable.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
+              next if product_location.location_code.nil?
               {
-                product_location.location.name => product_location.location_code
+                product_location.location.name => product_location.location_code.to_s
               }
             end.compact.reduce({}, :merge)
           )
@@ -67,10 +67,10 @@ module Spina::Shop
               name: bundled_product.product.name,
               location: bundled_product.product.location,
               ean: bundled_product.product.ean,
-              locations: bundled_product.product.product_locations.joins(:location).map do |product_location|
-                next if product_location.location_code.blank?
+              locations: bundled_product.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
+                next if product_location.location_code.nil?
                 {
-                  product_location.location.name => product_location.location_code
+                  product_location.location.name => product_location.location_code.to_s
                 }
               end.compact.reduce({}, :merge)
             )

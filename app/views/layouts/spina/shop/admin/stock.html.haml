@@ -22,6 +22,11 @@
             Leveringsorders
             - if Spina::Shop::StockOrder.open.any?
               (#{Spina::Shop::StockOrder.open.count})
+        
+        - Spina::Shop::Location.order([{primary: :desc}, :name]).each do |location|
+          %li{class: ('active' if controller_name == "location_codes" && @location == location)}
+            = link_to spina.shop_admin_location_location_codes_path(location) do
+              = location.name
 
   = yield
 

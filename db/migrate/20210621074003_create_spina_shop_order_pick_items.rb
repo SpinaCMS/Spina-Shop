@@ -1,4 +1,4 @@
-class CreateSpinaShopOrderPickItems < ActiveRecord::Migration[6.0]
+class CreateSpinaShopOrderPickItems < ActiveRecord::Migration[5.2]
   def change
     create_table :spina_shop_order_pick_items do |t|
       t.integer :order_id, null: false

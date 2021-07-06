@@ -397,18 +397,26 @@
                   = Spina::Shop::Product.human_attribute_name :location
                 
                 .form-control{style: 'flex: 1.5'}
-                  = f.text_field :location, placeholder: Spina::Shop::Product.human_attribute_name(:location)
+                  = f.text_field :location, placeholder: "–", disabled: true
 
             = f.fields_for :product_locations, Spina::Shop::Location.order(:name).map{|l| f.object.product_locations.where(location: l).first_or_initialize} do |ff|
               = ff.hidden_field :location_id
-
+            - Spina::Shop::Location.order([{primary: :desc}, :name]).each do |location|
+              - product_location = f.object.product_locations.find_by(location: location)
               .form-group
                 .input-group
-                  .form-label= ff.object.location.name
+                  .form-label= location.name
                   
                   .form-control{style: 'flex: 1.5'}
-                    = ff.text_field :location_code, placeholder: Spina::Shop::Product.human_attribute_name(:location)
-
+                    - if product_location 
+                      = link_to spina.edit_shop_admin_product_product_location_path(@product, product_location), style: "display: block; width: 100%; line-height: 40px; font-size: 14px; padding: 0 10px; background: #fff; box-shadow: inset 0 1px 1px rgba(0, 0, 0, .16); border: 1px solid #ccc; border-bottom: none", data: {remote: true} do
+                        = product_location.location_code&.code || "Locatie"
+                        - if product_location.stock_level != 0
+                          %small (#{product_location.stock_level})
+                    - else
+                      = link_to spina.new_shop_admin_product_product_location_path(@product, location_id: location.id), style: "display: block; width: 100%; line-height: 40px; font-size: 14px; padding: 0 10px; background: #EFEFF4; border: 1px solid #ccc; border-bottom: none", data: {remote: true} do 
+                        Kies locatie
+                    
             .form-group
               .input-group
                 .form-label
