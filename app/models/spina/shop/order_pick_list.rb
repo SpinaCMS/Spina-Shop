@@ -28,8 +28,12 @@ module Spina::Shop
             location: order_pick_item.product.location,
             locations: order_pick_item.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
               next if product_location.location_code.nil?
-              {product_location.location.name => product_location.location_code.to_s}
-            end.compact.reduce({}, :merge)
+              {
+                name: product_location.location.name,
+                location_code: product_location.location_code.to_s,
+                stock_level: product_location.stock_level
+              }
+            end.compact
           )
         end
       end
@@ -48,9 +52,11 @@ module Spina::Shop
             locations: order_item.orderable.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
               next if product_location.location_code.nil?
               {
-                product_location.location.name => product_location.location_code.to_s
+                name: product_location.location.name,
+                location_code: product_location.location_code.to_s,
+                stock_level: product_location.stock_level
               }
-            end.compact.reduce({}, :merge)
+            end.compact
           )
         end.compact
       end
@@ -70,9 +76,11 @@ module Spina::Shop
               locations: bundled_product.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
                 next if product_location.location_code.nil?
                 {
-                  product_location.location.name => product_location.location_code.to_s
+                  name: product_location.location.name,
+                  location_code: product_location.location_code.to_s,
+                  stock_level: product_location.stock_level
                 }
-              end.compact.reduce({}, :merge)
+              end.compact
             )
           end
         end.flatten.compact
