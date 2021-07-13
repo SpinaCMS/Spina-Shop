@@ -4,7 +4,12 @@ Spina::Engine.routes.draw do
   
     # API
     namespace :api do
-      resources :products
+      resources :products do
+        resource :recount, controller: "recount"
+        collection do
+          get :scan
+        end
+      end
       resources :orders do
         collection do
           get :to_process

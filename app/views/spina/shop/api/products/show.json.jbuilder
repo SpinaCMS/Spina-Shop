@@ -1,4 +1,4 @@
-json.(@product, :id, :ean, :stock_level, :location, :expiration_date)
+json.(@product, :id, :ean, :stock_level, :location, :expiration_date, :can_expire)
 json.full_name @product.full_name
 json.name @product.name
 json.variant_name @product.variant_name
