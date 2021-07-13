@@ -19,11 +19,6 @@
           .form-title.text-muted Aantal stuks op deze locatie (optioneel):
           %br/
           .input-group= f.number_field :stock_level
-  
-      - if @product_location.persisted?
-        = link_to spina.shop_admin_product_product_location_path(@product, @product_location), class: 'button button-danger button-mini', data: {method: :delete, confirm: "Weet je het zeker?"} do
-          %i.icon.icon-cross
-          Product verwijderen uit #{@product_location.location.name.downcase}
       
     %footer
       = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}

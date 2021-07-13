@@ -410,6 +410,9 @@
                     
                     .form-control{style: 'flex: 1.5'}
                       - if product_location 
+                        = link_to spina.shop_admin_product_product_location_path(f.object, product_location), class: 'button button-link button-mini pull-right', style: "margin-top: 8px; margin-right: 0", data: {method: :delete, confirm: "Product verwijderen uit #{product_location.location&.name}?"} do
+                          %i.icon.icon-trash
+                          
                         = link_to spina.edit_shop_admin_product_product_location_path(@product, product_location), style: "display: block; width: 100%; line-height: 40px; font-size: 14px; padding: 0 10px; background: #fff; box-shadow: inset 0 1px 1px rgba(0, 0, 0, .16); border: 1px solid #ccc; border-bottom: none", data: {remote: true} do
                           = product_location.location_code&.code || "Locatie"
                           - if product_location.stock_level != 0
