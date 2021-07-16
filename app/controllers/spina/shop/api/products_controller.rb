@@ -9,7 +9,11 @@ module Spina::Shop
       
       def scan
         @product = Product.active.purchasable.where("location = :q OR ean = :q", q: params[:q]).first
-        render :show
+        if @product
+          render :show
+        else
+          return_404
+        end
       end
       
       def index
