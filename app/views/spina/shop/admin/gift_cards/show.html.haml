@@ -1,6 +1,9 @@
 %header#header
   .breadcrumbs
     = render_breadcrumbs separator: '<div class="divider"></div>'
+    
+    = link_to spina.edit_shop_admin_gift_card_path(@gift_card), class: 'button button-mini icon-only' do
+      %i.icon.icon-pencil{style: 'vertical-align: bottom'}
 
 .table-container
   %table.table

@@ -16,7 +16,7 @@
             = Spina::Shop::GiftCard.human_attribute_name :value
 
           .sidebar-form-control
-            = f.number_field :value, placeholder: Spina::Shop::GiftCard.human_attribute_name(:value), min: 0, step: 0.01
+            = f.number_field :value, placeholder: Spina::Shop::GiftCard.human_attribute_name(:value), min: 0, step: 0.01, disabled: @gift_card.persisted?
 
     .sidebar-form-sidebar{style: 'padding-top: 20px'}
       .form-group
