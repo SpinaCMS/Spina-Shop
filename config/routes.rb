@@ -25,6 +25,7 @@ Spina::Engine.routes.draw do
       scope '/shop' do
         # Orders
         resources :orders do
+          resource :order_pick_list, only: [:show]
           resources :custom_products, only: [:new, :create]
           resources :order_items, only: [:new, :create, :destroy]
           member do

@@ -1,0 +1,12 @@
+.modal
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Picklijst #{@order.number}
+    
+  %table.table
+    - @order_pick_list.items.each do |item|
+      %tr
+        %td.nowrap= "#{item.quantity}&times;".html_safe
+        %td= item.name
+        %td.nowrap= item.location

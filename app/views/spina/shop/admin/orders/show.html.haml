@@ -9,6 +9,9 @@
 
     = link_to spina.edit_shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px' do
       %i.icon.icon-pencil
+      
+    - if @order.order_pick_items.any?
+      = link_to 'Picklijst', spina.shop_admin_order_order_pick_list_path(@order), class: 'button', data: {remote: true}
     
     - if @order.order_attachments.any?
       %div{style: 'display: inline-block', data: {dropdown: true}}
