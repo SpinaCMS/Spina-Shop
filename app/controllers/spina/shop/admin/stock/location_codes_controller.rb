@@ -27,10 +27,35 @@ module Spina::Shop
           end
         end
         
+        def new
+          @location_code = @location.location_codes.new
+        end
+        
+        def create
+          @location_code = LocationCode.new(location_code_params)
+          if @location_code.save
+            redirect_to spina.shop_admin_location_location_codes_path(@location)
+          else
+            render :new
+          end
+        end
+        
+        def destroy
+          @location_code = @location.location_codes.find(params[:id])
+          if @location_code.products.none?
+            @location_code.destroy
+          end
+          redirect_to spina.shop_admin_location_location_codes_path(@location)
+        end
+        
         private
         
           def set_location
             @location = Location.find(params[:location_id])
+          end
+          
+          def location_code_params
+            params.require(:location_code).permit(:code).merge(location_id: @location.id)
           end
         
       end

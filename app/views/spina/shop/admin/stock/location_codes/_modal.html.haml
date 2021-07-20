@@ -1,0 +1,15 @@
+.modal
+  = form_with model: @location_code, url: spina.shop_admin_location_location_codes_path(@location) do |f|
+    %header
+      = link_to '#', data: {dismiss: "modal"} do
+        = icon('cross')
+      %h3 Locatie aanmaken
+  
+    %section{style: "padding-top: 0"}
+      = f.text_field :code, placeholder: "Locatiecode"
+  
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-check
+        Maak locatie
