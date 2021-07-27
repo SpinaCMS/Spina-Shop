@@ -30,6 +30,30 @@
             %td.text-right
               = link_to spina.shop_admin_location_location_code_path(@location, empty_location_code), class: 'button button-mini button-default icon-only', data: {method: :delete, confirm: "Weet je het zeker?"} do
                 %i.icon.icon-trash
+                
+- if @out_of_stock_location_codes.any?
+  %h3{style: "margin-top: 30px; margin-bottom: -10px"} Uit voorraad locaties
+  .table-container
+    %table.table
+      %thead
+        %tr
+          %th Locatiecode
+          %th Product
+          %th.text-right Voorraad
+      %tbody
+        - @out_of_stock_location_codes.each do |location_code|
+          %tr
+            %td= location_code.code
+            %td
+              - location_code.product_locations.where(stock_level: 0).each do |product_location|
+                = link_to product_location.product.full_name, spina.edit_shop_admin_product_path(product_location.product)
+                %br/
+            %td.text-right
+              - location_code.product_locations.where(stock_level: 0).each do |product_location|
+                %div
+                  = product_location.stock_level 
+                  \/
+                  = product_location.product.stock_level
 
 %h3{style: "margin-top: 30px; margin-bottom: -10px"} Alle locaties
 .table-container
