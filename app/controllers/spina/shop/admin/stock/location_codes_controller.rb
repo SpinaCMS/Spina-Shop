@@ -16,7 +16,9 @@ module Spina::Shop
           not_empty_location_codes = @location.location_codes.joins(product_locations: :product).ids
           @empty_location_codes = @location.location_codes.where.not(id: not_empty_location_codes)
           
-          @out_of_stock_location_codes = @location.location_codes.where(spina_shop_product_locations: {stock_level: 0}).joins(product_locations: :product)
+          unless @location.primary?
+            @out_of_stock_location_codes = @location.location_codes.where(spina_shop_product_locations: {stock_level: 0}).joins(product_locations: :product)
+          end
           
           respond_to do |format|
             format.json do
