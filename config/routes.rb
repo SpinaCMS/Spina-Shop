@@ -16,7 +16,10 @@ Spina::Engine.routes.draw do
           get :ready_for_pickup
         end
         
-        post :transition, on: :member
+        member do
+          post :transition
+          post :ship
+        end
       end
     end
 

@@ -11,7 +11,7 @@ module Spina::Shop
 
     has_secure_token
 
-    attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password
+    attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password, :number_of_labels_to_print
 
     belongs_to :customer, optional: true
     belongs_to :billing_country, class_name: "Spina::Shop::Country"
