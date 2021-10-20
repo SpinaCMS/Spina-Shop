@@ -66,7 +66,6 @@ module Spina::Shop
           business DESC, 
           CASE WHEN 
             tax_rateable_id = '#{o.delivery_country.id}' 
-            AND tax_rateable_type = '#{o.delivery_country.class.name}' 
           THEN 0 ELSE 1 END")
 
         tax_rates.where(where).order(order).first || default_tax_rate

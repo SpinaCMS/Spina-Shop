@@ -46,8 +46,7 @@ module Spina::Shop
         order = Arel.sql("
           business DESC, 
           CASE WHEN 
-            sales_categorizable_id = '#{o.delivery_country.id}' 
-            AND sales_categorizable_type = '#{o.delivery_country.class.name}' 
+            sales_categorizable_id = '#{o.delivery_country.id}'
           THEN 0 ELSE 1 END")
 
         sales_category_codes.where(where).order(order).first || default_code
