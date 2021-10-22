@@ -2,6 +2,8 @@ module Spina
   module Shop
     class SalesCategoryCode < ApplicationRecord
       belongs_to :sales_category
+      
+      # Doesn't have to be polymorphic, these are always ZONES
       belongs_to :sales_categorizable, polymorphic: true, optional: true
 
       # Category codes without a sales categorizable like a zone is considered the default

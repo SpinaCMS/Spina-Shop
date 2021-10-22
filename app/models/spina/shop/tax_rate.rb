@@ -2,6 +2,8 @@ module Spina
   module Shop
     class TaxRate < ApplicationRecord
       belongs_to :tax_group
+      
+      # Doesn't have to be polymorphic, these are always ZONES
       belongs_to :tax_rateable, polymorphic: true, optional: true
 
       # Rates without a tax rateable like a zone is considered the default
