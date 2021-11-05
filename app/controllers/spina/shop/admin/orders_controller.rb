@@ -142,6 +142,15 @@ module Spina::Shop
             discount = Discount.find(advanced_filters[:discount_id])
             @orders = @orders.joins(:discount).where(spina_shop_discounts: {id: discount.id})
           end
+          
+          # Current state
+          if advanced_filters[:current_state].present?
+            @orders = @orders.in_state(advanced_filters[:current_state].to_sym)
+          end
+          
+          if advanced_filters[:order].present?
+            @orders = @orders.reorder(advanced_filters[:order])
+          end
 
           # Date range
           if advanced_filters[:received_at_gteq].present? || advanced_filters[:received_at_lteq].present?

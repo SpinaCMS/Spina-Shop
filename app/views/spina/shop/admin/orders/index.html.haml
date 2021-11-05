@@ -33,14 +33,28 @@
 
         .filter-form-control
           .input-group
-            = ff.select :store_id, options_for_select(Spina::Shop::Store.pluck(:name, :id), params.dig(:advanced_filters, :store_id)), {include_blank: t("spina.shop.orders.all_stores")}, class: 'select2', style: 'width: 100%'
+            .select-dropdown= ff.select :store_id, options_for_select(Spina::Shop::Store.pluck(:name, :id), params.dig(:advanced_filters, :store_id)), {include_blank: t("spina.shop.orders.all_stores")}, class: '', style: 'width: 100%'
+            
+      .filter-form-advanced-group
+        .filter-form-label Status
+  
+        .filter-form-control
+          .input-group
+            .select-dropdown= ff.select :current_state, options_for_select([["Bestelling", "received"], ["Betaald", "paid"], ["Voorbereiden", "preparing"], ["Verzonden", "shipped"], ["Gereed voor ophalen", "ready_for_pickup"], ["Opgehaald", "picked_up"], ["Afgeleverd", "delivered"], ["Mislukt", "failed"], ["Geannuleerd", "cancelled"], ["Gecrediteerd", "refunded"]], params.dig(:advanced_filters, :current_state)), {include_blank: "Alle statussen"}, class: '', style: 'width: 100%'
+            
+      .filter-form-advanced-group
+        .filter-form-label Sorteren
+  
+        .filter-form-control
+          .input-group
+            .select-dropdown= ff.select :order, options_for_select([["Ordernummer oplopend", "order_number"]], params.dig(:advanced_filters, :order)), {include_blank: "Ordernummer aflopend"}, class: '', style: 'width: 100%'
             
       .filter-form-advanced-group
         .filter-form-label= Spina::Shop::Order.human_attribute_name(:discount)
   
         .filter-form-control
           .input-group
-            = ff.select :discount_id, options_for_select(Spina::Shop::Discount.multiple_use.pluck(:code, :id), params.dig(:advanced_filters, :discount_id)), {include_blank: "–"}, class: 'select2', style: 'width: 100%'
+            .select-dropdown= ff.select :discount_id, options_for_select(Spina::Shop::Discount.multiple_use.pluck(:code, :id), params.dig(:advanced_filters, :discount_id)), {include_blank: "–"}, class: '', style: 'width: 100%'
 
       .filter-form-advanced-group
         .filter-form-label= Spina::Shop::Order.human_attribute_name(:received_at)
@@ -55,7 +69,7 @@
 
         .filter-form-control
           .input-group
-            = ff.select :pos, options_for_select([[t("spina.shop.orders.offline_orders_only"), true], [t("spina.shop.orders.online_orders_only"), false]], params.dig(:advanced_filters, :pos)), {include_blank: t("spina.shop.orders.online_and_offline_orders")}, class: 'select2', style: "width: 100%"
+            .select-dropdown= ff.select :pos, options_for_select([[t("spina.shop.orders.offline_orders_only"), true], [t("spina.shop.orders.online_orders_only"), false]], params.dig(:advanced_filters, :pos)), {include_blank: t("spina.shop.orders.online_and_offline_orders")}, class: '', style: "width: 100%"
 
 - if @advanced_filter || params[:search].present?
   %small.text-muted{style: "margin-top: 10px; display: block"}
