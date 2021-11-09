@@ -30,6 +30,12 @@
             .form-label Online/offline
             .form-control{style: "flex: 1.5"}
               .select-dropdown{style: 'width: 100%; z-index: 0'}= f.select :online_offline, options_for_select([['Allebei', 'both'], ['Online', 'online'], ['Offline', 'offline']])
+              
+        .form-group
+          .input-group
+            .form-label= Spina::Shop::Order.human_attribute_name(:billing_country)
+            .form-control{style: "flex: 1.5"}
+              .select-dropdown{style: 'width: 100%; z-index: 0'}= f.select :billing_country_id, options_for_select(Spina::Shop::Country.pluck(:name, :id)), include_blank: "Alle landen"
 
       - if Spina::Shop::Store.many?
         .form-group

@@ -151,6 +151,10 @@ module Spina::Shop
           if advanced_filters[:order].present?
             @orders = @orders.reorder(advanced_filters[:order])
           end
+          
+          if advanced_filters[:billing_country_id].present?
+            @orders = @orders.where(billing_country_id: advanced_filters[:billing_country_id])
+          end
 
           # Date range
           if advanced_filters[:received_at_gteq].present? || advanced_filters[:received_at_lteq].present?
