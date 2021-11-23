@@ -1,0 +1,22 @@
+<div class="flex items-center text-xs font-medium px-3 py-3 space-x-3">
+  <div class="w-4"><%= check_box_tag :id, order.id, false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer' %></div>
+  <div class="w-4 text-sm">🇳🇱</div>
+  <div class="flex-1 tabular-nums"><%= order.number %></div>
+  <div class="flex-1"><%= order.customer&.full_name %></div>
+  <div class="flex-1 tabular-nums text-right">
+    <%= number_to_currency order.total %>
+  </div>
+  <div class="flex-1">
+    <div class="bg-gray-400 text-white py-0.5 px-1 inline-block rounded">
+      <%= order.current_state %>
+    </div>
+  </div>
+  <div class="flex-1 text-right">
+    <% if order.confirming_at&.to_date == Date.today %>
+      Vandaag,
+      <%=l order.confirming_at, format: "%H:%M" %>
+    <% elsif order.confirming_at %>
+      <%=l order.confirming_at, format: "%e %b. %y, %H:%M" %>
+    <% end %>
+  </div>
+</div>

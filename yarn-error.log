@@ -1,0 +1,42 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/17.0.1/bin/node /opt/homebrew/bin/yarn install
+
+PATH: 
+  /Users/bram/.rbenv/shims:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  17.0.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: unable to get local issuer certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1530:34)
+      at TLSSocket.emit (node:events:390:28)
+      at TLSSocket._finishInit (node:_tls_wrap:944:8)
+      at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:725:12)
+
+npm manifest: 
+  {
+    "name": "spina-shop",
+    "private": true,
+    "dependencies": {
+      "@tailwindcss/forms": "^0.2.1",
+      "@tailwindcss/typography": "^0.3.1",
+      "autoprefixer": "^10.2.1",
+      "postcss": "^8.2.10",
+      "tailwindcss": "^2.2.7",
+      "tailwindcss-cli": "^0.1.2"
+    },
+    "version": "2.0.0.alpha"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
