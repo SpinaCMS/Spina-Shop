@@ -179,7 +179,7 @@ module Spina::Shop
           @advanced_filter = advanced_filters.values.any?(&:present?)
 
           # Pagination
-          @orders = @orders.page(params[:page]).per(30)
+          @orders = @orders.page(params[:page]).per(100)
         end
 
         def order_params
