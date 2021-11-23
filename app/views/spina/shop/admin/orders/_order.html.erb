@@ -1,22 +1,32 @@
-<div class="flex items-center text-xs font-medium px-3 py-3 space-x-3">
-  <div class="w-4"><%= check_box_tag :id, order.id, false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer' %></div>
+<div class="flex items-center text-xs font-medium pr-3 py-2 space-x-3">
+  <label class="group w-10 block pl-3 -my-2 py-2 cursor-pointer">
+    <%= check_box_tag :id, order.id, false, class: 'rounded border-gray-300 shadow-sm group-hover:border-gray-400 cursor-pointer checked:bg-spina' %>
+  </label>
   <div class="w-4 text-sm">🇳🇱</div>
-  <div class="flex-1 tabular-nums"><%= order.number %></div>
+  <div class="flex-1 tabular-nums">
+    <%= link_to order.number, spina.shop_admin_order_path(order) %>
+  </div>
   <div class="flex-1"><%= order.customer&.full_name %></div>
   <div class="flex-1 tabular-nums text-right">
     <%= number_to_currency order.total %>
   </div>
   <div class="flex-1">
-    <div class="bg-gray-400 text-white py-0.5 px-1 inline-block rounded">
-      <%= order.current_state %>
-    </div>
+    <% if order.status_progress >= 80 %>
+      <div class="bg-green-400 text-white py-0.5 px-1 inline-block rounded overflow-hidden">
+        <%=t "spina.shop.orders.states.#{order.current_state}" %>
+      </div>
+    <% else %>
+      <div class="bg-spina text-white py-0.5 px-1 inline-block rounded whitespace-nowrap">
+        <%=t "spina.shop.orders.states.#{order.current_state}" %>
+      </div>
+    <% end %>
   </div>
   <div class="flex-1 text-right">
-    <% if order.confirming_at&.to_date == Date.today %>
+    <% if order.received_at&.to_date == Date.today %>
       Vandaag,
-      <%=l order.confirming_at, format: "%H:%M" %>
-    <% elsif order.confirming_at %>
-      <%=l order.confirming_at, format: "%e %b. %y, %H:%M" %>
+      <%=l order.received_at, format: "%H:%M" %>
+    <% elsif order.received_at %>
+      <%=l order.received_at, format: "%e %b. %y, %H:%M" %>
     <% end %>
   </div>
 </div>

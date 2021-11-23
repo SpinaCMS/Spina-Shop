@@ -489,7 +489,7 @@ nl:
           ready_for_pickup: Gereed voor ophalen
           received: Bestelling
           refunded: Gecrediteerd
-          shipped: Zending aangemaakt
+          shipped: Verzonden
         title: Alle bestellingen
         to_process: Te verwerken
       product_bundles:

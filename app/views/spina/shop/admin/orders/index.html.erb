@@ -17,7 +17,7 @@
       <div class="flex-1">
         <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100">
           <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-3">
-            <div class="w-4"><%= check_box_tag :all, "all", false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer' %></div>
+            <div class="w-4"><%= check_box_tag :all, "all", false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer checked:bg-spina' %></div>
             <div class="w-4">🌎</div>
             <div class="flex-1">Bestelling</div>
             <div class="flex-1">Klant</div>
@@ -39,7 +39,7 @@
           
           <% ["Elke datum", "Vandaag", "Gisteren", "Deze week", "Deze maand", "Anders..."].each do |period| %>
             <label class="cursor-pointer block py-1.5">
-              <%= f.radio_button :date_range, 1, class: 'border-gray-300 hover:border-gray-400 shadow-sm' %>
+              <%= f.radio_button :date_range, 1, class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina' %>
               <span class="text-xs font-medium ml-1 align-middle"><%= period %></span>
             </label>
           <% end %>
@@ -48,7 +48,7 @@
           
           <% ["Bestelling", "Betaald", "Voorbereiden", "Verzonden", "Gereed voor ophalen", "Opgehaald", "Afgeleverd", "Mislukt", "Geannuleerd", "Gecrediteerd"].each do |status| %>
             <label class="cursor-pointer block py-1.5">
-              <%= f.check_box :status, value: status, class: 'border-gray-300 hover:border-gray-400 shadow-sm rounded' %>
+              <%= f.check_box :status, value: status, class: 'border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina' %>
               <span class="text-xs font-medium ml-1 align-middle"><%= status %></span>
             </label>
           <% end %>
