@@ -14,7 +14,7 @@ json.delivery_country do
 end
 
 json.order_pick_list @order.order_pick_list.items do |product|
-  json.(product, :id, :quantity, :order_id, :order_item_id, :ean, :location, :name, :locations)
+  json.(product, :id, :quantity, :order_id, :order_item_id, :ean, :location, :stock_level, :name, :locations)
 end
 
 json.order_items @order.order_items do |order_item|
