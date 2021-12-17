@@ -31,7 +31,7 @@
     <%= number_to_currency order.total %>
   </div>
   
-  <div class="w-20 hidden xl:block text-right">
+  <div class="w-20 hidden 2xl:block text-right">
     <% if order.total_number_of_busbikers > 1 %>
       <%= order.total_number_of_busbikers %>
       BusBikers
@@ -40,7 +40,7 @@
     <% end %>
   </div>
   
-  <div class="w-20 hidden xl:block text-right">
+  <div class="w-20 hidden 2xl:block text-right">
     <% if order.total_number_of_towbars.to_i > 1 %>
       <%= order.total_number_of_towbars %>
       trekhaken
