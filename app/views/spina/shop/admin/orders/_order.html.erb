@@ -27,28 +27,22 @@
   </div>
   
   <div class="w-24 hidden xl:block text-right">
-    <% if order.number_of_busbikers > 0 %>
+    <% if order.number_of_busbikers > 1 %>
       <%= order.number_of_busbikers %>
       BusBikers
+    <% elsif order.number_of_busbikers == 1 %>
+      1 BusBiker
     <% else %>
       <div class="text-gray-500">–</div>
     <% end %>
   </div>
 
-  <div class="w-32 hidden xl:block">
-    <div class="">
-      Verzending
-    </div>
-    <div class="text-gray-500">
-      <% if order.shipped_at.present? %>
-        <%=l order.shipped_at, format: "%e %b. %y, %H:%M" %>
-      <% elsif order.expected_ready_at.present? %>
-        <%=l order.expected_ready_at, format: "%e %b. %y, %H:%M" %>
-        (verwacht)
-      <% else %>
-        –
-      <% end %>
-    </div>
+  <div class="w-32 text-right hidden xl:block">
+    <% if order.shipped_at.present? %>
+      <%=l order.shipped_at, format: "%e %b. %y, %H:%M" %>
+    <% elsif order.expected_ready_at.present? %>
+      <%=l order.expected_ready_at, format: "%e %b. %y (verwacht)" %>
+    <% end %>
   </div>
   
   <div class="w-24">
