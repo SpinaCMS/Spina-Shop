@@ -91,26 +91,7 @@ module Spina::Shop
       end
 
       def concepts
-        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def to_process
-        @orders = Order.to_process.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-      
-      def ready_for_pickup_orders
-        @orders = Order.in_state(:ready_for_pickup).includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def failed
-        @orders = Order.in_state(:failed).includes(:order_items, :order_transitions).sorted
-        filter_orders
+        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).order(created_at: :desc).page(params[:page]).per(50)
         render :index
       end
 

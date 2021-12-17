@@ -9,13 +9,15 @@
   </div>
   
   <div class="flex-1">
-    <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
-      <% if order.company.present? %>
-        <div class="font-semibold"><%= order.company %></div>
-      <% end %>
-      <%= order.full_name %>
-      <% unless order.customer.customer_account %>
-        <span class="text-gray-500 font-normal">(gast)</span>
+    <% if order.customer %>
+      <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
+        <% if order.company.present? %>
+          <div class="font-semibold"><%= order.company %></div>
+        <% end %>
+        <%= order.full_name %>
+        <% unless order.customer.customer_account %>
+          <span class="text-gray-500 font-normal">(gast)</span>
+        <% end %>
       <% end %>
     <% end %>
   </div>
@@ -24,20 +26,30 @@
     <%= number_to_currency order.total %>
   </div>
   
-  <div class="w-24 hidden xl:block text-right">
-    <% if order.number_of_busbikers > 1 %>
-      <%= order.number_of_busbikers %>
+  <div class="w-20 hidden xl:block text-right">
+    <% if order.total_number_of_busbikers > 1 %>
+      <%= order.total_number_of_busbikers %>
       BusBikers
-    <% elsif order.number_of_busbikers == 1 %>
+    <% elsif order.total_number_of_busbikers == 1 %>
       1 BusBiker
+    <% end %>
+  </div>
+  
+  <div class="w-20 hidden xl:block text-right">
+    <% if order.total_number_of_towbars > 1 %>
+      <%= order.total_number_of_towbars %>
+      trekhaken
+    <% elsif order.total_number_of_towbars == 1 %>
+      1 trekhaak
     <% end %>
   </div>
 
   <div class="w-32 text-right hidden xl:block">
     <% if order.shipped_at.present? %>
-      <%=l order.shipped_at, format: "%e %b. %y, %H:%M" %>
+      <%= format_datetime(order.shipped_at) %>
     <% elsif order.expected_ready_at.present? %>
-      <%=l order.expected_ready_at, format: "%e %b. %y (verwacht)" %>
+      <%= format_datetime(order.expected_ready_at) %>
+      (verwacht)
     <% end %>
   </div>
   
@@ -46,13 +58,6 @@
   </div>
   
   <div class="w-28 text-right">
-    <% if order.received_at&.to_date == Date.today %>
-      Vandaag,
-      <%=l order.received_at, format: "%H:%M" %>
-    <% elsif order.received_at %>
-      <%=l order.received_at, format: "%e %b. %y, %H:%M" %>
-    <% elsif order.confirming_at %>
-      <%=l order.confirming_at, format: "%e %b. %y, %H:%M" %>
-    <% end %>
+    <%= format_datetime(order.received_at || order.confirming_at || order.created_at) %>
   </div>
 </div>

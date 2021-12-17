@@ -34,6 +34,8 @@ module Spina::Shop
         "🇵🇹"
       when "pl"
         "🇵🇱"
+      when "dk"
+        "🇩🇰"
       else
         code
       end
