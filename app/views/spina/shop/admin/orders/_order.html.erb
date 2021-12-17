@@ -18,6 +18,11 @@
         <% unless order.customer.customer_account %>
           <span class="text-gray-500 font-normal">(gast)</span>
         <% end %>
+        
+        <% if order.first_order_for_email? %>
+          <div class="inline-block bg-spina text-white tracking-wide rounded font-bold py-0.5 px-1 inline-flex items-center leading-none" style="font-size: 9px"><%=t 'spina.shop.orders.first_order_for_email' %></div>
+        <% end %>
+        
       <% end %>
     <% end %>
   </div>
