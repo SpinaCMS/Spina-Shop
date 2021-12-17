@@ -1,7 +1,15 @@
-<div class="relative border <%= border_color %> rounded-full w-full h-3 flex justify-evenly">
-  <% 4.times do %>
-    <div class="h-full <%= bg_color %> opacity-25" style="width: 1px"></div>
-  <% end %>
+<% if cancelled_or_failed? %>
   
-  <div class="h-full <%= bg_color %> rounded-l-full absolute left-0 top-0" style="width: <%= order.status_progress %>%"></div>
-</div>
+  <div class="text-center text-gray-500">
+    <%= label %>
+  </div>
+
+<% else %>
+  <div class="relative border <%= border_color %> rounded-full w-full h-3 flex justify-evenly">
+    <% 4.times do %>
+      <div class="h-full <%= bg_color %> opacity-25" style="width: 1px"></div>
+    <% end %>
+    
+    <div class="h-full <%= bg_color %> rounded-l-full absolute left-0 top-0" style="width: <%= order.status_progress %>%"></div>
+  </div>
+<% end %>

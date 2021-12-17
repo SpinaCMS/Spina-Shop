@@ -1,31 +1,68 @@
-<div class="flex items-center text-xs font-medium pr-3 py-2 space-x-3">
+<div class="flex items-center text-xs font-medium pr-3 py-3 space-x-6 hover:bg-gray-100 group">
   <label class="group w-10 block -mr-3 pl-3 cursor-pointer">
     <%= check_box_tag :id, order.id, false, class: 'rounded border-gray-300 shadow-sm group-hover:border-gray-400 cursor-pointer checked:bg-spina' %>
   </label>
-  <div class="text-sm">🇳🇱</div>
-  <div class="w-20 tabular-nums">
+  
+  <div class="w-24 tabular-nums flex items-center">
+    <span class="mr-1 text-sm">
+      <%= order.billing_country.flag %>
+    </span>
     <%= link_to order.number, spina.shop_admin_order_path(order) %>
   </div>
+  
   <div class="flex-1">
-    <%= order.customer&.full_name %>
-    <% if order.id % 5 == 0 %>
-      <span class="text-gray-500 font-normal">(gast)</span>
+    <%= link_to spina.shop_admin_customer_path(order.customer) do %>
+      <% if order.company.present? %>
+        <div class="font-semibold"><%= order.company %></div>
+      <% end %>
+      <%= order.full_name %>
+      <% unless order.customer.customer_account %>
+        <span class="text-gray-500 font-normal">(gast)</span>
+      <% end %>
     <% end %>
   </div>
-  <div class="flex-1 tabular-nums text-right">
+  
+  <div class="w-28 tabular-nums text-right">
     <%= number_to_currency order.total %>
   </div>
-  <div class="w-24 flex items-center">
-    
-    <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
-    
+  
+  <div class="w-24 hidden xl:block text-right">
+    <% if order.number_of_busbikers > 0 %>
+      <%= order.number_of_busbikers %>
+      BusBikers
+    <% else %>
+      <div class="text-gray-500">–</div>
+    <% end %>
   </div>
-  <div class="flex-1 text-right">
+
+  <div class="w-32 hidden xl:block">
+    <div class="">
+      Verzending
+    </div>
+    <div class="text-gray-500">
+      <% if order.shipped_at.present? %>
+        <%=l order.shipped_at, format: "%e %b. %y, %H:%M" %>
+      <% elsif order.expected_ready_at.present? %>
+        <%=l order.expected_ready_at, format: "%e %b. %y, %H:%M" %>
+        (verwacht)
+      <% else %>
+        –
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="w-24">
+    <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
+  </div>
+  
+  <div class="w-28 text-right">
     <% if order.received_at&.to_date == Date.today %>
       Vandaag,
       <%=l order.received_at, format: "%H:%M" %>
     <% elsif order.received_at %>
       <%=l order.received_at, format: "%e %b. %y, %H:%M" %>
+    <% elsif order.confirming_at %>
+      <%=l order.confirming_at, format: "%e %b. %y, %H:%M" %>
     <% end %>
   </div>
 </div>

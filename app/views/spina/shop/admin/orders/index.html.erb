@@ -14,42 +14,54 @@
   
   <div class="p-8">
     <div class="flex gap-5">
-      <div class="flex-1">
+      <div class="flex-1 overflow-scroll">
         <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100">
-          <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-3">
+          <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-6">
             <div class="w-4"><%= check_box_tag :all, "all", false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer checked:bg-spina' %></div>
-            <div class="w-4">🌎</div>
-            <div class="w-20">Bestelling</div>
+            <div class="w-24">Bestelling</div>
             <div class="flex-1">Klant</div>
-            <div class="flex-1 text-right">Totaal</div>
-            <div class="w-24">Status</div>
-            <div class="flex-1 text-right">Datum</div>
+            <div class="w-28 text-right">Totaal</div>
+            
+            <div class="w-24 text-right hidden xl:block">BusBikers</div>
+            <div class="w-32 hidden xl:block">Verzending</div>
+            
+            <div class="w-24"></div>
+            <div class="w-28 text-right"></div>
           </div>
           
-          <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
+          <div class="records">
+            <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
+          </div>
+          
+          <div class="pagination">
+            <%= link_to_next_page @orders, "Next", data: {remote: true} %>
+          </div>
         </div>
       </div>
       
-      <div class="w-54">
-        <%= form_with url: spina.shop_admin_orders_path do |f| %>
+      <div class="w-44 flex-shrink-0" data-controller="filter">
+        <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
+          <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
           <div class="font-semibold text-sm text-gray-700 mb-1">Zoekterm</div>
-          <%= f.text_field :query, placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg" %>
+          <%= f.text_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg", data: {action: "input->filter#submit"} %>
           
           <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Periode</div>
           
-          <% ["Elke datum", "Vandaag", "Gisteren", "Deze week", "Deze maand", "Anders..."].each do |period| %>
+          <% ["Elke datum"].each.with_index do |period, index| %>
             <label class="cursor-pointer block py-1.5">
-              <%= f.radio_button :date_range, 1, class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina' %>
+              <%= f.radio_button :date_range, 1, class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina', checked: index.zero? %>
               <span class="text-xs font-medium ml-1 align-middle"><%= period %></span>
             </label>
           <% end %>
           
           <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Status</div>
           
-          <% ["Bestelling", "Betaald", "Voorbereiden", "Verzonden", "Gereed voor ophalen", "Opgehaald", "Afgeleverd", "Mislukt", "Geannuleerd", "Gecrediteerd"].each do |status| %>
+          <% [:confirming, :received, :paid, :preparing, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].each do |status| %>
             <label class="cursor-pointer block py-1.5">
-              <%= f.check_box :status, value: status, class: 'border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina' %>
-              <span class="text-xs font-medium ml-1 align-middle"><%= status %></span>
+              <%= f.check_box :status, {class: 'border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina', multiple: true, checked: params[:status]&.include?(status.to_s), data: {action: "filter#submit"}}, status, nil %>
+              <span class="text-xs font-medium ml-1 align-middle">
+                <%=t "spina.shop.orders.states.#{status}" %>
+              </span>
             </label>
           <% end %>
         <% end %>

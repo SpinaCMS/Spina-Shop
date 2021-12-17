@@ -73,8 +73,17 @@ module Spina::Shop
       end
 
       def index
-        @orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
-        filter_orders
+        orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
+        
+        if params[:query].present?
+          orders = orders.search(params[:query])
+        end
+        
+        if params[:status].present?
+          orders = orders.in_state(params[:status])
+        end
+        
+        @orders = orders.page(params[:page]).per(25)
       end
 
       def concepts
