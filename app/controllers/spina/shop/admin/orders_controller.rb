@@ -83,6 +83,10 @@ module Spina::Shop
           orders = orders.in_state(params[:status])
         end
         
+        if params[:order].present?
+          orders = orders.reorder(params[:order])
+        end
+        
         @orders = orders.page(params[:page]).per(25)
       end
 

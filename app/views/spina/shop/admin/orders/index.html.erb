@@ -43,7 +43,7 @@
         <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
           <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
           <div class="font-semibold text-sm text-gray-700 mb-1">Zoekterm</div>
-          <%= f.text_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg", data: {action: "input->filter#submit"} %>
+          <%= f.search_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg", style: "padding-top: 0; padding-bottom: 0; padding-right: 0", autocomplete: "off", data: {action: "input->filter#submit"} %>
           
           <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Periode</div>
           
@@ -62,6 +62,15 @@
               <span class="text-xs font-medium ml-1 align-middle">
                 <%=t "spina.shop.orders.states.#{status}" %>
               </span>
+            </label>
+          <% end %>
+          
+          <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Sorteren</div>
+          
+          <% [["Nieuwste eerst", "order_number DESC"], ["Oudste eerst", "order_number ASC"]].each.with_index do |order, index| %>
+            <label class="cursor-pointer block py-1.5">
+              <%= f.radio_button :order, order[1], class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina', checked: index.zero?, data: {action: "filter#submit"} %>
+              <span class="text-xs font-medium ml-1 align-middle"><%= order[0] %></span>
             </label>
           <% end %>
         <% end %>
