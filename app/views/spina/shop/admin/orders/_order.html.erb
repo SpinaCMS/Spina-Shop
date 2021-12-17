@@ -1,17 +1,15 @@
-<div class="flex items-center text-xs font-medium pr-3 py-3 space-x-6 hover:bg-gray-100 group">
-  <label class="group w-10 block -mr-3 pl-3 cursor-pointer">
-    <%= check_box_tag :id, order.id, false, class: 'rounded border-gray-300 shadow-sm group-hover:border-gray-400 cursor-pointer checked:bg-spina' %>
-  </label>
-  
-  <div class="w-24 tabular-nums flex items-center">
-    <span class="mr-1 text-sm">
-      <%= order.billing_country.flag %>
-    </span>
-    <%= link_to order.number, spina.shop_admin_order_path(order) %>
+<div class="flex items-center text-xs font-medium px-3 py-2 space-x-6 hover:bg-gray-100">
+  <div class="w-24 tabular-nums">
+    <%= link_to spina.shop_admin_order_path(order), class: 'flex items-center h-8 group' do %>
+      <span class="mr-1 text-sm">
+        <%= order.billing_country.flag %>
+      </span>
+      <span class="group-hover:underline"><%= order.number %></span>
+    <% end %>
   </div>
   
   <div class="flex-1">
-    <%= link_to spina.shop_admin_customer_path(order.customer) do %>
+    <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
       <% if order.company.present? %>
         <div class="font-semibold"><%= order.company %></div>
       <% end %>
@@ -32,8 +30,6 @@
       BusBikers
     <% elsif order.number_of_busbikers == 1 %>
       1 BusBiker
-    <% else %>
-      <div class="text-gray-500">–</div>
     <% end %>
   </div>
 

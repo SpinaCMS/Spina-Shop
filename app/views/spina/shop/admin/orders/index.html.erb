@@ -15,9 +15,8 @@
   <div class="p-8">
     <div class="flex gap-5">
       <div class="flex-1 overflow-scroll">
-        <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100">
+        <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
           <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-6">
-            <div class="w-4"><%= check_box_tag :all, "all", false, class: 'rounded border-gray-300 shadow-sm hover:border-gray-400 cursor-pointer checked:bg-spina' %></div>
             <div class="w-24">Bestelling</div>
             <div class="flex-1">Klant</div>
             <div class="w-28 text-right">Totaal</div>
@@ -33,8 +32,8 @@
             <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
           </div>
           
-          <div class="pagination">
-            <%= link_to_next_page @orders, "Next", data: {remote: true} %>
+          <div class="pagination text-center">
+            <%= link_to_next_page @orders, "Volgende", data: {remote: true} %>
           </div>
         </div>
       </div>
