@@ -20,7 +20,7 @@ end
 json.order_items @order.order_items do |order_item|
   json.(order_item, :id, :quantity, :description)
   if order_item.is_product_bundle?
-    json.bundled_products order_item.orderable.bundled_products do |bundled_product|
+    json.bundled_products order_item.orderable.bundled_products.includes(product: :translations) do |bundled_product|
       json.quantity bundled_product.quantity
       json.name bundled_product.product.name
     end

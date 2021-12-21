@@ -17,7 +17,7 @@ module Spina::Shop
     private
     
       def order_pick_items
-        order.order_pick_items.joins(:product, :order_item).map do |order_pick_item|
+        order.order_pick_items.joins(:product, :order_item).includes(product: :translations).map do |order_pick_item|
           OpenStruct.new(
             id: order_pick_item.id,
             quantity: order_pick_item.quantity,
