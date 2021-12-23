@@ -11,7 +11,7 @@
   <div class="flex-1">
     <% if order.customer %>
       <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
-        <%= render partial: 'custom_name', locals: {order: order} %>        
+        <%= render partial: 'spina/shop/admin/orders/custom_name', locals: {order: order} %>        
       <% end %>
     <% end %>
   </div>
@@ -20,7 +20,7 @@
     <%= number_to_currency order.total %>
   </div>
   
-  <%= render partial: "custom_fields", locals: {order: order} %>
+  <%= render partial: "spina/shop/admin/orders/custom_fields", locals: {order: order} %>
   
   <div class="w-24">
     <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
