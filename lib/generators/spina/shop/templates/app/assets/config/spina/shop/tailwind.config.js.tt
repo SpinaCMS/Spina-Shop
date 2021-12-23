@@ -1,0 +1,31 @@
+module.exports = {
+  content: [
+    "<%= Spina::Shop::Engine.root %>/app/views/**/*.*",
+    "<%= Spina::Shop::Engine.root %>/app/components/**/*.*",
+    "<%= Spina::Shop::Engine.root %>/app/helpers/**/*.*",
+    "<%= Spina::Shop::Engine.root %>/app/**/application.tailwind.css",
+    "app/views/**/*.*",
+    "app/components/**/*.*",
+    "app/helpers/**/*.*"
+  ],  
+  theme: {
+    fontFamily: {
+      body: ['Metropolis'],
+      mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace']
+    },
+    extend: {
+      colors: {
+        spina: {
+          light: '#797ab8',
+          DEFAULT: '#6865b4',
+          dark: '#3a3a70'
+        }
+      }
+    }
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
+  ]
+}

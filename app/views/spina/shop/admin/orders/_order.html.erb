@@ -11,18 +11,7 @@
   <div class="flex-1">
     <% if order.customer %>
       <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
-        <% if order.company.present? %>
-          <div class="font-semibold"><%= order.company %></div>
-        <% end %>
-        <%= order.full_name %>
-        <% unless order.customer.customer_account %>
-          <span class="text-gray-500 font-normal">(gast)</span>
-        <% end %>
-        
-        <% if order.first_order_for_email? %>
-          <div class="inline-block text-spina tracking-wide font-bold px-1" style="font-size: 9px"><%=t 'spina.shop.orders.first_order_for_email' %></div>
-        <% end %>
-        
+        <%= render partial: 'custom_name', locals: {order: order} %>        
       <% end %>
     <% end %>
   </div>
@@ -31,32 +20,7 @@
     <%= number_to_currency order.total %>
   </div>
   
-  <div class="w-20 hidden 2xl:block text-right">
-    <% if order.total_number_of_busbikers > 1 %>
-      <%= order.total_number_of_busbikers %>
-      BusBikers
-    <% elsif order.total_number_of_busbikers == 1 %>
-      1 BusBiker
-    <% end %>
-  </div>
-  
-  <div class="w-20 hidden 2xl:block text-right">
-    <% if order.total_number_of_towbars.to_i > 1 %>
-      <%= order.total_number_of_towbars %>
-      trekhaken
-    <% elsif order.total_number_of_towbars == 1 %>
-      1 trekhaak
-    <% end %>
-  </div>
-
-  <div class="w-32 text-right hidden xl:block">
-    <% if order.shipped_at.present? %>
-      <%= format_datetime(order.shipped_at) %>
-    <% elsif order.expected_ready_at.present? %>
-      <%= format_datetime(order.expected_ready_at) %>
-      (verwacht)
-    <% end %>
-  </div>
+  <%= render partial: "custom_fields", locals: {order: order} %>
   
   <div class="w-24">
     <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
