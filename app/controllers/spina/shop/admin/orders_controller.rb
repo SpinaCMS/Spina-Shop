@@ -24,59 +24,65 @@ module Spina::Shop
         @order.destroy if @order.building?
         redirect_to spina.shop_admin_orders_path
       end
-
-      def confirm
-        @order = Order.find(params[:id])
-        @order.transition_to(:confirming, user: current_spina_user.name, ip_address: request.remote_ip)
-        @order.transition_to(:received, user: current_spina_user.name, ip_address: request.remote_ip)
-        if @order.errors.any?
-          flash[:alert] = t("spina.shop.orders.confirm_failed")
-          flash[:alert_small] = @order.errors.full_messages.join("<br />")
-        end
-        redirect_to spina.shop_admin_order_path(@order)
-      end
-
-      def cancel
-        @order = Order.find(params[:id])
-        @order.transition_to!(:cancelled, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
-
-      def receive
-        @order = Order.find(params[:id])
-        @order.transition_to!(:received, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
-
-      def pay
-        @order = Order.find(params[:id])
-        @order.transition_to!(:paid, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
       
-      def ready_for_shipment
-        @order = Order.find(params[:id])
-        @order.transition_to!(:ready_for_shipment, user: current_spina_user.name, ip_address: request.remote_ip)
+      def transition
+        @order = Order.find(params[:id])        
+        @order.transition_to(params[:transition_to], user: params[:user])
         redirect_to spina.shop_admin_order_path(@order)
       end
 
-      def ready_for_pickup
-        @order = Order.find(params[:id])
-        @order.transition_to!(:ready_for_pickup, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
+      # def confirm
+      #   @order = Order.find(params[:id])
+      #   @order.transition_to(:confirming, user: current_spina_user.name, ip_address: request.remote_ip)
+      #   @order.transition_to(:received, user: current_spina_user.name, ip_address: request.remote_ip)
+      #   if @order.errors.any?
+      #     flash[:alert] = t("spina.shop.orders.confirm_failed")
+      #     flash[:alert_small] = @order.errors.full_messages.join("<br />")
+      #   end
+      #   redirect_to spina.shop_admin_order_path(@order)
+      # end
 
-      def order_picked_up
-        @order = Order.find(params[:id])
-        @order.transition_to!(:picked_up, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
+      # def cancel
+      #   @order = Order.find(params[:id])
+      #   @order.transition_to!(:cancelled, user: current_spina_user.name, ip_address: request.remote_ip)
+      #   redirect_to spina.shop_admin_order_path(@order)
+      # end
+# 
+#       def receive
+#         @order = Order.find(params[:id])
+#         @order.transition_to!(:received, user: current_spina_user.name, ip_address: request.remote_ip)
+#         redirect_to spina.shop_admin_order_path(@order)
+#       end
+# 
+#       def pay
+#         @order = Order.find(params[:id])
+#         @order.transition_to!(:paid, user: current_spina_user.name, ip_address: request.remote_ip)
+#         redirect_to spina.shop_admin_order_path(@order)
+#       end
+#       
+#       def ready_for_shipment
+#         @order = Order.find(params[:id])
+#         @order.transition_to!(:ready_for_shipment, user: current_spina_user.name, ip_address: request.remote_ip)
+#         redirect_to spina.shop_admin_order_path(@order)
+#       end
+# 
+#       def ready_for_pickup
+#         @order = Order.find(params[:id])
+#         @order.transition_to!(:ready_for_pickup, user: current_spina_user.name, ip_address: request.remote_ip)
+#         redirect_to spina.shop_admin_order_path(@order)
+#       end
 
-      def delivered
-        @order = Order.find(params[:id])
-        @order.transition_to!(:delivered, user: current_spina_user.name, ip_address: request.remote_ip)
-        redirect_to spina.shop_admin_order_path(@order)
-      end
+      # def order_picked_up
+      #   @order = Order.find(params[:id])
+      #   @order.transition_to!(:picked_up, user: current_spina_user.name, ip_address: request.remote_ip)
+      #   redirect_to spina.shop_admin_order_path(@order)
+      # end
+
+      # def delivered
+      #   @order = Order.find(params[:id])
+      #   @order.transition_to!(:delivered, user: current_spina_user.name, ip_address: request.remote_ip)
+      #   redirect_to spina.shop_admin_order_path(@order)
+      # end
 
       def index
         @orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
