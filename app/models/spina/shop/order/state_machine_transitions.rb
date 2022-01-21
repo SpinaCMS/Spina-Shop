@@ -63,8 +63,10 @@ module Spina::Shop
     def status_progress
       if delivered? || picked_up? || refunded?
         100
-      elsif shipped? || ready_for_pickup? || ready_for_shipment?
+      elsif shipped? || ready_for_pickup?
         80
+      elsif ready_for_shipment?
+        70
       elsif order_prepared?
         60
       elsif paid? || (received? && payment_method == 'postpay')
@@ -91,6 +93,8 @@ module Spina::Shop
           'success'
         when 80
           'success'
+        when 70
+          'primary'
         when 60
           'primary'
         when 40
@@ -126,7 +130,11 @@ module Spina::Shop
 
     def admin_transition_order
       if requires_shipping?
-        ["received", "paid", "preparing", "ready_for_shipment", "shipped", "delivered"]
+        if shipped?
+          ["received", "paid", "preparing", "shipped", "delivered"]
+        else
+          ["received", "paid", "preparing", "ready_for_shipment", "shipped", "delivered"]
+        end
       else
         if pos?
           ["received", "paid", "picked_up"]
