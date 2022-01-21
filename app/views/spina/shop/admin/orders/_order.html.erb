@@ -28,7 +28,7 @@
     </div>
     
     <div class="w-28 text-right">
-      <%= format_datetime(order.received_at || order.confirming_at || order.created_at) %>
+      <%=l(order.received_at || order.confirming_at || order.created_at, format: "%e %b. %y, %H:%M") %>
     </div>
   </div>
 <% end %>
