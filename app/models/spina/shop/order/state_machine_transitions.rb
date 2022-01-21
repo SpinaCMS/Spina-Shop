@@ -27,6 +27,10 @@ module Spina::Shop
     def paid?
       paid_at.present?
     end
+    
+    def prepared?
+      order_prepared?
+    end
 
     def order_prepared?
       order_prepared_at.present?

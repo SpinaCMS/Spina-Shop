@@ -32,6 +32,8 @@ Spina::Engine.routes.draw do
           resources :custom_products, only: [:new, :create]
           resources :order_items, only: [:new, :create, :destroy]
           member do
+            post :transition
+            
             post :confirm
             post :cancel
             post :pay
