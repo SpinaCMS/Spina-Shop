@@ -465,6 +465,7 @@ en:
           picked_up: 
           preparing: 
           ready_for_pickup: 
+          ready_for_shipment: 
           received: 
           shipped: 
         states:
