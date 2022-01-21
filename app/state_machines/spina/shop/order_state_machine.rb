@@ -16,17 +16,16 @@ module Spina::Shop
     state :cancelled # Final state
     state :refunded # Final state
 
-    transition from: :building,         to: :confirming
+    transition from: :building,         to: [:confirming]
     transition from: :confirming,       to: [:received, :cancelled, :failed]
     transition from: :received,         to: [:paid, :preparing, :cancelled, :failed, :refunded]
-    transition from: :paid,             to: [:preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :refunded]
-    transition from: :preparing,        to: [:paid, :ready_for_shipment, :shipped, :ready_for_pickup, :refunded, :cancelled]
-    transition from:  :ready_for_shipment, to: [:paid, :shipped, :refunded, :cancelled]
+    transition from: :paid,             to: [:preparing, :shipped, :ready_for_pickup, :refunded]
+    transition from: :preparing,        to: [:paid, :shipped, :ready_for_pickup, :refunded, :cancelled]
     transition from: :shipped,          to: [:paid, :delivered, :refunded, :cancelled]
     transition from: :ready_for_pickup, to: [:paid, :picked_up, :refunded, :cancelled]
     transition from: :picked_up,        to: [:paid, :refunded, :cancelled]
     transition from: :delivered,        to: [:paid, :refunded, :cancelled]
-    transition from: :refunded,         to: [:refunded]
+    transition from: :refunded,         to: [:refunded] 
 
     guard_transition(to: :confirming) do |order, transition|
       # Are all product items in stock and details right? Do we even have any order items?
@@ -112,14 +111,6 @@ module Spina::Shop
       order.update!(order_prepared_at: Time.zone.now)
     end
     
-    guard_transition(to: :ready_for_shipment) do |order, transition|
-      order.requires_shipping?
-    end
-    
-    after_transition(to: :ready_for_shipment) do |order, transition|
-      order.update!(ready_for_shipment_at: Time.zone.now)
-    end
-
     guard_transition(to: :shipped) do |order, transition|
       order.requires_shipping?
     end
