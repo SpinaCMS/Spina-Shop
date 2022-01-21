@@ -45,7 +45,7 @@ module Spina::Shop
     scope :building, -> { in_state(:building) }
     scope :refunded, -> { where.not(refunded_at: nil) }
     scope :concept, -> { building.where(manual_entry: true) }
-    scope :to_process, -> { received.where(cancelled_at: nil, failed_at: nil, shipped_at: nil, picked_up_at: nil, refunded_at: nil, ready_for_pickup_at: nil, ready_for_shipment: nil).where("paid_at IS NOT NULL OR payment_method = 'postpay'") }
+    scope :to_process, -> { received.where(cancelled_at: nil, failed_at: nil, shipped_at: nil, picked_up_at: nil, refunded_at: nil, ready_for_pickup_at: nil, ready_for_shipment_at: nil).where("paid_at IS NOT NULL OR payment_method = 'postpay'") }
 
     # Always validate
     validates :password, confirmation: true
