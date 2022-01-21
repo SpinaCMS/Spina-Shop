@@ -473,6 +473,7 @@ nl:
           picked_up: shop
           preparing: dots
           ready_for_pickup: dots
+          ready_for_shipment: dots
           received: shop
           shipped: mail
         states:
