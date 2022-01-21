@@ -21,7 +21,7 @@ module Spina::Shop
     transition from: :received,         to: [:paid, :preparing, :cancelled, :failed, :refunded]
     transition from: :paid,             to: [:preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :refunded]
     transition from: :preparing,        to: [:paid, :ready_for_shipment, :shipped, :ready_for_pickup, :refunded, :cancelled]
-    transition from  :ready_for_shipment, to: [:paid, :shipped, :refunded, :cancelled]
+    transition from:  :ready_for_shipment, to: [:paid, :shipped, :refunded, :cancelled]
     transition from: :shipped,          to: [:paid, :delivered, :refunded, :cancelled]
     transition from: :ready_for_pickup, to: [:paid, :picked_up, :refunded, :cancelled]
     transition from: :picked_up,        to: [:paid, :refunded, :cancelled]
