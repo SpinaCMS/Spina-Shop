@@ -475,6 +475,7 @@ de:
           picked_up: abgerufen
           preparing: 
           ready_for_pickup: 
+          ready_for_shipment: 
           received: bestellen
           refunded: gerendert
           shipped: erstellte Mission

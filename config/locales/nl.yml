@@ -487,6 +487,7 @@ nl:
           picked_up: Opgehaald
           preparing: Voorbereiden
           ready_for_pickup: Gereed voor ophalen
+          ready_for_shipment: Klaar voor verzending
           received: Bestelling
           refunded: Gecrediteerd
           shipped: Zending aangemaakt

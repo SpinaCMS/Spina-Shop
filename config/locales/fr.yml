@@ -475,6 +475,7 @@ fr:
           picked_up: récupéré
           preparing: 
           ready_for_pickup: 
+          ready_for_shipment: 
           received: ordre
           refunded: rendu
           shipped: mission créée
