@@ -55,11 +55,15 @@ module Spina::Shop
     def ready_for_pickup?
       current_state == 'ready_for_pickup'
     end
+    
+    def ready_for_shipment?
+      current_state == 'ready_for_shipment'
+    end
 
     def status_progress
       if delivered? || picked_up? || refunded?
         100
-      elsif shipped? || ready_for_pickup?
+      elsif shipped? || ready_for_pickup? || ready_for_shipment?
         80
       elsif order_prepared?
         60
@@ -122,7 +126,7 @@ module Spina::Shop
 
     def admin_transition_order
       if requires_shipping?
-        ["received", "paid", "preparing", "shipped", "delivered"]
+        ["received", "paid", "preparing", "ready_for_shipment", "shipped", "delivered"]
       else
         if pos?
           ["received", "paid", "picked_up"]
