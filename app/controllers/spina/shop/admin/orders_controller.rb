@@ -27,7 +27,7 @@ module Spina::Shop
       
       def transition
         @order = Order.find(params[:id])        
-        @order.transition_to(params[:transition_to], user: params[:user])
+        @order.transition_to(params[:transition_to], user: current_spina_user.name, ip_address: request.remote_ip)
         redirect_to spina.shop_admin_order_path(@order)
       end
 
