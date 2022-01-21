@@ -1,7 +1,9 @@
 <% if order.company.present? %>
-  <div class="font-semibold"><%= order.company %></div>
+  <span class="font-medium"><%= order.company %></span>
+<% else %>
+  <span class="font-medium"><%= order.full_name %></span>
 <% end %>
-<%= order.full_name %>
+
 <% unless order.customer.customer_account %>
   <span class="text-gray-500 font-normal">(gast)</span>
 <% end %>

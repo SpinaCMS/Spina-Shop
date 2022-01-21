@@ -1,11 +1,11 @@
 <% cache order do %>
-  <div class="flex items-center text-xs font-medium px-3 py-2 space-x-6 hover:bg-gray-100">
+  <div class="flex items-center text-sm font-medium px-3 py-2 space-x-6 hover:bg-gray-100">
     <div class="w-24 tabular-nums">
       <%= link_to spina.shop_admin_order_path(order), class: 'flex items-center h-8 group' do %>
         <span class="mr-1 text-sm">
           <%= order.billing_country.flag %>
         </span>
-        <span class="group-hover:underline"><%= order.number %></span>
+        <span class="group-hover:underline font-normal"><%= order.order_number %></span>
       <% end %>
     </div>
     
@@ -17,7 +17,7 @@
       <% end %>
     </div>
     
-    <div class="w-28 tabular-nums text-right">
+    <div class="w-28 tabular-nums text-right font-normal">
       <%= number_to_currency order.total %>
     </div>
     
@@ -27,7 +27,7 @@
       <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
     </div>
     
-    <div class="w-28 text-right">
+    <div class="w-28 text-right font-medium text-xs text-gray-700">
       <%=l(order.received_at || order.confirming_at || order.created_at, format: "%e %b. %y, %H:%M") %>
     </div>
   </div>

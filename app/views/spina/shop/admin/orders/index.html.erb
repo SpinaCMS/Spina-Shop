@@ -28,68 +28,80 @@
   </div>
   
   <div class="p-8">
-    <div class="flex gap-5">
-      <div class="flex-1 overflow-scroll">
-        <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
-          <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-6">
-            <div class="w-24">Bestelling</div>
-            <div class="flex-1">Klant</div>
-            <div class="w-28 text-right">Totaal</div>
+    
+    <% if action_name == "index" %>
+      <div class="pb-6" data-controller="filter">
+        <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
+          <div class="flex">
+            <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
             
-            <%= render partial: "spina/shop/admin/orders/custom_headers" %>
+            <div>
+              <div class="font-semibold text-sm text-gray-700 mb-1">Zoekterm</div>
+              <%= f.search_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg focus:ring-spina", style: "padding-top: 0; padding-bottom: 0; padding-right: 0", autocomplete: "off", data: {action: "input->filter#submit"} %>
+            </div>
             
-            <div class="w-24"></div>
-            <div class="w-28 text-right"></div>
+            <div class="flex-1"></div>
+            
+            <div>
+              <div class="font-semibold text-sm text-gray-700 mb-1">Periode</div>
+              
+              <% ["Elke datum"].each.with_index do |period, index| %>
+                <label class="cursor-pointer block py-1.5">
+                  <%= f.radio_button :date_range, 1, class: 'appearance:none border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero? %>
+                  <span class="text-xs font-medium ml-1 align-middle"><%= period %></span>
+                </label>
+              <% end %>
+            </div>
+            
+            <div>  
+              <div class="font-semibold text-sm text-gray-700 mb-1">Status</div>
+              
+              <% [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].each do |status| %>
+                <label class="cursor-pointer block py-1.5">
+                  <%= f.check_box :status, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina hover:checked:bg-spina', multiple: true, checked: params[:status]&.include?(status.to_s), data: {action: "filter#submit"}}, status, nil %>
+                  <span class="text-xs font-medium ml-1 align-middle">
+                    <%=t "spina.shop.orders.states.#{status}" %>
+                  </span>
+                </label>
+              <% end %>
+            </div>
+            
+            <div>
+              <div class="font-semibold text-sm text-gray-700 mb-1">Sorteren</div>
+              
+              <% [["Nieuwste eerst", "order_number DESC"], ["Oudste eerst", "order_number ASC"]].each.with_index do |order, index| %>
+                <label class="cursor-pointer block py-1.5">
+                  <%= f.radio_button :order, order[1], class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero?, data: {action: "filter#submit"} %>
+                  <span class="text-xs font-medium ml-1 align-middle"><%= order[0] %></span>
+                </label>
+              <% end %>
+            </div>
           </div>
-            
-          <div class="records divide-y divide-gray-200">
-            <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
-          </div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div class="overflow-scroll">
+      <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
+        <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-6">
+          <div class="w-24">Bestelling</div>
+          <div class="flex-1">Klant</div>
+          <div class="w-28 text-right">Totaal</div>
           
-          <div class="pagination text-center">
-            <%= link_to_next_page @orders, "Volgende", data: {remote: true} %>
-          </div>
+          <%= render partial: "spina/shop/admin/orders/custom_headers" %>
+          
+          <div class="w-24"></div>
+          <div class="w-28 text-right"></div>
+        </div>
+          
+        <div class="records divide-y divide-gray-200">
+          <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
+        </div>
+        
+        <div class="pagination text-center">
+          <%= link_to_next_page @orders, "Volgende", data: {remote: true} %>
         </div>
       </div>
-      
-      <% if action_name == "index" %>
-        <div class="w-44 flex-shrink-0" data-controller="filter">
-          <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
-            <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
-            <div class="font-semibold text-sm text-gray-700 mb-1">Zoekterm</div>
-            <%= f.search_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg focus:ring-spina", style: "padding-top: 0; padding-bottom: 0; padding-right: 0", autocomplete: "off", data: {action: "input->filter#submit"} %>
-            
-            <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Periode</div>
-            
-            <% ["Elke datum"].each.with_index do |period, index| %>
-              <label class="cursor-pointer block py-1.5">
-                <%= f.radio_button :date_range, 1, class: 'appearance:none border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero? %>
-                <span class="text-xs font-medium ml-1 align-middle"><%= period %></span>
-              </label>
-            <% end %>
-            
-            <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Status</div>
-            
-            <% [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].each do |status| %>
-              <label class="cursor-pointer block py-1.5">
-                <%= f.check_box :status, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina hover:checked:bg-spina', multiple: true, checked: params[:status]&.include?(status.to_s), data: {action: "filter#submit"}}, status, nil %>
-                <span class="text-xs font-medium ml-1 align-middle">
-                  <%=t "spina.shop.orders.states.#{status}" %>
-                </span>
-              </label>
-            <% end %>
-            
-            <div class="font-semibold text-sm text-gray-700 mb-1 mt-6">Sorteren</div>
-            
-            <% [["Nieuwste eerst", "order_number DESC"], ["Oudste eerst", "order_number ASC"]].each.with_index do |order, index| %>
-              <label class="cursor-pointer block py-1.5">
-                <%= f.radio_button :order, order[1], class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero?, data: {action: "filter#submit"} %>
-                <span class="text-xs font-medium ml-1 align-middle"><%= order[0] %></span>
-              </label>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>
