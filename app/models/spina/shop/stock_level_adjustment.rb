@@ -6,7 +6,7 @@ module Spina::Shop
     scope :additions, -> { where('adjustment > ?', 0) }
     scope :sales, -> { where.not(order_item_id: nil).where('adjustment < ?', 0) }
     scope :ordered, -> { order(created_at: :desc) }
-    scope :reserved, -> { joins(order_item: :order).where(spina_shop_orders: {ready_for_pickup_at: nil, ready_for_shipment: nil, shipped_at: nil, picked_up_at: nil, refunded_at: nil}) }
+    scope :reserved, -> { joins(order_item: :order).where(spina_shop_orders: {ready_for_pickup_at: nil, ready_for_shipment_at: nil, shipped_at: nil, picked_up_at: nil, refunded_at: nil}) }
 
     validates :adjustment, presence: true
     
