@@ -17,7 +17,7 @@ module Spina::Shop
     private
     
       def order_pick_items
-        order.order_pick_items.joins(:product, :order_item).map do |order_pick_item|
+        order.order_pick_items.joins(:product, :order_item).includes(product: :translations).map do |order_pick_item|
           OpenStruct.new(
             id: order_pick_item.id,
             quantity: order_pick_item.quantity,
@@ -26,6 +26,7 @@ module Spina::Shop
             name: order_pick_item.product.full_name,
             ean: order_pick_item.product.ean,
             location: order_pick_item.product.location,
+            stock_level: order_pick_item.product.stock_level,
             locations: order_pick_item.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
               next if product_location.location_code.nil?
               {
@@ -49,6 +50,7 @@ module Spina::Shop
             location: order_item.orderable.location,
             ean: order_item.orderable.ean,
             order_item_id: nil,
+            stock_level: order_item.orderable.stock_level,
             locations: order_item.orderable.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
               next if product_location.location_code.nil?
               {
@@ -73,6 +75,7 @@ module Spina::Shop
               name: bundled_product.product.name,
               location: bundled_product.product.location,
               ean: bundled_product.product.ean,
+              stock_level: bundled_product.product.stock_level,
               locations: bundled_product.product.product_locations.joins(:location).where(spina_shop_locations: {primary: false}).map do |product_location|
                 next if product_location.location_code.nil?
                 {
@@ -94,6 +97,7 @@ module Spina::Shop
             order_item_id: nil,
             quantity: order_item.quantity,
             name: order_item.description,
+            stock_level: nil,
             location: nil,
             ean: nil,
             locations: []

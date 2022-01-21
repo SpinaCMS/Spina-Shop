@@ -32,7 +32,7 @@
               = f.select :expiration_month, options_for_select((1..12).map {|m| [I18n.l(DateTime.parse(Date::MONTHNAMES[m]), format: "%B"), m]}), prompt: "Kies een maand"
 
             .select-dropdown
-              = f.select :expiration_year, options_for_select(Date.today.year..8.years.from_now.year), prompt: "Kies een jaar"
+              = f.select :expiration_year, options_for_select(1.year.ago.year..8.years.from_now.year), prompt: "Kies een jaar"
 
       .form-group
         .form-title.text-muted= Spina::Shop::StockLevelAdjustment.human_attribute_name(:category)
