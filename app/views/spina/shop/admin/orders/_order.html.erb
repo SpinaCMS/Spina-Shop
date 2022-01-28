@@ -1,34 +1,43 @@
 <% cache order do %>
-  <div class="flex items-center text-sm font-medium px-3 py-2 space-x-6 hover:bg-gray-100">
-    <div class="w-24 tabular-nums">
-      <%= link_to spina.shop_admin_order_path(order), class: 'flex items-center h-8 group' do %>
-        <span class="mr-1 text-sm">
-          <%= order.billing_country.flag %>
-        </span>
-        <span class="group-hover:underline font-normal"><%= order.order_number %></span>
-      <% end %>
+  <%= link_to spina.shop_admin_order_path(order), class: "table-row text-sm font-medium px-4 py-2 space-x-6 hover:bg-gray-100 hover:text-gray-900 font-body group" do %>
+    
+    <div class="table-cell align-middle px-4 py-2 border-t border-gray-200">
+      <div class="flex items-center h-8">
+        <div class="flex items-center space-x-1">
+          <div class="font-mono text-xs">
+            <%= order.order_number %>
+          </div>
+          
+          <div class="text-gray-400 text-xs">
+            <%= order.billing_country.code %>
+          </div>
+        </div>
+      </div>
     </div>
     
-    <div class="flex-1">
+    <div class="table-cell px-4 py-2 border-t border-gray-200 align-middle">
       <% if order.customer %>
-        <%= link_to spina.shop_admin_customer_path(order.customer), class: "hover:underline block" do %>
-          <%= render partial: 'spina/shop/admin/orders/custom_name', locals: {order: order} %>        
-        <% end %>
+        <%= render partial: 'spina/shop/admin/orders/custom_name', locals: {order: order} %>        
       <% end %>
     </div>
     
-    <div class="w-28 tabular-nums text-right font-normal">
+    <div class="table-cell px-4 py-2 border-t border-gray-200 align-middle text-right font-normal">
       <%= number_to_currency order.total %>
     </div>
     
     <%= render partial: "spina/shop/admin/orders/custom_fields", locals: {order: order} %>
     
-    <div class="w-24">
+    <div class="table-cell border-t border-gray-200 align-middle px-4 py-2">
       <%= render Spina::Shop::Orders::ProgressComponent.new(order) %>
     </div>
     
-    <div class="w-28 text-right font-medium text-xs text-gray-700">
-      <%=l(order.received_at || order.confirming_at || order.created_at, format: "%e %b. %y, %H:%M") %>
+    <div class="table-cell border-t border-gray-200 pr-4 py-2 align-middle text-right font-normal text-xs text-gray-700">
+      <div class="relative inline-block">
+        <% date = order.received_at || order.confirming_at || order.created_at %>
+        <%=l(date, format: "%e %b. %y") %>
+        
+        <div class="absolute hidden group-hover:block left-1/2 transform -translate-x-1/2 text-xs text-center whitespace-nowrap bg-gray-200 text-gray-600 rounded-md px-2 py-1 -top-7 scale-90"><%=l(date, format: "%H:%M") %></div>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

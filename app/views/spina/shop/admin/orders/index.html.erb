@@ -1,4 +1,5 @@
-<div class="relative" style="margin: -30px -40px 0 -40px">    
+<div class="relative" style="margin: -30px -40px 0 -40px">
+
   <!-- White bg header -->  
   <div class="bg-white border-b border-gray-200 p-4 md:p-6 md:pl-8 sticky top-0 z-20">
     <div class="flex flex-col md:flex-row justify-between md:items-center">
@@ -30,39 +31,30 @@
   <div class="p-8">
     
     <% if action_name == "index" %>
-      <div class="pb-6" data-controller="filter">
+      <div class="pb-3" data-controller="filter">
         <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
-          <div class="flex">
-            <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
-            
-            <div>
-              <div class="font-semibold text-sm text-gray-700 mb-1">Zoekterm</div>
-              <%= f.search_field :query, value: params[:query], placeholder: "Search", class: "w-full h-9 border border-gray-400 rounded-lg focus:ring-spina", style: "padding-top: 0; padding-bottom: 0; padding-right: 0", autocomplete: "off", data: {action: "input->filter#submit"} %>
+          <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
+          
+          <div class="flex space-x-4">
+            <div class="max-w-md w-full">
+              <%= f.search_field :query, value: params[:query], placeholder: "Zoeken op klant of ordernummer...", class: "form-input font-medium block w-full h-10", style: "padding: 0 14px; box-sizing: border-box; border-radius: 5px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); border-color: #d1d5db", autocomplete: "off", data: {action: "input->filter#submit"} %>
             </div>
             
             <div class="flex-1"></div>
             
-            <% if false %>
-              <div>
-                <div class="font-semibold text-sm text-gray-700 mb-1">Periode</div>
-                
-                <% ["Elke datum"].each.with_index do |period, index| %>
-                  <label class="cursor-pointer block py-1.5">
-                    <%= f.radio_button :date_range, 1, class: 'appearance:none border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero? %>
-                    <span class="text-xs font-medium ml-1 align-middle"><%= period %></span>
-                  </label>
-                <% end %>
+            <div class="relative group">
+              <div class="btn btn-default h-10">
+                Status
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
               </div>
-            <% end %>
-            
-            <div>  
-              <div class="font-semibold text-sm text-gray-700 mb-1">Status</div>
               
-              <div class="columns-3">
+              <div class="hidden group-hover:block absolute border border-gray-300 bg-white right-0 z-10 rounded-md shadow-lg py-1.5 top-full">
                 <% [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].each do |status| %>
-                  <label class="cursor-pointer block py-1.5">
+                  <label class="cursor-pointer block py-1.5 px-3 whitespace-nowrap hover:bg-gray-100 mr-0 pr-6">
                     <%= f.check_box :status, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina hover:checked:bg-spina', multiple: true, checked: params[:status]&.include?(status.to_s), data: {action: "filter#submit"}}, status, nil %>
-                    <span class="text-xs font-medium ml-1 align-middle">
+                    <span class="text-sm font-medium ml-1 align-middle whitespace-nowrap">
                       <%=t "spina.shop.orders.states.#{status}" %>
                     </span>
                   </label>
@@ -70,15 +62,22 @@
               </div>
             </div>
             
-            <div>
-              <div class="font-semibold text-sm text-gray-700 mb-1">Sorteren</div>
+            <div class="relative group">
+              <div class="btn btn-default h-10">
+                Sorteren
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 -mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </div>
               
-              <% [["Nieuwste eerst", "order_number DESC"], ["Oudste eerst", "order_number ASC"]].each.with_index do |order, index| %>
-                <label class="cursor-pointer block py-1.5">
-                  <%= f.radio_button :order, order[1], class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero?, data: {action: "filter#submit"} %>
-                  <span class="text-xs font-medium ml-1 align-middle"><%= order[0] %></span>
-                </label>
-              <% end %>
+              <div class="hidden group-hover:block absolute border border-gray-300 bg-white right-0 z-10 rounded-md top-full py-1.5 shadow-lg">
+                <% [["Nieuwste eerst", "order_number DESC"], ["Oudste eerst", "order_number ASC"]].each.with_index do |order, index| %>
+                  <label class="cursor-pointer block px-3 py-1.5 whitespace-nowrap mr-0 pr-6 hover:bg-gray-100">
+                    <%= f.radio_button :order, order[1], class: 'border-gray-300 hover:border-gray-400 shadow-sm checked:bg-spina hover:checked:bg-spina', checked: index.zero?, data: {action: "filter#submit"} %>
+                    <span class="text-sm font-medium ml-1 align-middle whitespace-nowrap"><%= order[0] %></span>
+                  </label>
+                <% end %>
+              </div>
             </div>
           </div>
         <% end %>
@@ -86,19 +85,21 @@
     <% end %>
     
     <div class="overflow-scroll">
-      <div class="bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
-        <div class="flex items-center text-sm font-semibold px-3 py-2 space-x-6">
-          <div class="w-24">Bestelling</div>
-          <div class="flex-1">Klant</div>
-          <div class="w-28 text-right">Totaal</div>
-          
-          <%= render partial: "spina/shop/admin/orders/custom_headers" %>
-          
-          <div class="w-24"></div>
-          <div class="w-28 text-right"></div>
+      <div class="table table-fixed w-full bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
+        <div class="table-header-group text-sm font-semibold px-3 py-2 space-x-6">
+          <div class="table-row">
+            <div class="table-cell w-24 p-4">Bestelling</div>
+            <div class="table-cell p-4">Klant</div>
+            <div class="table-cell w-36 p-4 text-right">Totaal</div>
+            
+            <%= render partial: "spina/shop/admin/orders/custom_headers" %>
+            
+            <div class="table-cell w-36 p-4"></div>
+            <div class="table-cell w-24 p-4 text-right"></div>
+          </div>
         </div>
           
-        <div class="records divide-y divide-gray-200">
+        <div class="table-row-group records">
           <%= render collection: @orders, partial: 'spina/shop/admin/orders/order' %>
         </div>
         
@@ -108,4 +109,5 @@
       </div>
     </div>
   </div>
+
 </div>

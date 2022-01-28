@@ -5,11 +5,15 @@
   </div>
 
 <% else %>
-  <div class="relative border <%= border_color %> rounded-full w-full h-3 flex justify-evenly">
-    <% 4.times do %>
-      <div class="h-full <%= bg_color %> opacity-25" style="width: 1px"></div>
-    <% end %>
+  <div class="relative">
+    <div class="relative border <%= border_color %> rounded-full w-full h-3 flex justify-evenly">
+      <% 4.times do %>
+        <div class="h-full <%= bg_color %> opacity-25" style="width: 1px"></div>
+      <% end %>
+      
+      <div class="h-full <%= bg_color %> rounded-l-full absolute left-0 top-0" style="width: <%= order.status_progress %>%"></div>
+    </div>
     
-    <div class="h-full <%= bg_color %> rounded-l-full absolute left-0 top-0" style="width: <%= order.status_progress %>%"></div>
+    <div class="absolute hidden group-hover:block left-1/2 transform -translate-x-1/2 text-xs text-center whitespace-nowrap bg-gray-600 text-white rounded-md px-2 py-1 -top-7 scale-90"><%= label %></div>
   </div>
 <% end %>
