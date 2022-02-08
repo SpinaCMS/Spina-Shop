@@ -124,7 +124,7 @@
   }
   
   /* Modals */
-  
+  /*   
   .modal {
     @apply flex items-center justify-center;
     @apply fixed z-40 inset-0 h-full p-6;
@@ -136,7 +136,7 @@
     @apply w-full max-w-lg overflow-hidden relative;
     @apply bg-white bg-opacity-75 shadow-lg rounded-xl;
     @apply border border-gray-400;
-  }
+  } */
 
   /* Trix */
   .trix-toolbar {  
