@@ -19,5 +19,5 @@ class App.InfiniteScroll
 $.fn.infiniteScroll = () ->
   App.InfiniteScroll.init(this)
 
-$(document).on 'turbolinks:before-render', ->
+$(document).on 'turbo:before-render', ->
   $(window).off('scroll.infiniteScroll')
