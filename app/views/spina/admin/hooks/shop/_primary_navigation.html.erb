@@ -30,19 +30,30 @@
     
       <%= render Spina::MainNavigation::LinkComponent.new "Beoordelingen", spina.shop_admin_product_reviews_path, active: controller_name.in?(%w(product_reviews shop_reviews)) %>
     </div>
-      
-    <% if current_spina_user.admin? %>
-      <%= render Spina::MainNavigation::LinkComponent.new "Rapportages", spina.shop_admin_analytics_exports_path, active: request.path.include?("analytics") %>
-    <% end %>
     
-    <% if false %>
-      <% Spina::Plugin.all.each do |plugin| %>
-        <% if current_theme.plugins.include? plugin.name %>
-          <% if lookup_context.exists?("shop_secondary_navigation", "spina/admin/hooks/#{plugin.namespace}", true) %>
-            <%= render "spina/admin/hooks/#{plugin.namespace}/shop_secondary_navigation", plugin: plugin %>
-          <% end %>
+    <% Spina::Plugin.all.each do |plugin| %>
+      <% if current_theme.plugins.include? plugin.name %>
+        <% if lookup_context.exists?("shop_secondary_navigation", "spina/admin/hooks/#{plugin.namespace}", true) %>
+          <%= render "spina/admin/hooks/#{plugin.namespace}/shop_secondary_navigation", plugin: plugin %>
         <% end %>
       <% end %>
+    <% end %>
+    
+  <% end %>
+<% end %>
+
+<% if current_spina_user.admin? %>
+  <%= render Spina::MainNavigation::SubNavComponent.new(:analytics) do |nav| %>
+    <% nav.icon do %>
+      <%= heroicon('chart-bar', style: :solid, class: 'w-8 h-8 text-white md:mr-3') %>
+      
+      <div class="text-white font-semibold hidden md:block transform -translate-x-2 ease-in-out duration-300 absolute md:relative opacity-0 transition-all" data-navigation-target="label">
+        Rapportages
+      </div>
+    <% end %>
+    
+    <% nav.links do %>
+      <%= render Spina::MainNavigation::LinkComponent.new "Exports", spina.shop_admin_analytics_exports_path, active: request.path.include?("analytics") %>
     <% end %>
     
   <% end %>
