@@ -1,4 +1,4 @@
-<%= render Spina::MainNavigation::SubNavComponent.new(:inboxes) do |nav| %>
+<%= render Spina::MainNavigation::SubNavComponent.new(:shop) do |nav| %>
   <% nav.icon do %>
     <%= heroicon('shopping-bag', style: :solid, class: 'w-8 h-8 text-white md:mr-3') %>
     
@@ -12,6 +12,8 @@
     <%= render Spina::MainNavigation::LinkComponent.new "Bestellingen", spina.shop_admin_orders_path, active: controller_name.in?(%w(orders)) %>
     
     <%= render Spina::MainNavigation::LinkComponent.new "Producten", spina.shop_admin_products_path, active: controller_name.in?(%w(products properties product_bundles stock_level_adjustments)) %>
+    
+    <%= render Spina::MainNavigation::LinkComponent.new "Voorraad", spina.shop_admin_stock_forecast_path, active: controller_name.in?(%w(stock_forecasts suppliers stock_orders location_codes)) %>
     
   <% end %>
 <% end %>
