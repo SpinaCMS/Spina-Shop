@@ -17,6 +17,7 @@ module Spina
                     :holding_cost_percentage,
                     :default_stock_order_cost,
                     :future_demand_factor,
+                    :minimum_expiration_period,
                     :api_key
 
     # Default tax settings
@@ -46,6 +47,11 @@ module Spina
     
     # Default stock order cost
     self.default_stock_order_cost = 5
+    
+    # Minimum expiration period
+    # Spina will show a warning when adding items with an expiration period
+    # smaller than the one set here
+    self.minimum_expiration_period = nil
     
     # Future demand factor
     # Demand calculations are multiplied by this factor to 
