@@ -6,7 +6,10 @@ module Spina::Shop
   class Order < ApplicationRecord
     include PgSearch
     include Billing, StateMachineTransitions
+    include Spina::Pro::Search
     
+    spina_searchable against: [:order_number], if: :confirmed?
+
     has_secure_token
 
     attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password, :number_of_labels_to_print
@@ -25,7 +28,7 @@ module Spina::Shop
     has_one :shop_review, dependent: :destroy
     
     has_many :order_pick_items, dependent: :destroy
-
+    
     # Duplicate orders
     has_one :original_order, class_name: "Spina::Shop::Order", foreign_key: :duplicate_id
 
