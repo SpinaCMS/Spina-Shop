@@ -19,7 +19,7 @@ $(document).on 'click', '[data-dismiss="modal"]', ->
 $(document).on 'keyup', 'body.overlay', (e) ->
   hideModal() if e.keyCode == 27
 
-$(document).on 'click', '.modal', (e) ->
+$(document).on 'click', '.modal-old-style', (e) ->
   e.stopPropagation()
 
 hideModal = ->

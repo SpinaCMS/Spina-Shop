@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("repeater-form", class extends Stimulus.Controller {
+  application.register("repeater-formz", class extends Stimulus.Controller {
     static get targets() {
       return ["list", "listItem", "content", "pane"]
     }

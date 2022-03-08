@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("gallery-select", class extends Stimulus.Controller {
+  application.register("gallery-selectz", class extends Stimulus.Controller {
     static get targets() {
       return ["singleImage", "multipleImages", "multiple", "counter"]
     }

@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("page-collapse", class extends Stimulus.Controller {
+  application.register("page-collapsez", class extends Stimulus.Controller {
     static get targets() {
       return [ "list", "collapseLink", "expandLink" ]
     }

@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("image-form", class extends Stimulus.Controller {
+  application.register("image-formz", class extends Stimulus.Controller {
     static get targets() {
       return ["image", "imageId", "signedBlobId", "filename"]
     }

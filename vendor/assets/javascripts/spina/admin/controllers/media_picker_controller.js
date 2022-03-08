@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("media-picker", class extends Stimulus.Controller {
+  application.register("media-pickerz", class extends Stimulus.Controller {
     static get targets() {
       return ["input", "image", "grid", "selectedImage", "selectedImages", "selectedCount", "alt", "linkToUrl", "trixImage"]
     }

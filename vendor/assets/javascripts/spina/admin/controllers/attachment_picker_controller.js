@@ -1,7 +1,7 @@
 (() => {
   const application = Stimulus.Application.start()
 
-  application.register("attachment-picker", class extends Stimulus.Controller {
+  application.register("attachment-pickerz", class extends Stimulus.Controller {
     static get targets() {
       return ["signedBlobId", "filename"]
     }
