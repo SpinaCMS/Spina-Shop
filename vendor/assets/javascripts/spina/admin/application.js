@@ -33,7 +33,6 @@
 //= require ./notifications
 //= require ./media_gallery
 
-//= require ./confirm_delete
 //= require ./pages
 
 // Scaffolding
