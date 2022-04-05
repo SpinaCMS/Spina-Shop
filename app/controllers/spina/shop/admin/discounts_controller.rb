@@ -36,7 +36,7 @@ module Spina::Shop
           flash.now[:alert] = "WTF probeer jij nou?!"
           flash.now[:alert_small] = @discount.errors.full_messages.join("<br />")
           add_breadcrumb t('spina.shop.discounts.new')
-          render :new
+          render :new, status: :unprocessable_entity
         end
       end
 
@@ -51,7 +51,7 @@ module Spina::Shop
           flash.now[:alert] = "Discount could not be saved"
           flash.now[:alert_small] = @discount.errors.full_messages.join("<br />")
           add_breadcrumb @discount.code
-          render :edit
+          render :edit, status: :unprocessable_entity
         end
       end
 
