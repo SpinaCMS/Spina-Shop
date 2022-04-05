@@ -7,19 +7,17 @@
     </div>
     <div class="flex-1">
       <div class="font-medium flex items-center">
-        <%= product.name %>
-        <%= "Archief" if product.archived? %>
-        
+        <%= product.name %>        
+      </div>
+      <div class="opacity-50 text-xs">
         <% if product.archived? %>
           <div class="flex items-center ml-2 text-xs px-1.5 py-0.5 space-x-1 bg-gray-900 bg-opacity-5 rounded">
             <div class="opacity-75">Archief</div>
           </div>
+        <% else %>
+          Voorraad:
+          <%= product.stock_level %>
         <% end %>
-        
-      </div>
-      <div class="opacity-50 text-xs">
-        Voorraad:
-        <%= product.stock_level %>
       </div>
     </div>
     
