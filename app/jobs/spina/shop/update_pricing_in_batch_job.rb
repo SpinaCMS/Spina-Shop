@@ -1,5 +1,5 @@
 module Spina::Shop
-  class UpdatePricingInBatchJob < ApplicationJob
+  class UpdatePricingInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, pricing_params)
       if pricing_params["price_for"].present?
