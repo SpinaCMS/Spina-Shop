@@ -10,7 +10,7 @@
   <% nav.links do %>    
     
     <div>
-      <%= render Spina::MainNavigation::LinkComponent.new "Bestellingen", spina.shop_admin_orders_path, active: controller_name.in?(%w(orders)) %>
+      <%= render Spina::MainNavigation::LinkComponent.new "Bestellingen (#{Spina::Shop::Order.to_process.count})", spina.shop_admin_orders_path, active: controller_name.in?(%w(orders)) %>
       
       <%= render Spina::MainNavigation::LinkComponent.new "Facturen", spina.shop_admin_invoices_path, active: controller_name.in?(%w(invoices)) %>
       
