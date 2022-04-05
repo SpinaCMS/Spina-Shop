@@ -2,7 +2,7 @@ module Spina::Shop
   module Admin
     module Orders
       class PackingSlipsController < AdminController
-        skip_before_action :authorize_spina_user, only: :show
+        skip_before_action :authenticate, only: :show
 
         def show
           @order = Order.find(params[:order_id])
