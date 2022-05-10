@@ -4,7 +4,7 @@ de:
       spina/shop/address:
         address_type: Geben Sie Adresse
         billing_address: Rechnungsadresse
-        city: Platz
+        city: Ort
         company: Firmenname
         country: Land
         delivery_address: Lieferadresse
@@ -73,7 +73,7 @@ de:
         total: Gesamt
       spina/shop/order:
         billing_address: Rechnungsadresse
-        billing_city: Platz
+        billing_city: Ort
         billing_country: Land
         billing_house_number: Nummer
         billing_house_number_addition: Zusatz
@@ -87,7 +87,7 @@ de:
         date_of_birth: Geburtsdatum
         delivered_at: geliefert auf
         delivery_address: Lieferadresse
-        delivery_city: Platz
+        delivery_city: Ort
         delivery_company: 
         delivery_country: Land
         delivery_first_name: 
