@@ -85,31 +85,25 @@ module Spina::Shop
       # end
 
       def index
-        @orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
-        filter_orders
+        orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
+        
+        if params[:query].present?
+          orders = orders.search(params[:query])
+        end
+        
+        if params[:status].present?
+          orders = orders.in_state(params[:status])
+        end
+        
+        if params[:order].present?
+          orders = orders.reorder(params[:order])
+        end
+        
+        @orders = orders.page(params[:page]).per(25)
       end
 
       def concepts
-        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def to_process
-        @orders = Order.to_process.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-      
-      def ready_for_pickup_orders
-        @orders = Order.in_state(:ready_for_pickup).includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def failed
-        @orders = Order.in_state(:failed).includes(:order_items, :order_transitions).sorted
-        filter_orders
+        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).order(created_at: :desc).page(params[:page]).per(50)
         render :index
       end
 
@@ -191,7 +185,7 @@ module Spina::Shop
           @advanced_filter = advanced_filters.values.any?(&:present?)
 
           # Pagination
-          @orders = @orders.page(params[:page]).per(15)
+          @orders = @orders.page(params[:page]).per(100)
         end
 
         def order_params

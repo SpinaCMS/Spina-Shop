@@ -11,6 +11,7 @@ require "ruby-measurement"
 require "valvat"
 require "pg_search"
 require "jbuilder"
+require "view_component"
 
 module Spina
   module Shop
