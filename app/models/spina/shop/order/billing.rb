@@ -1,5 +1,6 @@
 module Spina::Shop
-  class Order < ApplicationRecord
+  module Order::Billing
+    extend ActiveSupport::Concern
 
     def order_total
       order_items.inject(BigDecimal(0)) { |t, i| t + i.total }

@@ -5,10 +5,8 @@ end
 module Spina::Shop
   class Order < ApplicationRecord
     include PgSearch
-
-    require_dependency 'spina/shop/order/state_machine_transitions'
-    require_dependency 'spina/shop/order/billing'
-
+    include Billing, StateMachineTransitions
+    
     has_secure_token
 
     attr_accessor :validate_details, :validate_stock, :validate_delivery, :validate_payment, :password, :number_of_labels_to_print
