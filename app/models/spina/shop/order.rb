@@ -74,6 +74,10 @@ module Spina::Shop
     accepts_nested_attributes_for :order_items
 
     # Search
+    pg_search_scope :search_name,
+      against: [:first_name, :last_name, :company, :email],
+      order_within_rank: "order_number DESC, id DESC"
+      
     pg_search_scope :search, 
         against: [:order_number, :first_name, :last_name, :company, :email, :delivery_city, :billing_city, :received_at], 
         associated_against: {
