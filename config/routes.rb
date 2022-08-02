@@ -10,6 +10,7 @@ Spina::Engine.routes.draw do
           get :scan
         end
       end
+      resources :inbound, controller: "inbound"
       resources :orders do
         collection do
           get :to_process
