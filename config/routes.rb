@@ -31,7 +31,7 @@ Spina::Engine.routes.draw do
         resources :orders do
           resource :order_pick_list, only: [:show]
           resources :custom_products, only: [:new, :create]
-          resources :order_items, only: [:new, :create, :destroy]
+          resources :order_items, only: [:new, :create, :edit, :update, :destroy]
           member do
             post :transition
             
