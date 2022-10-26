@@ -136,7 +136,7 @@ module Spina::Shop
     end
 
     guard_transition(to: :refunded) do |order, transition, metadata|
-      order.sales_invoice.present? && (metadata["entire_order"] || metadata["refund_lines"].to_h.any?{|id, line| line["refund"]})
+      order.sales_invoice.present?
     end
 
     before_transition(to: :refunded) do |order, transition|
