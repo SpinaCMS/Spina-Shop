@@ -1,5 +1,5 @@
 module Spina::Shop
-  class AddSupplierToProductsInBatchJob < ApplicationJob
+  class AddSupplierToProductsInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, supplier_id, supplier_packing_unit)
       ids = (Product.where(id: product_ids).joins(:children).pluck("children_spina_shop_products.id, spina_shop_products.id").flatten + product_ids).uniq

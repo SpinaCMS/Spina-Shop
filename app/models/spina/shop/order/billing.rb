@@ -1,5 +1,6 @@
 module Spina::Shop
-  class Order < ApplicationRecord
+  module Order::Billing
+    extend ActiveSupport::Concern
 
     def order_total
       order_items.inject(BigDecimal(0)) { |t, i| t + i.total }
@@ -98,7 +99,7 @@ module Spina::Shop
 
     def tax_amount_by_rates
       if vat_reverse_charge?
-        rates = {"0": {tax_amount: BigDecimal.new(0), total: BigDecimal.new(0)}}
+        rates = {"0": {tax_amount: BigDecimal(0), total: BigDecimal(0)}}
       else
         items = [order_items]
         items << OpenStruct.new(tax_rate: delivery_tax_rate, tax_modifier: delivery_tax_modifier, total: delivery_price) if delivery_option.present?

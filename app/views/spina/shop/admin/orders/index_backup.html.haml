@@ -78,10 +78,13 @@
         .filter-form-control
           .input-group
             .select-dropdown= ff.select :pos, options_for_select([[t("spina.shop.orders.offline_orders_only"), true], [t("spina.shop.orders.online_orders_only"), false]], params.dig(:advanced_filters, :pos)), {include_blank: t("spina.shop.orders.online_and_offline_orders")}, class: '', style: "width: 100%"
-
-- if @advanced_filter || params[:search].present?
-  %small.text-muted{style: "margin-top: 10px; display: block"}
-    =t 'spina.shop.orders.search_results', count: @orders_count
+            
+      .filter-form-advanced-group
+        .filter-form-label Verzendmethode
+        
+        .filter-form-control
+          .input-group
+            .select-dropdown= ff.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.pluck(:name, :id), params.dig(:advanced_filters, :delivery_option_id)), {include_blank: "Alle verzendmethoden"}, class: '', style: "width: 100%"
 
 = form_with url: spina.shop_admin_orders_batch_path, local: true do
   .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}

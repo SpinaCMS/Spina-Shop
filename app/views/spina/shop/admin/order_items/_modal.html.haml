@@ -1,18 +1,22 @@
-.modal.modal-medium
+.modal.modal-medium.modal-old-style
   %header
     = link_to '#', data: {dismiss: "modal"} do
       = icon('cross')
     %h3=t 'spina.shop.orders.add_product'
 
-  = form_for @order_item, url: spina.shop_admin_order_order_items_path(@order) do |f|
+  = form_for @order_item, url: @order_item.persisted? ? spina.shop_admin_order_order_item_path(@order, @order_item) : spina.shop_admin_order_order_items_path(@order) do |f|
     = f.hidden_field :orderable_type, value: "Spina::Shop::Product"
 
     %section
       .form-group
         .input-group
           .select-dropdown= f.select :quantity, options_for_select(1..100)
-          .select-dropdown{style: "flex: 3"}
-            = f.select :orderable_id, options_for_select([[f.object.orderable.try(:name), f.object.orderable.try(:id)]], f.object.orderable_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
+          - if @order_item.persisted?
+            %div{style: "padding-left: 20px"}
+              = @order_item.description
+          - else
+            .select-dropdown{style: "flex: 3"}
+              = f.select :orderable_id, options_for_select([[f.object.orderable.try(:name), f.object.orderable.try(:id)]], f.object.orderable_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
       .form-group
         .form-label=t "spina.shop.order_items.optional_unit_price"
         .form-control{data: {form_prepend: "€"}}

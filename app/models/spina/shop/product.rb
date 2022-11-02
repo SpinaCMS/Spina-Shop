@@ -1,6 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
     include Variants, Pricing, Stock, Search, Statistics
+    include Spina::Pro::Search
+    
+    spina_searchable against: [:name], if: -> (product) { product.root? && !product.archived? }
 
     # Stores the old path when generating a new materialized_path
     attr_accessor :old_path, :files

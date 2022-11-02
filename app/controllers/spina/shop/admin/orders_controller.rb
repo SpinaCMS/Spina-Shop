@@ -209,11 +209,22 @@ module Spina::Shop
           # Search
           if params[:search].present?
             params[:search].gsub!(/\A0+/, "")
-            @orders = @orders.search(params[:search])
+            
+            # Search ordernr
+            if params[:search] =~ /\A[0-9]*\z/
+              @orders = @orders.where(order_number: params[:search])
+            else
+              # @orders = @orders.search(params[:search])
+              @orders = @orders.search_name(params[:search])
+            end            
+          end
+          
+          # Delivery option
+          if advanced_filters[:delivery_option_id].present?
+            @orders = @orders.where(delivery_option_id: advanced_filters[:delivery_option_id])
           end
 
           # Totaal
-          @orders_count = @orders.count
           @advanced_filter = advanced_filters.values.any?(&:present?)
 
           # Pagination

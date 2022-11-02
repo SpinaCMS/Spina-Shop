@@ -1,5 +1,5 @@
 module Spina::Shop
-  class UpdatePropertiesInBatchJob < ApplicationJob
+  class UpdatePropertiesInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, property_params)
       Product.where(id: product_ids).each do |product|

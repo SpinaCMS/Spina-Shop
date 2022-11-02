@@ -333,7 +333,9 @@
               = number_to_currency order_item.total
             %td.text-right= "#{order_item.tax_rate}%"
             - if @order.building?
-              %td{style: 'width: 32px'}
+              %td{style: 'width: 48px'}
+                = link_to spina.edit_shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {remote: true} do
+                  = icon('pencil')
                 = link_to spina.shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {method: :delete} do
                   = icon('trash')
 

@@ -9,7 +9,7 @@ module Spina::Shop
         def new
           @supplier = Supplier.new
           add_breadcrumb t('spina.shop.suppliers.new')
-          render layout: 'spina/admin/admin'
+          render layout: 'spina/shop/admin/admin'
         end
 
         def create
@@ -24,13 +24,13 @@ module Spina::Shop
         def show
           @supplier = Supplier.find(params[:id])
           add_breadcrumb @supplier.name
-          render layout: 'spina/admin/admin'
+          render layout: 'spina/shop/admin/admin'
         end
 
         def edit
           @supplier = Supplier.find(params[:id])
           add_breadcrumb @supplier.name
-          render layout: 'spina/admin/admin'
+          render layout: 'spina/shop/admin/admin'
         end
 
         def index
