@@ -1,6 +1,6 @@
 module Spina::Shop
   module UserInterface
-    class FilterComponent < ApplicationComponent
+    class FilterComponent < Spina::Shop::ApplicationComponent
       attr_reader :label, :name, :options, :f
       attr_reader :radio
       
