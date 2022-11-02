@@ -28,6 +28,7 @@ module Spina
           "spina/shop/admin/shop.css",
           "spina/shop/delete-big.png",
           "spina/shop/delete-big-confirm.png",
+          "spina/shop/tailwind.css",
           "spina.css",
           "spina/admin/application.js"
         ]

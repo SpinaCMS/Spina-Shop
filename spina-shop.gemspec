@@ -35,6 +35,8 @@ Gem::Specification.new do |s|
   s.add_dependency "pg_search"
   s.add_dependency "descriptive_statistics"
   s.add_dependency "jbuilder"
+  s.add_dependency "view_component"
+  s.add_dependency "tailwindcss-rails"
 
   s.add_development_dependency 'minitest-reporters'
   s.add_development_dependency 'guard'

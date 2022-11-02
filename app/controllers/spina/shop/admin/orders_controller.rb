@@ -85,31 +85,57 @@ module Spina::Shop
       # end
 
       def index
-        @orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
-        filter_orders
+        orders = Order.confirmed.includes(:order_items, :order_transitions, :delivery_option, :store).sorted
+        
+        if params[:query].present?
+          orders = orders.search(params[:query])
+        end
+        
+        if params[:status].present?
+          orders = orders.in_state(params[:status])
+        end
+        
+        if params[:billing_country_id].present?
+          orders = orders.where(billing_country_id: params[:billing_country_id])
+        end
+        
+        if params[:pos].present?
+          orders = orders.where(pos: params[:pos])
+        end
+        
+        if params[:delivery_option_id].present?
+          orders = orders.where(delivery_option_id: params[:delivery_option_id])
+        end
+        
+        if params[:discount_id].present?
+          orders = orders.joins(:discount).where(spina_shop_discounts: {id: params[:discount_id]}).distinct
+        end
+        
+        if params[:order].present?
+          orders = orders.reorder(params[:order])
+        end
+        
+        if params[:received_at_gt].present?
+          begin
+            date = Date.parse(params[:received_at_gt])
+            orders = orders.where("received_at::date >= ?", date)
+          rescue
+          end
+        end
+        
+        if params[:received_at_lt].present?
+          begin
+            date = Date.parse(params[:received_at_lt])
+            orders = orders.where("received_at::date <= ?", date)
+          rescue
+          end
+        end
+        
+        @orders = orders.page(params[:page]).per(25)
       end
 
       def concepts
-        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def to_process
-        @orders = Order.to_process.includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-      
-      def ready_for_pickup_orders
-        @orders = Order.in_state(:ready_for_pickup).includes(:order_items, :order_transitions).sorted
-        filter_orders
-        render :index
-      end
-
-      def failed
-        @orders = Order.in_state(:failed).includes(:order_items, :order_transitions).sorted
-        filter_orders
+        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).order(created_at: :desc).page(params[:page]).per(50)
         render :index
       end
 
@@ -202,7 +228,7 @@ module Spina::Shop
           @advanced_filter = advanced_filters.values.any?(&:present?)
 
           # Pagination
-          @orders = @orders.page(params[:page]).per(15)
+          @orders = @orders.page(params[:page]).per(100)
         end
 
         def order_params

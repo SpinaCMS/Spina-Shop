@@ -1,0 +1,13 @@
+<% if order.company.present? %>
+  <span class="font-medium"><%= order.company %></span>
+<% else %>
+  <span class="font-medium"><%= order.full_name %></span>
+<% end %>
+
+<% unless order.customer.customer_account %>
+  <span class="text-gray-500 font-normal">(gast)</span>
+<% end %>
+
+<% if order.first_order_for_email? %>
+  <div class="inline-block text-spina tracking-wide font-bold px-1" style="font-size: 9px"><%=t 'spina.shop.orders.first_order_for_email' %></div>
+<% end %>
