@@ -32,12 +32,12 @@
     </div>
     
     <div class="table-cell border-t border-gray-200 pr-4 py-2 align-middle text-right font-normal text-xs text-gray-700">
-      <div class="relative inline-block">
-        <% date = order.received_at || order.confirming_at || order.created_at %>
-        <%=l(date, format: "%e %b. %y") %>
-        
-        <div class="absolute hidden group-hover:block left-1/2 transform -translate-x-1/2 text-xs text-center whitespace-nowrap bg-gray-200 text-gray-600 rounded-md px-2 py-1 -top-7 scale-90"><%=l(date, format: "%H:%M") %></div>
-      </div>
+      <% date = order.received_at || order.confirming_at || order.created_at %>
+      <%=l(date, format: "%e %b. %y") %>
+    </div>
+    <div class="table-cell border-t border-gray-200 pr-4 py-2 align-middle text-right font-normal text-xs text-gray-700">
+      <% date = order.received_at || order.confirming_at || order.created_at %>
+      <%=l(date, format: "%H:%M") %>
     </div>
   <% end %>
 <% end %>

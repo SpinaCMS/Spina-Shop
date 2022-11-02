@@ -95,8 +95,40 @@ module Spina::Shop
           orders = orders.in_state(params[:status])
         end
         
+        if params[:billing_country_id].present?
+          orders = orders.where(billing_country_id: params[:billing_country_id])
+        end
+        
+        if params[:pos].present?
+          orders = orders.where(pos: params[:pos])
+        end
+        
+        if params[:delivery_option_id].present?
+          orders = orders.where(delivery_option_id: params[:delivery_option_id])
+        end
+        
+        if params[:discount_id].present?
+          orders = orders.joins(:discount).where(spina_shop_discounts: {id: params[:discount_id]}).distinct
+        end
+        
         if params[:order].present?
           orders = orders.reorder(params[:order])
+        end
+        
+        if params[:received_at_gt].present?
+          begin
+            date = Date.parse(params[:received_at_gt])
+            orders = orders.where("received_at::date >= ?", date)
+          rescue
+          end
+        end
+        
+        if params[:received_at_lt].present?
+          begin
+            date = Date.parse(params[:received_at_lt])
+            orders = orders.where("received_at::date <= ?", date)
+          rescue
+          end
         end
         
         @orders = orders.page(params[:page]).per(25)
