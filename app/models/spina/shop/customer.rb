@@ -1,6 +1,7 @@
 module Spina::Shop
   class Customer < ApplicationRecord
     include Spina::Pro::Search
+    include Spina::Gravatar
     
     spina_searchable against: [:company, :full_name]
     
