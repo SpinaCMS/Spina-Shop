@@ -3,7 +3,7 @@
 
   application.register("filter", class extends Stimulus.Controller {
     static get targets() {
-      return ["form", "submitButton"]
+      return ["form", "submitButton", "records"]
     }
     
     delayedSubmit = debounce(function() {
@@ -11,6 +11,7 @@
     }.bind(this), 300)
     
     submit(event) {
+      this.recordsTarget.innerHTML = `<div class="table-cell p-4 py-2 text-gray-400 text-sm">Zoeken...</div>`
       this.delayedSubmit()
     }
 

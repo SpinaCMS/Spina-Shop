@@ -1,0 +1,146 @@
+<div class="relative" style="margin: 0 -40px 0 -40px">
+
+  <!-- White bg header -->  
+  <div class="bg-white border-b border-gray-200 p-4 md:p-6 md:pl-8 sticky top-0 z-20 relative">
+    <div class="flex flex-col md:flex-row justify-between md:items-center">
+      <div class="text-2xl font-normal text-gray-700 flex items-center">
+        <%= render_breadcrumbs separator: heroicon('chevron-right', style: :solid, class: "w-5 h-5 mx-2 text-gray-300") %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="px-12">
+    <div class="wizard-steps">
+      <% @order.transitions_done.each do |transition| %>
+        <div class="wizard-step done">
+          <div class="wizard-step-circle">
+            <div class="wizard-step-label text-center">
+              <%=t "spina.shop.orders.states.#{transition.to_state}" %>
+              <div class="text-xs -mt-0.5">
+                <%= transition.metadata["user"].split(" ").first %>
+              </div>
+              <div class="text-xs font-normal whitespace-nowrap">
+                <%=l transition.created_at, format: "%e %b. %H:%M" %>
+              </div>
+            </div>
+          </div>
+          <div class="wizard-step-connector"></div>
+        </div>
+      <% end %>
+      <% @order.admin_transitions_ended.each do |transition| %>
+        <div class="wizard-step error">
+          <div class="wizard-step-circle">
+            <div class="wizard-step-label">
+              <%=t "spina.shop.orders.states.#{transition}" %>
+            </div>
+          </div>
+          <div class="wizard-step-connector"></div>
+        </div>
+      <% end %>
+      <% @order.admin_next_transitions.each do |transition| %>
+        <div class="wizard-step">
+          <div class="wizard-step-circle">
+            <i class="icon icon-<%=t('spina.shop.orders.state_icons.' + transition)%>"></i>
+            <div class="wizard-step-label">
+              <%=t "spina.shop.orders.states.#{transition}" %>
+            </div>
+          </div>
+          <div class="wizard-step-connector"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="p-8">
+    Klant
+    <%= @order.full_name %>
+    <%= @order.email %>
+    <%= @order.ip_address %>
+    
+    Betaling
+    <%= @order.billing_address %>
+    <%= @order.payment_method %>
+    <%= @order.paid_at %>
+    <%= @order.invoices.pluck(:id) %>
+    
+    Verzending
+    <%= @order.delivery_option&.name %>
+    <%= @order.delivery_address %>
+    
+    Notitie
+    
+    Order zelf
+  </div>
+  
+  <div class="p-8">
+    <div class="flex items-center pb-3">
+      <div class="w-16"></div>
+      <div class="flex-1 font-medium pl-2">
+        Omschrijving
+      </div>
+      <div class="w-28 font-medium text-right">
+        Bedrag
+      </div>
+      <div class="w-28 font-medium text-right">
+        Totaal
+      </div>
+      <div class="w-14 font-medium text-right pr-3"></div>
+    </div>
+    <div class="divide-y divide-gray-100 border border-gray-300 rounded-md bg-white overflow-hidden">
+      <% @order.order_items.ordered.each do |order_item| %>
+        <%= link_to [spina, :shop, :admin, order_item.orderable], class: "flex items-center w-full hover:bg-spina-dark hover:bg-opacity-5" do %>
+          <div class="w-16 align-middle font-medium text-gray-700 self-stretch flex items-center justify-end">
+            <%= order_item.quantity %> &times;
+          </div>
+          <div class="py-1 pl-1">
+            <% if order_item.orderable.default_image %>
+              <div class="w-10 h-10 flex items-center justify-center p-1">
+                <%= image_tag main_app.url_for(order_item.orderable.default_image.file.variant(resize: "60x60")), class: "max-w-full max-h-full" %>
+              </div>
+            <% else %>
+              <div class="w-10 h-10 flex items-center justify-center p-1 text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </div>
+            <% end %>
+          </div>
+          <div class="flex-1 text-sm">
+            <%= order_item.description %>
+          </div>
+          <div class="w-28 text-sm text-right">
+            <%= number_to_currency order_item.unit_price %>
+          </div>
+          <div class="w-28 text-sm text-right">
+            <%= number_to_currency order_item.total %>
+          </div>
+          <div class="w-14 text-sm text-gray-400 text-right pr-3">
+            <% if order_item.tax_rate > 0 %>
+              <%= number_with_precision order_item.tax_rate, precision: 0 %>%
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      
+      <div class="flex items-center w-full text-sm leading-loose bg-spina-dark bg-opacity-5">
+        <div class="text-right flex-1">
+          <span class="font-semibold">Totaal excl. btw</span>
+          <br />
+          Btw
+          <br />
+          <span class="font-semibold">Totaal</span>
+        </div>
+        <div class="w-28 text-right py-4">
+          <span class="font-semibold">
+            <%= number_to_currency @order.total_excluding_tax %>
+          </span>
+          <br />
+          <%= number_to_currency @order.tax_amount %>
+          <br />
+          <span class="font-semibold"><%= number_to_currency @order.total %></span>
+        </div>
+        <div class="w-14"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -45,6 +45,10 @@ module Spina::Shop
     def full_name
       name
     end
+    
+    def default_image
+      product_images.ordered.first
+    end
 
     # Calculate the price based on this order
     def price_for_order(order)

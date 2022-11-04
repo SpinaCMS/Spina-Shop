@@ -87,6 +87,10 @@ module Spina::Shop
     def missing_cost_price?
       cost_price.nil? || cost_price.zero?
     end
+    
+    def default_image
+      product_images.ordered.first
+    end
 
     # All properties are dynamically stored using jsonb
     def properties

@@ -4,6 +4,6 @@
   document.querySelector(".records").innerHTML = "<%=j render collection: @orders, partial: 'spina/shop/admin/orders/order' %>"
 <% end %>
 
-document.querySelector(".pagination").innerHTML = "<%=j link_to_next_page @orders, "Volgende", data: {remote: true} %>"
+document.querySelector(".pagination").innerHTML = "<%=j link_to_next_page @orders, "Volgende", class: 'hidden', data: {remote: true} %>"
 
 $(".pagination").infiniteScroll()

@@ -236,7 +236,7 @@ module Spina::Shop
         end
 
         def set_breadcrumbs
-          add_breadcrumb Order.model_name.human(count: 2), spina.shop_admin_orders_path
+          add_breadcrumb Order.model_name.human(count: 2), spina.shop_admin_orders_path, class: 'text-gray-400'
         end
     end
   end
