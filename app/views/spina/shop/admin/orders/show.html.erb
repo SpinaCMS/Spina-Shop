@@ -59,30 +59,8 @@
   
   <div class="p-8">
     <div class="flex gap-x-4">
-      <div class="flex-1">        
-        <%= link_to spina.shop_admin_customer_path(@order.customer), class: "btn btn-default h-auto rounded-lg px-4 py-3 inline-flex leading-normal justify-start" do %>
-          <%= image_tag @order.customer.gravatar_url, class: "rounded-full w-12 h-12 mr-3" %>
-          <div>
-            <div class="font-medium flex items-center">
-              <%= @order.full_name %>
-              <% if @order.customer.customer_group %>
-                <span class="text-gray-500 font-normal">(<%= @order.customer_group.name %>)</span>
-              <% end %>
-            </div>
-            <div class="text-xs text-spina">
-              <%= @order.email %>
-            </div>
-            <div class="text-gray-500 text-xs">
-              <% if @order.customer.customer_account %>
-                Geregistreerd sinds <%=l @order.customer.customer_account.created_at, format: "%d-%m-%Y" %>
-              <% else %>
-                <span class="">Gast</span>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-        
-        <div class="flex items-center pb-2 text-sm text-gray-500 mt-8">
+      <div class="flex-1">
+        <div class="flex items-center pb-2 text-sm text-gray-500">
           <div class="w-16"></div>
           <div class="flex-1 font-medium pl-2">
             Omschrijving
@@ -96,7 +74,7 @@
           <div class="w-14 font-medium text-right pr-3"></div>
         </div>
         
-        <div class="divide-y divide-gray-100 border border-gray-300 rounded-md bg-white overflow-hidden">
+        <div class="divide-y divide-gray-100 border border-gray-300 rounded-lg bg-white overflow-hidden">
           <% @order.order_items.ordered.each do |order_item| %>
             <%= link_to [spina, :shop, :admin, order_item.orderable], class: "flex items-center w-full hover:bg-spina-dark hover:bg-opacity-5" do %>
               <div class="w-16 align-middle font-medium text-gray-700 self-stretch flex items-center justify-end">
@@ -192,7 +170,29 @@
         </div>
       </div>
       
-      <div class="max-w-xs">
+      <div class="max-w-xs space-y-4">
+        <%= link_to spina.shop_admin_customer_path(@order.customer), class: "btn btn-default h-auto rounded-lg px-4 py-3 leading-normal justify-start mt-7" do %>
+          <%= image_tag @order.customer.gravatar_url, class: "rounded-full w-12 h-12 mr-3" %>
+          <div>
+            <div class="font-medium flex items-center">
+              <%= @order.full_name %>
+              <% if @order.customer.customer_group %>
+                <span class="text-gray-500 font-normal">(<%= @order.customer_group.name %>)</span>
+              <% end %>
+            </div>
+            <div class="text-xs text-spina">
+              <%= @order.email %>
+            </div>
+            <div class="text-gray-500 text-xs">
+              <% if @order.customer.customer_account %>
+                Geregistreerd sinds <%=l @order.customer.customer_account.created_at, format: "%d-%m-%Y" %>
+              <% else %>
+                <span class="">Gast</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        
         <% if @order.requires_shipping? %>
           <div class="bg-white rounded-lg w-full shadow-sm">
             <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=#{Rails.application.credentials.spina_shop_google_maps_api_key}", class: "rounded-t-lg w-full" %>
