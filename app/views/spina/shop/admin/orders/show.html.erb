@@ -58,8 +58,8 @@
   </div>
   
   <div class="p-8">
-    <div class="grid grid-cols-2 gap-x-4">
-      <div>
+    <div class="flex gap-x-4">
+      <div class="flex-1">
         <%= @order.full_name %>
         <br />
         <%= @order.email %>
@@ -84,10 +84,11 @@
           <%= @order.delivery_option&.name %>
         </div>
         
-        <div class="bg-white border border-gray-300 rounded-lg max-w-sm shadow-sm">
-          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=420x240&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=AIzaSyBxMQao1-swTGNm0Fxzf015AtXFUaHEL3g", class: "rounded-t-lg w-full" %>
+        <div class="bg-white border border-gray-300 rounded-lg max-w-xs shadow-sm">
+          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=AIzaSyBxMQao1-swTGNm0Fxzf015AtXFUaHEL3g", class: "rounded-t-lg w-full" %>
         
-          <div class="text-sm text-gray-900 leading-normal px-4 py-3">
+          <div class="text-sm -mt-4 bg-white relative rounded-b-lg text-gray-900 leading-normal px-4 py-3">
+            <div class="font-medium"><%= @order.delivery_name %></div>
             <%= @order.delivery_address %>
             <br /><%= @order.delivery_postal_code %>, <%= @order.delivery_city %> (<%= @order.delivery_country&.code %>)
           </div>
