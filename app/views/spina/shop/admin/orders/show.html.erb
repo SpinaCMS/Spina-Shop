@@ -111,7 +111,7 @@
       
       <div class="">        
         <div class="bg-white rounded-lg max-w-xs shadow-sm">
-          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=AIzaSyBxMQao1-swTGNm0Fxzf015AtXFUaHEL3g", class: "rounded-t-lg w-full" %>
+          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=", class: "rounded-t-lg w-full" %>
         
           <div class="text-sm -mt-4 bg-white text-gray-700 relative rounded-b-lg leading-normal px-4 py-3 border-b border-l border-r border-gray-300 ">
             <div class="font-semibold text-base">
