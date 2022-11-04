@@ -59,44 +59,25 @@
   
   <div class="p-8">
     <div class="flex gap-x-4">
-      <div class="flex-1">
-        <%= @order.full_name %>
-        <br />
-        <%= @order.email %>
-        <br />
-        <%= @order.ip_address %>
-        
-        <div class="bg-yellow-50 p-3 text-sm shadow-md mt-6 max-w-md relative">
-          <%= link_to '#', class: "btn hover:border-gray-500 float-right px-2 text-xs h-8" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-1">
-              <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
-              <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
-            </svg>
-            Bewerk notitie
-          <% end %>
-          
-          <div class="whitespace-pre-wrap p-2"><%= @order.note %></div>
-        </div>
-      </div>
-      
-      <div class="">
-        <div class="font-medium mb-2 text-lg">
-          <%= @order.delivery_option&.name %>
-        </div>
-        
-        <div class="bg-white border border-gray-300 rounded-lg max-w-xs shadow-sm">
-          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=AIzaSyBxMQao1-swTGNm0Fxzf015AtXFUaHEL3g", class: "rounded-t-lg w-full" %>
-        
-          <div class="text-sm -mt-4 bg-white relative rounded-b-lg text-gray-900 leading-normal px-4 py-3">
-            <div class="font-medium"><%= @order.delivery_name %></div>
-            <%= @order.delivery_address %>
-            <br /><%= @order.delivery_postal_code %>, <%= @order.delivery_city %> (<%= @order.delivery_country&.code %>)
+      <div class="flex-1">        
+        <%= link_to spina.shop_admin_customer_path(@order.customer), class: "bg-white rounded-lg shadow-sm border border-gray-300 px-4 py-3 max-w-sm shadow-sm inline-block" do %>
+          <div class="font-medium">
+            <%= @order.full_name %>
           </div>
-        </div>
-        
-        <div class="font-medium mt-4 mb-2 text-lg">
-          Betaling
-        </div>
+          <div class="text-sm">
+            <div class="text-gray-500">
+              <% if @order.customer.customer_account %>
+                Geregistreerd sinds <%=l @order.customer.customer_account.created_at, format: "%d-%m-%Y" %>
+              <% else %>
+                <span class="">Gast</span>
+              <% end %>
+            </div>
+            
+            <%= @order.email %>
+            
+            <%= @order.customer.orders.paid.count %> orders
+          </div>
+        <% end %>
         
         <div class="">
           <% if @order.separate_delivery_address? %>
@@ -113,6 +94,33 @@
           <% @order.invoices.each do |invoice| %>
             <%= link_to invoice.invoice_name, '#', class: 'btn btn-default inline-flex' %>
           <% end %>
+        </div>
+        
+        <div class="bg-yellow-50 p-3 text-sm shadow-md mt-6 max-w-md relative">
+          <%= link_to '#', class: "btn btn-default float-right px-2 text-xs h-8" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+              <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+            </svg>
+            Bewerk notitie
+          <% end %>
+          
+          <div class="whitespace-pre-wrap p-2"><%= @order.note %></div>
+        </div>
+      </div>
+      
+      <div class="">        
+        <div class="bg-white rounded-lg max-w-xs shadow-sm">
+          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{(@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&zoom=8&scale=2&size=360x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:small%7Ccolor:0x6865b4%7Clabel:1%7C#{ (@order.delivery_address + ', ' + @order.delivery_city).gsub(' ', '+')}&key=AIzaSyBxMQao1-swTGNm0Fxzf015AtXFUaHEL3g", class: "rounded-t-lg w-full" %>
+        
+          <div class="text-sm -mt-4 bg-white text-gray-700 relative rounded-b-lg leading-normal px-4 py-3 border-b border-l border-r border-gray-300 ">
+            <div class="font-semibold text-base">
+              <%= @order.delivery_option&.name %>
+            </div>
+            <div class="font-semibold"><%= @order.delivery_name %></div>
+            <%= @order.delivery_address %>
+            <br /><%= @order.delivery_postal_code %>, <%= @order.delivery_city %> (<%= @order.delivery_country&.code %>)
+          </div>
         </div>
       </div>      
     </div>
