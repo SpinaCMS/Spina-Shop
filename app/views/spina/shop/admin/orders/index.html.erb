@@ -42,20 +42,17 @@
           </div>
           
           <div class="mt-3 mb-3 flex items-center flex-wrap">
-            
-            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Status", :status, [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded]) %>
-            
-            <% if false %>
-              <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Periode", :date, ["Elke datum"]) %>
-            <% end %>
+            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Status", :status, [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].map{|option| [t("spina.shop.orders.states.#{option}"), option]}) %>
             
             <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Webshop", :store_id, Spina::Shop::Store.order(:name).pluck(:name, :id)) %>
             
             <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Land", :billing_country_id, Spina::Shop::Country.order(:name).pluck(:name, :id)) %>
             
+            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Korting", :discount_id, Spina::Shop::Discount.order(:code).multiple_use.active_or_recently_active.pluck(:code, :id)) %>
+            
             <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Verzending", :delivery_option_id, Spina::Shop::DeliveryOption.pluck(:name, :id)) %>
             
-            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "POS", :pos, [["Alleen winkel", true], ["Alleen webshop", false]], radio: true) %>
+            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "POS", :pos, [["Winkel", true], ["Webshop", false]]) %>
             
             <div class="relative group mr-2 mb-2 max-w-xs">
               <div class="flex space-x-2">

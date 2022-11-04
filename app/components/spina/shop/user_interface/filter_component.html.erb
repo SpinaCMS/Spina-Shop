@@ -1,5 +1,5 @@
-<div class="relative group mr-2 mb-2">
-  <div class="btn btn-default h-9 px-3">
+<div class="relative group mr-2 mb-2" data-controller="filter-button" data-filter-button-classes="bg-spina hover:bg-spina-dark hover:border-spina-dark border-spina text-white">
+  <div class="btn btn-default h-9 px-3" data-target="filter-button.button">
     <%= label %>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 -mr-1" viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -16,9 +16,9 @@
       <% end %>
       <label class="cursor-pointer block py-1.5 px-3 whitespace-nowrap hover:bg-gray-100 mr-0 pr-6">
         <% if radio %>
-          <%= f.radio_button name, value, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded-full checked:bg-spina hover:checked:bg-spina', data: {action: "filter#submit"}} %>
+          <%= f.radio_button name, value, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded-full checked:bg-spina hover:checked:bg-spina', data: {action: "filter#submit filter-button#filter", target: "filter-button.input"}} %>
         <% else %>
-          <%= f.check_box name, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina hover:checked:bg-spina', multiple: true, data: {action: "filter#submit"}}, value, nil %>
+          <%= f.check_box name, {class: 'appearance-none border-gray-300 hover:border-gray-400 shadow-sm rounded checked:bg-spina hover:checked:bg-spina', multiple: true, data: {action: "filter#submit filter-button#filter", target: "filter-button.input"}}, value, nil %>
         <% end %>
         
         <span class="text-sm font-medium ml-1 align-middle whitespace-nowrap">
