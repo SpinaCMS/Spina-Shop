@@ -5,6 +5,63 @@
     <div class="flex flex-col md:flex-row justify-between md:items-center">
       <div class="text-2xl font-normal text-gray-700 flex items-center">
         <%= render_breadcrumbs separator: heroicon('chevron-right', style: :solid, class: "w-5 h-5 mx-2 text-gray-300") %>
+        
+        <% if @order.preorder? %>
+          <div class="text-sm ml-2 text-gray-400 font-medium">(Preorder)</div>
+        <% end %>
+      </div>
+      
+      <div class="flex space-x-3">
+        
+        <%= link_to '#', class: "btn btn-default px-3" do %>
+          <%= heroicon('queue-list', style: :mini, class: 'w-4 h-4 mr-1') %>
+          Picklijst
+        <% end %>
+        
+        <div class="relative w-1/2 md:w-auto" data-controller="reveal" data-reveal-away-value>
+          <button type="button" class="btn btn-default px-2.5 w-full" data-action="reveal#toggle">
+            <%= heroicon('paper-clip', class: 'w-5 h-5', style: :solid) %>
+          </button>
+          
+          <div hidden data-reveal data-transition class="origin-top-left md:origin-top-right absolute md:right-0 mt-2 w-56 rounded-md shadow-lg border border-gray-200">
+            <div class="rounded-md bg-white shadow-xs">
+              <div class="py-1">
+                Mr. Hop PM
+                <br />
+                etc.
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Advanced actions -->
+        <div class="relative w-1/2 md:w-auto" data-controller="reveal" data-reveal-away-value>
+          <button type="button" class="btn btn-default px-3 w-full" data-action="reveal#toggle">
+            <svg class="w-5 h-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+            </svg>
+          </button>
+        
+          <div hidden data-reveal data-transition class="origin-top-left md:origin-top-right absolute md:right-0 mt-2 w-56 rounded-md shadow-lg border border-gray-200">
+            <div class="rounded-md bg-white shadow-xs">
+              <div class="py-1">
+                <%= link_to "Bewerk bestelling", '#', class: "block px-4 py-2 text-sm font-medium leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900", data: {turbo_frame: "modal", action: "reveal#hide"} %>
+                
+                <%= link_to "Dupliceer bestelling", '#', class: "block px-4 py-2 text-sm font-medium leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900", data: {turbo_frame: "modal", action: "reveal#hide"} %>
+                
+                <div class="border-b border-gray-200 my-1"></div>
+                
+                <%= link_to "Crediteren...", '#', class: "block px-4 py-2 text-sm font-medium leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900", data: {turbo_frame: "modal", action: "reveal#hide"} %>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button type="button" class="btn btn-primary px-3 w-full" data-action="reveal#toggle">
+          <div class="opacity-50">Verzonden</div>
+          <%= heroicon('arrow-long-right', style: :mini, class: 'w-5 h-5 mx-1') %>
+          Afgeleverd
+        </button>
       </div>
     </div>
   </div>
@@ -93,7 +150,7 @@
                   </div>
                 <% end %>
               </div>
-              <div class="flex-1 text-sm">
+              <div class="flex-1 text-sm py-2">
                 <%= order_item.description %>
               </div>
               <div class="w-28 text-sm text-right">
@@ -123,19 +180,13 @@
                 </div>
               <% end %>
               <% if @order.delivery_price != 0 %>
+                <div class="">Bestelling</div>
                 <div class="">Verzendkosten</div>
               <% end %>
               <div class="font-semibold">Totaal excl. btw</div>
-              <% @order.tax_amount_by_rates.reverse_each do |rate, tax| %>
-                <div class="">
-                  <% if rate > 0 %>
-                    <%= number_with_precision rate, precision: 0 %>% btw 
-                  <% else %>
-                    Geen btw
-                  <% end %>
-                  over <%= number_to_currency tax[:total] %>
-                </div>
-              <% end %>
+              <div class="">
+                Btw
+              </div>
               <div class="font-semibold text-base mt-0.5">Totaal</div>
             </div>
             <div class="w-28 text-right py-4">
@@ -146,6 +197,9 @@
               <% end %>
               
               <% if @order.delivery_price != 0 %>
+                <div class="font-normal">
+                  <%= number_to_currency @order.order_total %>
+                </div>
                 <div class="">
                   <%= number_to_currency @order.delivery_price %>
                 </div>
@@ -155,11 +209,9 @@
                 <%= number_to_currency @order.total_excluding_tax %>
               </div>
               
-              <% @order.tax_amount_by_rates.reverse_each do |rate, tax| %>
-                <div class="">
-                  <%= number_to_currency tax[:tax_amount] %>
-                </div>
-              <% end %>
+              <div class="">
+                <%= number_to_currency @order.tax_amount %>
+              </div>
               
               <div class="font-semibold text-base mt-0.5">
                 <%= number_to_currency @order.total %>
@@ -222,30 +274,36 @@
           </div>
         <% end %>
         
-        <div class="bg-yellow-50 leading-normal p-3 text-sm shadow-md mt-6 w-full relative">
-          <%= link_to '#', class: "btn btn-default float-right px-2 text-xs h-8" do %>
+        <div class="bg-yellow-50 leading-normal p-3 text-sm shadow-md mt-6 w-full relative rounded-lg">
+          <%= link_to '#', class: "btn btn-default border-none shadow-none bg-yellow-700/10 float-right px-2 text-xs h-8" do %>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
               <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
               <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
             </svg>
           <% end %>
           
-          <div class="whitespace-pre-wrap p-2"><%= @order.note %></div>
+          <% if @order.note.present? %>
+            <div class="whitespace-pre-wrap p-2"><%= @order.note %></div>
+          <% else %>
+            <div class="p-2 italic opacity-50">Geen notitie</div>
+          <% end %>
         </div>
         
-        <div class="">
-          <% if @order.separate_delivery_address? %>
-            <%= @order.billing_address %>
-            <br />
-            <%= @order.billing_postal_code %>, <%= @order.billing_city %> (<%= @order.billing_country&.code %>)
-          <% end %>
-          
-          <%= @order.payment_method %>
-          
-          <% @order.invoices.each do |invoice| %>
-            <%= link_to invoice.invoice_name, '#', class: 'btn btn-default inline-flex' %>
-          <% end %>
-        </div>
+        <% if false %>
+          <div class="">
+            <% if @order.separate_delivery_address? %>
+              <%= @order.billing_address %>
+              <br />
+              <%= @order.billing_postal_code %>, <%= @order.billing_city %> (<%= @order.billing_country&.code %>)
+            <% end %>
+            
+            <%= @order.payment_method %>
+            
+            <% @order.invoices.each do |invoice| %>
+              <%= link_to invoice.invoice_name, '#', class: 'btn btn-default inline-flex' %>
+            <% end %>
+          </div>
+        <% end %>
       </div>      
     </div>
   </div>
