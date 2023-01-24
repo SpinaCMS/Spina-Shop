@@ -4,6 +4,7 @@ module Spina::Shop
 
     included do
       before_validation :set_price_exceptions
+      before_validation :set_volume_discounts
     end
 
     def promotion?
@@ -20,23 +21,27 @@ module Spina::Shop
       price_exception_for_store(store).try(:[], 'price')&.gsub(",", ".")&.to_d || price
     end
 
-    def price_for_order(order)
+    def price_for_order(order, quantity = 1)
       # Return the default price if we don't know anything about the order
       return price if order.nil? 
 
       # If no conversion is needed, simply return price
       price = price_for_customer(order)
+      
+      # If tax is not matched with order, convert the price accordingly
       price_includes_tax = price_includes_tax_for_order(order)
-      return price if price_includes_tax == order.prices_include_tax
-
-      # Price modifier for unit price
-      price_modifier = tax_group.price_modifier_for_order(order)
-
-      # Calculate unit price based on price modifier
-      unit_price = price_includes_tax ? price / price_modifier : price * price_modifier
-
-      # Round to two decimals using bankers' rounding
-      return unit_price.round(2, :half_even)
+      if price_includes_tax != order.prices_include_tax
+        # Price modifier for unit price
+        price_modifier = tax_group.price_modifier_for_order(order)
+        
+        # Calculate unit price based on price modifier
+        price = price_includes_tax ? price / price_modifier : price * price_modifier
+      end
+      
+      # Volume discount
+      price = apply_volume_discount(price, quantity)
+      
+      return price.round(2, :half_even)
     end
 
     def price_for_customer(order)
@@ -62,6 +67,14 @@ module Spina::Shop
           'customer_groups' => (price_exceptions['customer_groups'].keep_if{|e| e['price'].present? && e['customer_group_id'].present?} if price_exceptions['customer_groups'].try(:any?))
         }
       end
+      
+      def set_volume_discounts
+        self[:volume_discounts] = (volume_discounts.presence || []).keep_if do |volume_discount|
+          volume_discount["quantity"].to_i > 0 && volume_discount["discount"].to_i > 0
+        end.sort_by do |volume_discount|
+          volume_discount["quantity"].to_i
+        end
+      end
 
       # Get price exception based on Customer / CustomerGroup if available
       # Try the parent of one's CustomerGroup if present
@@ -81,6 +94,19 @@ module Spina::Shop
         price_exceptions.try(:[], 'stores')&.find do |h|
           return h if h["store_id"].to_i == store.id
         end.presence
+      end
+      
+      def apply_volume_discount(price, quantity = 1)
+        return price unless volume_discounts.present?
+        
+        volume_discount = volume_discounts.sort_by{|i| i["quantity"].to_i}.reverse.find do |discount|
+          quantity >= discount["quantity"].to_i
+        end
+        
+        # Default is no discount
+        volume_discount ||= {"discount" => 0}
+        
+        price * ((100 - volume_discount["discount"].to_d) / 100)
       end
 
   end
