@@ -29,7 +29,7 @@ module Spina::Shop
     accepts_nested_attributes_for :orderable
 
     def unit_price
-      read_attribute(:unit_price) || orderable.price_for_order(order, quantity) || BigDecimal(0)
+      read_attribute(:unit_price) || orderable.price_for_order(order) || BigDecimal(0)
     end
 
     def unit_cost_price

@@ -21,7 +21,7 @@ module Spina::Shop
       price_exception_for_store(store).try(:[], 'price')&.gsub(",", ".")&.to_d || price
     end
 
-    def price_for_order(order, quantity = 1)
+    def price_for_order(order, quantity = nil)
       # Return the default price if we don't know anything about the order
       return price if order.nil? 
 
@@ -39,7 +39,12 @@ module Spina::Shop
       end
       
       # Volume discount
-      price = apply_volume_discount(price, quantity)
+      if quantity
+        price = apply_volume_discount(price, quantity)
+      elsif root.volume_discounts.present?
+        quantity = order.order_items.products.where(orderable_id: root.child_ids).sum(:quantity)
+        price = apply_volume_discount(price, quantity)
+      end
       
       return price.round(2, :half_even)
     end
@@ -56,6 +61,26 @@ module Spina::Shop
         ActiveRecord::Type::Boolean.new.cast(price_exception['price_includes_tax'])
       else
         price_includes_tax
+      end
+    end
+    
+    def volume_discount_ranges
+      [{
+        "quantity" => 1,
+        "label" => "1 zu #{volume_discounts.first["quantity"].to_i - 1}"
+      }] + volume_discounts.map.with_index do |volume_discount, index|
+        next_volume_discount = volume_discounts[index + 1]
+        
+        if next_volume_discount
+          label = "#{volume_discount["quantity"]} zu #{next_volume_discount["quantity"].to_i - 1}"
+        else
+          label = "#{volume_discount["quantity"]}+"
+        end
+        
+        {
+          "quantity" => volume_discount["quantity"],
+          "label" => label
+        }
       end
     end
 
@@ -96,10 +121,8 @@ module Spina::Shop
         end.presence
       end
       
-      def apply_volume_discount(price, quantity = 1)
-        return price unless volume_discounts.present?
-        
-        volume_discount = volume_discounts.sort_by{|i| i["quantity"].to_i}.reverse.find do |discount|
+      def apply_volume_discount(price, quantity)        
+        volume_discount = root.volume_discounts.sort_by{|i| i["quantity"].to_i}.reverse.find do |discount|
           quantity >= discount["quantity"].to_i
         end
         

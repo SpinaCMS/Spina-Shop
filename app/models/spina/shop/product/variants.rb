@@ -121,7 +121,7 @@ module Spina::Shop
       end
 
       def pricing_attributes
-        %w(base_price promotional_price tax_group_id price_includes_tax price_exceptions volume_discounts)
+        %w(base_price promotional_price tax_group_id price_includes_tax price_exceptions)
       end
 
       def set_parent_relations

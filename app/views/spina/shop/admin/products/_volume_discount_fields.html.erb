@@ -1,9 +1,9 @@
 <div class="form-control" data-form-append="%">
   <div class="input-group">
-    <div class="select-dropdown" <%= "data-disabled" if f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank? %>>
-      <%= f.select "volume_discounts[][quantity]", (1..10).map{|q| [">= #{q}", q]}, {include_blank: "Kies een aantal", selected: volume_discount["quantity"]}, disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank? %>
+    <div class="select-dropdown">
+      <%= f.select "volume_discounts[][quantity]", (1..10).map{|q| [">= #{q}", q]}, {include_blank: "Kies een aantal", selected: volume_discount["quantity"]} %>
     </div>
     
-    <%= f.text_field "volume_discounts[][discount]", value: volume_discount["discount"], placeholder: "Discount", disabled: f.object.variant? && f.object.variant_overrides.try(:[], "pricing").blank? %>
+    <%= f.text_field "volume_discounts[][discount]", value: volume_discount["discount"], placeholder: "Discount" %>
   </div>
 </div>
