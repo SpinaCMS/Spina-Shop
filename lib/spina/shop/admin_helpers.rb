@@ -2,6 +2,15 @@ module Spina
   module Shop
     module AdminHelpers
 
+      def link_to_add_volume_discount(f, &block)
+        new_object = OpenStruct.new({"discount" => "", "quantity" => ""})
+        id = new_object.object_id
+        fields = render(partial: 'volume_discount_fields', locals: {f: f, volume_discount: new_object})
+        link_to '#', class: "add_volume_discount button button-block button-hollow", style: "margin-right: 0; margin-top: 4px", data: {id: id, fields: fields.gsub("\n", "")} do
+          block.yield
+        end
+      end
+      
       def link_to_add_price_exception(f, scope, &block)
         new_object = OpenStruct.new({price: "", "#{scope}_id".to_sym => ""})
         id = new_object.object_id
