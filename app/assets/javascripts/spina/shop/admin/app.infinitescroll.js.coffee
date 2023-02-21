@@ -3,21 +3,25 @@ window.App = {}
 class App.InfiniteScroll
 
   @init: (link) ->
-    $(window).off('scroll.infiniteScroll')
+    $("section#main").off('scroll.infiniteScroll')
 
     $link = $(link)
     if (url = $link.find('a').attr('href'))
-      $(window).on 'scroll.infiniteScroll', => @loadNextPage($link)
-      $(window).scroll()
+      $("section#main").on 'scroll.infiniteScroll', => @loadNextPage($link)
+      $("section#main").scroll()
 
   @loadNextPage: ($link) ->
-    if ($(window).scrollTop() > $link.offset().top - $(window).height() - 500)
-      $(window).off('scroll.infiniteScroll')
-      $link.find('a').attr('disabled', true)
-      $.getScript($link.find('a').attr('href'))
+    href = $link.find('a').attr('href')
+    link = $link.find('a')
+    top = $link[0].getBoundingClientRect().top
+    
+    if (top < window.innerHeight + 500)
+      $("section#main").off('scroll.infiniteScroll')
+      link.remove()
+      $.getScript(href)
 
 $.fn.infiniteScroll = () ->
   App.InfiniteScroll.init(this)
 
-$(document).on 'turbolinks:before-render', ->
-  $(window).off('scroll.infiniteScroll')
+$(document).on 'turbo:before-render', ->
+  $("section#main").off('scroll.infiniteScroll')

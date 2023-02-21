@@ -3,6 +3,8 @@ module Spina::Shop
     module Settings
       class ProductCategoriesController < ShopController
         layout 'spina/admin/admin', except: [:index]
+        
+        admin_section :settings
 
         before_action :set_breadcrumbs, except: [:index]
 

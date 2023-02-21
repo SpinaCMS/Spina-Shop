@@ -56,9 +56,9 @@ ready = ->
     $select.select2({placeholder: $select.attr('placeholder')})
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
 
-$(document).on 'turbolinks:load', ready
+$(document).on 'turbo:load turbo:frame-load', ready
 
-$(document).on 'turbolinks:before-cache', ->
+$(document).on 'turbo:before-cache', ->
   $('select.select2').select2('destroy')
   $('select.select-products').select2('destroy')
 

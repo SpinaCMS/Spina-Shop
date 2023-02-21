@@ -1,5 +1,5 @@
 module Spina::Shop
-  class AddTagToProductsInBatchJob < ApplicationJob
+  class AddTagToProductsInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, tag_id)
       tag = Tag.find(tag_id)

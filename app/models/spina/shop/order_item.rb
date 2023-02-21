@@ -110,7 +110,7 @@ module Spina::Shop
 
     def product_quantity(product_id, quantity)
       if is_product_bundle?
-        quantity * orderable.bundled_products.find_by(product_id: product_id).try(:quantity).to_i
+        quantity * orderable.bundled_products.where(product_id: product_id).sum(:quantity).to_i
       else
         orderable_id == product_id ? quantity : 0
       end

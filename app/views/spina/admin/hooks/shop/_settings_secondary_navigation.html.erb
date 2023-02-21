@@ -1,0 +1,1 @@
+<%= render Spina::MainNavigation::LinkComponent.new t('spina.shop.settings'), spina.shop_admin_settings_product_categories_path, active: controller_name.in?(%w(tax_groups product_categories product_category_properties shared_properties locations tags)) %>

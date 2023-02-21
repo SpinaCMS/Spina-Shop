@@ -45,6 +45,10 @@ module Spina::Shop
     def full_name
       name
     end
+    
+    def default_image
+      product_images.ordered.first
+    end
 
     # Calculate the price based on this order
     def price_for_order(order)
@@ -68,15 +72,15 @@ module Spina::Shop
     end
 
     def weight
-      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.weight || BigDecimal.new(0)) * i.quantity}
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.weight || BigDecimal(0)) * i.quantity}
     end
 
     def cost_price
-      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.cost_price || BigDecimal.new(0)) * i.quantity}
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.cost_price || BigDecimal(0)) * i.quantity}
     end
 
     def total_of_individual_products
-      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.price || BigDecimal.new(0)) * i.quantity}
+      bundled_products.inject(BigDecimal(0)){|t, i| t + (i.product.price || BigDecimal(0)) * i.quantity}
     end
 
     private

@@ -16,7 +16,7 @@ module Spina::Shop
           add_breadcrumb "##{@stock_order.id}"
 
           respond_to do |format|
-            format.html { render layout: 'spina/admin/admin' }
+            format.html { render layout: 'spina/shop/admin/admin' }
             format.pdf do
               pdf = StockOrderPdf.new(@stock_order)
               send_data pdf.render, filename: "order-#{@stock_order.id}.pdf", type: "application/pdf"
@@ -43,7 +43,7 @@ module Spina::Shop
           @suppliers = Supplier.order(:name)
           add_breadcrumb "##{@stock_order.id}", spina.shop_admin_stock_order_path(@stock_order)
           add_breadcrumb t("spina.edit")
-          render layout: 'spina/admin/admin'
+          render layout: 'spina/shop/admin/admin'
         end
 
         def update

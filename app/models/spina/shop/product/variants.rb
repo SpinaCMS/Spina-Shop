@@ -50,9 +50,13 @@ module Spina::Shop
     def variant?
       parent_id.present?
     end
+    
+    def root?
+      !variant?
+    end
 
     def parent?
-      !variant?
+      root?
     end
 
     def has_children?

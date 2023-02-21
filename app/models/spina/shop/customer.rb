@@ -1,5 +1,10 @@
 module Spina::Shop
   class Customer < ApplicationRecord
+    include Spina::Pro::Search
+    include Spina::Gravatar
+    
+    spina_searchable against: [:company, :full_name]
+    
     # Don't destroy Customer if it has orders or invoices
     has_many :orders, dependent: :restrict_with_exception
     has_many :invoices, dependent: :restrict_with_exception

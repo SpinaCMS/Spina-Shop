@@ -11,6 +11,7 @@ require "ruby-measurement"
 require "valvat"
 require "pg_search"
 require "jbuilder"
+require "view_component"
 
 module Spina
   module Shop
@@ -25,6 +26,16 @@ module Spina
 
         # Mimetype Excel
         Mime::Type.register "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", :xlsx
+      end
+      
+      initializer "spina.shop.assets" do |app|
+        # Add views to purge for Tailwind
+        Spina.config.tailwind_content.concat [
+          "#{Spina::Shop::Engine.root}/app/views/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/helpers/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/components/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/**/application.tailwind.css"
+        ]
       end
     end
   end

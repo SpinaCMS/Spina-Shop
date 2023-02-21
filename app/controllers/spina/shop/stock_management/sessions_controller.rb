@@ -10,7 +10,7 @@ module Spina::Shop
         user = Spina::User.where(email: params[:email]).first
         if user && user.authenticate(params[:password])
           cookies.signed.permanent[:spina_user_id] = user.id
-          user.update_last_logged_in!
+          user.touch(:last_logged_in)
           redirect_to spina.shop_stock_management_root_path
         else
           flash.now[:alert] = I18n.t('spina.notifications.wrong_username_or_password')

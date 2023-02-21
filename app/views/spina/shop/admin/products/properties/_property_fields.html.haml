@@ -39,6 +39,9 @@
               = image_tag main_app.url_for(image.file.variant(resize: '250x250'))
 
         = f.hidden_field property.name, value: object.properties.try(property.name), data: {hidden_field_id: "#{property.name}_image_id"}
+        
+    - when 'attachment'
+      = f.select property.name, options_for_select(Spina::Attachment.all.map{|attachment| [attachment.file.filename, attachment.id]}, object.properties.try(property.name)), {include_blank: "–"}, class: "select2", style: 'width: 100%'
 
     - else
       = f.text_field property.name, placeholder: property.label, value: (object.properties[property.name] if object.properties.present?)

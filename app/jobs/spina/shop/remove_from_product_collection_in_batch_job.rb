@@ -1,5 +1,5 @@
 module Spina::Shop
-  class RemoveFromProductCollectionInBatchJob < ApplicationJob
+  class RemoveFromProductCollectionInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, product_collection_id)
       collection = ProductCollection.find(product_collection_id)

@@ -1,6 +1,9 @@
 module Spina::Shop
   class Product < ApplicationRecord
     include Variants, Pricing, Stock, Search, Statistics
+    include Spina::Pro::Search
+    
+    spina_searchable against: [:name], if: -> (product) { product.root? && !product.archived? }
 
     # Stores the old path when generating a new materialized_path
     attr_accessor :old_path, :files
@@ -83,6 +86,10 @@ module Spina::Shop
 
     def missing_cost_price?
       cost_price.nil? || cost_price.zero?
+    end
+    
+    def default_image
+      product_images.ordered.first
     end
 
     # All properties are dynamically stored using jsonb

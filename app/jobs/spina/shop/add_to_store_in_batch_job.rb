@@ -1,5 +1,5 @@
 module Spina::Shop
-  class AddToStoreInBatchJob < ApplicationJob
+  class AddToStoreInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, store_id)
       store = Store.find(store_id)
