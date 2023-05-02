@@ -6,4 +6,6 @@
 
 document.querySelector(".pagination").innerHTML = "<%=j link_to_next_page @orders, "Volgende", data: {remote: true} %>"
 
+document.getElementById("totals").innerHTML = "<%=j render 'totals' %>"
+
 $(".pagination").infiniteScroll()

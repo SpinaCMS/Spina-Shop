@@ -43,7 +43,7 @@
           
           <div class="mt-3 mb-3 flex items-center flex-wrap">
             
-            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Status", :status, [:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded]) %>
+            <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Status", :status, ([:confirming, :received, :paid, :preparing, :ready_for_shipment, :shipped, :ready_for_pickup, :picked_up, :delivered, :failed, :cancelled, :refunded].map{|state| [t("spina.shop.orders.states.#{state}"), state]})) %>
             
             <% if false %>
               <%= render Spina::Shop::UserInterface::FilterComponent.new(f, "Periode", :date, ["Elke datum"]) %>
@@ -88,6 +88,10 @@
     <% end %>
     
     <div class="overflow-scroll">
+      <div id="totals" >
+        <%= render 'totals' %>
+      </div>
+      
       <div class="table table-fixed w-full bg-white border border-gray-300 rounded-md divide-y divide-gray-100 infinite-list">
         <div class="table-header-group text-sm font-semibold px-3 py-2 space-x-6">
           <div class="table-row">

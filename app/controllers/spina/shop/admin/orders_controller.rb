@@ -131,6 +131,7 @@ module Spina::Shop
           end
         end
         
+        @all_orders = orders.distinct
         @orders = orders.page(params[:page]).per(25)
       end
 
