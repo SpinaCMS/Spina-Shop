@@ -465,6 +465,8 @@ nl:
         start_picking_and_ship_success_html: Start picking orders and shipping orders
         start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
         start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
+        start_paid_html: Markeer als <strong>betaald</strong>
+        start_paid_success_html: Gemarkeerd als <strong>betaald</strong>
         start_preparing_html: Begin <strong>voorbereiden</strong>
         start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
         state_icons:

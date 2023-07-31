@@ -93,12 +93,15 @@
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
     %ul#actions.align-right
+      %li= button_tag t('spina.shop.orders.start_paid_html'), type: :submit, name: 'batch_action', value: 'start_paid'
       %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'batch_action', value: 'start_preparing'
       %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'batch_action', value: 'start_shipping'
       %li.divider
       %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'batch_action', value: 'start_preparing_and_shipping'
       %li.divider
       %li= button_tag t('spina.shop.orders.download_attachments_html'), type: :submit, name: 'batch_action', value: 'download_attachments'
+      %li.divider
+      %li= button_tag t('spina.shop.orders.cancel_order_html'), type: :submit, name: 'batch_action', value: 'cancel'
 
   .table-container.infinite-table
     %table.table.table-clickable

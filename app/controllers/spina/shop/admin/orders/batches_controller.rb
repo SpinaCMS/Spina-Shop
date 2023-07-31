@@ -15,6 +15,18 @@ module Spina::Shop
             end
             flash[:success] = t('spina.shop.orders.start_preparing_success_html')
             redirect_back fallback_location: spina.shop_admin_orders_path
+          when "start_paid"
+            @orders.each do |order|
+              order.transition_to("paid", user: current_spina_user.name, ip_address: request.remote_ip)
+            end
+            flash[:success] = t('spina.shop.orders.start_paid_success_html')
+            redirect_back fallback_location: spina.shop_admin_orders_path
+          when "cancel"
+            @orders.each do |order|
+              order.transition_to("cancelled", user: current_spina_user.name, ip_address: request.remote_ip)
+            end
+            flash[:success] = "Bestellen zijn geannuleerd"
+            redirect_back fallback_location: spina.shop_admin_orders_path
           when "start_shipping"
             @orders.each do |order|
               order.transition_to("shipped", user: current_spina_user.name, ip_address: request.remote_ip)
