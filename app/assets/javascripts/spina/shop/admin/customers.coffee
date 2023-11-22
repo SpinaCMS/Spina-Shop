@@ -24,4 +24,4 @@ ready = ->
       else
         $('#validate_vat_id .result').html('<i class="icon icon-cross text-danger"></i>')
 
-$(document).on 'turbolinks:load', ready
+$(document).on 'turbo:load', ready

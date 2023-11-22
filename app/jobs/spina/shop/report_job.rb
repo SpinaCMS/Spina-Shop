@@ -1,5 +1,5 @@
 module Spina::Shop
-  class ReportJob < ApplicationJob
+  class ReportJob < Spina::ApplicationJob
     include Rails.application.routes.url_helpers
 
     protected

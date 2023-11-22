@@ -1,5 +1,5 @@
 module Spina::Shop
-  class InStockReminderJob < ApplicationJob
+  class InStockReminderJob < Spina::ApplicationJob
 
     def perform(orderable)
       if orderable.in_stock?

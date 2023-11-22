@@ -1,0 +1,28 @@
+<%= link_to spina.edit_shop_admin_product_path(product), class: "block px-2 leading-tight", data: {selected: index.zero?, search_target: "result", action: "mouseenter->search#select", turbo_frame: "_top"} do %>
+  <div class="flex items-center justify-between w-full px-4 py-3 rounded-md bg-gray-400 bg-opacity-0 <%= 'bg-opacity-25' if index.zero? %>" data-selected-class="bg-opacity-25">
+    <div class="w-10 h-10 flex-shrink-0 flex items-center">
+      <% if product.product_images.first %>
+        <%= image_tag main_app.url_for(product.product_images.first.file.variant(resize: "80x80")), class: 'h-full' %>
+      <% end %>
+    </div>
+    <div class="flex-1">
+      <div class="font-medium flex items-center">
+        <%= product.name %>        
+      </div>
+      <div class="opacity-50 text-xs">
+        <% if product.archived? %>
+          <div class="flex items-center ml-2 text-xs px-1.5 py-0.5 space-x-1 bg-gray-900 bg-opacity-5 rounded">
+            <div class="opacity-75">Archief</div>
+          </div>
+        <% else %>
+          Voorraad:
+          <%= product.stock_level %>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="opacity-0 <%= 'opacity-100' if index.zero? %>" data-selected-class="opacity-100">
+      <%= heroicon('arrow-narrow-right', style: :solid, class: 'w-5 h-5 text-gray-600') %>
+    </div>
+  </div>
+<% end %>

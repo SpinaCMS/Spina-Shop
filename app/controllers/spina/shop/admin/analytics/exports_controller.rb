@@ -3,6 +3,8 @@ module Spina::Shop
     module Analytics
       class ExportsController < AdminController
         layout "spina/shop/admin/analytics"
+        
+        admin_section :analytics
 
         before_action :set_breadcrumbs
 

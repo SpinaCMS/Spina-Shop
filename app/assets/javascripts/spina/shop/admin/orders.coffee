@@ -12,7 +12,6 @@ ready = ->
     toggleSwitch($(this))
 
 $(document).on 'change', '[data-toggle]', (e) ->
-  console.log 'hoi'
   toggleSwitch($(this))
 
-$(document).on 'turbolinks:load', ready
+$(document).on 'turbo:load', ready

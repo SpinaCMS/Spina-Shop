@@ -1,5 +1,5 @@
 module Spina::Shop
-  class InvoiceReportJob < ApplicationJob
+  class InvoiceReportJob < Spina::ApplicationJob
     include Rails.application.routes.url_helpers
 
     def perform(invoice_ids, email)
