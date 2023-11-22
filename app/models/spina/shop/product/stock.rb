@@ -20,6 +20,22 @@ module Spina::Shop
 
       after_create :create_initial_stock_level_adjustment, if: :stock_enabled?
 
+      # ChatGPT explanation of this query:
+      # Past 30, 60, 90, 365 Days Adjustments: Calculates the sum of negative stock level adjustments (items taken out of stock) for the past 30, 60, 90, and 365 days. The condition order_item_id IS NOT NULL implies that it only considers adjustments linked to an order.
+      # 
+      # Order Picking for 30, 90, 365 Days: Counts the number of negative stock adjustments (items picked for orders) over the past 30, 90, and 365 days.
+      # 
+      # Optimal Stock and Stock Difference: Calculates an 'optimal stock' level, factoring in the lead time for replenishing stock. The lead time is adjusted if it's not provided (NULL), defaulting to 1 day. The stock difference is calculated as the current stock level minus this optimal stock.
+      # 
+      # Stock Value: Multiplies the current stock level by the cost price to get the total value of the stock.
+      # 
+      # In-Stock Reminders Count: Counts the number of in-stock reminders for each product. This might be a system to notify when stock for a product is low.
+      # 
+      # Latest Recount Difference and Date: Fetches the most recent stock recount difference and the date it was done for each product.
+      # 
+      # Lead Time Calculation: A complex calculation for lead time, which is the time taken to replenish stock. It's only calculated if the cost price is greater than 0 and there has been a positive stock adjustment in the past year. This part of the query seems to calculate an average stock level over the past year, and then uses this to estimate how long the current stock will last at the current cost price.
+      # 
+      # Each part of this query provides valuable insights into stock management, such as how quickly items are being sold, the value of current stock, and how effectively the stock is being replenished. This data is crucial for inventory management, planning, and decision-making in a retail or warehouse environment.
       scope :stock_forecast, -> { select('
         SUM(CASE WHEN "spina_shop_stock_level_adjustments"."created_at" > current_date - interval \'30 days\' AND "adjustment" < 0 AND order_item_id IS NOT NULL THEN "adjustment" ELSE 0 END) * -1 as past_30_days, 
 
