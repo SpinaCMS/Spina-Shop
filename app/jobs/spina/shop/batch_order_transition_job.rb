@@ -1,5 +1,5 @@
 module Spina::Shop
-  class BatchOrderTransitionJob < ApplicationJob
+  class BatchOrderTransitionJob < Spina::ApplicationJob
     
     # Transition large batches of orders in a bg job
     # States can be an array
