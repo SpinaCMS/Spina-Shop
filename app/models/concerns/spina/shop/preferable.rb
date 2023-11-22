@@ -5,7 +5,7 @@ module Spina::Shop
     extend ActiveSupport::Concern
 
     included do
-      serialize :preferences
+      serialize :preferences, coder: Psych
     end
 
     class_methods do

@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 5.2"
   s.add_dependency "spina"
   s.add_dependency "pg"
-  s.add_dependency "ransack"
+  s.add_dependency "ransack", "~> 3.2.1"
   s.add_dependency "statesman"
   s.add_dependency "email_validator"
   s.add_dependency "delocalize"
@@ -35,6 +35,12 @@ Gem::Specification.new do |s|
   s.add_dependency "pg_search"
   s.add_dependency "descriptive_statistics"
   s.add_dependency "jbuilder"
+  
+  # Oude assets nodig voor Spina Shop met oude assets van Spina
+  s.add_dependency "coffee-rails"
+  s.add_dependency "sass-rails"
+  s.add_dependency "jquery-rails"
+  s.add_dependency "haml-rails"
 
   s.add_development_dependency 'minitest-reporters'
   s.add_development_dependency 'guard'

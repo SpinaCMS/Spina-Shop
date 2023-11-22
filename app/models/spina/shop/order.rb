@@ -6,9 +6,11 @@ module Spina::Shop
   class Order < ApplicationRecord
     include PgSearch
     include Billing, StateMachineTransitions
-    include Spina::Pro::Search
     
-    spina_searchable against: [:order_number], if: :confirmed?
+    # PRO Feature
+    # include Spina::Pro::Search
+    # 
+    # spina_searchable against: [:order_number], if: :confirmed?
 
     has_secure_token
 

@@ -15,13 +15,6 @@ module Spina
         end
       end
 
-      initializer "spina_shop.register_plugin" do
-        Spina::Plugin.register do |plugin|
-          plugin.name = "Shop"
-          plugin.namespace = "shop"
-        end
-      end
-
       initializer "spina_shop.assets.precompile" do |app|
         app.config.assets.precompile += [
           "spina/shop/admin/shop.js",
