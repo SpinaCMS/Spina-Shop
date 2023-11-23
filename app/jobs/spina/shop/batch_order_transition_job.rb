@@ -5,7 +5,7 @@ module Spina::Shop
     # States can be an array
     def perform(order_ids, states, user: "Spina CMS", ip_address: nil)
       orders = Order.where(id: order_ids)
-      states = state.is_a?(Array) ? states : [state]
+      states = states.is_a?(Array) ? states : [states]
       
       orders.each do |order|
         states.each do |state|
