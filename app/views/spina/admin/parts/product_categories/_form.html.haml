@@ -1,0 +1,4 @@
+.page-form-label= f.object.title
+.page-form-control
+  .select-dropdown{style: 'width: 100%'}
+    = f.select :product_category_id, Spina::Shop::ProductCategory.pluck(:name, :id), {include_blank: "..."}, style: 'width: 100%'

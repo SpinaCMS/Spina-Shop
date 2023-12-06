@@ -16,10 +16,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", ">= 5.2"
+  s.add_dependency "rails", ">= 6.0"
   s.add_dependency "spina"
   s.add_dependency "pg"
-  s.add_dependency "ransack", "~> 3.2.1"
+  s.add_dependency "ransack", "< 4.0" # Ransack requires an allowlist, better to remove Ransack in the future
   s.add_dependency "statesman"
   s.add_dependency "email_validator"
   s.add_dependency "delocalize"

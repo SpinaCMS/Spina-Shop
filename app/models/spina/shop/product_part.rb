@@ -9,5 +9,12 @@ module Spina::Shop
     def content
       product
     end
+    
+    def convert_to_json!
+      part = Spina::Parts::Product.new
+      part.product_id = product&.id
+      part
+    end
+    
   end
 end

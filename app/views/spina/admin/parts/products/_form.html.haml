@@ -1,0 +1,3 @@
+.page-form-label= f.object.title
+.page-form-control
+  .select-dropdown{style: 'width: 100%', data: {controller: "product-select"}}= f.select :product_id, options_for_select([[f.object.content&.name, f.object.product_id]], f.object.product_id), {include_blank: t('spina.shop.products.select_blank')}, class: 'select-products', style: 'width: 100%'
