@@ -1,11 +1,10 @@
 module Spina::Shop
   class Customer < ApplicationRecord
     # PRO Feature
-    # include Spina::Pro::Search
-    # 
-    # include Spina::Pro::Search
-    # 
-    # spina_searchable against: [:company, :full_name]
+    if Spina.const_defined?("Pro::Search")
+      include Spina::Pro::Search
+      spina_searchable against: [:company, :full_name]
+    end
     
     # Don't destroy Customer if it has orders or invoices
     has_many :orders, dependent: :restrict_with_exception

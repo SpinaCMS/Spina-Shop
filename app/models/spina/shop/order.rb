@@ -8,9 +8,10 @@ module Spina::Shop
     include Billing, StateMachineTransitions
     
     # PRO Feature
-    # include Spina::Pro::Search
-    # 
-    # spina_searchable against: [:order_number], if: :confirmed?
+    if Spina.const_defined?("Pro::Search")
+      include Spina::Pro::Search
+      spina_searchable against: [:order_number], if: :confirmed?
+    end
 
     has_secure_token
 

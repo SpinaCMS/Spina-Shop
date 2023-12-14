@@ -3,11 +3,10 @@ module Spina::Shop
     include Variants, Pricing, Stock, Search, Statistics
     
     # PRO Feature
-    # include Spina::Pro::Search
-    # 
-    # include Spina::Pro::Search
-    # 
-    # spina_searchable against: [:name], if: -> (product) { product.root? && !product.archived? }
+    if Spina.const_defined?("Pro::Search")
+      include Spina::Pro::Search
+      spina_searchable against: [:name], if: -> (product) { product.root? && !product.archived? }
+    end
 
     # Stores the old path when generating a new materialized_path
     attr_accessor :old_path, :files
