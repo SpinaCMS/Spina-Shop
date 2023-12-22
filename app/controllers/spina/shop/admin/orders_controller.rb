@@ -136,7 +136,7 @@ module Spina::Shop
       end
 
       def concepts
-        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions).order(created_at: :desc).page(params[:page]).per(50)
+        @orders = Spina::Shop::Order.concept.includes(:order_items, :order_transitions, :order_attachments).order(created_at: :desc).page(params[:page]).per(50)
         render :index
       end
 
