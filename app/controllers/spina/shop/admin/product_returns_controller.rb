@@ -3,7 +3,7 @@ module Spina::Shop
     class ProductReturnsController < AdminController
       
       def index
-        @product_returns = ProductReturn.joins(:order, :product_return_items).order(created_at: :desc).page(params[:page]).per(25)
+        @product_returns = ProductReturn.includes(:order, :product_return_items).order(created_at: :desc).page(params[:page]).per(25)
         add_breadcrumb "Retouren"
       end
       
