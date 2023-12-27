@@ -38,7 +38,7 @@ module Spina
           plugin.namespace = 'shop'
         end
         
-        # Spina::Part.register(Spina::Parts::Product, Spina::Parts::ProductBundle, Spina::Parts::ProductCategory)
+        Spina::Part.register(Spina::Parts::Product, Spina::Parts::ProductBundle, Spina::Parts::ProductCategory)
       end
       
     end
