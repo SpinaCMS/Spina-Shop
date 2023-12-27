@@ -1,6 +1,8 @@
 %tr
   %td 
-    = link_to "Retour #{product_return.number}", spina.shop_admin_product_return_path(product_return), data: {remote: true}
+    = link_to "Retour #{product_return.number}", spina.shop_admin_product_return_path(product_return), class: "table-link", data: {remote: true}
+  %td
+    = link_to "Bestelling #{product_return.order.number}", spina.shop_admin_order_path(product_return.order), class: 'table-link'
   %td=l product_return.created_at, format: :long
   %td.text-right
     = product_return.product_return_items.sum(:returned_quantity)
