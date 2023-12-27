@@ -14,8 +14,8 @@ PATH
       prawn
       prawn-svg
       prawn-table
-      rails (>= 5.2)
-      ransack (~> 3.2.1)
+      rails (>= 6.0)
+      ransack (< 4.0)
       rqrcode
       ruby-measurement
       rubyzip
@@ -352,7 +352,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.15.0)
+    selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -391,7 +391,7 @@ GEM
     stimulus-rails (1.3.0)
       railties (>= 6.0.0)
     stringio (3.0.9)
-    tailwindcss-rails (2.0.32-arm64-darwin)
+    tailwindcss-rails (2.0.31-arm64-darwin)
       railties (>= 6.0.0)
     temple (0.10.3)
     thor (1.3.0)
@@ -434,4 +434,4 @@ DEPENDENCIES
   spina-shop!
 
 BUNDLED WITH
-   2.4.18
+   2.4.17

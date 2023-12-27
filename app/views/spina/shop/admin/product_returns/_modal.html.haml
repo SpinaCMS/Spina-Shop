@@ -1,0 +1,12 @@
+.modal.modal-old-style
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Retouren
+  
+  - @product_return.product_return_items.each do |item|
+    %div
+      = item.returned_quantity
+      &times;
+      = item.product.name
+      = item.product.location

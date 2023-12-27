@@ -57,6 +57,11 @@ Spina::Engine.routes.draw do
             resource :refund, only: [:new, :create]
             resource :payment_reminder, only: [:create]
             resource :discount
+            resources :product_returns, only: [:new, :create, :edit, :update, :destroy] do
+              member do
+                post :close
+              end
+            end
           end
         end
 
@@ -79,6 +84,9 @@ Spina::Engine.routes.draw do
           end
           resources :tags
         end
+        
+        # Product Retursn
+        resources :product_returns, only: [:index, :show]
 
         # Invoices
         resources :invoices do
