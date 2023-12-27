@@ -30,6 +30,8 @@ module Spina::Shop
     has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
     
+    has_many :product_returns, dependent: :destroy
+    
     has_many :order_pick_items, dependent: :destroy
     
     # Duplicate orders

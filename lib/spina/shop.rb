@@ -13,6 +13,7 @@ module Spina
                     :invoice_payment_term, 
                     :refund_methods, 
                     :refund_reasons,
+                    :return_reasons,
                     :stock_level_adjustment_categories,
                     :holding_cost_percentage,
                     :default_stock_order_cost,
@@ -35,9 +36,10 @@ module Spina
     self.payment_methods = []
     self.payment_methods_for_manual_orders = []
 
-    # Methods and reasons users can choose for refunds
+    # Methods and reasons users can choose for refunds and returns
     self.refund_methods = []
     self.refund_reasons = ['other']
+    self.return_reasons = []
 
     # Categories for manual stock level adjustments
     self.stock_level_adjustment_categories = []

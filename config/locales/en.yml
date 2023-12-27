@@ -309,6 +309,9 @@ en:
       spina/shop/product_item:
         one: Product item
         other: Product items
+      spina/shop/product_return:
+        one: Return
+        other: Returns
       spina/shop/product_review:
         one: Product review
         other: Product reviews
@@ -500,6 +503,8 @@ en:
         out_of_stock: Out of stock
         save: Save variant
         stock_history: History
+      product_returns:
+        new: New return
       product_reviews:
         no_reviews: No reviews yet
         title: 

@@ -54,6 +54,9 @@
 
           - if @order.sales_invoice.present? && !@order.refunded?
             %li= link_to t('spina.shop.orders.refund_order_html'), spina.new_shop_admin_order_refund_path(@order), remote: true
+          
+          - if @order.shipped? || @order.picked_up?
+            %li= link_to t("spina.shop.product_returns.new"), spina.new_shop_admin_order_product_return_path(@order), remote: true
 
           %li
             = link_to spina.duplicate_shop_admin_order_path(@order), method: :post, data: {remote: true, confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
@@ -299,6 +302,20 @@
                 = link_to spina.new_shop_admin_order_refund_path(@order), class: 'table-link text-center', data: {remote: true} do
                   %i.icon.icon-plus
                   =t "spina.shop.refunds.create_another_refund"
+                  
+  - if @order.product_returns.any?
+    .table-container
+      %table.table
+        %thead
+          %tr
+            %th Nummer
+            %th Aangemaakt op
+            %th.text-right Producten
+            %th Status
+            %th.text-right 
+    
+        %tbody
+          = render partial: "spina/shop/admin/product_returns/product_return", collection: @order.product_returns.order(created_at: :desc)
 
   .table-container
     %table.table

@@ -1,0 +1,18 @@
+%header#header
+  .breadcrumbs
+    = render_breadcrumbs separator: '<div class="divider"></div>'
+        
+.table-container.infinite-table
+  %table.table
+    %thead
+      %tr
+        %th Nummer
+        %th Aangemaakt op
+        %th.text-right Producten
+        %th Status
+        %th.text-right
+  
+    %tbody
+      = render collection: @product_returns, partial: "product_return"
+      
+  .pagination= link_to_next_page @product_returns, 'Next'
