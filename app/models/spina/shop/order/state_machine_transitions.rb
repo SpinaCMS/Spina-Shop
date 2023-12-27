@@ -86,10 +86,6 @@ module Spina::Shop
       end
     end
 
-    def in_final_state?
-      current_state.in? admin_transitions_final
-    end
-
     def status_css_class
       if current_state.in? %w(failed cancelled)
         'danger'
@@ -117,10 +113,6 @@ module Spina::Shop
           ''
         end
       end
-    end
-
-    def admin_transitions_final
-      %w(cancelled failed refunded)
     end
 
     def admin_transitions_done
