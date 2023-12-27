@@ -3,10 +3,10 @@
     = link_to '#', data: {dismiss: "modal"} do
       = icon('cross')
     %h3 Retouren
-  
-  - @product_return.product_return_items.each do |item|
-    %div
-      = item.returned_quantity
-      &times;
-      = item.product.name
-      = item.product.location
+    
+  %table.table
+    - @product_return.product_return_items.joins(:product).order("spina_shop_products.location").each do |item|
+      %tr
+        %td.nowrap= "#{item.returned_quantity}&times;".html_safe
+        %td= item.product.name
+        %td.nowrap= item.product.location
