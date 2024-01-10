@@ -17,7 +17,7 @@
             = f.fields_for :product_return_items do |ff|
               = ff.hidden_field :quantity
               %tr
-                %td= ff.object.product.name
+                %td= ff.object.product.full_name
                 %td= ff.object.quantity
                 %td
                   .select-dropdown
