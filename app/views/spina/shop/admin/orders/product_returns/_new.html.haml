@@ -16,7 +16,7 @@
             = f.fields_for :product_return_items, @order.order_pick_items, include_id: false do |ff|
               = ff.hidden_field :product_id
               %tr
-                %td= ff.object.product.name
+                %td= ff.object.product.full_name
                 %td
                   .select-dropdown
                     = ff.select :quantity, 1..ff.object.quantity, include_blank: "Niet retourneren", selected: nil
