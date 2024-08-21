@@ -11,3 +11,4 @@ test/dummy/tmp/
 .env
 node_modules/*
 node_modules
+test/dummy/storage/*

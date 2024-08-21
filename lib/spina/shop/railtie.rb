@@ -15,15 +15,16 @@ module Spina
         end
       end
 
-      initializer "spina_shop.register_plugin" do
-        Spina::Plugin.register do |plugin|
-          plugin.name = "Shop"
-          plugin.namespace = "shop"
-        end
-      end
-
       initializer "spina_shop.assets.precompile" do |app|
-        app.config.assets.precompile += %w(spina/shop/admin/shop.js spina/shop/admin/shop.css spina/shop/delete-big.png spina/shop/delete-big-confirm.png spina/shop/tailwind.css)
+        app.config.assets.precompile += [
+          "spina/shop/admin/shop.js",
+          "spina/shop/admin/shop.css",
+          "spina/shop/delete-big.png",
+          "spina/shop/delete-big-confirm.png",
+          "spina.css",
+          "spina/shop/tailwind.css",
+          "spina/admin/application.js"
+        ]
       end
 
     end

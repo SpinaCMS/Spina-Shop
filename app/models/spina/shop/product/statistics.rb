@@ -1,5 +1,43 @@
 require 'descriptive_statistics/safe'
 
+# This Ruby class within Spina::Shop as Product::Statistics is a
+# concern in Ruby on Rails, encapsulating statistical methods for a
+# Product class. It's aimed at e-commerce management.
+# 
+# Enums for ABC and XYZ Analysis: Defines enums for abc_analysis
+# and xyz_analysis, used in inventory categorization.
+# 
+# Weekly Sales Mean/Std Deviation: Calculates average and
+# variability of weekly sales.
+# 
+# Future Yearly Demand: Estimates annual demand based on weekly
+# sales and a demand factor.
+# 
+# Daily Sales Mean/Std Deviation: Provides daily sales trends.
+# 
+# Lead Time Demand/Std Deviation: Estimates demand and variability
+# during supplier lead time.
+# 
+# Max Stock and Safety Stock: Calculates maximum stock level and
+# safety stock, using weekly sales data, lead time, and a z-score.
+# 
+# Holding/Stock Order Cost: Computes inventory holding cost and
+# order cost, varying with XYZ analysis category.
+# 
+# Economic Order Quantity (EOQ): Calculates EOQ to minimize total
+# inventory costs.
+# 
+# Stock Orders Per Year/Reorder Point: Determines yearly stock
+# orders and inventory reorder point.
+# 
+# Service Level and Z-Score: Determines service level based on
+# ABC and XYZ analysis, and calculates the corresponding z-score.
+# 
+# Sales Per Week: Calculates weekly sales, grouping data by week
+# and year.
+# 
+# This concern adds inventory management functionality, including sales
+# analysis, demand forecasting, and key inventory metrics calculations.
 module Spina::Shop
   module Product::Statistics
     extend ActiveSupport::Concern

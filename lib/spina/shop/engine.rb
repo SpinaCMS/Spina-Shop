@@ -13,6 +13,10 @@ require "pg_search"
 require "jbuilder"
 require "view_component"
 
+# Let's get rid of these asap!
+require "jquery-rails"
+require "haml-rails"
+
 module Spina
   module Shop
     class Engine < ::Rails::Engine
@@ -27,6 +31,17 @@ module Spina
         # Mimetype Excel
         Mime::Type.register "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", :xlsx
       end
+      
+      config.before_initialize do
+        # Register the pro plugin
+        ::Spina::Plugin.register do |plugin|
+          plugin.name = 'shop'
+          plugin.namespace = 'shop'
+        end
+        
+        Spina::Part.register(Spina::Parts::Product, Spina::Parts::ProductBundle, Spina::Parts::ProductCategory)
+      end
+      
     end
   end
 end

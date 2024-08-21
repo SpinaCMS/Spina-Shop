@@ -13,4 +13,9 @@
         %span{style: 'position: relative; margin-top: -6px; display: block'}
           - if product.recounts.where('created_at > ?', 1.month.ago).any?
             👌
+            - difference = product.recounts.order(created_at: :desc).first.difference
+            - if difference.zero?
+              (0)
+            - else
+              %span{style: "color: red"}= "(#{difference})"
           = product.location

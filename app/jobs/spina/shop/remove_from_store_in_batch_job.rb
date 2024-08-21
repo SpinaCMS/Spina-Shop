@@ -1,5 +1,5 @@
 module Spina::Shop
-  class RemoveFromStoreInBatchJob < ApplicationJob
+  class RemoveFromStoreInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, store_id)
       store = Store.find(store_id)

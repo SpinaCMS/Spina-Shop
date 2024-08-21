@@ -1,0 +1,26 @@
+%tr
+  %td 
+    = link_to "Retour #{product_return.number}", spina.shop_admin_product_return_path(product_return), class: "table-link", data: {remote: true}
+  %td
+    = link_to "Bestelling #{product_return.order.number}", spina.shop_admin_order_path(product_return.order), class: 'table-link'
+  %td=l product_return.created_at, format: :long
+  %td.text-right
+    = product_return.product_return_items.sum(:returned_quantity)
+    \/
+    = product_return.product_return_items.sum(:quantity)
+    producten
+  %td
+    = product_return.closed? ? "Gesloten" : "Open"
+  %td.text-right
+    - if product_return.open?
+      .inline-flex.items-center
+        = link_to "Ontvang retouren", spina.edit_shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {remote: true}
+        
+        - if product_return.product_return_items.sum(:returned_quantity) > 0
+          = link_to spina.close_shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {method: :post, confirm: "Afronden en voorraad opboeken?"} do
+            .button-content
+              = heroicon("check", style: :mini, class: "w-4 h-4 mr-1 -ml-1")
+              Afronden
+        
+        = link_to spina.shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {method: :delete, confirm: "Weet je het zeker?"} do
+          = heroicon("trash", style: :mini, class: 'w-4 h-4')

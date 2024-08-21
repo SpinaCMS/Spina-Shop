@@ -1,5 +1,5 @@
 module Spina::Shop
-  class RemoveTagFromProductsInBatchJob < ApplicationJob
+  class RemoveTagFromProductsInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, tag_id)
       tag = Tag.find(tag_id)

@@ -309,6 +309,9 @@ nl:
       spina/shop/product_item:
         one: Product item
         other: Product items
+      spina/shop/product_return:
+        one: Retour
+        other: Retouren
       spina/shop/product_review:
         one: Beoordeling
         other: Beoordelingen
@@ -465,6 +468,8 @@ nl:
         start_picking_and_ship_success_html: Start picking orders and shipping orders
         start_preparing_and_ship_html: Pakbon <strong>genereren</strong> en bestelling <strong>verzenden</strong>
         start_preparing_and_ship_success_html: Pakbon <strong>gegenereerd</strong> en bestelling <strong>verzonden</strong>
+        start_paid_html: Markeer als <strong>betaald</strong>
+        start_paid_success_html: Gemarkeerd als <strong>betaald</strong>
         start_preparing_html: Begin <strong>voorbereiden</strong>
         start_preparing_success_html: Pakbon is <strong>gegenereerd</strong>
         state_icons:
@@ -508,6 +513,8 @@ nl:
         out_of_stock: Out of stock
         save: Save variant
         stock_history: History
+      product_returns:
+        new: Nieuwe retour
       product_reviews:
         no_reviews: Geen reviews
         title: Productbeoordelingen

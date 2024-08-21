@@ -4,13 +4,13 @@ de:
       spina/shop/address:
         address_type: Geben Sie Adresse
         billing_address: Rechnungsadresse
-        city: Platz
+        city: Ort
         company: Firmenname
         country: Land
         delivery_address: Lieferadresse
         first_name: Vorname
         house_number: Hausnr
-        house_number_addition: Zusatz
+        house_number_addition: Buchstabe
         last_name: Nachname
         name: Name
         postal_code: Postleitzahl
@@ -73,10 +73,10 @@ de:
         total: Gesamt
       spina/shop/order:
         billing_address: Rechnungsadresse
-        billing_city: Platz
+        billing_city: Ort
         billing_country: Land
         billing_house_number: Nummer
-        billing_house_number_addition: Zusatz
+        billing_house_number_addition: Buchstabe
         billing_name: Name
         billing_postal_code: Postleitzahl
         billing_street1: Straße
@@ -87,12 +87,12 @@ de:
         date_of_birth: Geburtsdatum
         delivered_at: geliefert auf
         delivery_address: Lieferadresse
-        delivery_city: Platz
+        delivery_city: Ort
         delivery_company: 
         delivery_country: Land
         delivery_first_name: 
         delivery_house_number: Nummer
-        delivery_house_number_addition: Zusatz
+        delivery_house_number_addition: Buchstabe
         delivery_last_name: 
         delivery_name: Name
         delivery_option: Versandart

@@ -1,0 +1,30 @@
+.modal.modal-old-style
+  %header
+    = link_to '#', data: {dismiss: "modal"} do
+      = icon('cross')
+    %h3 Retouren ontvangen
+  
+  = form_with model: @product_return, url: spina.shop_admin_order_product_return_path(@order.id, @product_return) do |f|
+    %section{style: "padding-top: 0px"}
+      .table-container{style: "padding: 0"}
+        %table.table{style: "margin-bottom: 0; margin-top: 0"}
+          %thead
+            %tr
+              %th Product
+              %th Aantal
+              %th Ontvangen
+          %tbody
+            = f.fields_for :product_return_items do |ff|
+              = ff.hidden_field :quantity
+              %tr
+                %td= ff.object.product.full_name
+                %td= ff.object.quantity
+                %td
+                  .select-dropdown
+                    = ff.select :returned_quantity, options_for_select([["Niks ontvangen", 0]] + (1..ff.object.quantity).to_a, ff.object.returned_quantity), selected: nil
+      
+    %footer
+      = link_to t('spina.cancel'), '#', data: {dismiss: 'modal'}
+      = button_tag type: :submit, class: 'primary' do
+        %i.icon.icon-plus
+        Opslaan

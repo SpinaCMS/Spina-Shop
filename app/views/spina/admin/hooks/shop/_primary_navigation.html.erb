@@ -1,0 +1,62 @@
+<%= render Spina::MainNavigation::SubNavComponent.new(:shop) do |nav| %>
+  <% nav.with_icon do %>
+    <%= heroicon('shopping-bag', style: :solid, class: 'w-8 h-8 text-white md:mr-3') %>
+    
+    <div class="text-white font-semibold hidden md:block transform -translate-x-2 ease-in-out duration-300 absolute md:relative opacity-0 transition-all" data-navigation-target="label">
+      Shop
+    </div>
+  <% end %>
+  
+  <% nav.with_links do %>    
+    
+    <div>
+      <%= render Spina::MainNavigation::LinkComponent.new "Bestellingen (#{Spina::Shop::Order.to_process.count})", spina.shop_admin_orders_path, active: controller_name.in?(%w(orders)) %>
+      
+      <%= render Spina::MainNavigation::LinkComponent.new "Retouren", spina.shop_admin_product_returns_path, active: request.path.starts_with?("/admin/shop/product_returns") %>
+      
+      <%= render Spina::MainNavigation::LinkComponent.new "Facturen", spina.shop_admin_invoices_path, active: controller_name.in?(%w(invoices)) %>
+      
+      <%= render Spina::MainNavigation::LinkComponent.new "Klanten", spina.shop_admin_customers_path, active: controller_name.in?(%w(customers customer_accounts customer_groups)) %>      
+    </div>
+    
+    <div class="my-6">
+      <%= render Spina::MainNavigation::LinkComponent.new "Producten", spina.shop_admin_products_path, active: controller_name.in?(%w(products properties product_bundles stock_level_adjustments)) %>
+      
+      <%= render Spina::MainNavigation::LinkComponent.new "Voorraad", spina.shop_admin_stock_forecast_path, active: controller_name.in?(%w(stock_forecasts suppliers stock_orders location_codes)) %>
+    </div>
+    
+    <div class="my-6">
+      <%= render Spina::MainNavigation::LinkComponent.new "Kortingscodes", spina.shop_admin_discounts_path, active: controller_name.in?(%w(discounts)) %>
+            
+      <%= render Spina::MainNavigation::LinkComponent.new "Cadeaubonnen", spina.shop_admin_gift_cards_path, active: controller_name.in?(%w(gift_cards)) %>
+    
+      <%= render Spina::MainNavigation::LinkComponent.new "Beoordelingen", spina.shop_admin_product_reviews_path, active: controller_name.in?(%w(product_reviews shop_reviews)) %>
+    </div>
+    
+    <% Spina::Plugin.all.each do |plugin| %>
+      <% if current_theme.plugins.include? plugin.name %>
+        <% if lookup_context.exists?("shop_secondary_navigation", "spina/admin/hooks/#{plugin.namespace}", true) %>
+          <%= render "spina/admin/hooks/#{plugin.namespace}/shop_secondary_navigation", plugin: plugin %>
+        <% end %>
+      <% end %>
+    <% end %>
+    
+  <% end %>
+<% end %>
+
+<% if current_spina_user.admin? %>
+  <%= render Spina::MainNavigation::SubNavComponent.new(:analytics) do |nav| %>
+    <% nav.with_icon do %>
+      <%= heroicon('chart-bar', style: :solid, class: 'w-8 h-8 text-white md:mr-3') %>
+      
+      <div class="text-white font-semibold hidden md:block transform -translate-x-2 ease-in-out duration-300 absolute md:relative opacity-0 transition-all" data-navigation-target="label">
+        Rapportages
+      </div>
+    <% end %>
+    
+    <% nav.with_links do %>
+      <%= render Spina::MainNavigation::LinkComponent.new "Exports", spina.shop_admin_analytics_exports_path, active: request.path.include?("analytics") %>
+    <% end %>
+    
+  <% end %>
+<% end %>

@@ -56,9 +56,9 @@ ready = ->
     $select.select2({placeholder: $select.attr('placeholder')})
   $('.infinite-table .pagination, .infinite-list .pagination').infiniteScroll()
 
-$(document).on 'turbolinks:load', ready
+$(document).on 'turbo:load turbo:frame-load', ready
 
-$(document).on 'turbolinks:before-cache', ->
+$(document).on 'turbo:before-cache', ->
   $('select.select2').select2('destroy')
   $('select.select-products').select2('destroy')
 
@@ -97,6 +97,16 @@ $(document).on 'click', 'form .add_price_exception', (event) ->
   $(this).closest('form').trigger('spina:price_exception_added')
 
   event.preventDefault()
+  
+$(document).on 'click', 'form .add_volume_discount', (event) ->
+  time = new Date().getTime()
+  regexp = new RegExp($(this).data('id'), 'g')
+  $(this).parents().find('.volume-discounts').append($(this).data('fields').replace(regexp, time))
+  
+  # Fire event
+  $(this).closest('form').trigger('spina:volume_discount_added')
+  
+  event.preventDefault()
 
 $(document).on 'click', 'form .remove_price_exception', (event) ->
   $(this).closest('.form-control').slideUp 400, ->
@@ -126,7 +136,6 @@ $(document).on 'checked', 'table.products-table tbody .form-checkbox input', (ev
 
 $(document).on 'change', '.form-checkbox input[type="checkbox"][data-disabled-toggle]', (e) ->
   checked = $(this).prop('checked')
-  console.log(checked)
 
   $target = $($(this).attr('data-disabled-toggle'))
 

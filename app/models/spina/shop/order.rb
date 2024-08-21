@@ -5,9 +5,13 @@ end
 module Spina::Shop
   class Order < ApplicationRecord
     include PgSearch
-
-    require_dependency 'spina/shop/order/state_machine_transitions'
-    require_dependency 'spina/shop/order/billing'
+    include Billing, StateMachineTransitions
+    
+    # PRO Feature
+    if Spina.const_defined?("Pro::Search")
+      include Spina::Pro::Search
+      spina_searchable against: [:order_number], if: :confirmed?
+    end
 
     has_secure_token
 
@@ -26,8 +30,10 @@ module Spina::Shop
     has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
     
+    has_many :product_returns, dependent: :destroy
+    
     has_many :order_pick_items, dependent: :destroy
-
+    
     # Duplicate orders
     has_one :original_order, class_name: "Spina::Shop::Order", foreign_key: :duplicate_id
 
@@ -76,6 +82,10 @@ module Spina::Shop
     accepts_nested_attributes_for :order_items
 
     # Search
+    pg_search_scope :search_name,
+      against: [:first_name, :last_name, :company, :email],
+      order_within_rank: "order_number DESC, id DESC"
+      
     pg_search_scope :search, 
         against: [:order_number, :first_name, :last_name, :company, :email, :delivery_city, :billing_city, :received_at], 
         associated_against: {

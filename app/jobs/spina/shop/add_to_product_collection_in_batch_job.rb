@@ -1,5 +1,5 @@
 module Spina::Shop
-  class AddToProductCollectionInBatchJob < ApplicationJob
+  class AddToProductCollectionInBatchJob < Spina::ApplicationJob
 
     def perform(product_ids, product_collection_id)
       collection = ProductCollection.find(product_collection_id)

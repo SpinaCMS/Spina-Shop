@@ -78,10 +78,13 @@
         .filter-form-control
           .input-group
             .select-dropdown= ff.select :pos, options_for_select([[t("spina.shop.orders.offline_orders_only"), true], [t("spina.shop.orders.online_orders_only"), false]], params.dig(:advanced_filters, :pos)), {include_blank: t("spina.shop.orders.online_and_offline_orders")}, class: '', style: "width: 100%"
-
-- if @advanced_filter || params[:search].present?
-  %small.text-muted{style: "margin-top: 10px; display: block"}
-    =t 'spina.shop.orders.search_results', count: @orders_count
+            
+      .filter-form-advanced-group
+        .filter-form-label Verzendmethode
+        
+        .filter-form-control
+          .input-group
+            .select-dropdown= ff.select :delivery_option_id, options_for_select(Spina::Shop::DeliveryOption.pluck(:name, :id), params.dig(:advanced_filters, :delivery_option_id)), {include_blank: "Alle verzendmethoden"}, class: '', style: "width: 100%"
 
 = form_with url: spina.shop_admin_orders_batch_path, local: true do
   .pull-right{style: 'display: inline-block; position: fixed; top: 78px; right: 22px; z-index: 10', data: {dropdown: true}}
@@ -90,12 +93,15 @@
       %i.icon.icon-caret-down{style: 'margin-right: 0'}
 
     %ul#actions.align-right
+      %li= button_tag t('spina.shop.orders.start_paid_html'), type: :submit, name: 'batch_action', value: 'start_paid'
       %li= button_tag t('spina.shop.orders.start_preparing_html'), type: :submit, name: 'batch_action', value: 'start_preparing'
       %li= button_tag t('spina.shop.orders.ship_order_html'), type: :submit, name: 'batch_action', value: 'start_shipping'
       %li.divider
       %li= button_tag t('spina.shop.orders.start_preparing_and_ship_html'), type: :submit, name: 'batch_action', value: 'start_preparing_and_shipping'
       %li.divider
       %li= button_tag t('spina.shop.orders.download_attachments_html'), type: :submit, name: 'batch_action', value: 'download_attachments'
+      %li.divider
+      %li= button_tag t('spina.shop.orders.cancel_order_html'), type: :submit, name: 'batch_action', value: 'cancel'
 
   .table-container.infinite-table
     %table.table.table-clickable

@@ -1,8 +1,12 @@
 module Spina::Shop
-  class Order < ApplicationRecord
-    include Statesman::Adapters::ActiveRecordQueries[transition_class: OrderTransition, initial_state: :building]
-
-    delegate :can_transition_to?, :allowed_transitions, :history, :in_state?, :last_transition, :transition_to!, :transition_to, :current_state, to: :state_machine
+  module Order::StateMachineTransitions
+    extend ActiveSupport::Concern
+  
+    included do
+      include Statesman::Adapters::ActiveRecordQueries[transition_class: OrderTransition, initial_state: :building]
+  
+      delegate :can_transition_to?, :allowed_transitions, :history, :in_state?, :last_transition, :transition_to!, :transition_to, :current_state, to: :state_machine
+    end
 
     def received?
       received_at.present?
@@ -82,10 +86,6 @@ module Spina::Shop
       end
     end
 
-    def in_final_state?
-      current_state.in? admin_transitions_final
-    end
-
     def status_css_class
       if current_state.in? %w(failed cancelled)
         'danger'
@@ -113,10 +113,6 @@ module Spina::Shop
           ''
         end
       end
-    end
-
-    def admin_transitions_final
-      %w(cancelled failed refunded)
     end
 
     def admin_transitions_done
