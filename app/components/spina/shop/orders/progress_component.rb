@@ -1,6 +1,6 @@
 module Spina::Shop
   module Orders
-    class ProgressComponent < ApplicationComponent
+    class ProgressComponent < Spina::Shop::ApplicationComponent
       attr_reader :order
       
       def initialize(order)
