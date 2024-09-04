@@ -5,6 +5,7 @@ module Spina::Shop
       include Spina::Pro::Search
       spina_searchable against: [:company, :full_name]
     end
+    include Spina::Gravatar
     
     # Don't destroy Customer if it has orders or invoices
     has_many :orders, dependent: :restrict_with_exception

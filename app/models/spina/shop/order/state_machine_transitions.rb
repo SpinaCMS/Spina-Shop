@@ -115,8 +115,12 @@ module Spina::Shop
       end
     end
 
+    def transitions_done
+      order_transitions.where.not(to_state: %w(confirming failed cancelled refunded))
+    end
+
     def admin_transitions_done
-      order_transitions.pluck(:to_state) - ["confirming", "failed", "cancelled", "refunded"]
+      transitions_done.pluck(:to_state)
     end
 
     def admin_next_transitions

@@ -42,6 +42,15 @@ module Spina
         Spina::Part.register(Spina::Parts::Product, Spina::Parts::ProductBundle, Spina::Parts::ProductCategory)
       end
       
+      initializer "spina.shop.assets" do |app|
+        # Add views to purge for Tailwind
+        Spina.config.tailwind_content.concat [
+          "#{Spina::Shop::Engine.root}/app/views/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/helpers/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/components/**/*.*",
+          "#{Spina::Shop::Engine.root}/app/**/application.tailwind.css"
+        ]
+      end
     end
   end
 end
