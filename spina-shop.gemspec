@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   
   # Oude assets nodig voor Spina Shop met oude assets van Spina
   s.add_dependency "coffee-rails"
-  s.add_dependency "sass-rails"
+  s.add_dependency "dartsass-rails"
   s.add_dependency "jquery-rails"
   s.add_dependency "haml-rails"
 
