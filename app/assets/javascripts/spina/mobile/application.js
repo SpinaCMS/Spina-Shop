@@ -1,8 +1,6 @@
 //= require jquery
 //= require jquery_ujs
 
-//= require turbolinks
-
 // Stimulus
 
 //= require spina/stimulus.umd
