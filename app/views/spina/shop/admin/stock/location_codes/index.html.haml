@@ -28,7 +28,7 @@
             %td –
             %td.text-right –
             %td.text-right
-              = link_to spina.shop_admin_location_location_code_path(@location, empty_location_code), class: 'button button-mini button-default icon-only', data: {method: :delete, confirm: "Weet je het zeker?"} do
+              = link_to spina.shop_admin_location_location_code_path(@location, empty_location_code), class: 'button button-mini button-default icon-only', data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"} do
                 %i.icon.icon-trash
                 
 - if @out_of_stock_location_codes&.any?

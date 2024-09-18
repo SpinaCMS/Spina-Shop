@@ -1,12 +1,12 @@
-= form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), method: :get do
+= form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), data: {turbo_method: :get} do
   %header#header
     #header_actions
       - if @stock_order.open?
-        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), class: 'button', method: :post do
+        = link_to spina.close_order_shop_admin_stock_order_path(@stock_order), data: {turbo_method: :post}, class: 'button' do
           = icon('cross')
           =t 'spina.shop.stock_orders.close_order'
       - elsif @stock_order.closed?
-        = link_to spina.reopen_order_shop_admin_stock_order_path(@stock_order), method: :post, class: 'button' do
+        = link_to spina.reopen_order_shop_admin_stock_order_path(@stock_order), data: {turbo_method: :post}, class: 'button' do
           = icon('pencil')
           =t 'spina.shop.stock_orders.reopen_order'
 
@@ -17,7 +17,7 @@
         = button_tag t('spina.shop.stock_orders.receive_products'), type: :submit, class: 'button button-primary'
 
       - if @stock_order.concept?
-        = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', method: :post, data: {confirm: t('spina.shop.stock_orders.place_order_confirmation')} do
+        = link_to spina.place_order_shop_admin_stock_order_path(@stock_order), class: 'button button-primary', data: {turbo_method: :post, turbo_confirm: t('spina.shop.stock_orders.place_order_confirmation')} do
           = icon('check')
           =t 'spina.shop.stock_orders.place_order'
 
@@ -164,5 +164,5 @@
 
           - if @stock_order.concept?
             %td.text-right
-              = link_to spina.shop_admin_stock_order_ordered_stock_path(@stock_order, ordered), class: 'button button-link button-mini icon-only', method: :delete do
+              = link_to spina.shop_admin_stock_order_ordered_stock_path(@stock_order, ordered), class: 'button button-link button-mini icon-only', data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"} do
                 = icon('trash')

@@ -144,6 +144,6 @@
 
 - if @customer.persisted? && @customer.orders.none? && @customer.invoices.none?
   .pull-right
-    = link_to spina.shop_admin_customer_path(@customer), class: 'button button-danger button-link', data: {method: :delete, confirm: t('spina.shop.customers.delete_confirmation_html', name: @customer.name)} do
+    = link_to spina.shop_admin_customer_path(@customer), class: 'button button-danger button-link', data: {turbo_method: :delete, turbo_confirm: t('spina.shop.customers.delete_confirmation_html', name: @customer.name)} do
       = icon('trash')
       =t 'spina.shop.customers.delete'

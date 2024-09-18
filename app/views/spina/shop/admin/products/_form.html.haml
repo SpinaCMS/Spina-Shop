@@ -423,7 +423,7 @@
                     
                     .form-control{style: 'flex: 1.5'}
                       - if product_location 
-                        = link_to spina.shop_admin_product_product_location_path(f.object, product_location), class: 'button button-link button-mini pull-right', style: "margin-top: 8px; margin-right: 0", data: {method: :delete, confirm: "Product verwijderen uit #{product_location.location&.name}?"} do
+                        = link_to spina.shop_admin_product_product_location_path(f.object, product_location), class: 'button button-link button-mini pull-right', style: "margin-top: 8px; margin-right: 0", data: {turbo_method: :delete, turbo_confirm: "Product verwijderen uit #{product_location.location&.name}?"} do
                           %i.icon.icon-trash
                           
                         = link_to spina.edit_shop_admin_product_product_location_path(@product, product_location), style: "display: block; width: 100%; line-height: 40px; font-size: 14px; padding: 0 10px; background: #fff; box-shadow: inset 0 1px 1px rgba(0, 0, 0, .16); border: 1px solid #ccc; border-bottom: none", data: {remote: true} do
@@ -521,9 +521,9 @@
 
           .text-center
             - if @product.archived?
-              = link_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), class: 'button button-link', data: {method: :post}
+              = link_to t('spina.shop.products.unarchive'), spina.unarchive_shop_admin_product_path(@product), class: 'button button-link', data: {turbo_method: :post}
             - else
-              = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), class: 'button button-link', data: {method: :post, confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
+              = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_path(@product), class: 'button button-link', data: {turbo_method: :post, turbo_confirm: t('spina.shop.products.archive_confirmation', name: @product.name)}
 
             - if @product.deletable
-              = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}
+              = link_to t('spina.shop.products.delete'), spina.shop_admin_product_path(@product), data: {turbo_method: :delete, turbo_confirm: t('spina.shop.products.delete_confirmation', name: @product.name)}

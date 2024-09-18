@@ -44,7 +44,7 @@
     = link_to spina.shop_admin_stock_forecast_path(search_params.merge(format: 'csv')), class: 'button button-primary' do
       Download resultaten als CSV (max: 5000)
 
-= form_with url: spina.new_shop_admin_stock_order_products_path(q: params.permit(q: {})[:q]), method: :get, data: {controller: "batch-form"} do
+= form_with url: spina.new_shop_admin_stock_order_products_path(q: params.permit(q: {})[:q]), data: {turbo_method: :get, controller: "batch-form"} do
   .pull-right{style: 'display: inline-block; position: fixed; top: 75px; right: 22px; z-index: 10', data: {dropdown: true}}
     = link_to '#', class: 'button button-link products-batch-action', style: 'text-transform: uppercase; font-size: 12px; font-weight: bold', data: {trigger: 'dropdown', target: '#actions'} do
       geselecteerde producten

@@ -133,9 +133,9 @@
   - unless @product_bundle.new_record?
     .pull-right
       - if @product_bundle.archived?
-        = link_to t("spina.shop.products.unarchive"), spina.unarchive_shop_admin_product_bundle_path(@product_bundle), class: 'button button-link', method: :post
+        = link_to t("spina.shop.products.unarchive"), spina.unarchive_shop_admin_product_bundle_path(@product_bundle), class: 'button button-link', data: {turbo_method: :post}
 
       - else
-        = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_bundle_path(@product_bundle), class: 'button button-link', method: :post, data: {confirm: t('spina.shop.products.archive_confirmation', name: @product_bundle.name)}
+        = link_to t('spina.shop.products.archive'), spina.archive_shop_admin_product_bundle_path(@product_bundle), class: 'button button-link', data: {turbo_method: :post, turbo_confirm: t('spina.shop.products.archive_confirmation', name: @product_bundle.name)}
 
-      = link_to 'Verwijderen', spina.shop_admin_product_bundle_path(@product_bundle), data: {method: :delete, confirm: "Weet je het zeker?"}, class: 'button button-danger button-link'
+      = link_to 'Verwijderen', spina.shop_admin_product_bundle_path(@product_bundle), data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"}, class: 'button button-danger button-link'

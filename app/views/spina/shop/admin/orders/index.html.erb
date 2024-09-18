@@ -32,7 +32,7 @@
     
     <% if action_name == "index" %>
       <div class="pb-3">
-        <%= form_with url: spina.shop_admin_orders_path, method: :get, data: {target: "filter.form"} do |f| %>
+        <%= form_with url: spina.shop_admin_orders_path, data: {turbo_method: :get, target: "filter.form"} do |f| %>
           <%= button_tag "Filter", type: :submit, class: "hidden", data: {target: "filter.submitButton"} %>
           
           <div class="flex space-x-4">

@@ -20,4 +20,4 @@
 .pull-right
   - if @tag.persisted? && @tag.taggable_tags.none?
     .pull-right
-      = link_to t('spina.shop.tags.delete'), spina.shop_admin_settings_tag_path(@tag), method: :delete, class: 'button button-link button-danger'
+      = link_to t('spina.shop.tags.delete'), spina.shop_admin_settings_tag_path(@tag), data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"}, class: 'button button-link button-danger'

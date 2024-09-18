@@ -17,7 +17,7 @@
       %li{class: ('active' if action_name == 'failed')}
         = link_to t('spina.shop.orders.failed'), spina.failed_shop_admin_orders_path
 
-= form_with url: '', method: :get, local: true, html: {class: 'filter-form'} do |f|
+= form_with url: '', data: {turbo_method: :get}, local: true, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
       = f.text_field :search, value: params[:search], placeholder: t('spina.search')

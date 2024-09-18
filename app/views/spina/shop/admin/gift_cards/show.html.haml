@@ -46,4 +46,4 @@
               %em=t 'spina.shop.gift_cards.no_orders_yet'
 
 - if @gift_card.orders.none?
-  .pull-right= link_to t('spina.shop.gift_cards.delete'), spina.shop_admin_gift_card_path(@gift_card), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.gift_cards.delete_confirmation')}, style: 'padding-right: 0'
+  .pull-right= link_to t('spina.shop.gift_cards.delete'), spina.shop_admin_gift_card_path(@gift_card), class: 'button button-link button-danger', data: {turbo_method: :delete, turbo_confirm: t('spina.shop.gift_cards.delete_confirmation')}, style: 'padding-right: 0'

@@ -4,7 +4,7 @@
     = render 'custom_actions'
 
     - if @order.building?
-      = link_to spina.shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px', data: {method: :delete} do
+      = link_to spina.shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px', data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"} do
         %i.icon.icon-trash
 
     = link_to spina.edit_shop_admin_order_path(@order), class: 'button icon-only', style: 'margin-right: 4px' do
@@ -41,14 +41,14 @@
           %li
             = form_with url: spina.transition_shop_admin_order_path(@order) do |f|
               = f.hidden_field :transition_to, value: transition
-              = button_tag type: :submit, data: {confirm: "Weet je het zeker?"} do
+              = button_tag type: :submit, data: {turbo_confirm: "Weet je het zeker?"} do
                 =t "spina.shop.orders.states.#{transition}"
                 
         %li.divider
       
         - if @order.received? && !@order.paid?
           %li
-            = link_to spina.shop_admin_order_payment_reminder_path(@order), method: :post, data: {remote: true, confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
+            = link_to spina.shop_admin_order_payment_reminder_path(@order), data: {turbo_method: :post, remote: true, turbo_confirm: t('spina.shop.orders.payment_reminders.send_confirmation_html')} do
               = t('spina.shop.orders.payment_reminders.send_html')
 
         - if @order.sales_invoice.present? && !@order.refunded?
@@ -58,7 +58,7 @@
           %li= link_to t("spina.shop.product_returns.new"), spina.new_shop_admin_order_product_return_path(@order), remote: true
 
         %li
-          = link_to spina.duplicate_shop_admin_order_path(@order), method: :post, data: {remote: true, confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
+          = link_to spina.duplicate_shop_admin_order_path(@order), data: {turbo_method: :post, remote: true, turbo_confirm: t('spina.shop.orders.duplicate_order_confirmation_html')} do
             = t('spina.shop.orders.duplicate_order_html')
 
   .breadcrumbs= render_breadcrumbs separator: '<div class="divider"></div>'
@@ -353,7 +353,7 @@
               %td{style: 'width: 48px'}
                 = link_to spina.edit_shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {remote: true} do
                   = icon('pencil')
-                = link_to spina.shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {method: :delete} do
+                = link_to spina.shop_admin_order_order_item_path(@order, order_item), class: 'button button-link button-mini icon-only', data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"} do
                   = icon('trash')
 
         - if @order.building?

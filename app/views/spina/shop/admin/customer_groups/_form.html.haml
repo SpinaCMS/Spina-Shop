@@ -26,4 +26,4 @@
 
 - if @customer_group.persisted? && @customer_group.customers.none?
   .pull-right
-    = link_to t('spina.shop.customer_groups.delete'), spina.shop_admin_customer_group_path(@customer_group), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.customer_groups.delete_confirmation', name: @customer_group.name)}
+    = link_to t('spina.shop.customer_groups.delete'), spina.shop_admin_customer_group_path(@customer_group), class: 'button button-link button-danger', data: {turbo_method: :delete, turbo_confirm: t('spina.shop.customer_groups.delete_confirmation', name: @customer_group.name)}

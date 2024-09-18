@@ -2,7 +2,7 @@
   = link_to "⇤ Dashboard", spina.shop_stock_management_root_path, class: 'button button-link', style: 'margin-bottom: 10px'
   .page-title.page-title-large 👟 Orderpicken
   
-  = form_with url: spina.shop_stock_management_order_picking_path, local: true, method: :get do |f|
+  = form_with url: spina.shop_stock_management_order_picking_path, local: true, data: {turbo_method: :get} do |f|
     .list-title Voorbereiden
     .list
       - @orders.each do |order|

@@ -17,10 +17,10 @@
         = link_to "Ontvang retouren", spina.edit_shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {remote: true}
         
         - if product_return.product_return_items.sum(:returned_quantity) > 0
-          = link_to spina.close_shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {method: :post, confirm: "Afronden en voorraad opboeken?"} do
+          = link_to spina.close_shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {turbo_method: :post, turbo_confirm: "Afronden en voorraad opboeken?"} do
             .button-content
               = heroicon("check", style: :mini, class: "w-4 h-4 mr-1 -ml-1")
               Afronden
         
-        = link_to spina.shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {method: :delete, confirm: "Weet je het zeker?"} do
+        = link_to spina.shop_admin_order_product_return_path(product_return.order, product_return), class: "button", data: {turbo_method: :delete, turbo_confirm: "Weet je het zeker?"} do
           = heroicon("trash", style: :mini, class: 'w-4 h-4')

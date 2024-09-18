@@ -92,4 +92,4 @@
 
   - if @discount.persisted?
     .pull-right
-      = link_to t('spina.shop.discounts.delete'), spina.shop_admin_discount_path(@discount), method: :delete, class: 'button button-link button-danger', data: {confirm: t('spina.shop.discounts.delete_confirmation')}
+      = link_to t('spina.shop.discounts.delete'), spina.shop_admin_discount_path(@discount), class: 'button button-link button-danger', data: {turbo_method: :delete, turbo_confirm: t('spina.shop.discounts.delete_confirmation')}
