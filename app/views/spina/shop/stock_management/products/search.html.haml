@@ -4,7 +4,7 @@
       🔍
       = @q.presence || "Zoek product..."
 
-  = form_with url: spina.search_shop_stock_management_products_path, local: true, data: {turbo_method: :get} do |f|
+  = form_with url: spina.search_shop_stock_management_products_path, local: true, method: :get do |f|
     .input-wrapper
       .form-control= f.text_field :q, placeholder: "Zoeken..."
 

@@ -1,4 +1,4 @@
-= form_with url: spina.shop_admin_analytics_customers_path, class: 'filter-form', data: {turbo_method: :get} do |f|
+= form_with url: spina.shop_admin_analytics_customers_path, class: 'filter-form', method: :get do |f|
   .filter-form-simple
     .filter-form-input
       .select-dropdown= f.select :view, views

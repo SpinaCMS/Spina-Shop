@@ -4,7 +4,7 @@
       = icon('cross')
     %h3=t 'spina.shop.products.new_by_category_title_html'
 
-  = form_tag spina.new_shop_admin_product_path, data: {turbo_method: :get} do
+  = form_tag spina.new_shop_admin_product_path, method: :get do
     %section
       .select-dropdown{style: 'width: 100%'}= select_tag :product_category_id, options_for_select(@product_categories.map{|c| [c.name, c.id]}), include_blank: t('spina.commerce.product_categories.no_categories')
     

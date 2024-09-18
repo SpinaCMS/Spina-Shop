@@ -1,4 +1,4 @@
-= form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), data: {turbo_method: :get} do
+= form_with url: spina.new_shop_admin_stock_order_receive_products_path(@stock_order), method: :get do
   %header#header
     #header_actions
       - if @stock_order.open?

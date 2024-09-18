@@ -4,7 +4,7 @@
       = icon('cross')
     %h3= t("spina.shop.stock.reset_stock")
 
-  = form_with model: @product, url: spina.shop_admin_product_reset_stock_path(@product), data: {turbo_method: :post} do |f|
+  = form_with model: @product, url: spina.shop_admin_product_reset_stock_path(@product), method: :post do |f|
 
     %section
       .form-group

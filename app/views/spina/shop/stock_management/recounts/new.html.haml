@@ -19,7 +19,7 @@
       = @product.full_name
 
   - if @product.stock_enabled?
-    = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), data: {turbo_method: :post} do |f|
+    = form_with model: @product, url: spina.shop_stock_management_product_recount_path(@product), method: :post do |f|
 
       %div{style: "margin-left: 60px; margin-bottom: 30px"}
         %label Huidige voorraad:

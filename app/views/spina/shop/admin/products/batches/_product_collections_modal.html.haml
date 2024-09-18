@@ -7,7 +7,7 @@
       %strong= Spina::Shop::Product.model_name.human(count: @products.count).downcase 
       aanpassen
 
-  = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q], filters: params.permit(filters: {})[:filters]), data: {turbo_method: :put} do |f|
+  = form_with url: spina.shop_admin_products_batch_path(q: params.permit(q: {})[:q], filters: params.permit(filters: {})[:filters]), method: :put do |f|
     = f.hidden_field :batch_edit, value: params[:modal]
     - if params[:select_all]
       = f.hidden_field :select_all, value: params[:select_all]
