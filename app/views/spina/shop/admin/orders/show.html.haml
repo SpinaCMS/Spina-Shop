@@ -359,7 +359,7 @@
         - if @order.building?
           %tr
             %td{colspan: 6}
-              = link_to spina.new_shop_admin_order_order_item_path(@order), class: 'button button-link button-block text-center button-mini table-link', data: {remote: true} do
+              = link_to spina.new_shop_admin_order_order_item_path(@order), class: 'button button-link button-block text-center button-mini table-link', data: {turbo_frame: 'modal'} do
                 = icon('plus')
                 =t 'spina.shop.orders.add_product'
           %tr

@@ -1,5 +1,5 @@
 module Spina::Shop
-   module Admin
+  module Admin
     class OrderItemsController < AdminController
       before_action :set_order
 
