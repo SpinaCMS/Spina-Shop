@@ -1,6 +1,7 @@
 // jQuery
 
 //= require jquery
+//= require rails-ujs
 
 // Stimulus
 
