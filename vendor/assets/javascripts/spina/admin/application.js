@@ -2,6 +2,7 @@
 
 //= require jquery
 //= require rails-ujs
+//= require ./overwrite-rails-ujs
 
 // Stimulus
 
