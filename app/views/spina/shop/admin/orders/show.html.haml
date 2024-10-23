@@ -39,7 +39,7 @@
           %small.text-muted{style: "margin-left: 16px; margin-top: 8px; display: block"} Status wijzigen naar:
         - (@order.allowed_transitions - ["refunded"]).each do |transition|
           %li
-            = form_with url: spina.transition_shop_admin_order_path(@order) do |f|
+            = form_with url: spina.transition_shop_admin_order_path(@order), html: { onsubmit: "event.stopImmediatePropagation();" } do |f|
               = f.hidden_field :transition_to, value: transition
               = button_tag type: :submit, data: {turbo_confirm: "Weet je het zeker?"} do
                 =t "spina.shop.orders.states.#{transition}"

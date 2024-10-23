@@ -27,11 +27,8 @@ module Spina::Shop
       
       def transition
         @order = Order.find(params[:id])        
-        # TODO: Check if order isn't currently in transition, otherwise transition will fail, for now we'll just ignore that
-        begin
-          @order.transition_to!(params[:transition_to], user: current_spina_user.name, ip_address: request.remote_ip)
-        end
-        redirect_to spina.shop_admin_order_path(@order)
+        @order.transition_to!(params[:transition_to], user: current_spina_user.name, ip_address: request.remote_ip)
+        redirect_to spina.shop_admin_order_path(@order), status: :see_other
       end
 
       # def confirm

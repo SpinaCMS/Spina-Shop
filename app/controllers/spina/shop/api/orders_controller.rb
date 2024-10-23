@@ -20,7 +20,7 @@ module Spina::Shop
       end
       
       def transition
-        @order = Order.find(params[:id])        
+        @order = Order.find(params[:id])
         @order.transition_to(params[:transition_to], user: params[:user])
         head :ok
       end
