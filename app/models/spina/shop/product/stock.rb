@@ -141,7 +141,7 @@ module Spina::Shop
     private
 
       def create_initial_stock_level_adjustment
-        ChangeStockLevel.new(self, adjustment: initial_stock_level).save
+        ChangeStockLevel.new(self, {adjustment: initial_stock_level}).save
       end
   end
 end
