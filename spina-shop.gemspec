@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ruby-measurement"
   s.add_dependency "valvat"
   s.add_dependency "rubyzip"
-  s.add_dependency "simple_xlsx_writer"
+  s.add_dependency "caxlsx"
   s.add_dependency "zip-zip"
   s.add_dependency "rqrcode"
   s.add_dependency "pg_search"

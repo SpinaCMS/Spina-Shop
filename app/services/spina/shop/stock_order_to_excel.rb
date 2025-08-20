@@ -1,4 +1,4 @@
-require "simple_xlsx"
+require "caxlsx"
 
 module Spina::Shop
   class StockOrderToExcel
@@ -12,14 +12,17 @@ module Spina::Shop
       temp_file = Tempfile.new(["order", ".xlsx"])
 
       # Generate .xlsx
-      SimpleXlsx::Serializer.new(temp_file.path) do |doc|
-        doc.add_sheet('order') do |sheet|
+      Axlsx::Package.new do |doc|
+        doc.workbook.add_worksheet(name: 'order') do |sheet|
           sheet.add_row row_headers
 
           @stock_order.ordered_stock.sort_by{|o|o.product.full_name}.each do |ordered|
             sheet.add_row [ordered.product.supplier_reference, ordered.quantity, ordered.product.name, ordered.product.variant_name]
           end
         end
+
+        doc.use_shared_strings = true
+        doc.serialize(temp_file.path)
       end
 
       data = File.read(temp_file.path)
@@ -30,9 +33,8 @@ module Spina::Shop
 
     private
 
-      def row_headers
-        [Product.human_attribute_name(:supplier_reference), OrderedStock.human_attribute_name(:quantity), Product.model_name.human, Product.human_attribute_name(:variant_name)]
-      end
-
+    def row_headers
+      [Product.human_attribute_name(:supplier_reference), OrderedStock.human_attribute_name(:quantity), Product.model_name.human, Product.human_attribute_name(:variant_name)]
+    end
   end
 end
