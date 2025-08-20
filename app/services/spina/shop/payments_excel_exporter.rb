@@ -1,4 +1,4 @@
-require "simple_xlsx"
+require "caxlsx"
 
 module Spina::Shop
   class PaymentsExcelExporter
@@ -11,11 +11,10 @@ module Spina::Shop
       temp_file = Tempfile.new(["payments", ".xlsx"])
 
       # Generate .xlsx
-      SimpleXlsx::Serializer.new(temp_file.path) do |doc|
+      Axlsx::Package.new do |doc|
         orders.each_key do |key|
-
           # New sheet for every payment method
-          doc.add_sheet(key) do |sheet|
+          doc.workbook.add_worksheet(name: key) do |sheet|
             sheet.add_row row_headers
 
             # Loop through orders
@@ -24,8 +23,11 @@ module Spina::Shop
             end
           end
         end
+
+        doc.use_shared_strings = true
+        doc.serialize(temp_file.path)
       end
-  
+
       data = File.open(temp_file.path)
       temp_file.close
       temp_file.unlink
@@ -34,9 +36,8 @@ module Spina::Shop
 
     private
 
-      def self.row_headers
-        %w(Order\ number Invoice\ number Payment\ date Customer Total Giftcard To\ be\ paid Rounding\ difference Payment\ method)
-      end
-
+    def self.row_headers
+      %w(Order\ number Invoice\ number Payment\ date Customer Total Giftcard To\ be\ paid Rounding\ difference Payment\ method)
+    end
   end
 end
