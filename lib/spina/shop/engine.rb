@@ -29,9 +29,11 @@ module Spina
       end
 
       # Load decorators
+      decorators = "#{Rails.root}/app/decorators"
+      Rails.autoloaders.main.ignore(decorators)
       config.to_prepare do
-        Dir.glob("#{Engine.root}app/decorators/**/*_decorator*.rb").each do |decorator|
-          require_dependency(decorator)
+        Dir.glob("#{decorators}/**/*_override.rb").sort.each do |decorator|
+          load decorator
         end
 
         # Mimetype Excel
