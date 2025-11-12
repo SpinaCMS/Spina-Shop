@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spina::Shop
   module Admin
     module Products
@@ -54,36 +56,35 @@ module Spina::Shop
 
         private
 
-          def set_products
-            @products = if params[:select_all]
-              Product.where(archived: false).filtered(filters).ransack(params[:q]).result
-            else
-              Product.where(id: params[:product_ids])
-            end
+        def set_products
+          @products = if params[:select_all]
+            Product.where(archived: false).filtered(filters).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+          else
+            Product.where(id: params[:product_ids])
           end
+        end
 
-          def filters
-            filter_params.to_h.map do |property, value|
-              value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
-            end
+        def filters
+          filter_params.to_h.map do |property, value|
+            value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
           end
+        end
 
-          def filter_params
-            params.require(:filters).permit! if params[:filters]
-          end
+        def filter_params
+          params.require(:filters).permit! if params[:filters]
+        end
 
-          def pricing_params
-            params.permit(:price_for, :price, :price_includes_tax).delocalize(price: :number)
-          end
+        def pricing_params
+          params.permit(:price_for, :price, :price_includes_tax).delocalize(price: :number)
+        end
 
-          def product_params
-            params.permit(:price, :price_for, :cost_price, :price_includes_tax, :product_category_id, :active, :archived, :weight, :length, :width, :height).delocalize(price: :number, cost_price: :number, weight: :number, length: :number, width: :number, height: :number)
-          end
+        def product_params
+          params.permit(:price, :price_for, :cost_price, :price_includes_tax, :product_category_id, :active, :archived, :weight, :length, :width, :height).delocalize(price: :number, cost_price: :number, weight: :number, length: :number, width: :number, height: :number)
+        end
 
-          def property_params
-            params.require(:properties).permit!.to_hash
-          end
-
+        def property_params
+          params.require(:properties).permit!.to_hash
+        end
       end
     end
   end

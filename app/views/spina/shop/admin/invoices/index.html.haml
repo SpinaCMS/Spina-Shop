@@ -1,7 +1,7 @@
-= search_form_for @q, url: @search_path, html: {class: 'filter-form'} do |f|
+= form_for @q, url: @search_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :invoice_number_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op factuurnummer'
+      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Zoek op factuurnummer'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -26,4 +26,5 @@
             %em.text-center.text-muted{style: 'display: block'}
               =t 'spina.shop.invoices.no_invoices'
 
-  .pagination= link_to_next_page @invoices, 'Next'
+  .pagination= link_to @search_path.merge(page: (params[:page].to_i || 1) + 1), rel: 'next' do
+    Next

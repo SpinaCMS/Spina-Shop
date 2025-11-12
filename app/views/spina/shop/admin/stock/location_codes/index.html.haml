@@ -3,10 +3,10 @@
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
     Locatiecode toevoegen
 
-= search_form_for @q, url: spina.shop_admin_location_location_codes_path(@location), html: {class: 'filter-form'} do |f|
+= form_for @q, url: spina.shop_admin_location_location_codes_path(@location), html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :code_start, style: 'box-sizing: border-box', placeholder: 'Filter op locatie'
+      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Filter op locatiecode'
   
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -88,4 +88,5 @@
                 = product.stock_level
               %br/
 
-= paginate @location_codes
+= link_to spina.shop_admin_location_location_codes_path(@location, page: (params[:page].to_i || 1) + 1), rel: 'next' do
+  Next

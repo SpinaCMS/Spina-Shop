@@ -1,7 +1,7 @@
-= search_form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
+= form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :sku_or_location_or_translations_name_or_translations_variant_name_cont, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
+      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
       = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
         = icon('filter')
         = "geavanceerd #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
@@ -37,7 +37,7 @@
         Gemiddelde verkoop = 0
       .filter-form-control{style: "padding-top: 5px; padding-left: 5px"}
         = f.check_box :statistics_weekly_sales_eq, {data: {switch: true}}, 0, nil
-- search_params = {q: {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:q].try(:[], :sku_or_location_or_translations_name_or_translations_variant_name_cont), supplier_id_in: params[:q].try(:[], :supplier_id_in), location_start_any: params[:q].try(:[], :location_start_any), statistics_weekly_sales_eq: params[:q].try(:[], :statistics_weekly_sales_eq), product_category_id_in: params[:q].try(:[], :product_category_id_in), recounts_created_at_gteq: params[:q].try(:[], :recounts_created_at_gteq), available_at_supplier_eq: params[:q].try(:[], :available_at_supplier_eq)}}
+- search_params = {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:sku_or_location_or_translations_name_or_translations_variant_name_cont], supplier_id_in: params[:supplier_id_in], location_start_any: params[:location_start_any], statistics_weekly_sales_eq: params[:statistics_weekly_sales_eq], product_category_id_in: params[:product_category_id_in], recounts_created_at_gteq: params[:recounts_created_at_gteq], available_at_supplier_eq: params[:available_at_supplier_eq]}
 
 - if params[:q].present?
   .text-right{style: "margin: 15px -4px 0 0"}
@@ -167,4 +167,5 @@
       %tbody
         = render partial: "product", collection: @products
 
-    .pagination= link_to_next_page @products, 'Next'
+    .pagination= link_to spina.shop_admin_stock_forecast_path(page: (params[:page].to_i || 1) + 1), rel: 'next' do
+      Next

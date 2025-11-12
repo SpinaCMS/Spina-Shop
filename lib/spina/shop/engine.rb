@@ -1,6 +1,5 @@
 require 'spina'
 require 'pg'
-require 'ransack'
 require 'statesman'
 require 'email_validator'
 require 'delocalize'

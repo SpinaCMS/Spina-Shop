@@ -31,8 +31,14 @@ module Spina::Shop
         end
 
         def index
-          @q = product_bundles.where(archived: false).ransack(params[:q])
-          @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
+          @q = product_bundles.where(archived: false).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+          @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
+          @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
+          @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
+          @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
+          @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
+
+          @product_bundles = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25).order(created_at: :desc)
 
           respond_to do |format|
             format.html { render layout: 'spina/shop/admin/products' }
@@ -45,14 +51,20 @@ module Spina::Shop
                   image_url: (main_app.url_for(product_bundle.product_images.first.file&.variant(resize: '60x60')) if product_bundle.product_images.any?),
                   price: view_context.number_to_currency(product_bundle.price) }
               end
-              render inline: {results: results, total_count: @q.result.count}.to_json
+              render inline: {results: results, total_count: @q.distinct.count}.to_json
             end
           end
         end
 
         def archived
-          @q = product_bundles.where(archived: true).ransack(params[:q])
-          @product_bundles = @q.result.page(params[:page]).per(25).order(created_at: :desc)
+          @q = product_bundles.where(archived: true).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+          @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
+          @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
+          @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
+          @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
+          @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
+
+          @product_bundles = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25).order(created_at: :desc)
 
           render :index, layout: 'spina/shop/admin/products'
         end
@@ -87,42 +99,40 @@ module Spina::Shop
 
         private
 
-          def product_bundles
-            ProductBundle.includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale})
-          end
+        def product_bundles
+          ProductBundle.includes(:product_images).joins(:translations).where(spina_shop_product_bundle_translations: {locale: I18n.locale})
+        end
 
-          # There's no file validation yet in ActiveStorage
-          # We do two things to reduce errors right now:
-          # 1. We add accept="image/*" to the image form
-          # 2. We destroy the entire record if the uploaded file is not an image
-          def attach_product_images
-            return unless params[:product_bundle][:files].present?
-
-            @images = params[:product_bundle][:files]
-                      .reject(&:empty?) # TODO: remove me in rails >7.1
-                      .map do |file|
+        # There's no file validation yet in ActiveStorage
+        # We do two things to reduce errors right now:
+        # 1. We add accept="image/*" to the image form
+        # 2. We destroy the entire record if the uploaded file is not an image
+        def attach_product_images
+          if params[:product_bundle][:files].present?
+            @images = params[:product_bundle][:files].map do |file|
               # Create the image and attach the file
               image = @product_bundle.product_images.create
               image.file.attach(file)
 
               # Was it not an image after all? DESTROY IT
-              image.destroy and next unless image.file.image?
+              image.destroy unless image.file.image?
 
               image
             end.compact
           end
+        end
 
-          def set_breadcrumbs
-            add_breadcrumb ProductBundle.model_name.human(count: 2), spina.shop_admin_product_bundles_path
-          end
+        def set_breadcrumbs
+          add_breadcrumb ProductBundle.model_name.human(count: 2), spina.shop_admin_product_bundles_path
+        end
 
-          def set_locale
-            @locale = params[:locale] || I18n.default_locale
-          end
+        def set_locale
+          @locale = params[:locale] || I18n.default_locale
+        end
 
-          def product_bundle_params
-            params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :original_price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number, original_price: :number})
-          end
+        def product_bundle_params
+          params.require(:product_bundle).permit(:name, :description, :seo_title, :seo_description, :active, :price, :original_price, :tax_group_id, :sales_category_id, product_images_attributes: [:id, :position, :_destroy], product_images_files: [], bundled_products_attributes: [:id, :quantity, :product_id, :_destroy]).delocalize({price: :number, original_price: :number})
+        end
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spina::Shop
   module Admin
     class GiftCardsController < AdminController
@@ -5,13 +7,13 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @q = GiftCard.order(created_at: :desc).ransack(params[:q])
-        @gift_cards = @q.result.page(params[:page]).per(25)
+        @q = GiftCard.order(created_at: :desc).where('code ILIKE :search', search: "%#{params[:search]}%")
+        @gift_cards = @q.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
       end
 
       def unused
-        @q = GiftCard.order(created_at: :desc).where('value = remaining_balance').ransack(params[:q])
-        @gift_cards = @q.result.page(params[:page]).per(25)
+        @q = GiftCard.order(created_at: :desc).where('value = remaining_balance').where('code ILIKE :search', search: "%#{params[:search]}%")
+        @gift_cards = @q.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
         render :index
       end
 
@@ -26,7 +28,7 @@ module Spina::Shop
 
       def create
         @gift_card = GiftCard.new(gift_card_params)
-        
+
         if @gift_card.save
           redirect_to spina.shop_admin_gift_cards_path
         else
@@ -36,11 +38,11 @@ module Spina::Shop
           render :new
         end
       end
-      
+
       def edit
         add_breadcrumb @gift_card.readable_code
       end
-      
+
       def update
         if @gift_card.update(gift_card_expiration_params)
           redirect_to spina.shop_admin_gift_card_path(@gift_card)
@@ -61,22 +63,21 @@ module Spina::Shop
 
       private
 
-        def set_gift_card
-          @gift_card = GiftCard.find(params[:id])
-        end
+      def set_gift_card
+        @gift_card = GiftCard.find(params[:id])
+      end
 
-        def set_breadcrumbs
-          add_breadcrumb GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
-        end
-        
-        def gift_card_expiration_params
-          params.require(:gift_card).permit(:expires_at)
-        end
+      def set_breadcrumbs
+        add_breadcrumb GiftCard.model_name.human(count: 2), spina.shop_admin_gift_cards_path
+      end
 
-        def gift_card_params
-          params.require(:gift_card).permit(:code, :expires_at, :value)
-        end
+      def gift_card_expiration_params
+        params.require(:gift_card).permit(:expires_at)
+      end
 
+      def gift_card_params
+        params.require(:gift_card).permit(:code, :expires_at, :value)
+      end
     end
   end
 end

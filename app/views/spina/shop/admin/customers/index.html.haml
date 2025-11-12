@@ -2,10 +2,10 @@
   = link_to spina.new_shop_admin_customer_path, class: 'button button-mini icon-only' do
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
-= search_form_for @q, url: spina.shop_admin_customers_path, html: {class: 'filter-form'} do |f|
+= form_for @customers, url: spina.shop_admin_customers_path, html: {class: 'filter-form'} do |f|
   .filter-form-simple
     .filter-form-input
-      = f.text_field :full_name_or_company_or_email_cont, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
+      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -16,15 +16,16 @@
       %tr
         - if Spina::Shop::Store.many?
           %th
-        %th= sort_link [:spina, @q], :number, Spina::Shop::Customer.human_attribute_name(:number), {}, class: 'table-sort'
-        %th= sort_link [:spina, @q], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
+        -# %th= sort_link [:spina, @customers], :number, Spina::Shop::Customer.human_attribute_name(:number), {}, class: 'table-sort'
+        -# %th= sort_link [:spina, @customers], :full_name, Spina::Shop::Customer.human_attribute_name(:full_name), {}, class: 'table-sort'
         %th= Spina::Shop::Customer.human_attribute_name(:customer_group)
-        %th= sort_link [:spina, @q], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
-        %th= sort_link [:spina, @q], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
+        -# %th= sort_link [:spina, @customers], :email, Spina::Shop::Customer.human_attribute_name(:email), {}, class: 'table-sort'
+        -# %th= sort_link [:spina, @customers], :created_at, Spina::Shop::Customer.human_attribute_name(:created_at), {}, class: 'table-sort'
         %th.text-right= Spina::Shop::Order.model_name.human count: 2
         %th 
 
     %tbody
       = render partial: 'customer', collection: @customers.to_a.uniq
 
-  .pagination= link_to_next_page @customers, "Next"
+  .pagination= link_to spina.shop_admin_customers_path(page: (params[:page].to_i || 1) + 1), rel: 'next' do
+    Next

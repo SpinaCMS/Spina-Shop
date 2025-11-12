@@ -15,8 +15,13 @@ module Spina::Shop
              end
 
         # Search for products filtered
-        @q = pr.filtered(filters).ransack(params[:q])
-        @products = @q.result(distinct: true).page(params[:page]).per(10)
+        @q = pr.filtered(filters).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+        @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
+        @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
+        @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
+        @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
+        @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
+        @products = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
         respond_to do |format|
@@ -24,20 +29,25 @@ module Spina::Shop
           format.js
           format.json do
             results = @products.map do |product|
-              { id:           product.id, 
-                name:         params[:scope] == 'purchasable' ? product.full_name : product.name,
-                stock_level:  (product.stock_level if product.stock_enabled?),
-                image_url:    (main_app.url_for(product.product_images.first.file&.variant(resize: '60x60')) if product.product_images.any?),
-                price:        view_context.number_to_currency(product.price) }
+              { id:          product.id, 
+                name:        params[:scope] == "purchasable" ? product.full_name : product.name,
+                stock_level: (product.stock_level if product.stock_enabled?),
+                image_url:   (main_app.url_for(product.product_images.first.file&.variant(resize: '60x60')) if product.product_images.any?),
+                price:       view_context.number_to_currency(product.price) }
             end
-            render inline: {results: results, total_count: @q.result.count}.to_json
+            render inline: {results: results, total_count: @q.distinct.count}.to_json
           end
         end
       end
 
       def archived
-        @q = products.where(archived: true).roots.filtered(filters).ransack(params[:q])
-        @products = @q.result(distinct: true).page(params[:page]).per(10)
+        @q = products.where(archived: true).roots.filtered(filters).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+        @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
+        @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
+        @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
+        @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
+        @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
+        @products = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
 
         render :index, layout: 'spina/shop/admin/products'
@@ -166,7 +176,7 @@ module Spina::Shop
 
       def split_search_params
         search = :sku_or_location_or_translations_name_cont_all
-        if params[:q].try(:[], search).present? && params[:q][search].is_a?(String)
+        if params[:q].try(:[], search).present? && params[:q][search].kind_of?(String)
           params[:q][search] = params[:q][search].split(' ')
         end
       end

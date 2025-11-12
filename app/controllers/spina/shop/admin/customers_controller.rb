@@ -4,10 +4,9 @@ module Spina::Shop
       before_action :set_breadcrumbs
 
       def index
-        @q = Customer.ransack(params[:q])
-        @customers = @q.result
-        @customers = @customers.where(store_id: params[:store_id]) if params[:store_id].present?
-        @customers = @customers.sorted.page(params[:page]).per(25)
+        @q = Customer.where('full_name ILIKE :search OR company ILIKE :search OR email ILIKE :search', search: "%#{params[:search]}%").distinct
+        @customers = @q.where(store_id: params[:store_id]) if params[:store_id].present?
+        @customers = @customers.sorted.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
         @customer_groups = CustomerGroup.all
 
         respond_to do |format|
@@ -15,13 +14,13 @@ module Spina::Shop
           format.js
           format.json do
             results = @customers.reorder(:company, :full_name).map do |customer|
-              { id:           customer.id, 
-                full_name:    customer.full_name,
-                company:      customer.company,
-                name:         customer.name
+              { id: customer.id,
+                full_name: customer.full_name,
+                company: customer.company,
+                name: customer.name
               }
             end
-            render inline: {results: results, total_count: @q.result.count}.to_json
+            render inline: { results: results, total_count: @q.count }.to_json
           end
         end
       end
@@ -97,21 +96,21 @@ module Spina::Shop
       def validate_vat_id
         @customer = Customer.find(params[:id])
         if vat_details = Valvat.new(@customer.vat_id).exists?(detail: true)
-          render json: {valid: true, details: vat_details}
+          render json: { valid: true, details: vat_details }
         else
-          render json: {valid: false}
+          render json: { valid: false }
         end
       end
 
       private
 
-        def customer_params
-          params.require(:customer).permit!
-        end
+      def customer_params
+        params.require(:customer).permit!
+      end
 
-        def set_breadcrumbs
-          add_breadcrumb Customer.model_name.human(count: 2), spina.shop_admin_customers_path
-        end
+      def set_breadcrumbs
+        add_breadcrumb Customer.model_name.human(count: 2), spina.shop_admin_customers_path
+      end
     end
   end
 end
