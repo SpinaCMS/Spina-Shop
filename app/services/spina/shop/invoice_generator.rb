@@ -22,7 +22,7 @@ module Spina::Shop
         country_name: @order.billing_country.name,
         order_number: @order.number,
         customer_number: @customer.number,
-        customer_name: @customer.full_name,
+        customer_name: @order.billing_name,
         address_1: @order.billing_address,
         postal_code: @order.billing_postal_code,
         city: @order.billing_city,
