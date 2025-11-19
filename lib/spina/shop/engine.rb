@@ -29,7 +29,7 @@ module Spina
 
       # Load decorators
       decorators = "#{Rails.root}/app/decorators"
-      Rails.autoloaders.main.ignore(decorators)
+      # Rails.autoloaders.main.ignore(decorators)
       config.to_prepare do
         Dir.glob("#{decorators}/**/*_override.rb").sort.each do |decorator|
           load decorator
