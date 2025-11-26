@@ -43,8 +43,8 @@ module Spina::Shop
     extend ActiveSupport::Concern
     
     included do
-      enum abc_analysis: {a: 0, b: 1, c: 2}
-      enum xyz_analysis: {x: 0, y: 1, z: 2}
+      enum :abc_analysis, {a: 0, b: 1, c: 2}
+      enum :xyz_analysis, {x: 0, y: 1, z: 2}
     end
     
     def weekly_sales_mean
