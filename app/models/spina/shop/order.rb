@@ -29,11 +29,11 @@ module Spina::Shop
     has_many :invoices, dependent: :restrict_with_exception
     has_many :order_attachments, dependent: :destroy
     has_one :shop_review, dependent: :destroy
-    
+
     has_many :product_returns, dependent: :destroy
-    
+
     has_many :order_pick_items, dependent: :destroy
-    
+
     # Duplicate orders
     has_one :original_order, class_name: "Spina::Shop::Order", foreign_key: :duplicate_id
 
@@ -187,7 +187,7 @@ module Spina::Shop
     def total_items
       order_items.sum(:quantity)
     end
-    
+
     def total_product_items
       order_items.products.sum(:quantity) + order_items.product_bundles.joins("INNER JOIN spina_shop_product_bundles ON spina_shop_product_bundles.id = spina_shop_order_items.orderable_id INNER JOIN spina_shop_bundled_products ON spina_shop_bundled_products.product_bundle_id = spina_shop_product_bundles.id").sum("spina_shop_bundled_products.quantity * spina_shop_order_items.quantity")
     end
@@ -258,38 +258,37 @@ module Spina::Shop
       self.validate_delivery = true
       valid?
     end
-    
+
     def order_pick_list
       OrderPickList.new(self)
     end
 
     private
 
-      def items_must_be_in_stock
-        errors.add(:base, :stock_level_not_sufficient) unless order_items.all?(&:in_stock?)
-      end
+    def items_must_be_in_stock
+      errors.add(:base, :stock_level_not_sufficient) unless order_items.all?(&:in_stock?)
+    end
 
-      def items_must_be_below_limit
-        errors.add(:base, :item_limit_exceeded) unless order_items.all?(&:below_limit?)
-      end
+    def items_must_be_below_limit
+      errors.add(:base, :item_limit_exceeded) unless order_items.all?(&:below_limit?)
+    end
 
-      def validate_stock_for_order_items
-        order_items.each{ |i| i.validate_stock = true }
-      end
+    def validate_stock_for_order_items
+      order_items.each{ |i| i.validate_stock = true }
+    end
 
-      def must_have_at_least_one_item
-        errors.add(:base, :shopping_cart_empty) if order_items.none?
-      end
+    def must_have_at_least_one_item
+      errors.add(:base, :shopping_cart_empty) if order_items.none?
+    end
 
-      def must_be_of_age_to_buy_products
-        if order_items.any?{|item| item.orderable.must_be_of_age_to_buy?}
-          errors.add(:date_of_birth, :not_of_age) unless of_age?
-        end
+    def must_be_of_age_to_buy_products
+      if order_items.any?{|item| item.orderable.must_be_of_age_to_buy?}
+        errors.add(:date_of_birth, :not_of_age) unless of_age?
       end
+    end
 
-      def must_have_any_delivery_name
-        errors.add(:delivery_last_name, :blank) if delivery_name.blank?
-      end
-
+    def must_have_any_delivery_name
+      errors.add(:delivery_last_name, :blank) if delivery_name.blank?
+    end
   end
 end
