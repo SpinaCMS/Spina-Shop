@@ -7,12 +7,12 @@ module Spina::Shop
       before_action :set_locale
       before_action :split_search_params
 
-      def index
-        pr = if params[:scope] == "purchasable"
-          products.where(archived: false).purchasable
-        else 
-          products.where(archived: false).roots
-        end
+      def index # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        pr = if params[:scope] == 'purchasable'
+               products.where(archived: false).purchasable
+             else
+               products.where(archived: false).roots
+             end
 
         # Search for products filtered
         @q = pr.filtered(filters).ransack(params[:q])
@@ -25,7 +25,7 @@ module Spina::Shop
           format.json do
             results = @products.map do |product|
               { id:           product.id, 
-                name:         params[:scope] == "purchasable" ? product.full_name : product.name,
+                name:         params[:scope] == 'purchasable' ? product.full_name : product.name,
                 stock_level:  (product.stock_level if product.stock_enabled?),
                 image_url:    (main_app.url_for(product.product_images.first.file&.variant(resize: '60x60')) if product.product_images.any?),
                 price:        view_context.number_to_currency(product.price) }
@@ -68,10 +68,10 @@ module Spina::Shop
 
         if @product.save
           attach_product_images
-          
+
           # Save each locale for materialized_path
           Spina.config.locales.each { |l| I18n.with_locale(l) {@product.save} }
-          
+
           redirect_to spina.edit_shop_admin_product_path(@product, params: {locale: @locale})
         else
           render :new
@@ -96,7 +96,7 @@ module Spina::Shop
         end
       end
 
-      def destroy
+      def destroy # rubocop:disable Metrics/AbcSize
         @product = Product.find(params[:id])
         @product.destroy
         redirect_to spina.shop_admin_products_path
@@ -150,59 +150,61 @@ module Spina::Shop
 
       private
 
-        def filters
-          filter_params.to_h.map do |property, value|
-            value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
-          end
+      def filters
+        filter_params.to_h.map do |property, value|
+          value.present? ? {field_type: ProductCategoryProperty.find_by(name: property).field_type, property: property, value: value} : {}
         end
+      end
 
-        def filter_params
-          params.require(:filters).permit! if params[:filters]
+      def filter_params
+        params.require(:filters).permit! if params[:filters]
+      end
+
+      def products
+        Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
+      end
+
+      def split_search_params
+        search = :sku_or_location_or_translations_name_cont_all
+        if params[:q].try(:[], search).present? && params[:q][search].is_a?(String)
+          params[:q][search] = params[:q][search].split(' ')
         end
+      end
 
-        def products
-          Product.order(created_at: :desc).includes(:stores, :product_images).joins(:translations).where(spina_shop_product_translations: {locale: I18n.locale})
+      # There's no file validation yet in ActiveStorage
+      # We do two things to reduce errors right now:
+      # 1. We add accept="image/*" to the image form
+      # 2. We destroy the entire record if the uploaded file is not an image
+      def attach_product_images # rubocop:disable Metrics/AbcSize
+        return unless params[:product][:files].present?
+
+        @images = params[:product][:files]
+                  .reject(&:empty?) # TODO: remove me in rails >7.1
+                  .map do |file|
+          # Create the image and attach the file
+          image = @product.product_images.create
+          image.file.attach(file)
+
+          # Was it not an image after all? DESTROY IT
+          image.destroy and next unless image.file.image?
+
+          image
+        end.compact
+      end
+
+      def product_params
+        I18n.with_locale I18n.default_locale do
+          params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number, length: :number, width: :number, height: :number)
         end
+      end
 
-        def split_search_params
-          search = :sku_or_location_or_translations_name_cont_all
-          if params[:q].try(:[], search).present? && params[:q][search].kind_of?(String)
-            params[:q][search] = params[:q][search].split(' ')
-          end
-        end
+      def set_breadcrumbs
+        add_breadcrumb Product.model_name.human(count: 2), spina.shop_admin_products_path
+      end
 
-        # There's no file validation yet in ActiveStorage
-        # We do two things to reduce errors right now:
-        # 1. We add accept="image/*" to the image form
-        # 2. We destroy the entire record if the uploaded file is not an image
-        def attach_product_images
-          if params[:product][:files].present?
-            @images = params[:product][:files].map do |file|
-              # Create the image and attach the file
-              image = @product.product_images.create
-              image.file.attach(file)
-
-              # Was it not an image after all? DESTROY IT
-              image.destroy and next unless image.file.image?
-
-              image
-            end.compact
-          end
-        end
-
-        def product_params
-          I18n.with_locale I18n.default_locale do
-            params.require(:product).permit!.delocalize(base_price: :number, promotional_price: :number, cost_price: :number, weight: :number, length: :number, width: :number, height: :number)
-          end
-        end
-
-        def set_breadcrumbs
-          add_breadcrumb Product.model_name.human(count: 2), spina.shop_admin_products_path
-        end
-
-        def set_locale
-          @locale = params[:locale] || I18n.default_locale
-        end
+      def set_locale
+        @locale = params[:locale] || I18n.default_locale
+      end
     end
   end
 end
