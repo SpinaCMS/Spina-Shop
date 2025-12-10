@@ -1,4 +1,4 @@
-= form_for @product, url: @product.new_record? ? spina.shop_admin_products_path : spina.shop_admin_product_path(@product) do |f|
+= form_for @product, url: @product.new_record? ? spina.shop_admin_products_path : spina.shop_admin_product_path(@product), html: { multipart: true, method: :post }, data: { turbo: false } do |f|
   = hidden_field_tag :locale, @locale
   = f.hidden_field :parent_id
   = f.hidden_field :product_category_id
