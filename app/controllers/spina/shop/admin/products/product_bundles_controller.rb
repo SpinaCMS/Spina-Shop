@@ -96,18 +96,20 @@ module Spina::Shop
           # 1. We add accept="image/*" to the image form
           # 2. We destroy the entire record if the uploaded file is not an image
           def attach_product_images
-            if params[:product_bundle][:files].present?
-              @images = params[:product_bundle][:files].map do |file|
-                # Create the image and attach the file
-                image = @product_bundle.product_images.create
-                image.file.attach(file)
+            return unless params[:product_bundle][:files].present?
 
-                # Was it not an image after all? DESTROY IT
-                image.destroy unless image.file.image?
+            @images = params[:product_bundle][:files]
+                      .reject(&:empty?) # TODO: remove me in rails >7.1
+                      .map do |file|
+              # Create the image and attach the file
+              image = @product_bundle.product_images.create
+              image.file.attach(file)
 
-                image
-              end.compact
-            end
+              # Was it not an image after all? DESTROY IT
+              image.destroy and next unless image.file.image?
+
+              image
+            end.compact
           end
 
           def set_breadcrumbs
