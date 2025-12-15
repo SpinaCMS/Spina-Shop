@@ -21,6 +21,13 @@ module Spina
     class Engine < ::Rails::Engine
       isolate_namespace Spina::Shop
 
+      initializer "spina_shop.assets" do |app|
+        if app.config.respond_to?(:assets)
+          app.config.assets.paths << root.join("vendor", "assets", "javascripts")
+          app.config.assets.paths << root.join("vendor", "assets", "stylesheets")
+        end
+      end
+
       # Load decorators
       config.to_prepare do
         Dir.glob("#{Engine.root}app/decorators/**/*_decorator*.rb").each do |decorator|
