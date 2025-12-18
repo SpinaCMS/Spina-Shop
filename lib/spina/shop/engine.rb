@@ -28,10 +28,12 @@ module Spina
         end
       end
 
-      # Load decorators
+      # Load overrides
+      overrides = "#{Engine.root}/app/overrides"
+      Rails.autoloaders.main.ignore(overrides)
       config.to_prepare do
-        Dir.glob("#{Engine.root}app/decorators/**/*_decorator*.rb").each do |decorator|
-          require_dependency(decorator)
+        Dir.glob("#{overrides}/**/*_override.rb").each do |override|
+          load override
         end
 
         # Mimetype Excel
