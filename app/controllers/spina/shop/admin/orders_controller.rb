@@ -114,7 +114,7 @@ module Spina::Shop
       end
 
       def duplicate
-        @order = Order.find(params[:id])
+        @order = Order.includes(order_items: :orderable).find(params[:id])
         @duplicate = DuplicateOrder.new(@order).duplicate!
         redirect_to spina.shop_admin_order_path(@duplicate)
       end
@@ -125,13 +125,13 @@ module Spina::Shop
       end
 
       def edit
-        @order = Order.find(params[:id])
+        @order = Order.includes(order_items: :orderable).find(params[:id])
         add_breadcrumb @order.number, spina.shop_admin_order_path(@order)
         add_breadcrumb t('spina.edit')
       end
 
       def update
-        @order = Order.find(params[:id])
+        @order = Order.includes(order_items: :orderable).find(params[:id])
         if @order.update!(order_params)
           redirect_to spina.shop_admin_order_path(@order)
         else
