@@ -7,18 +7,10 @@ module Spina::Shop
 
     def duplicate!
       @order.transaction do
-        # Duplicate the order
         @duplicate = Order.create! order_params(@order)
         @duplicate.discount = @order.discount
 
-        # Duplicate order items
-        @order.order_items.roots.each do |order_item|
-          duplicate_order_item = OrderItem.create! order_item_params(order_item)
-
-          order_item.children.each do |child|
-            duplicate_order_item.children.create! order_item_params(child)
-          end
-        end
+        duplicate_order_items_in_bulk
 
         @order.update(duplicate: @duplicate)
         @duplicate
@@ -26,6 +18,28 @@ module Spina::Shop
     end
 
     private
+
+      def duplicate_order_items_in_bulk
+        items = @order.order_items.roots.includes(:children)
+        return if items.empty?
+
+        now = Time.current
+        records = items.map { |item| order_item_record(item, nil, now) }
+
+        OrderItem.insert_all!(records) if records.any?
+      end
+
+      def order_item_record(order_item, parent_id, timestamp)
+        {
+          order_id: @duplicate.id,
+          parent_id: parent_id,
+          quantity: order_item.quantity,
+          orderable_type: order_item.orderable_type,
+          orderable_id: order_item.orderable_id,
+          created_at: timestamp,
+          updated_at: timestamp
+        }
+      end
 
       def order_params(order)
         order.attributes.keep_if{|k|k.in?(order_attributes)}.merge(manual_entry: true)
