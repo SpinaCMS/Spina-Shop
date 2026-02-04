@@ -31,7 +31,7 @@
   = @ordered_stock.received
   %br/
   %br/
-  = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order), data: {controller: "receive-products", should_receive: @ordered_stock.quantity - @ordered_stock.received} do |f|
+  = form_with url: spina.shop_stock_management_stock_order_receive_products_path(@stock_order), local: true, data: {controller: "receive-products", should_receive: @ordered_stock.quantity - @ordered_stock.received} do |f|
     = f.hidden_field :ordered_stock_id, value: @ordered_stock.id
     - if @ordered_stock.received > 0
       .text-danger{style: "margin-bottom: 20px"}
