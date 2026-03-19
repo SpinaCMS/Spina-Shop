@@ -1,7 +1,7 @@
 //= require jquery
-//= require jquery_ujs
+//= require rails-ujs
 
-//= require turbolinks
+//= require spina/turbo.es2017-umd
 
 // Stimulus
 

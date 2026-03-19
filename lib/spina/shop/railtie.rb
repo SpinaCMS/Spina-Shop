@@ -22,7 +22,9 @@ module Spina
           "spina/shop/delete-big.png",
           "spina/shop/delete-big-confirm.png",
           "spina.css",
-          "spina/admin/application.js"
+          "spina/admin/application.js",
+          "spina/mobile/application.js",
+          "spina/mobile/application.css"
         ]
       end
 
