@@ -58,10 +58,14 @@ module Spina::Shop
 
         def set_products
           @products = if params[:select_all]
-            Product.where(archived: false).filtered(filters).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
-          else
-            Product.where(id: params[:product_ids])
-          end
+                        Product.where(archived: false)
+                          .joins(:translations)
+                          .where(spina_shop_product_translations: {locale: I18n.locale})
+                          .filtered(filters)
+                          .where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{params[:search]}%")
+                      else
+                        Product.where(id: params[:product_ids])
+                      end
         end
 
         def filters

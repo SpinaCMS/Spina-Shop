@@ -34,7 +34,7 @@ module Spina::Shop
             products = products.where(available_at_supplier: true).where('statistics_reorder_point > 0')
           end
 
-          @q = products.where('sku ILIKE :search OR location ILIKE :search OR translations_name ILIKE :search OR translations_variant_name ILIKE :search', search: "%#{params[:search]}%")
+          @q = products.where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{params[:search]}%")
           @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
           if params[:location_start_any].present?
             prefixes = Array(params[:location_start_any]).map(&:presence).compact

@@ -1,10 +1,12 @@
-= form_for @q, url: spina.shop_admin_stock_forecast_path, html: {class: 'filter-form'} do |f|
+- filter_keys = [:product_category_id_in, :location_start_any, :recounts_created_at_gteq, :supplier_id_in, :available_at_supplier_eq, :statistics_weekly_sales_eq]
+- active_filters = filter_keys.select { |k| params[k].present? }
+= form_tag spina.shop_admin_stock_forecast_path, method: :get, class: 'filter-form' do
   .filter-form-simple
     .filter-form-input
-      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
-      = link_to '#', class: "filter-form-advanced-link #{'filter-active' if @q.conditions.any?}" do
+      = text_field_tag :search, params[:search], style: 'box-sizing: border-box', placeholder: 'Filter op naam of locatie'
+      = link_to '#', class: "filter-form-advanced-link #{'filter-active' if active_filters.any?}" do
         = icon('filter')
-        = "geavanceerd #{@q.conditions.any? ? '(' + @q.conditions.count.to_s + ')' : ''}"
+        = "geavanceerd #{active_filters.any? ? '(' + active_filters.count.to_s + ')' : ''}"
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -14,29 +16,29 @@
       .filter-form-label= Spina::Shop::ProductCategory.model_name.human(count: 2)
       .filter-form-control
         - options = Spina::Shop::ProductCategory.pluck(:name, :id)
-        = f.select :product_category_id_in, options, {}, class: 'select2', style: 'width: 100%', multiple: true
+        = select_tag 'product_category_id_in[]', options_for_select(options, params[:product_category_id_in]), class: 'select2', style: 'width: 100%', multiple: true
     .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Product.human_attribute_name :location
       .filter-form-control
-        = f.select :location_start_any, @locations, {}, class: 'select2', multiple: true, style: 'width: 100%'
+        = select_tag 'location_start_any[]', options_for_select(@locations, params[:location_start_any]), class: 'select2', multiple: true, style: 'width: 100%'
     .filter-form-advanced-group
       .filter-form-label Hertelling vanaf
-      .filter-form-control= f.text_field :recounts_created_at_gteq, class: "datepicker", value: (I18n.l(f.object.recounts_created_at_gteq, format: "%d-%m-%Y") if f.object.recounts_created_at_gteq.present?)
+      .filter-form-control= text_field_tag :recounts_created_at_gteq, params[:recounts_created_at_gteq], class: "datepicker"
     .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Supplier.model_name.human(count: 2)
       .filter-form-control
         - suppliers = Spina::Shop::Supplier.all.map{|t| [t.name, t.id]}
-        = f.select :supplier_id_in, suppliers, {}, class: 'select2', style: 'width: 100%', multiple: true
+        = select_tag 'supplier_id_in[]', options_for_select(suppliers, params[:supplier_id_in]), class: 'select2', style: 'width: 100%', multiple: true
 
     .filter-form-advanced-group
       .filter-form-label= Spina::Shop::Product.human_attribute_name(:available_at_supplier)
       .filter-form-control
-        = f.select :available_at_supplier_eq, [[t("spina.shop.stock.products_available_at_supplier"), true], [t("spina.shop.stock.discontinued_products"), false]], {include_blank: t("spina.shop.stock.all_products")}, class: 'select2', style: 'width: 100%'
+        = select_tag :available_at_supplier_eq, options_for_select([[t("spina.shop.stock.all_products"), ""], [t("spina.shop.stock.products_available_at_supplier"), true], [t("spina.shop.stock.discontinued_products"), false]], params[:available_at_supplier_eq]), class: 'select2', style: 'width: 100%'
     .filter-form-advanced-group
       .filter-form-label
         Gemiddelde verkoop = 0
       .filter-form-control{style: "padding-top: 5px; padding-left: 5px"}
-        = f.check_box :statistics_weekly_sales_eq, {data: {switch: true}}, 0, nil
+        = check_box_tag :statistics_weekly_sales_eq, 0, params[:statistics_weekly_sales_eq].present?, data: {switch: true}
 - search_params = {sku_or_location_or_translations_name_or_translations_variant_name_cont: params[:sku_or_location_or_translations_name_or_translations_variant_name_cont], supplier_id_in: params[:supplier_id_in], location_start_any: params[:location_start_any], statistics_weekly_sales_eq: params[:statistics_weekly_sales_eq], product_category_id_in: params[:product_category_id_in], recounts_created_at_gteq: params[:recounts_created_at_gteq], available_at_supplier_eq: params[:available_at_supplier_eq]}
 
 - if params[:q].present?
@@ -167,5 +169,4 @@
       %tbody
         = render partial: "product", collection: @products
 
-    .pagination= link_to spina.shop_admin_stock_forecast_path(page: (params[:page].to_i || 1) + 1), rel: 'next' do
-      Next
+    .pagination= link_to 'Next', spina.shop_admin_stock_forecast_path(page: (params[:page].to_i || 1) + 1), rel: 'next'

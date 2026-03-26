@@ -53,6 +53,12 @@ module Spina::Shop
     scope :active, -> { where(active: true, archived: false) }
     scope :live, -> { where(active: true, archived: false) }
 
+    # Admin search: Mobility stores name/variant_name on spina_shop_product_translations (not "translations_name").
+    ADMIN_INDEX_SEARCH_SQL = "(spina_shop_product_translations.name ILIKE :search OR " \
+                             "spina_shop_product_translations.variant_name ILIKE :search OR " \
+                             "spina_shop_products.sku ILIKE :search OR " \
+                             "spina_shop_products.location ILIKE :search)".freeze
+
     # Postgres-specific queries for the jsonb column
     scope :where_any_tags, -> (key, value) do
       value = [value] unless value.kind_of?(Array)

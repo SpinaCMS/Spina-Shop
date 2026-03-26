@@ -8,12 +8,12 @@ module Spina::Shop
 
       def index
         @q = GiftCard.order(created_at: :desc).where('code ILIKE :search', search: "%#{params[:search]}%")
-        @gift_cards = @q.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @gift_cards = @q.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
       end
 
       def unused
         @q = GiftCard.order(created_at: :desc).where('value = remaining_balance').where('code ILIKE :search', search: "%#{params[:search]}%")
-        @gift_cards = @q.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @gift_cards = @q.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         render :index
       end
 

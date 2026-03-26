@@ -2,10 +2,10 @@
   = link_to spina.new_shop_admin_customer_path, class: 'button button-mini icon-only' do
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
 
-= form_for @customers, url: spina.shop_admin_customers_path, html: {class: 'filter-form'} do |f|
+= form_tag spina.shop_admin_customers_path, method: :get, class: 'filter-form' do
   .filter-form-simple
     .filter-form-input
-      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
+      = text_field_tag :search, params[:search], style: 'box-sizing: border-box', placeholder: 'Zoek op naam of bedrijf'
 
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')
@@ -27,5 +27,4 @@
     %tbody
       = render partial: 'customer', collection: @customers.to_a.uniq
 
-  .pagination= link_to spina.shop_admin_customers_path(page: (params[:page].to_i || 1) + 1), rel: 'next' do
-    Next
+  .pagination= link_to 'Next', spina.shop_admin_customers_path(page: (params[:page].to_i || 1) + 1), rel: 'next'

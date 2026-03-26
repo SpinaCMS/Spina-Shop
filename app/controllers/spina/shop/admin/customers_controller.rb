@@ -5,8 +5,8 @@ module Spina::Shop
 
       def index
         @q = Customer.where('full_name ILIKE :search OR company ILIKE :search OR email ILIKE :search', search: "%#{params[:search]}%").distinct
-        @customers = @q.where(store_id: params[:store_id]) if params[:store_id].present?
-        @customers = @customers.sorted.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @q = @q.where(store_id: params[:store_id]) if params[:store_id].present?
+        @customers = @q.sorted.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         @customer_groups = CustomerGroup.all
 
         respond_to do |format|

@@ -6,27 +6,27 @@ module Spina::Shop
       def index
         @search_path = spina.shop_admin_invoices_path
         @q = Invoice.order(date: :desc, number: :desc).includes(:order).where('invoice_number ILIKE :search', search: "%#{params[:search]}%")
-        @invoices = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @invoices = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
       end
 
       def unpaid
         @search_path = spina.unpaid_shop_admin_invoices_path
         @q = Invoice.order(date: :desc, number: :desc).where(paid: false).includes(:order).where('invoice_number ILIKE :search', search: "%#{params[:search]}%")
-        @invoices = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @invoices = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         render :index
       end
 
       def credit
         @search_path = spina.credit_shop_admin_invoices_path
         @q = Invoice.order(date: :desc, number: :desc).joins(:invoice_lines).group("spina_shop_invoices.id").having("SUM(quantity * unit_price - discount) < 0").where('invoice_number ILIKE :search', search: "%#{params[:search]}%")
-        @invoices = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @invoices = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         render :index
       end
 
       def not_exported
         @search_path = spina.not_exported_shop_admin_invoices_path
         @q = Invoice.order(date: :desc, number: :desc).where(exported: false).includes(:order).where('invoice_number ILIKE :search', search: "%#{params[:search]}%")
-        @invoices = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+        @invoices = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         render :index
       end
 

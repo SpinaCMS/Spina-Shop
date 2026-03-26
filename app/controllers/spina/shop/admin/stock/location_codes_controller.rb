@@ -11,7 +11,7 @@ module Spina::Shop
           add_breadcrumb @location.name
 
           @q = @location.location_codes.where('code ILIKE :search', search: "#{params[:search]}%")
-          @location_codes = @q.includes(products: :translations).order(:code).distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25)
+          @location_codes = @q.includes(products: :translations).order(:code).distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
 
           not_empty_location_codes = @location.location_codes.joins(product_locations: :product).ids
           @empty_location_codes = @location.location_codes.where.not(id: not_empty_location_codes).order(:code)

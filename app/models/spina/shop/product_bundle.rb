@@ -29,6 +29,9 @@ module Spina::Shop
     scope :active, -> { where(active: true, archived: false) }
     scope :live, -> { where(active: true, archived: false) }
 
+    # Bundles have no sku/location columns; search translated name only.
+    ADMIN_INDEX_SEARCH_SQL = "spina_shop_product_bundle_translations.name ILIKE :search".freeze
+
     # Mobility translates
     translates :name, :description, :materialized_path
     translates :seo_title, default: -> { name }

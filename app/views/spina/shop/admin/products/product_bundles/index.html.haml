@@ -14,4 +14,5 @@
 
     %tbody= render partial: 'product_bundle', collection: @product_bundles
               
-  .pagination= link_to_next_page @product_bundles, 'Next'
+  - next_page_params = request.query_parameters.merge('page' => [params[:page].to_i, 1].max + 1)
+  .pagination= link_to 'Next', spina.shop_admin_product_bundles_path(next_page_params), rel: 'next'

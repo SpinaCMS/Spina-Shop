@@ -1,4 +1,4 @@
 $("<%=j render partial: 'product_review', collection: @product_reviews %>").appendTo($(".infinite-table table tbody"));
 
 // Update pagination link
-$('.pagination').html("<%=j link_to_next_page @product_reviews, 'Next' %>").infiniteScroll();
+$('.pagination').html("<%=j link_to 'Next', spina.shop_admin_product_reviews_path(page: [params[:page].to_i, 1].max + 1), rel: 'next' %>").infiniteScroll();

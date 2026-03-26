@@ -3,10 +3,10 @@
     %i.icon.icon-plus{style: 'vertical-align: bottom'}
     Locatiecode toevoegen
 
-= form_for @q, url: spina.shop_admin_location_location_codes_path(@location), html: {class: 'filter-form'} do |f|
+= form_tag spina.shop_admin_location_location_codes_path(@location), method: :get, class: 'filter-form' do
   .filter-form-simple
     .filter-form-input
-      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Filter op locatiecode'
+      = text_field_tag :search, params[:search], style: 'box-sizing: border-box', placeholder: 'Filter op locatiecode'
   
     = button_tag type: :submit, class: 'button button-primary icon-only' do
       = icon('search')

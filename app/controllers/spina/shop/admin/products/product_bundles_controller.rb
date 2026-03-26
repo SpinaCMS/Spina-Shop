@@ -31,14 +31,14 @@ module Spina::Shop
         end
 
         def index
-          @q = product_bundles.where(archived: false).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+          @q = product_bundles.where(archived: false).where(ProductBundle::ADMIN_INDEX_SEARCH_SQL, search: "%#{params[:search]}%")
           @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
           @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
           @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
           @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
           @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
 
-          @product_bundles = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25).order(created_at: :desc)
+          @product_bundles = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25).order(created_at: :desc)
 
           respond_to do |format|
             format.html { render layout: 'spina/shop/admin/products' }
@@ -57,14 +57,14 @@ module Spina::Shop
         end
 
         def archived
-          @q = product_bundles.where(archived: true).where('translations_name ILIKE :search OR sku ILIKE :search OR location ILIKE :search', search: "%#{params[:search]}%")
+          @q = product_bundles.where(archived: true).where(ProductBundle::ADMIN_INDEX_SEARCH_SQL, search: "%#{params[:search]}%")
           @q = @q.where(product_category_id: params[:product_category_id_in]) if params[:product_category_id_in].present?
           @q = @q.where(product_collection_id: params[:product_collections_id_in]) if params[:product_collections_id_in].present?
           @q = @q.where(store_id: params[:stores_id_in]) if params[:stores_id_in].present?
           @q = @q.where(tag_id: params[:tags_id_in]) if params[:tags_id_in].present?
           @q = @q.where(active: params[:active_eq]) if params[:active_eq].present?
 
-          @product_bundles = @q.distinct.limit(25).offset((params[:page].to_i || 1) * 25 - 25).order(created_at: :desc)
+          @product_bundles = @q.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25).order(created_at: :desc)
 
           render :index, layout: 'spina/shop/admin/products'
         end

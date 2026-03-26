@@ -34,6 +34,32 @@ module Spina::Shop
         [Spina::Shop::CustomerGroup.model_name.human(count: 2), customer_groups]]
       end
 
+      # Filter form uses params[:q]; these replace Ransack helpers on the old @q search object.
+      def products_index_filters_active?
+        products_index_q_params_hash.any? { |_, v| products_index_filter_value_present?(v) }
+      end
+
+      def products_index_filters_count
+        products_index_q_params_hash.count { |_, v| products_index_filter_value_present?(v) }
+      end
+
+      private
+
+      def products_index_q_params_hash
+        q = params[:q]
+        return {} if q.blank?
+
+        hash = q.respond_to?(:to_unsafe_h) ? q.to_unsafe_h : q.to_h
+        hash.symbolize_keys
+      end
+
+      def products_index_filter_value_present?(value)
+        case value
+        when Array then value.any?(&:present?)
+        else value.present?
+        end
+      end
+
     end
   end
 end
