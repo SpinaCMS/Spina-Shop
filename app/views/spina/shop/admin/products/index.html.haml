@@ -7,7 +7,7 @@
     = hidden_field_tag :scope, params[:scope]
   .filter-form-simple
     .filter-form-input
-      = f.text_field :search, style: 'box-sizing: border-box', placeholder: 'Zoek op hoofdproduct'
+      = f.text_field :search, value: params.dig(:q, :search), style: 'box-sizing: border-box', placeholder: 'Zoek op hoofdproduct'
       = link_to '#', class: "filter-form-advanced-link #{'filter-active' if products_index_filters_active?}" do
         = icon('filter')
         = "filteren #{products_index_filters_active? ? '(' + products_index_filters_count.to_s + ')' : ''}"
