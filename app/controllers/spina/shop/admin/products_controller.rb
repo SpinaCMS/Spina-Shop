@@ -16,7 +16,7 @@ module Spina::Shop
 
         q = product_q_params
         # Search for products filtered (form submits nested params under :q)
-        @products_query = pr.filtered(filters).where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{q[:search]}%")
+        @products_query = search_for(pr.filtered(filters), q[:search])
         @products_query = @products_query.where(product_category_id: q[:product_category_id_in]) if q[:product_category_id_in].present?
         @products_query = @products_query.joins(:product_collections).where(spina_shop_product_collections: { id: q[:product_collections_id_in] }) if q[:product_collections_id_in].present?
         @products_query = @products_query.joins(:stores).where(spina_shop_stores: { id: q[:stores_id_in] }) if q[:stores_id_in].present?
@@ -43,7 +43,7 @@ module Spina::Shop
 
       def archived
         q = product_q_params
-        @products_query = products.where(archived: true).roots.filtered(filters).where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{q[:search]}%")
+        @products_query = search_for(products.where(archived: true).roots.filtered(filters), q[:search])
         @products_query = @products_query.where(product_category_id: q[:product_category_id_in]) if q[:product_category_id_in].present?
         @products_query = @products_query.joins(:product_collections).where(spina_shop_product_collections: { id: q[:product_collections_id_in] }) if q[:product_collections_id_in].present?
         @products_query = @products_query.joins(:stores).where(spina_shop_stores: { id: q[:stores_id_in] }) if q[:stores_id_in].present?
@@ -161,6 +161,22 @@ module Spina::Shop
       end
 
       private
+
+      # Zoekt op naam/variant in ELKE locale (niet alleen de huidige), plus sku/locatie.
+      # Producten waarvan de naam in de actieve locale leeg is (en via fallback toont)
+      # blijven zo vindbaar — gedrag dat ransack vroeger gaf.
+      def search_for(relation, term)
+        return relation if term.blank?
+
+        search = "%#{term}%"
+        by_name = Spina::Shop::Product::Translation
+                    .where('name ILIKE :search OR variant_name ILIKE :search', search: search)
+                    .select(:spina_shop_product_id)
+        relation.where(
+          "spina_shop_products.id IN (#{by_name.to_sql}) OR spina_shop_products.sku ILIKE :search OR spina_shop_products.location ILIKE :search",
+          search: search
+        )
+      end
 
       def product_q_params
         raw = params[:q]
