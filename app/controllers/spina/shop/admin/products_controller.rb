@@ -18,9 +18,9 @@ module Spina::Shop
         # Search for products filtered (form submits nested params under :q)
         @products_query = pr.filtered(filters).where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{q[:search]}%")
         @products_query = @products_query.where(product_category_id: q[:product_category_id_in]) if q[:product_category_id_in].present?
-        @products_query = @products_query.where(product_collection_id: q[:product_collections_id_in]) if q[:product_collections_id_in].present?
-        @products_query = @products_query.where(store_id: q[:stores_id_in]) if q[:stores_id_in].present?
-        @products_query = @products_query.where(tag_id: q[:tags_id_in]) if q[:tags_id_in].present?
+        @products_query = @products_query.joins(:product_collections).where(spina_shop_product_collections: { id: q[:product_collections_id_in] }) if q[:product_collections_id_in].present?
+        @products_query = @products_query.joins(:stores).where(spina_shop_stores: { id: q[:stores_id_in] }) if q[:stores_id_in].present?
+        @products_query = @products_query.joins(:tags).where(spina_shop_tags: { id: q[:tags_id_in] }) if q[:tags_id_in].present?
         @products_query = @products_query.where(active: q[:active_eq]) if q[:active_eq].present?
         @products = @products_query.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
@@ -45,9 +45,9 @@ module Spina::Shop
         q = product_q_params
         @products_query = products.where(archived: true).roots.filtered(filters).where(Product::ADMIN_INDEX_SEARCH_SQL, search: "%#{q[:search]}%")
         @products_query = @products_query.where(product_category_id: q[:product_category_id_in]) if q[:product_category_id_in].present?
-        @products_query = @products_query.where(product_collection_id: q[:product_collections_id_in]) if q[:product_collections_id_in].present?
-        @products_query = @products_query.where(store_id: q[:stores_id_in]) if q[:stores_id_in].present?
-        @products_query = @products_query.where(tag_id: q[:tags_id_in]) if q[:tags_id_in].present?
+        @products_query = @products_query.joins(:product_collections).where(spina_shop_product_collections: { id: q[:product_collections_id_in] }) if q[:product_collections_id_in].present?
+        @products_query = @products_query.joins(:stores).where(spina_shop_stores: { id: q[:stores_id_in] }) if q[:stores_id_in].present?
+        @products_query = @products_query.joins(:tags).where(spina_shop_tags: { id: q[:tags_id_in] }) if q[:tags_id_in].present?
         @products_query = @products_query.where(active: q[:active_eq]) if q[:active_eq].present?
         @products = @products_query.distinct.limit(25).offset(([params[:page].to_i, 1].max - 1) * 25)
         @product_category_properties = Spina::Shop::ProductCategoryProperty.includes(property_options: :translations)
