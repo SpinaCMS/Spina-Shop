@@ -167,7 +167,9 @@ module Spina::Shop
         return {} if raw.blank?
 
         raw = ActionController::Parameters.new(raw) unless raw.is_a?(ActionController::Parameters)
-        raw.permit(:search, :active_eq, product_category_id_in: [], product_collections_id_in: [], stores_id_in: [], tags_id_in: []).to_h.symbolize_keys
+        raw.permit(:search, :active_eq, product_category_id_in: [], product_collections_id_in: [], stores_id_in: [], tags_id_in: [])
+           .to_h.symbolize_keys
+           .transform_values { |value| value.is_a?(Array) ? value.compact_blank : value }
       end
 
       def filters
